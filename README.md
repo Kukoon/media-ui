@@ -1,5 +1,7 @@
 # media-ui
 
+![Build UI](https://github.com/Kukoon/media-ui/workflows/Build%20UI/badge.svg)
+
 ## Project setup
 ```
 yarn install
