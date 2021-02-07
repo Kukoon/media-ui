@@ -27,8 +27,7 @@ export default {
     VClappr,
   },
   data: () => ({
-    source:
-      "https://koeln.cdn.media.ccc.de/documentation/AllCreaturesWelcome/h264-hd/AllCreaturesWelcome-9997-deu-All_Creatures_Welcome_hd.mp4",
+    source: "https://v2.media.kukoon.de/stream/hls/live.m3u8",
     options: {
       parent: ".player",
       // width: "auto",
