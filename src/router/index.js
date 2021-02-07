@@ -4,7 +4,8 @@ import Home from "@/views/Home.vue"
 import Video from "@/views/Live.vue"
 import Channels from "@/views/Channels.vue"
 import Recordings from "@/views/Recordings.vue"
-
+import RecordingsGrid from "@/components/RecordingsGrid.vue"
+import RecordingsList from "@/components/RecordingsList.vue"
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,16 @@ const routes = [
 		path: "/recordings",
 		name: "Recordings",
 		component: Recordings,
+		children: [
+			{
+				path: "grid",
+				component: RecordingsGrid,
+			},
+			{
+				path: "list",
+				component: RecordingsList,
+			}
+		]
 	}
 ]
 

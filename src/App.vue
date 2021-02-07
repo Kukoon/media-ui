@@ -37,11 +37,11 @@ export default {
         name: "Channels",
         target: "channels",
         id: 1,
-        icon: "mdi-video",
+        icon: "mdi-television-classic",
       },
       {
         name: "Recordings",
-        target: "recordings",
+        target: "recordings/grid",
         id: 2,
         icon: "mdi-video-vintage",
       },

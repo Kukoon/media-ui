@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Live</h1>
+    <h1 class="ma-2">Live</h1>
     <VideoPlayer />
   </div>
 </template>

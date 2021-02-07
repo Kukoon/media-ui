@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-2 mx-4 my-6" outlined tile>
+  <v-card class="ma-2" color="grey darken-4" outlined tile>
     <v-responsive :aspect-ratio="16 / 9" class="responsive">
       <v-clappr
         el="player"
@@ -30,28 +30,35 @@ export default {
   components: {
     VClappr,
   },
-  data: () => ({
-    source: "https://v2.media.kukoon.de/stream/hls/live.m3u8",
-    options: {
-      poster:
-        "https://static.media.ccc.de/media/documentation/AllCreaturesWelcome/acw_logo_quad.png",
-      parent: "player",
-      width: "100%",
-      height: "100%",
-      mute: false,
-      autoplay: false,
-      loop: false,
-      disable_keyboard_shortcuts: false,
-      disable_context_menu: true,
-      mediacontrol: { seekbar: "#E113D3", buttons: "#66B2FF" },
-      ga: {},
-      watermark: {},
-      plugins: [],
-    },
-    localclappr: null,
-  }),
+  // Don't use arrow function or 'this.$vuetify' will not be available
+  data() {
+    return {
+      source: "https://v2.media.kukoon.de/stream/hls/live.m3u8",
+      options: {
+        poster:
+          "https://static.media.ccc.de/media/documentation/AllCreaturesWelcome/acw_logo_quad.png",
+        parent: "player",
+        width: "100%",
+        height: "100%",
+        mute: false,
+        autoplay: false,
+        loop: false,
+        disable_keyboard_shortcuts: false,
+        disable_context_menu: true,
+        mediacontrol: {
+          seekbar: this.$vuetify.theme.themes.light.secondary,
+          buttons: this.$vuetify.theme.themes.light.secondary,
+        },
+        ga: {},
+        watermark: {},
+        plugins: [],
+      },
+      localclappr: null,
+    };
+  },
   methods: {
     oninit(clappr) {
+      console.log(this);
       this.localclappr = clappr;
     },
     onready(event) {

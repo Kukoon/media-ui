@@ -15,7 +15,7 @@
       v-for="page in pages"
       :key="page.id"
       text
-      class="mx-2 mr-1"
+      class="mx-2 mr-1 d-none d-sm-flex"
       :to="'/' + page.target"
     >
       {{ page.name }}
