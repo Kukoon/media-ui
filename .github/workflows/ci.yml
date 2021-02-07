@@ -1,8 +1,10 @@
 name: Build UI
 on:
-  - push
-  - pull_request
-  - workflow_dispatch
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened,synchronize,reopened]
+  workflow_dispatch: {}
 
 jobs:
   lint:
@@ -23,3 +25,30 @@ jobs:
         run: yarn install
       - name: Build
         run: yarn build
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: dist/
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - lint
+      - build
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: dist/
+      - name: Upload to Server
+        uses: up9cloud/action-rsync@master
+        env:
+          USER: ${{secrets.DEPLOY_SSH_USER}}
+          HOST: ${{secrets.DEPLOY_SSH_HOST}}
+          KEY: ${{secrets.DEPLOY_SSH_KEY}}
+          ARGS: -rzh -O --delete-after --exclude=rtmp/ --exclude=stream/ --exclude=videos/
+          SSH_ARGS: '-p ${{secrets.DEPLOY_SSH_PORT}} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+          SOURCE: dist/
+          TARGET: /
