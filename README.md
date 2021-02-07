@@ -1,4 +1,4 @@
-# kukoon-media
+# media-ui
 
 ## Project setup
 ```
