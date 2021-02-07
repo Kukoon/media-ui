@@ -6,12 +6,12 @@
       <v-container fluid>
         <v-row>
           <v-col>
-            <VideoPlayer />
+            <router-view></router-view>
           </v-col>
         </v-row>
       </v-container>
     </v-main>
-    <v-footer color="indigo" app>
+    <v-footer color="grey darken-4" app>
       <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -21,18 +21,29 @@
 import NavBar from "./components/NavBar";
 import NavDrawer from "./components/NavDrawer";
 
-import VideoPlayer from "./components/VideoPlayer";
-
 export default {
-  components: { NavBar, NavDrawer, VideoPlayer },
+  components: { NavBar, NavDrawer },
   name: "App",
 
   data: () => ({
     pages: [
       {
-        name: "Channels",
+        name: "Live",
+        target: "live",
         id: 0,
-        icon: "mdi-numeric-1-circle",
+        icon: "mdi-broadcast",
+      },
+      {
+        name: "Channels",
+        target: "channels",
+        id: 1,
+        icon: "mdi-video",
+      },
+      {
+        name: "Recordings",
+        target: "recordings",
+        id: 2,
+        icon: "mdi-video-vintage",
       },
     ],
   }),

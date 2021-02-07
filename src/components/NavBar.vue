@@ -1,6 +1,6 @@
 <template>
-  <v-app-bar app color="indigo" dark>
-    <v-toolbar-title>media.kukoon.de</v-toolbar-title>
+  <v-app-bar app color="primary" dark>
+    <v-toolbar-title link to="/">media.kukoon.de</v-toolbar-title>
     <v-spacer></v-spacer>
     <!-- <v-text-field
       solo
@@ -11,7 +11,13 @@
       class="shrink"
       light
     ></v-text-field> -->
-    <v-btn v-for="page in pages" :key="page.id" text class="mx-2 mr-1">
+    <v-btn
+      v-for="page in pages"
+      :key="page.id"
+      text
+      class="mx-2 mr-1"
+      :to="'/' + page.target"
+    >
       {{ page.name }}
     </v-btn>
     <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
@@ -24,7 +30,7 @@ import { mapActions } from "vuex";
 export default {
   name: "NavBar",
   props: ["pages"],
-
+  computed: {},
   methods: {
     ...mapActions(["toggleDrawer"]),
   },

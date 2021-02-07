@@ -1,21 +1,25 @@
 <template>
-  <v-clappr
-    el="player"
-    :source="source"
-    :options="options"
-    @init="oninit"
-    @ready="onready"
-    @play="onplay"
-    @pause="onpause"
-    @stop="onstop"
-    @ended="onended"
-    @fullscreen="onfullscreen"
-    @resize="onresize"
-    @seek="onseek"
-    @timeupdate="ontimeupdate"
-    @volumeupdate="onvolumeupdate"
-    @error="onerror"
-  />
+  <v-card class="pa-2 mx-4 my-6" outlined tile>
+    <v-responsive :aspect-ratio="16 / 9" class="responsive">
+      <v-clappr
+        el="player"
+        :source="source"
+        :options="options"
+        @init="oninit"
+        @ready="onready"
+        @play="onplay"
+        @pause="onpause"
+        @stop="onstop"
+        @ended="onended"
+        @fullscreen="onfullscreen"
+        @resize="onresize"
+        @seek="onseek"
+        @timeupdate="ontimeupdate"
+        @volumeupdate="onvolumeupdate"
+        @error="onerror"
+      />
+    </v-responsive>
+  </v-card>
 </template>
 
 <script>
@@ -29,10 +33,11 @@ export default {
   data: () => ({
     source: "https://v2.media.kukoon.de/stream/hls/live.m3u8",
     options: {
-      parent: ".player",
-      // width: "auto",
       poster:
         "https://static.media.ccc.de/media/documentation/AllCreaturesWelcome/acw_logo_quad.png",
+      parent: "player",
+      width: "100%",
+      height: "100%",
       mute: false,
       autoplay: false,
       loop: false,
@@ -85,3 +90,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#player {
+  width: 100%;
+  height: 100%;
+}
+</style>

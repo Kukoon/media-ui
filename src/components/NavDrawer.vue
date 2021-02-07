@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer :value="showDrawer" @input="toggleDrawer" i app right>
     <v-list dense>
-      <v-list-item v-for="page in pages" :key="page.id" link>
+      <v-list-item v-for="page in pages" :key="page.id" link :to="page.target">
         <v-list-item-action>
           <v-icon>{{ page.icon }}</v-icon>
         </v-list-item-action>
