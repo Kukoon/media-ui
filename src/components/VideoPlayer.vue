@@ -85,9 +85,11 @@ export default {
     onseek(time) {
       console.log("on seek, time in seconds:", time);
     },
+    /* - do not flood browser with logs
     ontimeupdate(progress) {
       console.log("Progress of played video:", progress);
     },
+    */
     onvolumeupdate(volume) {
       console.log("Volume updated, current volume:", volume);
     },
