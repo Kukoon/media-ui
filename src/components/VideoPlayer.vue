@@ -1,29 +1,32 @@
 <template>
-  <v-card class="ma-2" color="grey darken-4" outlined tile>
-    <v-responsive :aspect-ratio="16 / 9" class="responsive">
-      <v-clappr
-        el="player"
-        :source="source"
-        :options="options"
-        @init="oninit"
-        @ready="onready"
-        @play="onplay"
-        @pause="onpause"
-        @stop="onstop"
-        @ended="onended"
-        @fullscreen="onfullscreen"
-        @resize="onresize"
-        @seek="onseek"
-        @timeupdate="ontimeupdate"
-        @volumeupdate="onvolumeupdate"
-        @error="onerror"
-      />
-    </v-responsive>
-  </v-card>
+  <div>
+    <v-card class="ma-2" outlined tile>
+      <v-responsive :aspect-ratio="16 / 9" class="responsive">
+        <v-clappr
+          el="player"
+          :source="source"
+          :options="options"
+          @init="oninit"
+          @ready="onready"
+          @play="onplay"
+          @pause="onpause"
+          @stop="onstop"
+          @ended="onended"
+          @fullscreen="onfullscreen"
+          @resize="onresize"
+          @seek="onseek"
+          @timeupdate="ontimeupdate"
+          @volumeupdate="onvolumeupdate"
+          @error="onerror"
+        />
+      </v-responsive>
+    </v-card>
+  </div>
 </template>
 
 <script>
 import VClappr from "v-clappr";
+import LevelSelector from "@c3voc/clappr-level-selector";
 
 export default {
   name: "VideoPlayer",
@@ -36,7 +39,7 @@ export default {
       source: "https://v2.media.kukoon.de/stream/hls/live.m3u8",
       options: {
         poster:
-          "https://static.media.ccc.de/media/documentation/AllCreaturesWelcome/acw_logo_quad.png",
+          "https://media.kukoon.de/videos/df1555f5-7046-4f7a-adcc-195b73949723/edb1cfbb-3476-d639-b3f5-795fabf4ef4d_20210207_111945mp4",
         parent: "player",
         width: "100%",
         height: "100%",
@@ -46,12 +49,12 @@ export default {
         disable_keyboard_shortcuts: false,
         disable_context_menu: true,
         mediacontrol: {
-          seekbar: this.$vuetify.theme.themes.light.secondary,
-          buttons: this.$vuetify.theme.themes.light.secondary,
+          seekbar: this.$vuetify.theme.themes.light.accent,
+          buttons: this.$vuetify.theme.themes.light.accent,
         },
         ga: {},
         watermark: {},
-        plugins: [],
+        plugins: [LevelSelector],
       },
       localclappr: null,
     };

@@ -836,6 +836,11 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@c3voc/clappr-level-selector@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@c3voc/clappr-level-selector/-/clappr-level-selector-0.2.1.tgz#6256166bd43f5270b085e6853a37fd9d4edca13d"
+  integrity sha512-MVdGfFtdBMj2OUloG3lnxg1fOnCEW0M2MJCHWvVURJca7FZ03WBYp4NI2H4lF7x0ZKZ7LnL9CAWd0eLEWoyovg==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

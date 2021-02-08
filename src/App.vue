@@ -11,7 +11,7 @@
         </v-row>
       </v-container>
     </v-main>
-    <v-footer color="grey darken-4" app>
+    <v-footer color="grey darken-4" app style="z-index: 10">
       <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -29,19 +29,19 @@ export default {
     pages: [
       {
         name: "Live",
-        target: "live",
+        target: "../live",
         id: 0,
         icon: "mdi-broadcast",
       },
       {
         name: "Channels",
-        target: "channels",
+        target: "../channels",
         id: 1,
         icon: "mdi-television-classic",
       },
       {
         name: "Recordings",
-        target: "recordings/grid",
+        target: "../recordings",
         id: 2,
         icon: "mdi-video-vintage",
       },

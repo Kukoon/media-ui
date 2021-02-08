@@ -30,6 +30,11 @@ const routes = [
 		name: "Recordings",
 		component: Recordings,
 		children: [
+			// Define empty path to show list per default
+			{
+				path: "",
+				component: RecordingsList,
+			},
 			{
 				path: "grid",
 				component: RecordingsGrid,

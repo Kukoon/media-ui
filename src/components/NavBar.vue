@@ -16,7 +16,7 @@
       :key="page.id"
       text
       class="mx-2 mr-1 d-none d-sm-flex"
-      :to="'/' + page.target"
+      :to="page.target"
     >
       {{ page.name }}
     </v-btn>
