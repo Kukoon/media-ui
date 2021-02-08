@@ -48,8 +48,8 @@ export default {
         disable_keyboard_shortcuts: false,
         disable_context_menu: true,
         mediacontrol: {
-          seekbar: this.$vuetify.theme.themes.light.accent,
-          buttons: this.$vuetify.theme.themes.light.accent,
+          seekbar: this.$vuetify.theme.themes.light.accent.base,
+          buttons: this.$vuetify.theme.themes.light.neutral.base,
         },
         ga: {},
         watermark: {},
