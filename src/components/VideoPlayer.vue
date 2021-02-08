@@ -56,9 +56,13 @@ export default {
         plugins: [LevelSelector],
         levelSelectorConfig: {
           labelCallback: (playbackLevel) => {
-            if (playbackLevel.level && playbackLevel.level.height) return playbackLevel.level.height + "p";
-            else if (playbackLevel.height) return playbackLevel.height + "p";
-            else return level.label;
+            if (playbackLevel.level && playbackLevel.level.height) {
+              return playbackLevel.level.height + "p";
+            } else if (playbackLevel.height) {
+              return playbackLevel.height + "p";
+            } else {
+              return playbackLevel.label;
+            }
           },
         },
       },
