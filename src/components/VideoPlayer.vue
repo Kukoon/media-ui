@@ -15,7 +15,6 @@
           @fullscreen="onfullscreen"
           @resize="onresize"
           @seek="onseek"
-          @timeupdate="ontimeupdate"
           @volumeupdate="onvolumeupdate"
           @error="onerror"
         />
