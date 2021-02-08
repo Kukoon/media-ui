@@ -18,11 +18,11 @@
       >
         <v-btn to="../recordings" exact>
           <span>List</span>
-          <v-icon right>mdi-view-list</v-icon>
+          <v-icon right class="pr-2">mdi-view-list</v-icon>
         </v-btn>
         <v-btn to="../recordings/grid" exact>
           <span>Grid</span>
-          <v-icon right>mdi-view-grid</v-icon>
+          <v-icon right small class="pr-2">mdi-view-grid</v-icon>
         </v-btn>
       </v-btn-toggle>
     </v-row>
