@@ -43,7 +43,7 @@ export default {
         width: "100%",
         height: "100%",
         mute: false,
-        autoplay: false,
+        autoplay: true,
         loop: false,
         disable_keyboard_shortcuts: false,
         disable_context_menu: true,
@@ -54,6 +54,13 @@ export default {
         ga: {},
         watermark: {},
         plugins: [LevelSelector],
+        levelSelectorConfig: {
+          labelCallback: (playbackLevel) => {
+            if (playbackLevel.level && playbackLevel.level.height) return playbackLevel.level.height + "p";
+            else if (playbackLevel.height) return playbackLevel.height + "p";
+            else return playbackLevel.label;
+          },
+        },
       },
       localclappr: null,
     };
