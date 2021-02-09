@@ -42,6 +42,9 @@
         </v-col>
       </v-row>
     </v-card-text>
+    <v-card-text class="px-2 pa-1 text-right justify-end neutral--text">
+      Press Ctrl+Enter to send
+    </v-card-text>
     <v-divider />
     <v-card-actions class="mt-auto neutral lighten-3">
       <v-row no-gutters>
@@ -76,12 +79,15 @@ export default {
     };
   },
   methods: {
-    send() {
-      this.chat.push({
-        from: "user",
-        msg: this.msg,
-      });
-      this.msg = null;
+    send(e) {
+      // Send message with 'Ctrl+Enter'
+      if (e.ctrlKey) {
+        this.chat.push({
+          from: "user",
+          msg: this.msg,
+        });
+        this.msg = null;
+      }
     },
   },
 };
