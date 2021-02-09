@@ -8,12 +8,8 @@
           :source="source"
           :poster="poster"
         />
-        <VideoTitle :video="video" />
-        <VideoDescription
-          :video="video"
-          :tagsPosition="tagsPosition"
-          class="pt-4"
-        />
+        <VideoTitle :video="video" class="pt-2" />
+        <VideoDescription :video="video" :tagsPosition="tagsPosition" />
       </v-col>
       <v-col cols="12" sm="4">
         <ChatBox class="ma-2" />
