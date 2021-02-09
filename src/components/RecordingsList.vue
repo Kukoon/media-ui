@@ -12,7 +12,8 @@
           </v-card>
         </v-col>
         <v-col cols="12" sm="8" class="px-3">
-          <Description :video="video" :tagsPosition="tagsPosition" />
+          <VideoTitle :video="video" />
+          <VideoDescription :video="video" :tagsPosition="tagsPosition" />
         </v-col>
       </v-row>
       <v-divider
@@ -24,13 +25,14 @@
 </template>
 
 <script>
-import Description from "./Description.vue";
 import Poster from "./Poster.vue";
 import VideoData from "../data/VideoData.json";
+import VideoDescription from "./VideoDescription.vue";
+import VideoTitle from "./VideoTitle.vue";
 
 export default {
   name: "RecordingsList",
-  components: { Description, Poster },
+  components: { Poster, VideoDescription, VideoTitle },
   data: () => ({
     selected: [],
     videos: VideoData,

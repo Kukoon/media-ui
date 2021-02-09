@@ -8,7 +8,12 @@
           :source="source"
           :poster="poster"
         />
-        <Description :video="video" :tagsPosition="tagsPosition" class="pt-4" />
+        <VideoTitle :video="video" />
+        <VideoDescription
+          :video="video"
+          :tagsPosition="tagsPosition"
+          class="pt-4"
+        />
       </v-col>
       <v-col cols="12" sm="4">
         <ChatBox class="ma-2" />
@@ -20,12 +25,13 @@
 <script>
 import ChatBox from "../components/ChatBox";
 import video from "../data/VideoData.json";
+import VideoDescription from "../components/VideoDescription";
 import VideoPlayer from "../components/VideoPlayer";
-import Description from "../components/Description";
+import VideoTitle from "../components/VideoTitle.vue";
 
 export default {
   name: "Live",
-  components: { ChatBox, VideoPlayer, Description },
+  components: { ChatBox, VideoDescription, VideoPlayer, VideoTitle },
   data() {
     return {
       source: video[2].source,

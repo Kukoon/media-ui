@@ -17,29 +17,13 @@
     >
       {{ video.subtitle }}
     </v-card-subtitle>
-    <!-- Show Tags -->
-    <div class="px-4" v-if="tagsPosition === 'top'">
-      <Speakers :speakers="video.speakers" v-if="dense !== true" />
-      <Tags :tags="video.tags" :length="video.length" />
-    </div>
-    <v-card-text v-if="dense !== true">
-      {{ video.short }}
-    </v-card-text>
-    <div class="px-4" v-if="tagsPosition === 'bottom'">
-      <Speakers :speakers="video.speakers" v-if="dense !== true" />
-      <Tags :tags="video.tags" :length="video.length" />
-    </div>
   </div>
 </template>
 
 <script>
-import Tags from "./Tags.vue";
-import Speakers from "./Speakers.vue";
-
 export default {
-  name: "VideoText",
-  components: { Tags, Speakers },
-  props: ["tagsPosition", "video", "dense"],
+  name: "VideoTitle",
+  props: ["video", "dense"],
 };
 </script>
 

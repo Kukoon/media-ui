@@ -9,11 +9,8 @@
                 <Poster :source="video.poster" />
               </router-link>
             </v-responsive>
-            <Description
-              :video="video"
-              :tagsPosition="tagsPosition"
-              class="pt-4"
-            />
+            <VideoTitle :video="video" class="pt-4" />
+            <VideoDescription :video="video" :tagsPosition="tagsPosition" />
           </v-card>
         </v-col>
       </v-row>
@@ -22,13 +19,14 @@
 </template>
 
 <script>
-import Description from "./Description.vue";
 import Poster from "./Poster.vue";
 import VideoData from "../data/VideoData.json";
+import VideoDescription from "./VideoDescription.vue";
+import VideoTitle from "./VideoTitle.vue";
 
 export default {
   name: "RecordingsGrid",
-  components: { Description, Poster },
+  components: { Poster, VideoDescription, VideoTitle },
   data: () => ({
     selected: [],
     videos: VideoData,
