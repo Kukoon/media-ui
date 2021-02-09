@@ -8,7 +8,7 @@
           :source="source"
           :poster="poster"
         />
-        <Description :meta="meta" :tagsPosition="tagsPosition" class="pt-4" />
+        <Description :video="video" :tagsPosition="tagsPosition" class="pt-4" />
       </v-col>
       <v-col cols="12" sm="4">
         <ChatBox class="ma-2" />
@@ -30,7 +30,7 @@ export default {
     return {
       source: video[2].source,
       poster: video[2].poster,
-      meta: video[2],
+      video: video[2],
       tagsPosition: "top",
     };
   },
