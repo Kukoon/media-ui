@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <v-container fluid>
     <h1 class="ma-2">Home</h1>
-  </div>
+  </v-container>
 </template>
+
+<script>
+export default {
+  name: "Home",
+};
+</script>

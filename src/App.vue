@@ -34,8 +34,8 @@ export default {
         icon: "mdi-broadcast",
       },
       {
-        name: "Channels",
-        target: "../channels",
+        name: "Player",
+        target: "../player",
         id: 1,
         icon: "mdi-television-classic",
       },

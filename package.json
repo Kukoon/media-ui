@@ -12,6 +12,7 @@
 		"core-js": "^3.6.5",
 		"v-clappr": "^1.5.0",
 		"vue": "^2.6.11",
+		"vue-chat-scroll": "^1.4.0",
 		"vue-router": "^3.5.1",
 		"vuetify": "^2.2.11",
 		"vuex": "^3.6.2"

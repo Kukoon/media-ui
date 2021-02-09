@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="ma-2" outlined tile>
+    <v-card outlined tile>
       <v-responsive :aspect-ratio="16 / 9" class="responsive">
         <v-clappr
           el="player"
@@ -32,19 +32,21 @@ export default {
   components: {
     VClappr,
   },
+  props: ["source", "poster"],
   // Don't use arrow function or 'this.$vuetify' will not be available
   data() {
     return {
-      source: "https://v2.media.kukoon.de/stream/hls/live.m3u8",
+      // Disabled as source is now passed as a prop from parent component
+      // source: this.source,
       options: {
-        poster:
-          "https://media.kukoon.de/videos/df1555f5-7046-4f7a-adcc-195b73949723/edb1cfbb-3476-d639-b3f5-795fabf4ef4d_20210207_111945mp4",
+        poster: this.poster,
         parent: "player",
         width: "100%",
         height: "100%",
         mute: false,
-        autoplay: true,
+        autoplay: false,
         loop: false,
+        smoothing: true,
         disable_keyboard_shortcuts: false,
         disable_context_menu: true,
         mediacontrol: {
