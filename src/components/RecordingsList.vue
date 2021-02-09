@@ -2,7 +2,7 @@
   <div>
     <div class="pa-2" v-for="(video, n) in videos" :key="video + n">
       <v-row dense class="mx-n3">
-        <v-col cols="12" md="4" class="px-3">
+        <v-col cols="12" sm="4" class="px-3">
           <v-card outlined tile elevation="0">
             <v-responsive :aspect-ratio="16 / 9">
               <router-link to="">
@@ -11,11 +11,14 @@
             </v-responsive>
           </v-card>
         </v-col>
-        <v-col cols="12" md="8" class="px-3">
-          <Description :meta="video" :chipsPosition="chipsPosition" />
+        <v-col cols="12" sm="8" class="px-3">
+          <Description :video="video" :tagsPosition="tagsPosition" />
         </v-col>
       </v-row>
-      <v-divider v-if="n < videos.length - 1" class="my-6 mx-16"></v-divider>
+      <v-divider
+        v-if="n < videos.length - 1"
+        class="mb-2 mt-4 mx-16"
+      ></v-divider>
     </div>
   </div>
 </template>
@@ -31,7 +34,7 @@ export default {
   data: () => ({
     selected: [],
     videos: VideoData,
-    chipsPosition: "bottom",
+    tagsPosition: "bottom",
   }),
 };
 </script>

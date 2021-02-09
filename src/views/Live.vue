@@ -2,15 +2,15 @@
   <v-container fluid>
     <h1 class="ma-2">Live</h1>
     <v-row no-gutters>
-      <v-col cols="12" md="8" class="d-flex flex-column">
+      <v-col cols="12" sm="8" class="d-flex flex-column">
         <VideoPlayer
           class="pa-2 flex-column"
           :source="source"
           :poster="poster"
         />
-        <Description :meta="meta" :chipsPosition="chipsPosition" />
+        <Description :meta="meta" :tagsPosition="tagsPosition" class="pt-4" />
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col cols="12" sm="4">
         <ChatBox class="ma-2" />
       </v-col>
     </v-row>
@@ -31,7 +31,7 @@ export default {
       source: video[2].source,
       poster: video[2].poster,
       meta: video[2],
-      chipsPosition: "top",
+      tagsPosition: "top",
     };
   },
 };

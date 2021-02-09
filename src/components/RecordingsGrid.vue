@@ -9,7 +9,11 @@
                 <Poster :source="video.poster" />
               </router-link>
             </v-responsive>
-            <Description :meta="video" :chipsPosition="chipsPosition" />
+            <Description
+              :video="video"
+              :tagsPosition="tagsPosition"
+              class="pt-4"
+            />
           </v-card>
         </v-col>
       </v-row>
@@ -28,7 +32,7 @@ export default {
   data: () => ({
     selected: [],
     videos: VideoData,
-    chipsPosition: "top",
+    tagsPosition: "top",
   }),
 };
 </script>

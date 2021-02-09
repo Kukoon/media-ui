@@ -9,6 +9,14 @@
         height="100%"
         width="100%"
       >
+        <template v-slot:placeholder>
+          <v-row class="fill-height ma-0" align="center" justify="center">
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
         <v-fade-transition>
           <v-overlay v-if="hover" absolute color="accent darken-3">
             <v-btn :ripple="false" icon x-large id="no-background-hover">

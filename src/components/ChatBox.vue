@@ -6,8 +6,10 @@
     class="d-flex flex-column"
     style="min-height: 0px"
   >
-    <v-card-title class="neutral">Chat</v-card-title>
-    <v-card-subtitle class="neutral">Ask your Questions here</v-card-subtitle>
+    <v-card-title class="neutral lighten-1">Chat</v-card-title>
+    <v-card-subtitle class="neutral lighten-1"
+      >Ask your Questions here</v-card-subtitle
+    >
     <v-divider></v-divider>
     <v-card-text
       class="ma-0 px-4 py-0 fill-height"
