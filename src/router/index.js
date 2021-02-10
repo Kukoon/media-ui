@@ -21,28 +21,26 @@ const routes = [
 		component: Video,
 	},
 	{
-		path: "/player",
+		path: "/play",
 		name: "Player",
 		component: Player,
 	},
 	{
 		path: "/recordings",
-		name: "Recordings",
+		// Removed name to avoid console warnings about child defaults
 		component: Recordings,
 		children: [
 			// Define empty path to show list per default
 			{
 				path: "",
+				name: "RecordingsList",
 				component: RecordingsList,
 			},
 			{
 				path: "grid",
+				name: "RecordingsGrid",
 				component: RecordingsGrid,
-			},
-			// {
-			// 	path: "list",
-			// 	component: RecordingsList,
-			// }
+			}
 		]
 	}
 ]

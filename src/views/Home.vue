@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid id="Home">
     <h1 class="ma-2">Home</h1>
   </v-container>
 </template>

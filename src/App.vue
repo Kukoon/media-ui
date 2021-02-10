@@ -29,20 +29,14 @@ export default {
     pages: [
       {
         name: "Live",
-        target: "../live",
+        target: "Live",
         id: 0,
         icon: "mdi-broadcast",
       },
       {
-        name: "Player",
-        target: "../player",
-        id: 1,
-        icon: "mdi-television-classic",
-      },
-      {
         name: "Recordings",
-        target: "../recordings",
-        id: 2,
+        target: "RecordingsList",
+        id: 1,
         icon: "mdi-video-vintage",
       },
     ],

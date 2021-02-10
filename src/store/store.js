@@ -5,7 +5,8 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
 	state: {
-		drawer: null
+		autoPlay: false,
+		drawer: null,
 	},
 	actions: {
 		// toggleDrawer action receives context object and commits 'toggleDrawer' mutation
@@ -14,6 +15,10 @@ export const store = new Vuex.Store({
 		}
 	},
 	mutations: {
+		// autoPlay sets a global autoplay variable for the video player 
+		autoPlay: (state, payload) => {
+			state.autoPlay = payload
+		},
 		// toggleDrawer switches the value of 'drawer' if payload is unequal
 		toggleDrawer: (state, payload) => {
 			if (state.drawer !== payload) {
@@ -22,8 +27,12 @@ export const store = new Vuex.Store({
 		}
 	},
 	getters: {
-		// showDrawer exposes the state of 'drawer' value to other components
-		showDrawer: state => {
+		// autoPlay exposes the state of 'autoPlay' to other components
+		autoPlay: state => {
+			return state.autoPlay
+		},
+		// drawer exposes the state of 'drawer' value to other components
+		drawer: state => {
 			return state.drawer
 		}
 	}

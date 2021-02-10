@@ -1,6 +1,5 @@
 <template>
-  <v-container fluid>
-    <h1 class="ma-2">Player</h1>
+  <v-container fluid id="Player">
     <v-row no-gutters>
       <v-col cols="12" md="8" class="d-flex flex-column">
         <VideoPlayer
@@ -8,12 +7,12 @@
           :source="source"
           :poster="poster"
         />
-        <VideoTitle :video="video" class="pt-2" />
-        <VideoDescription :video="video" :tagsPosition="tagsPosition" />
+        <VideoTitle :video="videoObj" class="pt-2" />
+        <VideoDescription :video="videoObj" :tagsPosition="tagsPosition" />
       </v-col>
       <v-col cols="12" md="4" xl="3">
         <h2 class="mx-2">Suggestions</h2>
-        <SuggestionsBox class="hidden-sm-and-down" />
+        <Suggestions class="hidden-sm-and-down" />
         <RecordingsList class="hidden-md-and-up" />
       </v-col>
       <v-col cols="0" md="0" xl="1" />
@@ -27,7 +26,7 @@ import VideoDescription from "../components/VideoDescription.vue";
 import VideoPlayer from "../components/VideoPlayer";
 import VideoTitle from "../components/VideoTitle.vue";
 import RecordingsList from "../components/RecordingsList";
-import SuggestionsBox from "../components/SuggestionsBox";
+import Suggestions from "../components/Suggestions";
 
 export default {
   name: "Player",
@@ -36,15 +35,36 @@ export default {
     VideoPlayer,
     VideoTitle,
     RecordingsList,
-    SuggestionsBox,
+    Suggestions,
   },
   data() {
     return {
-      source: video[2].source,
-      poster: video[2].poster,
-      video: video[2],
+      currentID: this.$router.history.current.query.id,
       tagsPosition: "top",
     };
+  },
+  computed: {
+    poster() {
+      return video[this.currentID].poster;
+    },
+    source() {
+      return video[this.currentID].source;
+    },
+    videoObj() {
+      return video[this.currentID];
+    },
+  },
+  watch: {
+    $route(to) {
+      this.currentID = to.query.id;
+    },
+  },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      if (from.name !== "Player") {
+        vm.$store.commit("autoPlay", true);
+      }
+    });
   },
 };
 </script>

@@ -1,7 +1,19 @@
 <template>
-  <v-navigation-drawer :value="showDrawer" @input="toggleDrawer" i app right>
+  <v-navigation-drawer
+    :value="drawer"
+    @input="toggleDrawer"
+    i
+    app
+    right
+    disable-resize-watcher
+  >
     <v-list dense>
-      <v-list-item v-for="page in pages" :key="page.id" link :to="page.target">
+      <v-list-item
+        v-for="page in pages"
+        :key="page.id"
+        link
+        :to="{ name: page.target }"
+      >
         <v-list-item-action>
           <v-icon>{{ page.icon }}</v-icon>
         </v-list-item-action>
@@ -16,9 +28,9 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
-  props: ["drawer", "pages"],
+  props: ["pages"],
   computed: {
-    ...mapGetters(["showDrawer"]),
+    ...mapGetters(["drawer"]),
   },
   methods: {
     ...mapActions(["toggleDrawer"]),

@@ -1,6 +1,5 @@
 <template>
-  <v-container fluid>
-    <h1 class="ma-2">Live</h1>
+  <v-container fluid id="Live">
     <v-row no-gutters>
       <v-col cols="12" sm="8" class="d-flex flex-column">
         <VideoPlayer
@@ -30,11 +29,14 @@ export default {
   components: { ChatBox, VideoDescription, VideoPlayer, VideoTitle },
   data() {
     return {
-      source: video[2].source,
+      source: "https://v2.media.kukoon.de/stream/hls/live.m3u8",
       poster: video[2].poster,
       video: video[2],
       tagsPosition: "top",
     };
+  },
+  created() {
+    this.$store.commit("autoPlay", true);
   },
 };
 </script>

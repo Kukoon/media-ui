@@ -1,13 +1,11 @@
 <template>
-  <div>
+  <div id="RecordingsList">
     <div class="pa-2" v-for="(video, n) in videos" :key="video + n">
       <v-row dense class="mx-n3">
         <v-col cols="12" sm="4" class="px-3">
           <v-card outlined tile elevation="0">
             <v-responsive :aspect-ratio="16 / 9">
-              <router-link to="">
-                <Poster :source="video.poster" />
-              </router-link>
+              <Poster :source="video.poster" :videoID="video.id" />
             </v-responsive>
           </v-card>
         </v-col>

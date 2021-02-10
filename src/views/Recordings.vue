@@ -1,7 +1,6 @@
 <template>
-  <v-container fluid>
+  <v-container fluid id="Recordings">
     <v-row no-gutters>
-      <h1 class="ma-2">Recordings</h1>
       <!-- <v-tabs fixed-tabs accent class="ma-2">
         <v-tab to="../recordings/grid">Grid</v-tab>
         <v-tab to="../recordings">List</v-tab>
