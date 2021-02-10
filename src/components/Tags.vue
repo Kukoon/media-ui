@@ -5,7 +5,6 @@
       :key="tag + n"
       small
       class="mr-2 my-1"
-      color="neutral"
       label
     >
       <v-icon small left> mdi-label </v-icon>

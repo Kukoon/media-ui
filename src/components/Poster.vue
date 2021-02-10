@@ -21,7 +21,7 @@
         <v-fade-transition>
           <v-overlay v-if="hover" absolute>
             <!-- Decide which one we like better -->
-            <v-btn color="neutral lighten-2" text> Play Video </v-btn>
+            <v-btn text> Play Video </v-btn>
             <!-- <v-btn :ripple="false" icon x-large id="no-background-hover">
               <v-icon x-large> mdi-play </v-icon>
             </v-btn> -->

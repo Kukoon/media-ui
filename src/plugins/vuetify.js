@@ -5,6 +5,9 @@ Vue.use(Vuetify);
 
 export default new Vuetify({
 	theme: {
+		options: {
+			customProperties: true,
+		},
 		themes: {
 			light: {
 				primary: {
@@ -52,7 +55,63 @@ export default new Vuetify({
 					darken2: "#6d4900",
 					darken3: "#241800"
 				},
-				highlight: {
+				sucess: {
+					base: "#47b857",
+					lighten1: "#7bcc87",
+					lighten2: "#b0e1b7",
+					lighten3: "#e5f5e7",
+					darken1: "#32843e",
+					darken2: "#1e4f25",
+					darken3: "#0a1a0c"
+				}
+			},
+			dark: {
+				primary: {
+					base: "#0C3638",
+					lighten1: "#47969a",
+					lighten2: "#4ca0a5",
+					lighten3: "#51aaaf",
+					darken1: "#3d8285",
+					darken2: "#2D666F",
+					darken3: "#1C4958"
+				},
+				accent: {
+					base: "#0C3638",
+					lighten1: "#47969a",
+					lighten2: "#4ca0a5",
+					lighten3: "#51aaaf",
+					darken1: "#3d8285",
+					darken2: "#2D666F",
+					darken3: "#1C4958"
+				},
+				neutral: {
+					base: "#141414",
+					lighten1: "#1C1C1C",
+					lighten2: "#242424",
+					lighten3: "#292929",
+					darken1: "#0F0F0F",
+					darken2: "#0A0A0A",
+					darken3: "#050505"
+				},
+				error: {
+					base: "#E25455",
+					lighten1: "#e56364",
+					lighten2: "#efa2a2",
+					lighten3: "#fae0e0",
+					darken1: "#9c1a1b",
+					darken2: "#5d1010",
+					darken3: "#1f0505"
+				},
+				warning: {
+					base: "#E68E00",
+					lighten1: "#FCB849",
+					lighten2: "#ffdb92",
+					lighten3: "#fff3db",
+					darken1: "#b67900",
+					darken2: "#6d4900",
+					darken3: "#241800"
+				},
+				sucess: {
 					base: "#47b857",
 					lighten1: "#7bcc87",
 					lighten2: "#b0e1b7",

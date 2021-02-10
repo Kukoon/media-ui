@@ -1,16 +1,17 @@
 <template>
   <v-app-bar app color="primary" dark>
     <v-toolbar-title link to="/">media.kukoon.de</v-toolbar-title>
-    <v-spacer></v-spacer>
-    <!-- <v-text-field
-      solo
-      dense
-      label="Search..."
-      prepend-inner-icon="mdi-magnify"
+    <v-switch
+      :value="darkMode"
+      :input-value="darkMode"
+      @change="toggleDarkMode"
+      inset
+      color="accent lighten-3"
+      :label="darkMode ? 'Disable Dark Mode' : 'Enable Dark Mode'"
       hide-details
-      class="shrink"
-      light
-    ></v-text-field> -->
+      class="px-4"
+    ></v-switch>
+    <v-spacer></v-spacer>
     <v-btn
       v-for="page in pages"
       :key="page.id"
@@ -20,19 +21,43 @@
     >
       {{ page.name }}
     </v-btn>
+
     <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
   </v-app-bar>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "NavBar",
-  props: ["pages"],
-  computed: {},
+  data() {
+    return {
+      pages: [
+        {
+          name: "Live",
+          target: "Live",
+          id: 0,
+          icon: "mdi-broadcast",
+        },
+        {
+          name: "Recordings",
+          target: "RecordingsList",
+          id: 1,
+          icon: "mdi-video-vintage",
+        },
+      ],
+    };
+  },
+  computed: {
+    ...mapGetters(["darkMode"]),
+  },
   methods: {
     ...mapActions(["toggleDrawer"]),
+    toggleDarkMode() {
+      this.$store.commit("toggleDarkMode", !this.darkMode);
+      this.$vuetify.theme.dark = this.darkMode;
+    },
   },
 };
 </script>

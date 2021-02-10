@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
 	state: {
 		autoPlay: false,
-		drawer: null,
+		darkMode: false,
+		drawer: false,
 	},
 	actions: {
 		// toggleDrawer action receives context object and commits 'toggleDrawer' mutation
@@ -19,6 +20,9 @@ export const store = new Vuex.Store({
 		autoPlay: (state, payload) => {
 			state.autoPlay = payload
 		},
+		toggleDarkMode: (state, payload) => {
+			state.darkMode = payload
+		},
 		// toggleDrawer switches the value of 'drawer' if payload is unequal
 		toggleDrawer: (state, payload) => {
 			if (state.drawer !== payload) {
@@ -30,6 +34,10 @@ export const store = new Vuex.Store({
 		// autoPlay exposes the state of 'autoPlay' to other components
 		autoPlay: state => {
 			return state.autoPlay
+		},
+		// darkMode exposes the state of 'darkMode' to other components
+		darkMode: state => {
+			return state.darkMode
 		},
 		// drawer exposes the state of 'drawer' value to other components
 		drawer: state => {

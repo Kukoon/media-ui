@@ -13,7 +13,7 @@
         borderless
         tile
         group
-        color="accent"
+        :color="darkMode ? 'accent lighten-3' : 'accent'"
       >
         <v-btn to="../recordings" exact>
           <span>List</span>
@@ -30,7 +30,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Recordings",
+  computed: {
+    ...mapGetters(["darkMode"]),
+  },
 };
 </script>

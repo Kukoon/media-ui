@@ -2,7 +2,6 @@
   <v-navigation-drawer
     :value="drawer"
     @input="toggleDrawer"
-    i
     app
     right
     disable-resize-watcher
@@ -28,7 +27,22 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 export default {
-  props: ["pages"],
+  data: () => ({
+    pages: [
+      {
+        name: "Live",
+        target: "Live",
+        id: 0,
+        icon: "mdi-broadcast",
+      },
+      {
+        name: "Recordings",
+        target: "RecordingsList",
+        id: 1,
+        icon: "mdi-video-vintage",
+      },
+    ],
+  }),
   computed: {
     ...mapGetters(["drawer"]),
   },

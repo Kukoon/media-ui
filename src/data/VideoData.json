@@ -23,7 +23,8 @@
 		"tags": [
 			"Podiumsdiskussion"
 		],
-		"length": "01:43:57"
+		"length": "01:43:57",
+		"published": false
 	},
 	{
 		"name": "Das Faschistische Jahrhundert",
@@ -42,14 +43,16 @@
 			}
 		],
 		"tags": [
-			"Buchvorstellung"
+			"Buchvorstellung",
+			"Diskussion"
 		],
-		"length": "01:43:57"
+		"length": "01:43:57",
+		"published": false
 	},
 	{
 		"name": "Pushbacks, Internierung, Zugangshürden",
 		"subtitle": "Zum Stand des europäischen Migrations- und Grenzregimes",
-		"date": "2020-02-06",
+		"date": "2021-02-06",
 		"source": "https://media.kukoon.de/videos/df1555f5-7046-4f7a-adcc-195b73949723/edb1cfbb-3476-d639-b3f5-795fabf4ef4d_20210207_111945.mp4",
 		"poster": "https://media.kukoon.de/videos/df1555f5-7046-4f7a-adcc-195b73949723/edb1cfbb-3476-d639-b3f5-795fabf4ef4d_20210207_111945mp4",
 		"id": 2,
@@ -62,6 +65,7 @@
 		"tags": [
 			"Vortrag"
 		],
-		"length": "01:43:57"
+		"length": "01:43:57",
+		"published": true
 	}
 ]

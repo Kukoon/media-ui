@@ -44,19 +44,22 @@
         </v-col>
       </v-row>
     </v-card-text>
-    <v-card-text class="px-2 pa-1 text-right justify-end neutral--text">
+    <v-card-text class="px-2 pa-1 text-right justify-end warning--text">
       Press Ctrl+Enter to send
     </v-card-text>
     <v-divider />
     <v-card-actions class="mt-auto neutral lighten-3">
       <v-row no-gutters>
         <v-col>
-          <div class="d-flex flex-row align-end">
+          <div class="d-flex flex-row align-center">
             <v-textarea
+              :color="darkMode ? 'grey lighten-3' : 'grey darken-3'"
               class="black--text mt-0 pt-0"
               v-model="msg"
               auto-grow
               rows="1"
+              dense
+              outlined
               hide-details
               placeholder="Please be awesome!"
               @keypress.enter="send"
@@ -72,6 +75,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "ChatBox",
   data() {
@@ -79,6 +84,9 @@ export default {
       chat: [],
       msg: null,
     };
+  },
+  computed: {
+    ...mapGetters(["darkMode"]),
   },
   methods: {
     send(e) {
