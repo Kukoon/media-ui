@@ -1,5 +1,5 @@
 <template>
-  <VideoPlayer :source="source" />
+  <VideoPlayer :source="source" :poster="poster" />
 </template>
 
 <script>
@@ -13,7 +13,8 @@ export default {
   data() {
     return {
       sourceURL: "https://v2.media.kukoon.de/stream/hls/",
-      poster: video[2].poster,
+      poster:
+        "https://media.kukoon.de/images/5b20a25a-7b57-4d0b-883c-c29c3075e5dd.jpg",
       video: video[2],
       tagsPosition: "top",
       currentID: null,

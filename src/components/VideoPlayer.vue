@@ -20,7 +20,7 @@ export default {
       // Disabled as source is now passed as a prop from parent component
       // source: this.source,
       options: {
-        poster: null,
+        poster: this.poster,
         parent: "player",
         width: "100%",
         height: "100%",
