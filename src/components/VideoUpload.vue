@@ -17,13 +17,19 @@
               ></v-text-field>
             </v-row>
             <v-row no-gutters class="d-flex align-center">
-              <v-btn :color="darkMode ? 'neutral lighten-3' : 'neutral'">
-                Browse
+              <v-btn
+                :color="darkMode ? 'neutral lighten-3' : 'neutral'"
+                class="mr-4 flex-grow-0 flex-shrink-0 hidden-sm-and-down"
+              >
+                <span>Browse</span>
+              </v-btn>
+              <v-btn icon class="mr-2 hidden-md-and-up">
+                <v-icon>mdi-folder-outline</v-icon>
               </v-btn>
               <v-text-field
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                 hide-details
-                class="ml-4"
+                class="flex-shrink-1 flex-grow-1"
                 outlined
                 readonly
                 disabled
@@ -32,13 +38,19 @@
               ></v-text-field>
             </v-row>
             <v-row no-gutters class="d-flex align-center">
-              <v-btn :color="darkMode ? 'neutral lighten-3' : 'neutral'"
-                >Browse</v-btn
+              <v-btn
+                :color="darkMode ? 'neutral lighten-3' : 'neutral'"
+                class="mr-4 flex-grow-0 flex-shrink-0 hidden-sm-and-down"
               >
+                <span>Browse</span>
+              </v-btn>
+              <v-btn icon class="mr-2 hidden-md-and-up">
+                <v-icon>mdi-folder-outline</v-icon>
+              </v-btn>
               <v-text-field
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                 hide-details
-                class="ml-4"
+                class="flex-shrink-1 flex-grow-1"
                 outlined
                 readonly
                 disabled
@@ -76,6 +88,7 @@
             </v-row>
           </v-card-text>
           <v-card-actions class="px-0 pt-4">
+            <v-btn outlined> Cancel </v-btn>
             <v-btn class="ml-auto" color="primary lighten-3"> Upload </v-btn>
           </v-card-actions>
         </v-card>
