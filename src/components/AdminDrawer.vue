@@ -25,7 +25,7 @@
 
     <template v-slot:append>
       <div class="pa-2">
-        <v-btn block color="primary lighten-1"> Logout </v-btn>
+        <v-btn block text color="primary lighten-1"> Logout </v-btn>
       </div>
     </template>
   </v-navigation-drawer>
