@@ -13,13 +13,18 @@
     ></v-switch>
     <v-spacer></v-spacer>
     <v-btn
-      v-for="page in pages"
-      :key="page.id"
       text
       class="mx-2 mr-1 d-none d-sm-flex"
-      :to="{ name: page.target }"
+      :to="{ name: pages[0].target, query: { id: 'kukoon' } }"
     >
-      {{ page.name }}
+      {{ pages[0].name }}
+    </v-btn>
+    <v-btn
+      text
+      class="mx-2 mr-1 d-none d-sm-flex"
+      :to="{ name: pages[1].target }"
+    >
+      {{ pages[1].name }}
     </v-btn>
 
     <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>

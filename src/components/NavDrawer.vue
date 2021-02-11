@@ -8,16 +8,22 @@
   >
     <v-list dense>
       <v-list-item
-        v-for="page in pages"
-        :key="page.id"
         link
-        :to="{ name: page.target }"
+        :to="{ name: pages[0].target, query: { id: 'kukoon' } }"
       >
         <v-list-item-action>
-          <v-icon>{{ page.icon }}</v-icon>
+          <v-icon>{{ pages[0].icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>{{ page.name }}</v-list-item-title>
+          <v-list-item-title>{{ pages[0].name }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item link :to="{ name: pages[1].target }">
+        <v-list-item-action>
+          <v-icon>{{ pages[1].icon }}</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>{{ pages[1].name }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>

@@ -1,16 +1,5 @@
 <template>
-  <div>
-    <v-card outlined tile>
-      <v-responsive :aspect-ratio="16 / 9" class="responsive">
-        <v-clappr
-          el="player"
-          :source="source"
-          :options="options"
-          @init="oninit"
-        />
-      </v-responsive>
-    </v-card>
-  </div>
+  <v-clappr el="player" :source="source" :options="options" @init="oninit" />
 </template>
 
 <script>

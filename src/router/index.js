@@ -17,6 +17,8 @@ import Video from "@/views/Main/Live.vue"
 import Player from "@/views/Main/Player.vue"
 import Recordings from "@/views/Main/Recordings.vue"
 
+import Single from "@/views/Single.vue"
+
 // Other Components
 import RecordingsGrid from "@/components/RecordingsGrid.vue"
 import RecordingsList from "@/components/RecordingsList.vue"
@@ -101,6 +103,11 @@ const routes = [
 		path: "/login",
 		component: Login,
 		name: "Login",
+	},
+	{
+		path: "/Single",
+		component: Single,
+		name: "Single"
 	}
 ]
 

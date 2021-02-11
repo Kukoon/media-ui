@@ -2,11 +2,17 @@
   <v-container fluid id="Player">
     <v-row no-gutters>
       <v-col cols="12" md="8" class="d-flex flex-column">
-        <VideoPlayer
-          class="pa-2 flex-column"
-          :source="source"
-          :poster="poster"
-        />
+        <div>
+          <v-card outlined tile class="ma-2">
+            <v-responsive :aspect-ratio="16 / 9" class="responsive">
+              <VideoPlayer
+                class="flex-column"
+                :source="source"
+                :poster="poster"
+              />
+            </v-responsive>
+          </v-card>
+        </div>
         <VideoTitle :video="videoObj" class="pt-2" />
         <VideoDescription :video="videoObj" :tagsPosition="tagsPosition" />
       </v-col>

@@ -2,11 +2,15 @@
   <v-container fluid id="Live">
     <v-row no-gutters>
       <v-col cols="12" sm="8" class="d-flex flex-column">
-        <VideoPlayer
-          class="pa-2 flex-column"
-          :source="source"
-          :poster="poster"
-        />
+        <v-card outlined tile class="ma-2">
+          <v-responsive :aspect-ratio="16 / 9" class="responsive">
+            <VideoPlayer
+              class="flex-column"
+              :source="source"
+              :poster="poster"
+            />
+          </v-responsive>
+        </v-card>
         <VideoTitle :video="video" class="pt-2" />
         <VideoDescription :video="video" :tagsPosition="tagsPosition" />
       </v-col>
@@ -29,14 +33,21 @@ export default {
   components: { ChatBox, VideoDescription, VideoPlayer, VideoTitle },
   data() {
     return {
-      source: "https://v2.media.kukoon.de/stream/hls/live.m3u8",
+      sourceURL: "https://v2.media.kukoon.de/stream/hls/",
       poster: video[2].poster,
       video: video[2],
       tagsPosition: "top",
+      currentID: null,
     };
+  },
+  computed: {
+    source() {
+      return this.sourceURL + this.currentID + ".m3u8";
+    },
   },
   created() {
     this.$store.commit("autoPlay", true);
+    this.currentID = this.$router.history.current.query.id;
   },
 };
 </script>
