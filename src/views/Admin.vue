@@ -10,11 +10,11 @@
 </template>
 
 <script>
-import Drawer from "../components/Admin/Drawer";
-import AdminBar from "../components/Admin/AdminBar";
+import Drawer from "@/components/AdminDrawer";
+import AdminBar from "@/components/AdminBar";
 
 export default {
-  name: "Main",
+  name: "Admin",
   components: { Drawer, AdminBar },
   created() {
     this.$store.commit("toggleDarkMode", true);

@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"@c3voc/clappr-level-selector": "^0.2.1",
+		"axios": "^0.21.1",
 		"core-js": "^3.6.5",
 		"v-clappr": "^1.5.0",
 		"vue": "^2.6.11",

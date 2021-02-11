@@ -1,19 +1,23 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 
+// Admin Views
 import Admin from "@/views/Admin.vue"
-import Stream from "@/components/Admin/Stream.vue"
-import Chat from "@/components/Admin/Chat.vue"
-import Videos from "@/components/Admin/Videos.vue"
-import Server from "@/components/Admin/Server.vue"
-import About from "@/components/Admin/About.vue"
+import Stream from "@/views/Admin/Stream.vue"
+import Chat from "@/views/Admin/Chat.vue"
+import Videos from "@/views/Admin/Videos.vue"
+import Stats from "@/views/Admin/Stats.vue"
+import Server from "@/views/Admin/Server.vue"
+import About from "@/views/Admin/About.vue"
+import Login from "@/views/Admin/Login.vue"
 
-
+// Main Views
 import Main from "@/views/Main.vue"
-import Login from "@/views/Login.vue"
-import Video from "@/views/Live.vue"
-import Player from "@/views/Player.vue"
-import Recordings from "@/views/Recordings.vue"
+import Video from "@/views/Main/Live.vue"
+import Player from "@/views/Main/Player.vue"
+import Recordings from "@/views/Main/Recordings.vue"
+
+// Other Components
 import RecordingsGrid from "@/components/RecordingsGrid.vue"
 import RecordingsList from "@/components/RecordingsList.vue"
 
@@ -74,6 +78,11 @@ const routes = [
 				path: "videos",
 				name: "Videos",
 				component: Videos
+			},
+			{
+				path: "stats",
+				name: "Stats",
+				component: Stats
 			},
 			{
 				path: "server",

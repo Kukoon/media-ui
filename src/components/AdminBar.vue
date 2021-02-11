@@ -20,7 +20,7 @@
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "NavBar",
+  name: "AdminBar",
   computed: {
     ...mapGetters(["darkMode"]),
   },

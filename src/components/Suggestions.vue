@@ -41,10 +41,11 @@
 </template>
 
 <script>
-import Poster from "./Poster.vue";
-import VideoData from "../data/VideoData.json";
-import VideoDescription from "./VideoDescription.vue";
-import VideoTitle from "./VideoTitle.vue";
+import VideoData from "@/data/VideoData.json";
+
+import Poster from "@/components/Poster.vue";
+import VideoDescription from "@/components/VideoDescription.vue";
+import VideoTitle from "@/components/VideoTitle.vue";
 
 export default {
   name: "Suggestions",

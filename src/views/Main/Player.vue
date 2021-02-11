@@ -11,7 +11,8 @@
         <VideoDescription :video="videoObj" :tagsPosition="tagsPosition" />
       </v-col>
       <v-col cols="12" md="4" xl="3">
-        <h2 class="mx-2">Suggestions</h2>
+        <h3 class="mx-2 mt-2">Suggestions</h3>
+        <v-divider class="mx-2 mb-4 mt-2" />
         <Suggestions class="hidden-sm-and-down" />
         <RecordingsList class="hidden-md-and-up" />
       </v-col>
@@ -21,12 +22,12 @@
 </template>
 
 <script>
-import video from "../data/VideoData.json";
-import VideoDescription from "../components/VideoDescription.vue";
-import VideoPlayer from "../components/VideoPlayer";
-import VideoTitle from "../components/VideoTitle.vue";
-import RecordingsList from "../components/RecordingsList";
-import Suggestions from "../components/Suggestions";
+import video from "../../data/VideoData.json";
+import VideoDescription from "../../components/VideoDescription.vue";
+import VideoPlayer from "../../components/VideoPlayer";
+import VideoTitle from "../../components/VideoTitle.vue";
+import RecordingsList from "../../components/RecordingsList";
+import Suggestions from "../../components/Suggestions";
 
 export default {
   name: "Player",

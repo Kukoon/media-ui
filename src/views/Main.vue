@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import NavBar from "../components/NavBar";
-import NavDrawer from "../components/NavDrawer";
+import NavBar from "@/components/NavBar";
+import NavDrawer from "@/components/NavDrawer";
 
 export default {
   name: "Main",

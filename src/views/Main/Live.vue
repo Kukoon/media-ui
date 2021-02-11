@@ -18,11 +18,11 @@
 </template>
 
 <script>
-import ChatBox from "../components/ChatBox";
-import video from "../data/VideoData.json";
-import VideoDescription from "../components/VideoDescription";
-import VideoPlayer from "../components/VideoPlayer";
-import VideoTitle from "../components/VideoTitle.vue";
+import ChatBox from "@/components/ChatBox";
+import video from "@/data/VideoData.json";
+import VideoDescription from "@/components/VideoDescription";
+import VideoPlayer from "@/components/VideoPlayer";
+import VideoTitle from "@/components/VideoTitle.vue";
 
 export default {
   name: "Live",

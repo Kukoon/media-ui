@@ -42,6 +42,7 @@ export default {
         { title: "Stream", icon: "mdi-broadcast" },
         { title: "Chat", icon: "mdi-chat" },
         { title: "Videos", icon: "mdi-video" },
+        { title: "Stats", icon: "mdi-chart-timeline-variant" },
         { title: "Server", icon: "mdi-server" },
         { title: "About", icon: "mdi-information" },
       ],

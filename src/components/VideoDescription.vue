@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import Tags from "./Tags.vue";
-import Speakers from "./Speakers.vue";
+import Tags from "@/components/Tags.vue";
+import Speakers from "@/components/Speakers.vue";
 
 export default {
   name: "VideoDescription",
