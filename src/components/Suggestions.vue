@@ -2,7 +2,7 @@
   <div id="suggestions">
     <v-row
       class="mx-n1"
-      v-for="(video, n) in videos"
+      v-for="(video, n) in suggestions"
       cols="12"
       :key="video + n"
     >
@@ -47,6 +47,8 @@ import Poster from "@/components/Poster.vue";
 import VideoDescription from "@/components/VideoDescription.vue";
 import VideoTitle from "@/components/VideoTitle.vue";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "Suggestions",
   components: { Poster, VideoDescription, VideoTitle },
@@ -60,11 +62,12 @@ export default {
     };
   },
   computed: {
-    videos() {
-      const videos = this.videoData.filter(
-        (video) => video.id != this.currentID
+    ...mapGetters(["recordings", "suggestions"]),
+    suggestions() {
+      const result = this.recordings.filter(
+        (recording) => recording.id != this.currentID
       );
-      return videos;
+      return result;
     },
   },
   watch: {

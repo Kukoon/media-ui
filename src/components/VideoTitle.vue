@@ -8,7 +8,10 @@
         dense === true ? 'dense-text text-truncate pt-2' : null,
       ]"
     >
-      {{ video.name }}
+      {{
+        video.common_name
+        /* video.name */
+      }}
     </v-card-title>
     <v-card-subtitle
       v-if="video.subtitle !== undefined"

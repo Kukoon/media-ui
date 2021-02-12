@@ -18,5 +18,8 @@ import NavDrawer from "@/components/NavDrawer";
 export default {
   name: "Main",
   components: { NavBar, NavDrawer },
+  created() {
+    this.$store.dispatch("loadRecordings");
+  },
 };
 </script>

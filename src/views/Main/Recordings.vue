@@ -37,5 +37,8 @@ export default {
   computed: {
     ...mapGetters(["darkMode"]),
   },
+  created() {
+    this.$store.dispatch("loadRecordings");
+  },
 };
 </script>

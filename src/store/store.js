@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -8,12 +9,17 @@ export const store = new Vuex.Store({
 		autoPlay: false,
 		darkMode: false,
 		drawer: false,
+		recordings: [],
 	},
 	actions: {
 		// toggleDrawer action receives context object and commits 'toggleDrawer' mutation
 		toggleDrawer(context, payload) {
 			context.commit('toggleDrawer', payload)
-		}
+		},
+		async loadRecordings(context) {
+			let result = await axios.get("https://v2.media.kukoon.de/api/v1/recordings/");
+			context.commit("setRecordings", result.data)
+		},
 	},
 	mutations: {
 		// autoPlay sets a global autoplay variable for the video player 
@@ -28,6 +34,12 @@ export const store = new Vuex.Store({
 			if (state.drawer !== payload) {
 				state.drawer = !state.drawer
 			}
+		},
+		setCurrentID: (state, payload) => {
+			state.currentID = payload
+		},
+		setRecordings: (state, payload) => {
+			state.recordings = payload
 		}
 	},
 	getters: {
@@ -42,6 +54,9 @@ export const store = new Vuex.Store({
 		// drawer exposes the state of 'drawer' value to other components
 		drawer: state => {
 			return state.drawer
+		},
+		recordings: state => {
+			return state.recordings
 		}
 	}
 });
