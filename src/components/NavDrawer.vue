@@ -43,7 +43,7 @@ export default {
       },
       {
         name: "Recordings",
-        target: "RecordingsList",
+        target: "VideoList",
         id: 1,
         icon: "mdi-video-vintage",
       },

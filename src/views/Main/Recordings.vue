@@ -25,7 +25,7 @@
         </v-btn>
       </v-btn-toggle>
     </v-row>
-    <router-view></router-view>
+    <router-view :videos="recordings"></router-view>
   </v-container>
 </template>
 
@@ -35,7 +35,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Recordings",
   computed: {
-    ...mapGetters(["darkMode"]),
+    ...mapGetters(["darkMode", "recordings"]),
   },
   created() {
     this.$store.dispatch("loadRecordings");

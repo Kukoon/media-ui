@@ -1,11 +1,15 @@
 <template>
-  <div id="RecordingsList">
-    <div class="pa-2" v-for="(video, n) in recordings" :key="video + n">
+  <div id="VideoList">
+    <div class="pa-2" v-for="(video, n) in videos" :key="video + n">
       <v-row dense class="mx-n3">
         <v-col cols="12" sm="4" class="px-3">
           <v-card outlined tile elevation="0">
             <v-responsive :aspect-ratio="16 / 9">
-              <Poster :source="video.poster" :videoID="video.id" />
+              <Poster
+                :source="video.poster"
+                :videoID="video.id"
+                :isLive="video.isLive"
+              />
             </v-responsive>
           </v-card>
         </v-col>
@@ -15,7 +19,7 @@
         </v-col>
       </v-row>
       <v-divider
-        v-if="n < recordings.length - 1"
+        v-if="n < videos.length - 1"
         class="mb-2 mt-4 mx-16"
       ></v-divider>
     </div>
@@ -27,17 +31,13 @@ import Poster from "@/components/Poster.vue";
 import VideoDescription from "@/components/VideoDescription.vue";
 import VideoTitle from "@/components/VideoTitle.vue";
 
-import { mapGetters } from "vuex";
-
 export default {
-  name: "RecordingsList",
+  name: "VideoList",
   components: { Poster, VideoDescription, VideoTitle },
+  props: ["videos"],
   data: () => ({
     selected: [],
     tagsPosition: "bottom",
   }),
-  computed: {
-    ...mapGetters(["recordings"]),
-  },
 };
 </script>

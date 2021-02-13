@@ -1,17 +1,28 @@
 <template>
   <v-app-bar app color="primary" dark>
-    <v-toolbar-title link to="/">media.kukoon.de</v-toolbar-title>
+    <v-img
+      src="@/assets/logo3.png"
+      height="100%"
+      max-width="88.4"
+      contain
+      class="flex-grow-0"
+      @click="goToHome()"
+    ></v-img>
+    <!-- <v-toolbar-title link to="/">v2.media.kukoon.de</v-toolbar-title> -->
+    <v-spacer></v-spacer>
+
     <v-switch
       :value="darkMode"
       :input-value="darkMode"
       @change="toggleDarkMode"
       inset
       color="accent lighten-3"
-      :label="darkMode ? 'Disable Dark Mode' : 'Enable Dark Mode'"
       hide-details
       class="px-4"
     ></v-switch>
-    <v-spacer></v-spacer>
+    <span class="mt-1">
+      {{ darkMode ? "Disable Dark Mode" : "Enable Dark Mode" }}
+    </span>
     <v-btn
       text
       class="mx-2 mr-1 d-none d-sm-flex"
@@ -47,7 +58,7 @@ export default {
         },
         {
           name: "Recordings",
-          target: "RecordingsList",
+          target: "VideoList",
           id: 1,
           icon: "mdi-video-vintage",
         },
@@ -66,3 +77,18 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* #logo {
+  display: inherit;
+  position: relative;
+  max-height: 128px;
+  max-width: 88.5px;
+  padding: 10px;
+  margin-top: 8px;
+  margin-left: 12px;
+  background: #770702;
+  border-radius: 0 0 8px 8px;
+  margin-bottom: -55.4px !important;
+} */
+</style>

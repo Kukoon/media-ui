@@ -13,28 +13,33 @@ import Login from "@/views/Admin/Login.vue"
 
 // Main Views
 import Main from "@/views/Main.vue"
-import Video from "@/views/Main/Live.vue"
+import Home from "@/views/Main/Home.vue"
+import Live from "@/views/Main/Live.vue"
 import Player from "@/views/Main/Player.vue"
 import Recordings from "@/views/Main/Recordings.vue"
 
 import Single from "@/views/Single.vue"
 
 // Other Components
-import RecordingsGrid from "@/components/RecordingsGrid.vue"
-import RecordingsList from "@/components/RecordingsList.vue"
+import VideoGrid from "@/components/VideoGrid.vue"
+import VideoList from "@/components/VideoList.vue"
 
 Vue.use(VueRouter)
 
 const routes = [
 	{
 		path: "/",
-		name: "Main",
 		component: Main,
 		children: [
 			{
+				path: "",
+				name: "Home",
+				component: Home,
+			},
+			{
 				path: "live",
 				name: "Live",
-				component: Video,
+				component: Live,
 			},
 			{
 				path: "recordings",
@@ -44,13 +49,13 @@ const routes = [
 					// Define empty path to show list per default
 					{
 						path: "",
-						name: "RecordingsList",
-						component: RecordingsList,
+						name: "VideoList",
+						component: VideoList,
 					},
 					{
 						path: "grid",
-						name: "RecordingsGrid",
-						component: RecordingsGrid,
+						name: "VideoGrid",
+						component: VideoGrid,
 					}
 				]
 			},
