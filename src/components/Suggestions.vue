@@ -12,28 +12,33 @@
             <Poster :source="video.poster" :videoID="video.id" />
           </v-responsive>
           <VideoTitle :video="video" :dense="dense" />
-          <v-card-actions class="pt-0">
-            <v-btn tile color="accent lighten-2" text @click="show = !show">
-              {{ show ? "Less" : "More" }}
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-btn icon @click="show = !show">
-              <v-icon>{{
-                show ? "mdi-chevron-up" : "mdi-chevron-down"
-              }}</v-icon>
-            </v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show">
-              <v-divider></v-divider>
-              <VideoDescription
-                :video="video"
-                :tagsPosition="tagsPosition"
-                class="pt-3"
-              />
-            </div>
-          </v-expand-transition>
+          <v-expansion-panels flat tile>
+            <v-expansion-panel>
+              <v-expansion-panel-header
+                @click="toggleDescription(video.id)"
+                class="pl-2 pr-4 py-2 d-flex"
+              >
+                <v-btn
+                  tile
+                  color="accent lighten-2"
+                  class="px-1 flex-grow-0"
+                  text
+                  :ripple="false"
+                >
+                  {{ show.includes(video.id) ? "Less" : "More" }}
+                </v-btn>
+                <v-spacer />
+              </v-expansion-panel-header>
+              <v-expansion-panel-content id="paddingFix">
+                <v-divider></v-divider>
+                <VideoDescription
+                  :video="video"
+                  :tagsPosition="tagsPosition"
+                  class="pt-3"
+                />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </v-card>
       </v-col>
     </v-row>
@@ -57,17 +62,32 @@ export default {
       currentID: this.$router.history.current.query.id,
       dense: true,
       tagsPosition: "top",
-      show: false,
+      show: [],
       videoData: VideoData,
     };
   },
   computed: {
-    ...mapGetters(["recordings", "suggestions"]),
+    ...mapGetters(["recordings"]),
     suggestions() {
       const result = this.recordings.filter(
         (recording) => recording.id != this.currentID
       );
       return result;
+    },
+  },
+  methods: {
+    toggleDescription(id) {
+      // If show array does not include video id, add it to show array
+      if (!this.show.includes(id)) {
+        this.show.push(id);
+      }
+      // Else remove element at the index of the video id in the show array
+      else {
+        const index = this.show.indexOf(id);
+        if (index > -1) {
+          this.show.splice(index, 1);
+        }
+      }
     },
   },
   watch: {
@@ -77,3 +97,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-expansion-panel--active > .v-expansion-panel-header {
+  min-height: 0 !important;
+}
+
+/* see: https://vue-loader.vuejs.org/guide/scoped-css.html#deep-selectors */
+.v-expansion-panel-content >>> .v-expansion-panel-content__wrap {
+  padding: 0 !important;
+}
+</style>
