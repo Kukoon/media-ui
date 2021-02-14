@@ -33,3 +33,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.v-input--switch {
+  margin-top: 0 !important;
+}
+.v-input >>> .v-label {
+  margin-left: 6px;
+  margin-top: 2px;
+}
+</style>

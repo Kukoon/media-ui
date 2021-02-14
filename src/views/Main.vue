@@ -5,9 +5,9 @@
     <v-main>
       <router-view></router-view>
     </v-main>
-    <v-footer color="grey darken-4" app style="z-index: 10">
+    <!-- <v-footer color="grey darken-4" app style="z-index: 10">
       <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    </v-footer> -->
   </div>
 </template>
 

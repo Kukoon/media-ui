@@ -6,23 +6,9 @@
       max-width="88.4"
       contain
       class="flex-grow-0"
-      @click="goToHome()"
     ></v-img>
     <!-- <v-toolbar-title link to="/">v2.media.kukoon.de</v-toolbar-title> -->
     <v-spacer></v-spacer>
-
-    <v-switch
-      :value="darkMode"
-      :input-value="darkMode"
-      @change="toggleDarkMode"
-      inset
-      color="accent lighten-3"
-      hide-details
-      class="px-4"
-    ></v-switch>
-    <span class="mt-1">
-      {{ darkMode ? "Disable Dark Mode" : "Enable Dark Mode" }}
-    </span>
     <v-btn
       text
       class="mx-2 mr-1 d-none d-sm-flex"
@@ -70,10 +56,6 @@ export default {
   },
   methods: {
     ...mapActions(["toggleDrawer"]),
-    toggleDarkMode() {
-      this.$store.commit("toggleDarkMode", !this.darkMode);
-      this.$vuetify.theme.dark = this.darkMode;
-    },
   },
 };
 </script>
