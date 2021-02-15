@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" class="d-flex flex-column">
         <v-card outlined tile class="ma-4">
           <v-responsive :aspect-ratio="16 / 9" class="responsive">
-            <PlyrPlayer :source="source" :isLive="isLive" />
+            <VideoPlayer :source="source" />
           </v-responsive>
         </v-card>
         <VideoTitle :video="video" class="pt-2" />
@@ -18,17 +18,16 @@
 </template>
 
 <script>
-import PlyrPlayer from "@/components/PlyrPlayer";
-
 import ChatBox from "@/components/ChatBox";
 import video from "@/data/VideoData.json";
+import VideoPlayer from "@/components/VideoPlayer";
 import VideoDescription from "@/components/VideoDescription";
 import VideoTitle from "@/components/VideoTitle.vue";
 
 export default {
   name: "Live",
   components: {
-    PlyrPlayer,
+    VideoPlayer,
     ChatBox,
     VideoDescription,
     VideoTitle,

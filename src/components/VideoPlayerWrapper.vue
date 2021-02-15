@@ -11,14 +11,6 @@
         />
       </v-responsive>
     </v-card>
-    <v-card outlined tile class="ma-4">
-      <v-responsive :aspect-ratio="16 / 9" class="responsive">
-        <PlyrPlayer
-          v-if="video.formats[0].url && video.poster"
-          :source="video.formats[0].url"
-        />
-      </v-responsive>
-    </v-card>
     <VideoDescription
       v-if="video"
       :video="video"
@@ -29,14 +21,12 @@
 
 <script>
 import VideoPlayer from "@/components/VideoPlayer";
-import PlyrPlayer from "@/components/PlyrPlayer";
 import VideoTitle from "@/components/VideoTitle.vue";
 import VideoDescription from "@/components/VideoDescription.vue";
 
 export default {
   name: "VideoPlayerWrapper",
   components: {
-    PlyrPlayer,
     VideoPlayer,
     VideoTitle,
     VideoDescription,
