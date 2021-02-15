@@ -39,6 +39,7 @@ export default {
   methods: {
     openVideo(videoID) {
       const current = this.$router.history.current;
+      this.$vuetify.goTo(0);
 
       // Define cases in which to change route
       // to prevent router navigation duplication warnings

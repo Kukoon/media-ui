@@ -1,6 +1,7 @@
 <template>
   <div id="VideoPlayerWrapper" v-if="video.formats[0].url">
-    <v-card outlined tile class="ma-2">
+    <VideoTitle v-if="video" :video="video" class="pt-2" />
+    <v-card outlined tile class="ma-4">
       <v-responsive :aspect-ratio="16 / 9" class="responsive">
         <VideoPlayer
           v-if="video.formats[0].url && video.poster"
@@ -10,7 +11,6 @@
         />
       </v-responsive>
     </v-card>
-    <VideoTitle v-if="video" :video="video" class="pt-2" />
     <VideoDescription
       v-if="video"
       :video="video"
@@ -36,9 +36,6 @@ export default {
     return {
       tagsPosition: "top",
     };
-  },
-  created() {
-    console.log(this.video);
   },
 };
 </script>

@@ -2,7 +2,7 @@
   <div id="suggestions">
     <v-row
       class="mx-n1"
-      v-for="(video, n) in suggestions"
+      v-for="(video, n) in videos"
       cols="12"
       :key="video + n"
     >
@@ -52,11 +52,10 @@ import Poster from "@/components/Poster.vue";
 import VideoDescription from "@/components/VideoDescription.vue";
 import VideoTitle from "@/components/VideoTitle.vue";
 
-import { mapGetters } from "vuex";
-
 export default {
   name: "Suggestions",
   components: { Poster, VideoDescription, VideoTitle },
+  props: ["videos"],
   data() {
     return {
       currentID: this.$router.history.current.query.id,
@@ -65,15 +64,6 @@ export default {
       show: [],
       videoData: VideoData,
     };
-  },
-  computed: {
-    ...mapGetters(["recordings"]),
-    suggestions() {
-      const result = this.recordings.filter(
-        (recording) => recording.id != this.currentID
-      );
-      return result;
-    },
   },
   methods: {
     toggleDescription(id) {

@@ -1,7 +1,7 @@
 <template>
   <v-container fluid id="Recordings">
-    <v-row no-gutters class="d-flex align-center">
-      <v-col class="pl-2">
+    <v-row no-gutters class="d-flex align-center mx-2">
+      <v-col>
         <v-tabs
           :color="darkMode ? 'accent lighten-3' : 'accent'"
           :background-color="darkMode ? '#121212' : null"
@@ -20,15 +20,15 @@
           flat
           class="d-flex"
           :color="darkMode ? '#121212' : null"
-          :class="
-            $vuetify.breakpoint.xsOnly ? 'justify-end pr-1' : 'justify-center'
-          "
+          :class="[
+            $vuetify.breakpoint.xsOnly ? 'justify-end' : 'justify-center',
+          ]"
         >
           <v-btn
             tile
             depressed
             small
-            class="align-self-center mx-1"
+            class="align-self-center mr-1"
             :color="darkMode ? 'neutral lighten-3' : 'neutral lighten-1'"
             :href="audioPodcastSrc"
             target="_blank"
@@ -40,7 +40,7 @@
             tile
             depressed
             small
-            class="align-self-center mx-1"
+            class="align-self-center ml-1"
             :color="darkMode ? 'neutral lighten-3' : 'neutral lighten-1'"
             :href="videoPodcastSrc"
             target="_blank"
@@ -54,7 +54,7 @@
         <v-btn-toggle
           mandatory
           dense
-          class="ma-1 align-self-center"
+          class="my-1 mr-n1 align-self-center"
           borderless
           tile
           group

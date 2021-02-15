@@ -8,8 +8,8 @@
       <v-col cols="12" md="4" xl="3">
         <h3 class="mx-2 mt-2">Suggestions</h3>
         <v-divider class="mx-2 mb-4 mt-2" />
-        <Suggestions class="hidden-sm-and-down" />
-        <VideoList class="hidden-md-and-up" />
+        <Suggestions class="hidden-sm-and-down" :videos="suggestions" />
+        <VideoList class="hidden-md-and-up" :videos="suggestions" />
       </v-col>
       <v-col cols="0" md="0" xl="1" />
     </v-row>
@@ -22,6 +22,8 @@ import axios from "axios";
 import VideoPlayerWrapper from "@/components/VideoPlayerWrapper";
 import VideoList from "@/components/VideoList";
 import Suggestions from "@/components/Suggestions";
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "Player",
@@ -37,6 +39,15 @@ export default {
       // temporarily hard coded in computed
       // stream: null
     };
+  },
+  computed: {
+    ...mapGetters(["recordings"]),
+    suggestions() {
+      const result = this.recordings.filter(
+        (recording) => recording.id != this.currentID
+      );
+      return result;
+    },
   },
   methods: {
     // loadStream() {
