@@ -6,7 +6,7 @@
       <Tags :tags="video.tags" :length="video.length" />
     </div>
     <v-card-text>
-      {{ video.desc }}
+      {{ video.description.description }}
     </v-card-text>
     <div class="px-4" v-if="tagsPosition === 'bottom'">
       <Speakers :speakers="video.speakers" />

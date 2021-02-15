@@ -10,8 +10,12 @@
         />
       </v-responsive>
     </v-card>
-    <VideoTitle :video="video" class="pt-2" />
-    <VideoDescription :video="video" :tagsPosition="tagsPosition" />
+    <VideoTitle v-if="video" :video="video" class="pt-2" />
+    <VideoDescription
+      v-if="video"
+      :video="video"
+      :tagsPosition="tagsPosition"
+    />
   </div>
 </template>
 
@@ -28,8 +32,13 @@ export default {
     VideoDescription,
   },
   props: ["video"],
+  data() {
+    return {
+      tagsPosition: "top",
+    };
+  },
   created() {
-    console.log(this.video.formats);
+    console.log(this.video);
   },
 };
 </script>

@@ -17,7 +17,7 @@ export const store = new Vuex.Store({
 			context.commit('toggleDrawer', payload)
 		},
 		async loadRecordings(context) {
-			let result = await axios.get("https://v2.media.kukoon.de/api/v1/recordings/");
+			let result = await axios.get("https://v2.media.kukoon.de/api/v1/recordings/?lang=de");
 			context.commit("setRecordings", result.data)
 		},
 	},
