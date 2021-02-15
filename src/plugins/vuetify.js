@@ -67,7 +67,7 @@ export default new Vuetify({
 			},
 			dark: {
 				primary: {
-					base: "#0C3638",
+					base: "#51aaaf",
 					lighten1: "#47969a",
 					lighten2: "#4ca0a5",
 					lighten3: "#51aaaf",

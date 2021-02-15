@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar app :color="darkMode ? 'accent' : 'primary'" dark>
     <v-img
       src="@/assets/logo3.png"
       height="100%"
