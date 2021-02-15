@@ -1,7 +1,7 @@
 <template>
   <div id="VideoPlayerWrapper" v-if="video.formats[0].url">
     <VideoTitle v-if="video" :video="video" class="pt-2" />
-    <v-card outlined tile class="ma-4">
+    <!-- <v-card outlined tile class="ma-4">
       <v-responsive :aspect-ratio="16 / 9" class="responsive">
         <VideoPlayer
           v-if="video.formats[0].url && video.poster"
@@ -9,6 +9,11 @@
           :source="video.formats[0].url"
           :poster="video.poster"
         />
+      </v-responsive>
+    </v-card> -->
+    <v-card outlined tile class="ma-4">
+      <v-responsive :aspect-ratio="16 / 9" class="responsive">
+        <PlyrPlayer :source="video.formats[0].url" />
       </v-responsive>
     </v-card>
     <VideoDescription
@@ -20,14 +25,16 @@
 </template>
 
 <script>
-import VideoPlayer from "@/components/VideoPlayer";
+//import VideoPlayer from "@/components/VideoPlayer";
+import PlyrPlayer from "@/components/PlyrPlayer";
 import VideoTitle from "@/components/VideoTitle.vue";
 import VideoDescription from "@/components/VideoDescription.vue";
 
 export default {
   name: "VideoPlayerWrapper",
   components: {
-    VideoPlayer,
+    PlyrPlayer,
+    //VideoPlayer,
     VideoTitle,
     VideoDescription,
   },

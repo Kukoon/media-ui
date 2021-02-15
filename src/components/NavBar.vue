@@ -2,7 +2,7 @@
   <v-app-bar app :color="darkMode ? 'accent' : 'primary'" dark>
     <v-img
       src="@/assets/logo3.png"
-      height="100%"
+      height="90%"
       max-width="88.4"
       contain
       class="flex-grow-0"

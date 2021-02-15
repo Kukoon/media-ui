@@ -2,13 +2,18 @@
   <v-container fluid id="Live">
     <v-row no-gutters>
       <v-col cols="12" sm="8" class="d-flex flex-column">
-        <v-card outlined tile class="ma-2">
+        <!-- <v-card outlined tile class="ma-2">
           <v-responsive :aspect-ratio="16 / 9" class="responsive">
             <VideoPlayer
               class="flex-column"
               :source="source"
               :poster="poster"
             />
+          </v-responsive>
+        </v-card> -->
+        <v-card outlined tile class="ma-4">
+          <v-responsive :aspect-ratio="16 / 9" class="responsive">
+            <PlyrPlayer :source="source" :isLive="isLive" />
           </v-responsive>
         </v-card>
         <VideoTitle :video="video" class="pt-2" />
@@ -22,15 +27,23 @@
 </template>
 
 <script>
+import PlyrPlayer from "@/components/PlyrPlayer";
+
 import ChatBox from "@/components/ChatBox";
 import video from "@/data/VideoData.json";
 import VideoDescription from "@/components/VideoDescription";
-import VideoPlayer from "@/components/VideoPlayer";
+// import VideoPlayer from "@/components/VideoPlayer";
 import VideoTitle from "@/components/VideoTitle.vue";
 
 export default {
   name: "Live",
-  components: { ChatBox, VideoDescription, VideoPlayer, VideoTitle },
+  components: {
+    PlyrPlayer,
+    ChatBox,
+    VideoDescription,
+    // VideoPlayer,
+    VideoTitle,
+  },
   data() {
     return {
       sourceURL: "https://v2.media.kukoon.de/stream/hls/",
@@ -38,6 +51,7 @@ export default {
       video: video[2],
       tagsPosition: "top",
       currentID: null,
+      isLive: true,
     };
   },
   computed: {
