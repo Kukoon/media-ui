@@ -1,5 +1,5 @@
 <template>
-  <vue-plyr ref="plyr" :options="playerOptions">
+  <plyrue ref="plyr" :options="playerOptions">
     <video
       controls
       playsinline
@@ -9,17 +9,20 @@
     >
       <source size="720" :src="source" type="video/mp4" />
     </video>
-  </vue-plyr>
+  </plyrue>
 </template>
 
 <script>
+import { PlyrueComponent as Plyrue } from "plyrue";
 import Hls from "hls.js";
 
 export default {
   name: "PlyrPlayer",
   props: ["source", "isLive"],
+  components: { Plyrue },
   data() {
     return {
+      hls: null,
       playerOptions: {
         controls: [
           "play-large",
@@ -40,15 +43,26 @@ export default {
       console.log(this.$refs.plyr.player);
       return this.$refs.plyr.player;
     },
+    video() {
+      return this.$refs.video;
+    },
   },
-  mounted() {
-    if (this.isLive && Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(this.source);
-      hls.attachMedia(this.player.media);
-
-      window.hls = hls;
-    }
+  watch: {
+    source() {
+      console.log(this.isLive);
+      if (this.isLive === true && !Hls.isSupported()) {
+        this.video.src = this.source;
+      } else {
+        const hls = new Hls();
+        this.hls = hls;
+        hls.loadSource(this.source);
+        hls.attachMedia(this.video);
+        this.$once("hook:beforeDestroy", () => {
+          hls.stopLoad();
+          hls.destroy();
+        });
+      }
+    },
   },
 };
 </script>
