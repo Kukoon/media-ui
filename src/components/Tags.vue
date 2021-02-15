@@ -11,7 +11,7 @@
       <span style="margin-bottom: -2px">{{ tag }}</span>
     </v-chip>
     <v-chip label outlined small class="mr-2 my-1">
-      <span style="margin-bottom: -2px">{{ length }}</span>
+      <span style="margin-bottom: -2px">{{ duration }}</span>
     </v-chip>
   </div>
 </template>
@@ -19,6 +19,6 @@
 <script>
 export default {
   name: "Tags",
-  props: ["length", "tags"],
+  props: ["duration", "tags"],
 };
 </script>

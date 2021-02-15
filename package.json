@@ -11,6 +11,8 @@
 		"@c3voc/clappr-level-selector": "^0.2.1",
 		"axios": "^0.21.1",
 		"core-js": "^3.6.5",
+		"marked": "^2.0.0",
+		"pretty-ms": "^7.0.1",
 		"v-clappr": "^1.5.0",
 		"vue": "^2.6.11",
 		"vue-chat-scroll": "^1.4.0",
