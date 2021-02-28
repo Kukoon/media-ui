@@ -10,7 +10,7 @@
               <Poster
                 :source="video.poster"
                 :videoID="video.id"
-                :isLive="video.isLive"
+                :isLive="video.running"
               />
             </v-responsive>
           </v-card>

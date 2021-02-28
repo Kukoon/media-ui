@@ -27,8 +27,8 @@ export default {
   props: ["tagsPosition", "video", "dense"],
   computed: {
     markedDesc() {
-      if (this.video.description) {
-        return marked(this.video.description.description);
+      if (this.video.lang) {
+        return marked(this.video.lang.long);
       } else {
         return null;
       }

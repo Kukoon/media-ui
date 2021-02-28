@@ -8,7 +8,7 @@
       label
     >
       <v-icon small left> mdi-label </v-icon>
-      <span style="margin-bottom: -2px">{{ tag }}</span>
+      <span style="margin-bottom: -2px">{{ tag.lang.name }}</span>
     </v-chip>
     <v-chip
       v-if="readableDuration !== null"
@@ -31,7 +31,7 @@ export default {
   computed: {
     readableDuration() {
       if (this.duration) {
-        return prettyMilliseconds(this.duration, { colonNotation: true });
+        return prettyMilliseconds(this.duration * 1000, { colonNotation: true });
       } else {
         return null;
       }
