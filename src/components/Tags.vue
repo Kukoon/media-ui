@@ -33,16 +33,13 @@ export default {
   computed: {
     readableDuration() {
       if (this.duration) {
-        return prettyMilliseconds(this.duration * 1000, {
+        return prettyMilliseconds(this.duration / 1000000, {
           colonNotation: true,
         });
       } else {
         return null;
       }
     },
-  },
-  created() {
-    console.log(this.tags);
   },
 };
 </script>

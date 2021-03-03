@@ -7,7 +7,6 @@
             <VideoPlayer :source="source" />
           </v-responsive>
         </v-card>
-
         <VideoTitle :video="video" class="pt-2" />
         <VideoDescription :video="video" :tagsPosition="tagsPosition" />
       </v-col>
@@ -40,7 +39,7 @@ export default {
       // video: video[2],
       tagsPosition: "top",
       currentID: null,
-      isLive: true,
+      isRunning: true,
     };
   },
   computed: {

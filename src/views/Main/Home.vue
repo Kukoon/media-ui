@@ -31,7 +31,7 @@ export default {
       const result = [
         {
           id: "kukoon",
-          isLive: true,
+          isRunning: true,
           common_name: "stream common_name",
           poster:
             "https://media.kukoon.de/videos/df1555f5-7046-4f7a-adcc-195b73949723/edb1cfbb-3476-d639-b3f5-795fabf4ef4d_20210207_111945mp4",
