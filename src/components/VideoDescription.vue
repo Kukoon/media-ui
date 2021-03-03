@@ -28,7 +28,7 @@ export default {
   computed: {
     markedDesc() {
       if (this.video.lang) {
-        return marked(this.video.lang.long);
+        return marked(this.video.lang.short);
       } else {
         return null;
       }

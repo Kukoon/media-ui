@@ -1,6 +1,6 @@
 <template>
   <v-container fluid id="Recordings">
-    <v-row no-gutters class="d-flex align-center mx-2">
+    <v-row no-gutters class="d-flex align-center mx-2 mb-3">
       <v-col>
         <v-tabs
           :color="darkMode ? 'accent lighten-3' : 'accent'"

@@ -2,7 +2,7 @@
   <v-container fluid id="Player" v-if="recording">
     <v-row no-gutters>
       <v-col cols="12" md="8" class="d-flex flex-column">
-        <VideoPlayerWrapper :video="recording" />
+        <VideoPlayerWrapper :video="recording" class="mx-n2" />
         <!-- <VideoPlayerWrapper :video="isRunning ? stream : recording" /> -->
       </v-col>
       <v-col cols="12" md="4" xl="3">
@@ -61,7 +61,7 @@ export default {
     loadRecording() {
       const apiURL =
         config.apiURL +
-        "/recording/" +
+        "recording/" +
         this.$router.history.current.query.id +
         "?lang=de";
       axios.get(apiURL).then((response) => (this.recording = response.data));
