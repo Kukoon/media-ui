@@ -7,6 +7,7 @@
             <VideoPlayer :source="source" />
           </v-responsive>
         </v-card>
+
         <VideoTitle :video="video" class="pt-2" />
         <VideoDescription :video="video" :tagsPosition="tagsPosition" />
       </v-col>
@@ -19,7 +20,7 @@
 
 <script>
 import ChatBox from "@/components/ChatBox";
-import video from "@/data/VideoData.json";
+// import video from "@/data/VideoData.json";
 import VideoPlayer from "@/components/VideoPlayer";
 import VideoDescription from "@/components/VideoDescription";
 import VideoTitle from "@/components/VideoTitle.vue";
@@ -35,8 +36,8 @@ export default {
   data() {
     return {
       sourceURL: "https://v2.media.kukoon.de/stream/hls/",
-      poster: video[2].poster,
-      video: video[2],
+      // poster: video[2].poster,
+      // video: video[2],
       tagsPosition: "top",
       currentID: null,
       isLive: true,

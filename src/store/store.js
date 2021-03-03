@@ -4,6 +4,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
+import { config } from "../../config.js"
+
 export const store = new Vuex.Store({
 	state: {
 		autoPlay: false,
@@ -17,7 +19,7 @@ export const store = new Vuex.Store({
 			context.commit('toggleDrawer', payload)
 		},
 		async loadRecordings(context) {
-			let result = await axios.get("https://v2.media.kukoon.de/api/v1/recordings/?lang=de");
+			let result = await axios.get(config.apiURL + "recordings/?lang=de");
 			context.commit("setRecordings", result.data)
 		},
 	},

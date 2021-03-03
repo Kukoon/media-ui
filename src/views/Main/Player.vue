@@ -23,6 +23,8 @@ import VideoPlayerWrapper from "@/components/VideoPlayerWrapper";
 import VideoList from "@/components/VideoList";
 import Suggestions from "@/components/Suggestions";
 
+import { config } from "../../../config.js";
+
 import { mapGetters } from "vuex";
 
 export default {
@@ -58,7 +60,8 @@ export default {
     // },
     loadRecording() {
       const apiURL =
-        "https://v2.media.kukoon.de/api/v1/recording/" +
+        config.apiURL +
+        "/recording/" +
         this.$router.history.current.query.id +
         "?lang=de";
       axios.get(apiURL).then((response) => (this.recording = response.data));
