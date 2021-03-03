@@ -1,6 +1,6 @@
 <template>
   <v-container fluid id="Home">
-    <v-row v-if="streams" class="mb-12">
+    <v-row v-if="!streams" class="mb-12">
       <v-col>
         <h1 class="px-2 headline">Live</h1>
         <v-divider class="mx-2 mb-2 mt-4" />

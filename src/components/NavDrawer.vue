@@ -16,7 +16,8 @@
       <v-list dense>
         <v-list-item
           link
-          :to="{ name: pages[0].target, query: { id: 'kukoon' } }"
+          v-if="channel"
+          :to="{ name: pages[0].target, query: { id: channel } }"
         >
           <v-list-item-action>
             <v-icon>{{ pages[0].icon }}</v-icon>
@@ -54,8 +55,12 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+
+import { config } from "../../config.js";
+
 export default {
   data: () => ({
+    channel: config.defaultChannel,
     pages: [
       {
         name: "Live",

@@ -11,8 +11,9 @@
     <v-spacer></v-spacer>
     <v-btn
       text
+      v-if="channel"
       class="mx-2 mr-1 d-none d-sm-flex"
-      :to="{ name: pages[0].target, query: { id: 'kukoon' } }"
+      :to="{ name: pages[0].target, query: { id: channel } }"
     >
       {{ pages[0].name }}
     </v-btn>
@@ -31,10 +32,13 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
+import { config } from '../../config.js';
+
 export default {
   name: "NavBar",
   data() {
     return {
+      channel: config.defaultChannel,
       pages: [
         {
           name: "Live",

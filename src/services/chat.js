@@ -1,32 +1,17 @@
 import * as XMPP from "strophe.js";
 import "strophejs-plugin-muc";
 
-const serverName = "media.kukoon.de";
-const conferenceServerName = "conference." + serverName;
-const randomPW = "fakepw"
+import { config } from "../../config.js"
 
-const randomNickname = [
-	"Affe",
-	"Esel",
-	"Hase",
-	"Katze",
-	"Giraffe",
-	"Hund",
-	"Maus",
-	"Wolf",
-	"Vogel",
+const randomNickname = config.chat.anonym.names
+const username = randomNickname[Math.floor(Math.random() * randomNickname.length)];
 
-]
-
-const connection = new XMPP.Strophe.Connection(
-	"https://media.kukoon.de/http-bind/"
-);
+const connection = new XMPP.Strophe.Connection(config.chat.bosh);
 connection.rawInput = function (data) { console.log('RECV: ' + data); };
 connection.rawOutput = function (data) { console.log('SEND: ' + data); };
 
-const username = randomNickname[Math.floor(Math.random() * randomNickname.length)];
 
-connection.connect(username+"@"+serverName, randomPW, onConnect);
+connection.connect(username+"@"+config.chat.server, config.chat.anonym.password, onConnect);
 
 // connection.addHandler(onMessage, null, 'message', null, null,  null);
 connection.addHandler(onSubscriptionRequest, null, "presence", "subscribe");
@@ -99,10 +84,10 @@ export const chat = {
 			}, 500)
 			return
 		}
-		const roomID = room + "@" + conferenceServerName;
+		const roomID = room + "@" + config.chat.conference;
 		connection.muc.init(connection);
 		connection.muc.join(roomID, chat.name, onMessage);
-		connection.muc.setStatus(roomID, chat.name + '@' + serverName, 'subscribed', 'chat');
+		connection.muc.setStatus(roomID, chat.name + '@' + config.chat.server, 'subscribed', 'chat');
 		console.log("connected to", roomID);
 	},
 	leave(room) {
@@ -111,7 +96,7 @@ export const chat = {
 	},
 	send(room, body) {
 		if (!isOnline) { return }
-		const roomID = room + "@" + conferenceServerName;
+		const roomID = room + "@" + config.chat.conference;
 		var msg = XMPP.$msg({to: roomID, type: 'groupchat'})
 			.c('body', null, body);
 		connection.send(msg.tree());
