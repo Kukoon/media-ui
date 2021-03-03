@@ -5,6 +5,9 @@
 </template>
 
 <script>
+
+import  '@/services/chat.js'
+
 export default {
   name: "App",
 };

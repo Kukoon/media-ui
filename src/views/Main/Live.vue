@@ -11,7 +11,7 @@
         <VideoDescription :video="video" :tagsPosition="tagsPosition" />
       </v-col>
       <v-col cols="12" sm="4">
-        <ChatBox class="ma-2" />
+        <ChatBox class="ma-2" :room="currentID" />
       </v-col>
     </v-row>
   </v-container>

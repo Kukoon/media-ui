@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 
 Vue.use(VueChatScroll);
 
-import { store } from './store/store.js'
+import { store } from './services/store.js'
 
 new Vue({
 	router,

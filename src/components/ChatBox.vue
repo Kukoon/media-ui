@@ -23,21 +23,21 @@
             :key="index"
             :class="[
               'd-flex flex-row align-center my-2',
-              item.from == 'user' ? 'justify-end' : null,
+              item.me ? 'justify-end' : null,
             ]"
           >
-            <span v-if="item.from == 'user'" class="mr-3">
+            <span v-if="item.me" class="mr-3">
               {{ item.msg }}
             </span>
             <v-avatar
-              :color="item.from == 'user' ? 'accent' : 'primary'"
+              :color="item.me ? 'accent' : 'primary'"
               size="32"
             >
               <span class="white--text">
                 {{ item.from[0] }}
               </span>
             </v-avatar>
-            <span v-if="item.from != 'user'" class="ml-3">
+            <span v-if="!item.me" class="ml-3">
               {{ item.msg }}
             </span>
           </div>
@@ -76,9 +76,11 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { chat } from "@/services/chat.js";
 
 export default {
   name: "ChatBox",
+  props:["room"],
   data() {
     return {
       chat: [],
@@ -88,14 +90,33 @@ export default {
   computed: {
     ...mapGetters(["darkMode"]),
   },
+  created() {
+      chat.join(this.room, this.onMessage)
+  },
+  watch: {
+    room(to,from) {
+      console.log("switch", from, to);
+      chat.leave(from)
+      chat.join(to,this.onMessage)
+    }
+  },
   methods: {
+    onMessage(msg) {
+      if (!msg.getAttribute("type").includes("chat")) { return false; }
+      const from = chat.getResourceFromJid(msg.getAttribute("from"));
+      if(msg.textContent) {
+        this.chat.push({
+          from: from,
+          me: from == chat.name,
+          msg: msg.textContent,
+        })
+      }
+      return true;
+    },
     send(e) {
       // Send message with 'Ctrl+Enter'
       if (e.ctrlKey) {
-        this.chat.push({
-          from: "user",
-          msg: this.msg,
-        });
+        chat.send(this.room, this.msg);
         this.msg = null;
       }
     },

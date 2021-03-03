@@ -1540,6 +1540,11 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
+abab@^2.0.3:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.5.tgz#c0b678fb32d60fc1219c784d6a826fe385aeb79a"
+  integrity sha512-9IK9EadsbHo6jLWIpxpR6pL0sazTXV6+SQv25ZB+F7Bj9mJNaOc4nCRabwd5M/JwmUa8idz6Eci6eKfJryPs6Q==
+
 accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
   version "1.3.7"
   resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.7.tgz#531bc726517a3b2b41f850021c6cc15eaab507cd"
@@ -7700,6 +7705,21 @@ strip-json-comments@^3.0.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
+strophe.js@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/strophe.js/-/strophe.js-1.4.1.tgz#28c21dc9e054a184888e6d947070a1cec477e90f"
+  integrity sha512-Nh+EEcx73Zorl0tgJ2uPfGYCQhgHiNcxDVY3U4SVEt9BUfF434QioLlfoK/PE8QWSg5PWRXWWXZmOyufUCOPWg==
+  dependencies:
+    abab "^2.0.3"
+  optionalDependencies:
+    ws "^7.0.0"
+    xmldom "^0.1.27"
+
+strophejs-plugin-muc@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/strophejs-plugin-muc/-/strophejs-plugin-muc-1.1.0.tgz#dc752eabcb7c3af92f6783c3712016868e7e5e1b"
+  integrity sha512-IGMCOSxGIgYwHRDVBRCzjDy8AedHxjz2TuJ0vTuLo6v3DisLeW4d107R/SkbkjVknoX1M42fdpZ9oKb5zRsLxw==
+
 stylehacks@^4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/stylehacks/-/stylehacks-4.0.3.tgz#6718fcaf4d1e07d8a1318690881e8d96726a71d5"
@@ -8609,10 +8629,15 @@ ws@^6.0.0, ws@^6.2.1:
   dependencies:
     async-limiter "~1.0.0"
 
-ws@^7.3.1:
+ws@^7.0.0, ws@^7.3.1:
   version "7.4.3"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.3.tgz#1f9643de34a543b8edb124bdcbc457ae55a6e5cd"
   integrity sha512-hr6vCR76GsossIRsr8OLR9acVVm1jyfEWvhbNjtgPOrfvAlKzvyeg/P6r8RuDjRyrcQoPQT7K0DGEPc7Ae6jzA==
+
+xmldom@^0.1.27:
+  version "0.1.31"
+  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.31.tgz#b76c9a1bd9f0a9737e5a72dc37231cf38375e2ff"
+  integrity sha512-yS2uJflVQs6n+CyjHoaBmVSqIDevTAWrzMmjG1Gc7h1qQ7uVozNhEPJAwZXWyGQ/Gafo3fCwrcaokezLPupVyQ==
 
 xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.2"
