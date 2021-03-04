@@ -9,14 +9,7 @@
     >
       <span style="margin-bottom: -2px">{{ readableDuration }}</span>
     </v-chip>
-    <v-chip
-      v-if="running"
-      label
-      small
-      outlined
-      color="primary lighten-3"
-      class="mr-2 my-1"
-    >
+    <v-chip v-if="running" label small outlined color="error" class="mr-2 my-1">
       <span style="margin-bottom: -2px">Live</span>
     </v-chip>
     <v-chip

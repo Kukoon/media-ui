@@ -6,9 +6,7 @@
           <v-card
             tile
             elevation="0"
-            :style="
-              !$vuetify.breakpoint.xsOnly ? 'background-color: #121212' : null
-            "
+            :style="darkMode ? 'background-color: #121212' : null"
             :outlined="$vuetify.breakpoint.xsOnly"
           >
             <v-responsive :aspect-ratio="16 / 9">
