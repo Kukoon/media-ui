@@ -1,12 +1,14 @@
 <template>
   <v-app-bar app :color="darkMode ? 'accent' : 'primary'" dark>
-    <v-img
-      src="@/assets/logo3.png"
-      height="90%"
-      max-width="88.4"
-      contain
-      class="flex-grow-0"
-    ></v-img>
+    <router-link to="/" style="height: 90%">
+      <v-img
+        src="@/assets/logo3.png"
+        height="100%"
+        max-width="88.4"
+        contain
+        class="flex-grow-0"
+      ></v-img>
+    </router-link>
     <!-- <v-toolbar-title link to="/">v2.media.kukoon.de</v-toolbar-title> -->
     <v-spacer></v-spacer>
     <v-btn
@@ -32,7 +34,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import { config } from '../../config.js';
+import { config } from "../../config.js";
 
 export default {
   name: "NavBar",
