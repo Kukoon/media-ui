@@ -63,6 +63,9 @@ export default new Vuetify({
 					darken1: "#32843e",
 					darken2: "#1e4f25",
 					darken3: "#0a1a0c"
+				},
+				text: {
+					base: "rgba(0, 0, 0, 0.87)",
 				}
 			},
 			dark: {
@@ -119,6 +122,9 @@ export default new Vuetify({
 					darken1: "#32843e",
 					darken2: "#1e4f25",
 					darken3: "#0a1a0c"
+				},
+				text: {
+					base: "#FFFFFF",
 				}
 			}
 		}

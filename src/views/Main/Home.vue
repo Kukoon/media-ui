@@ -3,15 +3,15 @@
     <v-row v-if="!streams" class="mb-12">
       <v-col>
         <h1 class="px-2 headline">Live</h1>
-        <v-divider class="mx-2 mb-2 mt-4" />
+        <v-divider class="mx-2 mb-2 mt-2" />
         <VideoList :videos="streams" />
       </v-col>
     </v-row>
     <v-row v-if="recordings" class="mb-12">
       <v-col>
         <h1 class="px-2 headline">Recordings</h1>
-        <v-divider class="mx-2 mb-2 mt-4" />
-        <VideoList :videos="recordings" />
+        <v-divider class="mx-2 mb-2 mt-2" />
+        <VideoGrid :videos="recordings" />
       </v-col>
     </v-row>
   </v-container>
@@ -19,12 +19,13 @@
 
 <script>
 import VideoList from "@/components/VideoList";
+import VideoGrid from "@/components/VideoGrid";
 
 import { mapGetters } from "vuex";
 
 export default {
   name: "Home",
-  components: { VideoList },
+  components: { VideoList, VideoGrid },
   computed: {
     ...mapGetters(["recordings"]),
     streams() {

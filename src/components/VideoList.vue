@@ -11,15 +11,16 @@
           >
             <v-responsive :aspect-ratio="16 / 9">
               <Poster
+                :video="video"
                 :source="video.poster"
                 :preview="video.preview"
-                :videoID="video.id"
-                :isRunning="video.running"
+                :title="video.lang.title"
+                :running="video.running"
               />
             </v-responsive>
             <VideoTitle
               :video="video"
-              class="d-flex d-sm-none"
+              v-if="$vuetify.breakpoint.xsOnly"
               :class="$vuetify.breakpoint.xsOnly ? 'pt-4' : null"
             />
             <VideoSubtitle :video="video" class="d-flex d-sm-none" />

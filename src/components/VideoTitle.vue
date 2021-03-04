@@ -1,13 +1,17 @@
 <template>
-  <v-card-title
-    v-if="video.lang"
-    class="pt-0 pb-1"
-    :class="[
-      dense === true ? 'text-truncate dense-text pt-2' : 'no-word-break',
-    ]"
+  <router-link
+    :to="'/play?id=' + video.id"
+    class="title-link px-0 dense-text"
+    :title="video.lang.title"
   >
-    {{ video.lang.title }}
-  </v-card-title>
+    <v-card-title
+      v-if="video.lang"
+      class="pt-0 pb-1 dense-text text-truncate"
+      :class="dense ? 'pt-2' : 'pt-0'"
+    >
+      {{ video.lang.title }}
+    </v-card-title>
+  </router-link>
 </template>
 
 <script>
@@ -22,8 +26,12 @@ export default {
   font-size: 1rem !important;
   text-overflow: ellipsis !important;
   display: block !important;
+  word-break: normal;
 }
-.no-word-break {
-  word-break: normal !important;
+
+.title-link {
+  text-decoration: none;
+  color: var(--v-theme-text-base);
+  display: inline-block;
 }
 </style>

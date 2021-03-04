@@ -1,6 +1,8 @@
 <template>
   <div id="VideoPlayerWrapper" v-if="video !== null && getSource">
-    <VideoTitle v-if="video" :video="video" class="pt-2" />
+    <v-card-title v-if="video.lang" class="pt-2 pb-1 title">
+      {{ video.lang.title }}
+    </v-card-title>
     <v-card outlined tile class="ma-4">
       <v-responsive :aspect-ratio="16 / 9" class="responsive">
         <VideoPlayer
@@ -23,14 +25,13 @@
 
 <script>
 import VideoPlayer from "@/components/VideoPlayer";
-import VideoTitle from "@/components/VideoTitle.vue";
+// import VideoTitle from "@/components/VideoTitle.vue";
 import VideoDescription from "@/components/VideoDescription.vue";
 
 export default {
   name: "VideoPlayerWrapper",
   components: {
     VideoPlayer,
-    VideoTitle,
     VideoDescription,
   },
   props: ["video", "source"],
@@ -50,3 +51,10 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+.title {
+  word-break: normal !important;
+}
+</style>
