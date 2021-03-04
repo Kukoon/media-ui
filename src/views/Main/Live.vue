@@ -60,11 +60,12 @@ export default {
       const apiURL =
         config.apiURL +
         "stream/" +
-        this.$router.history.current.query.id;
+        this.$router.history.current.query.id +
+        "?lang=de";
       axios.get(apiURL).then((response) => {
         this.video = response.data;
         this.source = config.sourceURL + this.video.channel.id + ".m3u8";
-     });
+      });
     },
   },
   watch: {

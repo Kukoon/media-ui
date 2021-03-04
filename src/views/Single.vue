@@ -23,14 +23,11 @@ export default {
   methods: {
     loadStream() {
       const apiURL =
-        config.apiURL +
-        "stream/" +
-        this.$router.history.current.query.id +
-        "?lang=de";
+        config.apiURL + "stream/" + this.$router.history.current.query.id;
       axios.get(apiURL).then((response) => {
         this.video = response.data;
         this.source = config.sourceURL + this.video.channel.id + ".m3u8";
-     });
+      });
     },
   },
   watch: {
