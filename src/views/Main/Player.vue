@@ -3,7 +3,6 @@
     <v-row no-gutters>
       <v-col cols="12" md="8" class="d-flex flex-column">
         <VideoPlayerWrapper :video="recording" class="mx-n2" />
-        <!-- <VideoPlayerWrapper :video="isRunning ? stream : recording" /> -->
       </v-col>
       <v-col cols="12" md="4" xl="3">
         <h3 class="mx-2 mt-2">Suggestions</h3>
@@ -38,8 +37,6 @@ export default {
     return {
       currentID: this.$router.history.current.query.id,
       recording: null,
-      // temporarily hard coded in computed
-      // stream: null
     };
   },
   computed: {
@@ -52,12 +49,6 @@ export default {
     },
   },
   methods: {
-    // loadStream() {
-    //   const apiURL =
-    //     "https://v2.media.kukoon.de/api/v1/stream/" +
-    //     this.$router.history.current.query.id;
-    //   axios.get(apiURL).then((response) => (this.stream = response.data));
-    // },
     loadRecording() {
       const apiURL =
         config.apiURL +
@@ -65,13 +56,11 @@ export default {
         this.$router.history.current.query.id +
         "?lang=de";
       axios.get(apiURL).then((response) => (this.recording = response.data));
-      console.log(this.recording);
     },
   },
   watch: {
     $route(to) {
       this.currentID = to.query.id;
-      // this.loadStream();
       this.loadRecording();
     },
   },
@@ -83,7 +72,6 @@ export default {
     });
   },
   created() {
-    // this.loadStream();
     this.loadRecording();
     this.currentID = this.$router.history.current.query.id;
   },

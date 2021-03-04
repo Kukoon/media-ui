@@ -1,6 +1,8 @@
 export const config = {
 	"apiURL": "https://v2.media.kukoon.de/api/v1/",
-	"defaultChannel": "df1555f5-7046-4f7a-adcc-195b73949723",
+	"sourceURL": "https://v2.media.kukoon.de/stream/hls/",
+	"defaultChannel": "kukoon",
+	// "defaultChannel": "df1555f5-7046-4f7a-adcc-195b73949723",
 	"defaultLang": "de",
 	"chat": {
 		"bosh": "https://media.kukoon.de/http-bind/",

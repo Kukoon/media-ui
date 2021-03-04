@@ -1,33 +1,47 @@
 <template>
-  <VideoPlayer :source="source" :poster="poster" />
+  <VideoPlayer :source="source" :poster="video.poster" />
 </template>
 
 <script>
-import video from "@/data/VideoData.json";
+import axios from "axios";
 
 import VideoPlayer from "@/components/VideoPlayer";
+
+import { config } from "../../config.js";
 
 export default {
   name: "Single",
   components: { VideoPlayer },
   data() {
     return {
-      sourceURL: "https://v2.media.kukoon.de/stream/hls/",
-      poster:
-        "https://media.kukoon.de/images/5b20a25a-7b57-4d0b-883c-c29c3075e5dd.jpg",
-      video: video[2],
+      sourceURL: null,
+      video: null,
       tagsPosition: "top",
       currentID: null,
     };
   },
-  computed: {
-    source() {
-      return this.sourceURL + this.currentID + ".m3u8";
+  methods: {
+    loadStream() {
+      const apiURL =
+        config.apiURL +
+        "stream/" +
+        this.$router.history.current.query.id;
+      axios.get(apiURL).then((response) => {
+        this.video = response.data;
+        this.source = config.sourceURL + this.video.channel.id + ".m3u8";
+     });
+    },
+  },
+  watch: {
+    $route(to) {
+      this.currentID = to.query.id;
+      this.loadStream();
     },
   },
   created() {
     this.$store.commit("autoPlay", true);
     this.currentID = this.$router.history.current.query.id;
+    this.loadStream();
   },
 };
 </script>
