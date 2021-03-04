@@ -9,7 +9,7 @@
   >
     <div class="fill-height d-flex flex-column">
       <v-card tile flat>
-        <v-card-title class="subtitle-1"> media.kukoon.de </v-card-title>
+        <v-card-title class="subtitle-1">{{ pageTitle }}</v-card-title>
         <v-card-subtitle>Menu</v-card-subtitle>
       </v-card>
       <v-divider />
@@ -60,6 +60,7 @@ import { config } from "../../config.js";
 
 export default {
   data: () => ({
+    pageTitle: document.title,
     channel: config.defaultChannel,
     pages: [
       {
