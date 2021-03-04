@@ -15,6 +15,7 @@
       v-if="video"
       :video="video"
       :tagsPosition="tagsPosition"
+      :long="true"
     />
   </div>
 </template>

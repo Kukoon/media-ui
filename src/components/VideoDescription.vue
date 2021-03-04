@@ -24,15 +24,17 @@ import Speakers from "@/components/Speakers.vue";
 export default {
   name: "VideoDescription",
   components: { Tags, Speakers },
-  props: ["tagsPosition", "video", "dense"],
+  props: ["tagsPosition", "video", "dense", "long"],
   computed: {
     markedDesc() {
-      if (this.video.lang) {
-        return marked(this.video.lang.short);
-      } else {
+        if (this.video.lang) {
+          if (this.long) {
+            return marked(this.video.lang.long);
+          }
+          return marked(this.video.lang.short);
+        }
         return null;
-      }
     },
-  },
+  }
 };
 </script>
