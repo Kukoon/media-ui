@@ -4,8 +4,11 @@ import "strophejs-plugin-muc";
 import { config } from "../../config.js"
 
 const randomNickname = config.chat.anonym.names
-const username = randomNickname[Math.floor(Math.random() * randomNickname.length)];
-
+let username = localStorage.getItem("chat_username");
+if(!username) {
+	username = randomNickname[Math.floor(Math.random() * randomNickname.length)];
+	localStorage.setItem("chat_username", username);
+}
 const connection = new XMPP.Strophe.Connection(config.chat.bosh);
 connection.rawInput = function (data) { console.log('RECV: ' + data); };
 connection.rawOutput = function (data) { console.log('SEND: ' + data); };
