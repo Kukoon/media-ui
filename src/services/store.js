@@ -19,9 +19,9 @@ export const store = new Vuex.Store({
 			context.commit('toggleDrawer', payload)
 		},
 		async loadRecordings(context) {
-			let result = await axios.get(config.apiURL + "recordings/?lang=de");
+			const result = await axios.get(config.apiURL + "recordings/?lang=de");
 			context.commit("setRecordings", result.data)
-		},
+		}
 	},
 	mutations: {
 		// autoPlay sets a global autoplay variable for the video player 

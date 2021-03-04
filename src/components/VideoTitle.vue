@@ -2,7 +2,9 @@
   <v-card-title
     v-if="video.lang"
     class="pt-0 pb-1"
-    :class="[dense === true ? 'text-truncate dense-text pt-2' : null]"
+    :class="[
+      dense === true ? 'text-truncate dense-text pt-2' : 'no-word-break',
+    ]"
   >
     {{ video.lang.title }}
   </v-card-title>
@@ -20,5 +22,8 @@ export default {
   font-size: 1rem !important;
   text-overflow: ellipsis !important;
   display: block !important;
+}
+.no-word-break {
+  word-break: normal !important;
 }
 </style>

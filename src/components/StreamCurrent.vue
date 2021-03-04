@@ -4,6 +4,16 @@
       <v-expansion-panel-header>
         <span class="text-truncate">Current Stream</span>
         <v-chip
+          v-if="running"
+          small
+          label
+          outlined
+          color="warning"
+          class="flex-grow-0 flex-shrink-0 pr-3 monospace mr-4"
+        >
+          Live
+        </v-chip>
+        <v-chip
           v-if="record"
           small
           label
@@ -150,7 +160,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["darkMode"]),
+    ...mapGetters(["darkMode", "running"]),
   },
   methods: {
     toggleChat() {
