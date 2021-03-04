@@ -4,7 +4,7 @@
       <v-img
         @click.stop="openVideo(videoID)"
         v-ripple="{ class: 'neutral--text', center: true }"
-        :src="source"
+        :src="hover ? preview : source"
         class="white--text align-end"
         gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
         height="100%"
@@ -35,7 +35,7 @@
 <script>
 export default {
   name: "Poster",
-  props: ["videoID", "source"],
+  props: ["videoID", "source", "preview"],
   methods: {
     openVideo(videoID) {
       const current = this.$router.history.current;

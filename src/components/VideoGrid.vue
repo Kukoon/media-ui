@@ -5,7 +5,11 @@
         <v-col v-for="(video, n) in videos" cols="12" md="6" :key="video + n">
           <v-card outlined tile elevation="0">
             <v-responsive :aspect-ratio="16 / 9">
-              <Poster :source="video.poster" :videoID="video.id" />
+              <Poster
+                :source="video.poster"
+                :preview="video.preview"
+                :videoID="video.id"
+              />
             </v-responsive>
             <VideoTitle :video="video" class="pt-4" />
             <VideoSubtitle :video="video" class="pb-2" />

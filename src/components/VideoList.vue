@@ -12,6 +12,7 @@
             <v-responsive :aspect-ratio="16 / 9">
               <Poster
                 :source="video.poster"
+                :preview="video.preview"
                 :videoID="video.id"
                 :isRunning="video.running"
               />
