@@ -1,18 +1,6 @@
 <template>
   <div class="chips d-flex-inline align-start justify-start">
     <v-chip
-      v-for="(tag, n) in tags"
-      :key="tag + n"
-      small
-      class="mr-2 my-1"
-      label
-    >
-      <v-icon small left> mdi-label </v-icon>
-      <span style="margin-bottom: -2px">
-        {{ tag.lang.name }}
-      </span>
-    </v-chip>
-    <v-chip
       v-if="readableDuration !== null"
       label
       outlined
@@ -20,6 +8,28 @@
       class="mr-2 my-1"
     >
       <span style="margin-bottom: -2px">{{ readableDuration }}</span>
+    </v-chip>
+    <v-chip
+      v-if="running"
+      label
+      small
+      color="red"
+      class="mr-2 my-1"
+    >
+      <span style="margin-bottom: -2px">Live</span>
+    </v-chip>
+    <v-chip
+      v-for="(tag, n) in tags"
+      :key="tag + n"
+      small
+      class="mr-2 my-1"
+      label
+    >
+      <v-icon small left> mdi-label </v-icon>
+      <span style="margin-bottom: -2px"
+        v-if="tag.lang !== null">
+        {{ tag.lang.name }}
+      </span>
     </v-chip>
   </div>
 </template>
@@ -29,7 +39,7 @@ import prettyMilliseconds from "pretty-ms";
 
 export default {
   name: "Tags",
-  props: ["duration", "tags"],
+  props: ["duration", "tags", "running"],
   computed: {
     readableDuration() {
       if (this.duration) {

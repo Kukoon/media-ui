@@ -1,12 +1,12 @@
 <template>
-  <div id="VideoPlayerWrapper" v-if="video.formats[0].url">
+  <div id="VideoPlayerWrapper" v-if="video !== null && getSource">
     <VideoTitle v-if="video" :video="video" class="pt-2" />
     <v-card outlined tile class="ma-4">
       <v-responsive :aspect-ratio="16 / 9" class="responsive">
         <VideoPlayer
-          v-if="video.formats[0].url && video.poster"
+          v-if="getSource && video.poster"
           class="flex-column"
-          :source="video.formats[0].url"
+          :source="getSource"
           :poster="video.poster"
         />
       </v-responsive>
@@ -31,11 +31,20 @@ export default {
     VideoTitle,
     VideoDescription,
   },
-  props: ["video"],
+  props: ["video", "source"],
   data() {
     return {
       tagsPosition: "top",
     };
+  },
+  computed: {
+    getSource() {
+      if (this.source) {
+        return this.source
+      }
+      const urls =  this.video.formats.map((i)=> i.url);
+      return urls[0];
+    },
   },
 };
 </script>

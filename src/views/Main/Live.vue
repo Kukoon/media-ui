@@ -2,54 +2,81 @@
   <v-container fluid id="Live">
     <v-row no-gutters>
       <v-col cols="12" sm="8" class="d-flex flex-column">
-        <v-card outlined tile class="ma-4">
-          <v-responsive :aspect-ratio="16 / 9" class="responsive">
-            <VideoPlayer :source="source" />
-          </v-responsive>
-        </v-card>
-        <VideoTitle :video="video" class="pt-2" />
-        <VideoDescription :video="video" :tagsPosition="tagsPosition" />
+        <VideoPlayerWrapper :video="video" :source="source" class="mx-n2" />
       </v-col>
-      <v-col cols="12" sm="4">
-        <ChatBox class="ma-2" :room="currentID" />
+      <v-col cols="12" sm="4" v-if="video !== null && video.chat">
+        <ChatBox class="ma-2" :room="video.channel.id" />
+      </v-col>
+      <v-col cols="12" sm="4" v-if="video === null || !video.chat">
+        <h3 class="mx-2 mt-2">Suggestions</h3>
+        <v-divider class="mx-2 mb-4 mt-2" />
+        <Suggestions class="hidden-sm-and-down" :videos="suggestions" />
+        <VideoList class="hidden-md-and-up" :videos="suggestions" />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import axios from "axios";
+
 import ChatBox from "@/components/ChatBox";
-// import video from "@/data/VideoData.json";
-import VideoPlayer from "@/components/VideoPlayer";
-import VideoDescription from "@/components/VideoDescription";
-import VideoTitle from "@/components/VideoTitle.vue";
+import VideoPlayerWrapper from "@/components/VideoPlayerWrapper";
+import VideoList from "@/components/VideoList";
+import Suggestions from "@/components/Suggestions";
+
+import { mapGetters } from "vuex";
+
+import { config } from "../../../config.js";
 
 export default {
   name: "Live",
   components: {
-    VideoPlayer,
     ChatBox,
-    VideoDescription,
-    VideoTitle,
+    VideoPlayerWrapper,
+    VideoList,
+    Suggestions,
   },
   data() {
     return {
-      sourceURL: "https://v2.media.kukoon.de/stream/hls/",
-      // poster: video[2].poster,
-      // video: video[2],
+      video: null,
+      source: "",
       tagsPosition: "top",
       currentID: null,
       isRunning: true,
     };
   },
   computed: {
-    source() {
-      return this.sourceURL + this.currentID + ".m3u8";
+    ...mapGetters(["recordings"]),
+    suggestions() {
+      const result = this.recordings.filter(
+        (recording) => recording.id != this.currentID
+      );
+      return result;
+    },
+  },
+  methods: {
+    loadStream() {
+      const apiURL =
+        config.apiURL +
+        "stream/" +
+        this.$router.history.current.query.id;
+      axios.get(apiURL).then((response) => {
+        this.video = response.data;
+        this.source = config.sourceURL + this.video.channel.id + ".m3u8";
+     });
+    },
+  },
+  watch: {
+    $route(to) {
+      this.currentID = to.query.id;
+      this.loadStream();
     },
   },
   created() {
     this.$store.commit("autoPlay", true);
     this.currentID = this.$router.history.current.query.id;
+    this.loadStream();
   },
 };
 </script>
