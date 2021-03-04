@@ -2,10 +2,7 @@
   <v-card-title
     v-if="video.lang"
     class="pt-0 pb-1"
-    :class="[
-      // add classes if dense
-      dense === true ? 'dense-text text-truncate pt-2' : null,
-    ]"
+    :class="[dense === true ? 'text-truncate dense-text pt-2' : null]"
   >
     {{ video.lang.title }}
   </v-card-title>
@@ -20,8 +17,8 @@ export default {
 
 <style scoped>
 .dense-text {
-  overflow: hidden;
   font-size: 1rem !important;
   text-overflow: ellipsis !important;
+  display: block !important;
 }
 </style>

@@ -1,13 +1,13 @@
 <template>
   <v-container fluid id="Live">
     <v-row no-gutters>
-      <v-col cols="12" sm="8" class="d-flex flex-column">
+      <v-col cols="12" md="8" class="d-flex flex-column">
         <VideoPlayerWrapper :video="video" :source="source" class="mx-n2" />
       </v-col>
-      <v-col cols="12" sm="4" v-if="video !== null && video.chat">
+      <v-col cols="12" md="4" v-if="video !== null && video.chat">
         <ChatBox class="ma-2" :room="video.channel.id" />
       </v-col>
-      <v-col cols="12" sm="4" v-if="video === null || !video.chat">
+      <v-col cols="12" md="4" v-if="video === null || !video.chat">
         <h3 class="mx-2 mt-2">Suggestions</h3>
         <v-divider class="mx-2 mb-4 mt-2" />
         <Suggestions class="hidden-sm-and-down" :videos="suggestions" />

@@ -14,11 +14,3 @@ export default {
   props: ["video", "dense"],
 };
 </script>
-
-<style scoped>
-.dense-text {
-  overflow: hidden;
-  font-size: 1rem !important;
-  text-overflow: ellipsis !important;
-}
-</style>

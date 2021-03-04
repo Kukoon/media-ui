@@ -1,16 +1,24 @@
 <template>
   <div>
     <!-- Show Tags -->
-    <div class="px-4" v-if="tagsPosition === 'top'">
+    <div v-if="tagsPosition === 'top'">
       <Speakers :speakers="video.speakers" />
-      <Tags :tags="video.tags" :duration="video.duration" :running="video.running" />
+      <Tags
+        :tags="video.tags"
+        :duration="video.duration"
+        :running="video.running"
+      />
     </div>
-    <v-card-text v-if="markedDesc">
+    <v-card-text class="px-0" v-if="markedDesc">
       <td v-html="markedDesc"></td>
     </v-card-text>
-    <div class="px-4" v-if="tagsPosition === 'bottom'">
+    <div v-if="tagsPosition === 'bottom'">
       <Speakers :speakers="video.speakers" />
-      <Tags :tags="video.tags" :duration="video.duration" :running="video.running" />
+      <Tags
+        :tags="video.tags"
+        :duration="video.duration"
+        :running="video.running"
+      />
     </div>
   </div>
 </template>
@@ -27,14 +35,14 @@ export default {
   props: ["tagsPosition", "video", "dense", "long"],
   computed: {
     markedDesc() {
-        if (this.video.lang) {
-          if (this.long) {
-            return marked(this.video.lang.long);
-          }
-          return marked(this.video.lang.short);
+      if (this.video.lang) {
+        if (this.long) {
+          return marked(this.video.lang.long);
         }
-        return null;
+        return marked(this.video.lang.short);
+      }
+      return null;
     },
-  }
+  },
 };
 </script>

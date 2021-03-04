@@ -13,7 +13,8 @@
       v-if="running"
       label
       small
-      color="red"
+      outlined
+      color="primary lighten-3"
       class="mr-2 my-1"
     >
       <span style="margin-bottom: -2px">Live</span>
@@ -26,8 +27,7 @@
       label
     >
       <v-icon small left> mdi-label </v-icon>
-      <span style="margin-bottom: -2px"
-        v-if="tag.lang !== null">
+      <span style="margin-bottom: -2px" v-if="tag.lang !== null">
         {{ tag.lang.name }}
       </span>
     </v-chip>

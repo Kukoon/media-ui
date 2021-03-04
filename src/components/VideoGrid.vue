@@ -10,7 +10,11 @@
             <VideoTitle :video="video" class="pt-4" />
             <VideoSubtitle :video="video" class="pb-2" />
 
-            <VideoDescription :video="video" :tagsPosition="tagsPosition" />
+            <VideoDescription
+              :video="video"
+              :tagsPosition="tagsPosition"
+              class="px-4"
+            />
           </v-card>
         </v-col>
       </v-row>

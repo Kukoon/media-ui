@@ -16,6 +16,7 @@
       :video="video"
       :tagsPosition="tagsPosition"
       :long="true"
+      class="px-4"
     />
   </div>
 </template>
@@ -41,9 +42,9 @@ export default {
   computed: {
     getSource() {
       if (this.source) {
-        return this.source
+        return this.source;
       }
-      const urls =  this.video.formats.map((i)=> i.url);
+      const urls = this.video.formats.map((i) => i.url);
       return urls[0];
     },
   },

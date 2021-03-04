@@ -12,6 +12,7 @@
             <Poster :source="video.poster" :videoID="video.id" />
           </v-responsive>
           <VideoTitle :video="video" :dense="dense" />
+          <VideoSubtitle :video="video" :dense="dense" />
           <v-expansion-panels flat tile>
             <v-expansion-panel>
               <v-expansion-panel-header
@@ -34,7 +35,7 @@
                 <VideoDescription
                   :video="video"
                   :tagsPosition="tagsPosition"
-                  class="pt-3"
+                  class="pt-3 px-4"
                 />
               </v-expansion-panel-content>
             </v-expansion-panel>
@@ -51,10 +52,11 @@ import VideoData from "@/data/VideoData.json";
 import Poster from "@/components/Poster.vue";
 import VideoDescription from "@/components/VideoDescription.vue";
 import VideoTitle from "@/components/VideoTitle.vue";
+import VideoSubtitle from "@/components/VideoSubtitle.vue";
 
 export default {
   name: "Suggestions",
-  components: { Poster, VideoDescription, VideoTitle },
+  components: { Poster, VideoDescription, VideoTitle, VideoSubtitle },
   props: ["videos"],
   data() {
     return {
