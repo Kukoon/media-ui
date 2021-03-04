@@ -26,9 +26,11 @@
               item.me ? 'justify-end' : null,
             ]"
           >
-            <span v-if="item.me" class="mr-3">
-              {{ item.msg }}
-            </span>
+            <span
+              class="mr-3"
+              v-if="item.me"
+              v-html="item.msg"
+            />
             <v-avatar
               :color="item.me ? 'accent' : 'primary'"
               size="32"
@@ -37,9 +39,11 @@
                 {{ item.from[0] }}
               </span>
             </v-avatar>
-            <span v-if="!item.me" class="ml-3">
-              {{ item.msg }}
-            </span>
+            <span
+             class="ml-3"
+             v-if="!item.me"
+             v-html="item.msg"
+            />
           </div>
         </v-col>
       </v-row>
@@ -108,7 +112,7 @@ export default {
         this.chat.push({
           from: from,
           me: from == chat.name,
-          msg: msg.textContent,
+          msg: chat.renderText(msg.textContent),
         })
       }
       return true;

@@ -104,6 +104,12 @@ export const chat = {
 			.c('body', null, body);
 		connection.send(msg.tree());
 	},
+	renderText(text) {
+		var urlRegex = /(https?:\/\/[^\s]+)/g;
+		return text.replace(urlRegex, function(url) {
+			return '<a href="' + url + '" target="_blank">' + url + '</a>';
+		})
+	},
         getResourceFromJid: XMPP.Strophe.getResourceFromJid,
 }
 
