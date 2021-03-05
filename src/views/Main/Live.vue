@@ -52,7 +52,7 @@ export default {
       const result = this.recordings.filter(
         (recording) => recording.id != this.currentID
       );
-      return result;
+      return result.slice(0, 3);
     },
   },
   methods: {

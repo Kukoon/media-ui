@@ -1,7 +1,7 @@
 <template>
   <div id="suggestions">
     <v-row
-      class="mx-n1"
+      class="mx-n1 mb-4"
       v-for="(video, n) in videos"
       cols="12"
       :key="video + n"
