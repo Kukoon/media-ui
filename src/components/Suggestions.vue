@@ -1,12 +1,13 @@
 <template>
   <div id="suggestions">
     <v-row
-      class="mx-n1 mb-4"
+      class="mx-n1"
       v-for="(video, n) in videos"
       cols="12"
       :key="video + n"
+      :class="n === videos.length - 1 ? 'mb-6' : null"
     >
-      <v-col class="pb-2">
+      <v-col class="pb-1">
         <PreviewCard :video="video" />
       </v-col>
     </v-row>

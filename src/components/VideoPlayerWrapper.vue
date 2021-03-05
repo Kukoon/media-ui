@@ -3,6 +3,10 @@
     <v-card-title v-if="video.lang" class="pt-2 pb-1 title">
       {{ video.lang.title }}
     </v-card-title>
+    <VideoSubtitle
+      :video="video"
+      :class="darkMode ? 'subtitle-color-dark' : 'subtitle-color-light'"
+    />
     <v-card outlined tile class="ma-4">
       <v-responsive :aspect-ratio="16 / 9" class="responsive">
         <VideoPlayer
@@ -25,14 +29,16 @@
 
 <script>
 import VideoPlayer from "@/components/VideoPlayer";
-// import VideoTitle from "@/components/VideoTitle.vue";
+import VideoSubtitle from "@/components/VideoSubtitle.vue";
 import VideoDescription from "@/components/VideoDescription.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "VideoPlayerWrapper",
   components: {
     VideoPlayer,
     VideoDescription,
+    VideoSubtitle,
   },
   props: ["video", "source"],
   data() {
@@ -41,6 +47,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["darkMode"]),
     getSource() {
       if (this.source) {
         return this.source;
@@ -56,5 +63,11 @@ export default {
 <style scoped>
 .title {
   word-break: normal !important;
+}
+.subtitle-color-dark {
+  color: rgba(255, 255, 255, 0.7);
+}
+.subtitle-color-light {
+  color: rgba(0, 0, 0, 0.6);
 }
 </style>

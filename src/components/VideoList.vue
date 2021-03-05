@@ -32,7 +32,7 @@
               v-if="video.speakers"
               :speakers="video.speakers"
               class="mt-2"
-              :class="$vuetify.breakpoint.xsOnly ? 'px-4' : 'px-4 pt-1'"
+              :class="$vuetify.breakpoint.xsOnly ? 'px-4' : 'px-4'"
             />
             <Tags
               v-if="video.tags || video.duration"
