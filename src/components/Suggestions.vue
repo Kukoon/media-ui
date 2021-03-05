@@ -6,7 +6,7 @@
       cols="12"
       :key="video + n"
     >
-      <v-col>
+      <v-col class="pb-2">
         <PreviewCard :video="video" />
       </v-col>
     </v-row>

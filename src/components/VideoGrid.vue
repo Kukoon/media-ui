@@ -1,18 +1,14 @@
 <template>
   <div id="VideoGrid">
     <div class="py-2">
-      <v-row class="mx-n1">
-        <v-col
+      <masonry :cols="{ default: 4, 1264: 3, 960: 2, 600: 1 }" :gutter="16">
+        <PreviewCard
           v-for="(video, n) in videos"
-          cols="12"
-          sm="6"
-          md="4"
-          lg="3"
           :key="video + n"
-        >
-          <PreviewCard :video="video" />
-        </v-col>
-      </v-row>
+          :video="video"
+          class="mb-4"
+        />
+      </masonry>
     </div>
   </div>
 </template>
