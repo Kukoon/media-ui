@@ -20,6 +20,7 @@
     <VideoDescription
       v-if="video"
       :video="video"
+      :viewers="viewers"
       :tagsPosition="tagsPosition"
       :long="true"
       class="px-4"
@@ -40,7 +41,7 @@ export default {
     VideoDescription,
     VideoSubtitle,
   },
-  props: ["video", "source"],
+  props: ["video", "viewers", "source"],
   data() {
     return {
       tagsPosition: "top",

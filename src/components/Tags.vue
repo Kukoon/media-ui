@@ -9,8 +9,13 @@
     >
       <span style="margin-bottom: -2px">{{ readableDuration }}</span>
     </v-chip>
-    <v-chip v-if="running" label small outlined color="error" class="mr-2 my-1">
+    <v-chip v-if="running" label small outlined color="red" class="mr-2 my-1">
       <span style="margin-bottom: -2px">Live</span>
+    </v-chip>
+    <v-chip v-if="viewers > 0" label small outlined color="cyan" class="mr-2 my-1">
+      <v-icon small left>mdi-account</v-icon>
+	Viewers
+      <v-avatar small right>{{ viewers }}</v-avatar>
     </v-chip>
     <v-chip
       v-for="(tag, n) in tags"
@@ -32,7 +37,7 @@ import prettyMilliseconds from "pretty-ms";
 
 export default {
   name: "Tags",
-  props: ["duration", "tags", "running"],
+  props: ["duration", "tags", "running", "viewers"],
   computed: {
     readableDuration() {
       if (this.duration) {
