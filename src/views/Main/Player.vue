@@ -52,7 +52,7 @@ export default {
     loadRecording() {
       const apiURL =
         config.apiURL +
-        "recording/" +
+        "/recording/" +
         this.$router.history.current.query.id +
         "?lang=de";
       axios.get(apiURL).then((response) => (this.recording = response.data));

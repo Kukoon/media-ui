@@ -1,15 +1,16 @@
 export const config = {
-	"apiURL": "/api/v1/",
+	// "apiURL": `http://localhost:8090/api/v1`,
+	// "wsURL": `ws://localhost:8090/ws/v1`,
+	// "apiURL": `https://v2.media.kukoon.de/api/v1`,
+	// "wsURL": `wss://v2.media.kukoon.de/ws/v1`,
+	"apiURL": `${location.protocol}//${location.host}/api/v1`,
+	"wsURL": `ws${location.protocol == 'https:' ? 's' : ''}://${location.host}/ws/v1`,
 	"sourceURL": "https://media.kukoon.de/stream/hls/",
 	"defaultChannel": "kukoon",
 	// "defaultChannel": "df1555f5-7046-4f7a-adcc-195b73949723",
 	"defaultLang": "de",
 	"chat": {
-		"bosh": "https://media.kukoon.de/http-bind/",
-		"server": "media.kukoon.de",
-		"conference": "conference.media.kukoon.de",
 		"anonym": {
-			"password": "fakepw",
 			"names": [
 				"Affe",
 				"Amsel",

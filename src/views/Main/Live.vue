@@ -2,7 +2,7 @@
   <v-container fluid id="Live">
     <v-row no-gutters>
       <v-col cols="12" md="8" class="d-flex flex-column">
-        <VideoPlayerWrapper :video="video" :source="source" class="mx-n2" />
+        <VideoPlayerWrapper :video="video" :viewers="viewers" :source="source" class="mx-n2" />
       </v-col>
       <v-col cols="12" md="4" v-if="video !== null && video.chat">
         <ChatBox class="ma-2" :room="video.channel.id" />
@@ -28,6 +28,7 @@ import Suggestions from "@/components/Suggestions";
 import { mapGetters } from "vuex";
 
 import { config } from "../../../config.js";
+import { websocket } from "@/services/websocket.js";
 
 export default {
   name: "Live",
@@ -41,6 +42,7 @@ export default {
     return {
       video: null,
       source: "",
+      viewers: 0,
       tagsPosition: "top",
       currentID: null,
       isRunning: true,
@@ -59,11 +61,14 @@ export default {
     loadStream() {
       const apiURL =
         config.apiURL +
-        "stream/" +
+        "/stream/" +
         this.$router.history.current.query.id +
         "?lang=de";
       axios.get(apiURL).then((response) => {
         this.video = response.data;
+        websocket.joinHandler(this.video.channel.id, 'status', (ev) => {
+		this.viewers = ev.viewers;
+	})
         this.source = config.sourceURL + this.video.channel.id + ".m3u8";
       });
     },

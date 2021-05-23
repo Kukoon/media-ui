@@ -6,7 +6,7 @@
 
 <script>
 
-import  '@/services/chat.js'
+import  '@/services/websocket.js'
 
 export default {
   name: "App",

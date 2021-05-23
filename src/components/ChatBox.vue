@@ -80,7 +80,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { chat } from "@/services/chat.js";
+import { websocket } from "@/services/websocket.js";
 
 export default {
   name: "ChatBox",
@@ -95,32 +95,32 @@ export default {
     ...mapGetters(["darkMode"]),
   },
   created() {
-      chat.join(this.room, this.onMessage)
+      websocket.joinHandler(this.room, 'chat', this.onMessage)
   },
   watch: {
     room(to,from) {
       console.log("switch", from, to);
-      chat.leave(from)
-      chat.join(to,this.onMessage)
+      websocket.leave(from)
+      websocket.joinChat(to, this.onMessage)
     }
   },
   methods: {
     onMessage(msg) {
-      if (!msg.getAttribute("type").includes("chat")) { return false; }
-      const from = chat.getResourceFromJid(msg.getAttribute("from"));
-      if(msg.textContent) {
-        this.chat.push({
-          from: from,
-          me: from == chat.name,
-          msg: chat.renderText(msg.textContent),
-        })
-      }
-      return true;
+      this.chat.push({
+        from: msg.username,
+        me: !msg.username,
+        msg: websocket.renderText(msg.data),
+      })
     },
-    send(e) {
+    async send(e) {
       // Send message with 'Ctrl+Enter'
       if (e.ctrlKey) {
-        chat.send(this.room, this.msg);
+        this.chat.push({
+          from: await websocket.getUsername(this.room),
+          me: true,
+          msg: websocket.renderText(this.msg)
+        });
+        websocket.sendChat(this.room, this.msg);
         this.msg = null;
       }
     },

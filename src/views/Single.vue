@@ -8,6 +8,7 @@ import axios from "axios";
 import VideoPlayer from "@/components/VideoPlayer";
 
 import { config } from "../../config.js";
+import { websocket } from "@/services/websocket.js";
 
 export default {
   name: "Single",
@@ -23,9 +24,10 @@ export default {
   methods: {
     loadStream() {
       const apiURL =
-        config.apiURL + "stream/" + this.$router.history.current.query.id;
+        config.apiURL + "/stream/" + this.$router.history.current.query.id;
       axios.get(apiURL).then((response) => {
         this.video = response.data;
+        websocket.join(this.video.channel.id)
         this.source = config.sourceURL + this.video.channel.id + ".m3u8";
       });
     },
