@@ -1,6 +1,6 @@
 export const config = {
-	"apiURL": "https://v2.media.kukoon.de/api/v1/",
-	"sourceURL": "https://v2.media.kukoon.de/stream/hls/",
+	"apiURL": "/api/v1/",
+	"sourceURL": "https://media.kukoon.de/stream/hls/",
 	"defaultChannel": "kukoon",
 	// "defaultChannel": "df1555f5-7046-4f7a-adcc-195b73949723",
 	"defaultLang": "de",
