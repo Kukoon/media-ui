@@ -5,7 +5,7 @@ export const config = {
 	// "wsURL": `wss://v2.media.kukoon.de/ws/v1`,
 	"apiURL": `${location.protocol}//${location.host}/api/v1`,
 	"wsURL": `ws${location.protocol == 'https:' ? 's' : ''}://${location.host}/ws/v1`,
-	"sourceURL": "https://media.kukoon.de/stream/hls/",
+	"sourceURL": "https://edge01.media.kukoon.de/stream/stream/{ID}/playlist.m3u8",
 	"defaultChannel": "kukoon",
 	// "defaultChannel": "df1555f5-7046-4f7a-adcc-195b73949723",
 	"defaultLang": "de",

@@ -28,7 +28,7 @@ export default {
       axios.get(apiURL).then((response) => {
         this.video = response.data;
         websocket.join(this.video.channel.id)
-        this.source = config.sourceURL + this.video.channel.id + ".m3u8";
+        this.source = config.sourceURL.replace("{ID}", this.video.channel.id);
       });
     },
   },

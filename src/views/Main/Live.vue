@@ -69,7 +69,7 @@ export default {
         websocket.joinHandler(this.video.channel.id, 'status', (ev) => {
 		this.viewers = ev.viewers;
 	})
-        this.source = config.sourceURL + this.video.channel.id + ".m3u8";
+        this.source = config.sourceURL.replace("{ID}", this.video.channel.id);
       });
     },
   },
