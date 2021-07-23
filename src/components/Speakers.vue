@@ -8,7 +8,7 @@
       dark
       color="accent"
       label
-      :title="'Speaker: ' + speaker.name"
+      :title="speaker.organisation"
     >
       <v-icon small left> mdi-account </v-icon>
       <span style="margin-bottom: -2px">{{ speaker.name }}</span>
