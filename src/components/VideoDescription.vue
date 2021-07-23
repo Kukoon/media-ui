@@ -5,6 +5,7 @@
       <Speakers :speakers="video.speakers" />
       <Tags
         :tags="video.tags"
+        :event="video.event"
         :duration="video.duration"
         :running="video.running"
         :viewers="viewers"
@@ -17,6 +18,7 @@
       <Speakers :speakers="video.speakers" />
       <Tags
         :tags="video.tags"
+        :event="video.event"
         :duration="video.duration"
         :running="video.running"
         :viewers="viewers"

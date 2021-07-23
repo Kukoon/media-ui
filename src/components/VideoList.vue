@@ -37,6 +37,7 @@
             <Tags
               v-if="video.tags || video.duration"
               :tags="video.tags"
+              :event="video.event"
               :duration="video.duration"
               :class="$vuetify.breakpoint.xsOnly ? 'px-4' : 'pb-4 px-4'"
             />

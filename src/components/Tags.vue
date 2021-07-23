@@ -12,6 +12,10 @@
     <v-chip v-if="running" label small color="red" text-color="white" class="mr-2 my-1">
       <span style="margin-bottom: -2px">Live</span>
     </v-chip>
+    <v-chip v-if="event !== null" label small color="orange" class="mr-2 my-1">
+      <v-icon small left>mdi-calendar</v-icon>
+      {{ event.name }}
+    </v-chip>
     <v-chip v-if="viewers > 0" label small outlined color="cyan" class="mr-2 my-1">
       <v-icon small left>mdi-account</v-icon>
 	Viewers
@@ -37,7 +41,7 @@ import prettyMilliseconds from "pretty-ms";
 
 export default {
   name: "Tags",
-  props: ["duration", "tags", "running", "viewers"],
+  props: ["duration", "event", "tags", "running", "viewers"],
   computed: {
     readableDuration() {
       if (this.duration) {
