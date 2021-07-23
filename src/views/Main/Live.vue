@@ -65,10 +65,19 @@ export default {
         this.$router.history.current.query.id +
         "?lang=de";
       axios.get(apiURL).then((response) => {
+        // skip websocket binding on existing stream
+        if (this.video == null || response.data.channel.id != this.video.channel.id) {
+          websocket.joinHandler(response.data.channel.id, 'status', (ev) => {
+            this.viewers = ev.viewers;
+            if (ev.stream != this.video.id) {
+              console.log("new stream description", ev.stream, this.video.channel.id)
+              this.loadStream()
+            }
+            this.video.running = ev.running;
+          })
+        }
+        // update description 
         this.video = response.data;
-        websocket.joinHandler(this.video.channel.id, 'status', (ev) => {
-		this.viewers = ev.viewers;
-	})
         this.source = config.sourceURL.replace("{ID}", this.video.channel.id);
       });
     },

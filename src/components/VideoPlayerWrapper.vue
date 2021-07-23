@@ -14,6 +14,7 @@
           class="flex-column"
           :source="getSource"
           :poster="video.poster"
+          :running="video.running"
         />
       </v-responsive>
     </v-card>

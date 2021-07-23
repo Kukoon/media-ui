@@ -12,7 +12,7 @@ export default {
   components: {
     VClappr,
   },
-  props: ["source", "poster"],
+  props: ["source", "poster", "running"],
   // Don't use arrow function or 'this.$vuetify' will not be available
   data() {
     return {
@@ -62,8 +62,19 @@ export default {
         this.localclappr.play();
       }
     },
+    restart(){
+      this.localclappr.load(this.source);
+      this.localclappr.play();
+    },
   },
   watch: {
+    running(is) {
+      if(is){
+        console.log("stream goes live: restart it in 30s")
+        // start 30s later -> HLS should be ready now
+        setTimeout(this.restart, 30000);
+      }
+    },
     // Watch for changes in the prop 'source' passed from parent component
     source(newSrc) {
       // Load new source into clappr and play
