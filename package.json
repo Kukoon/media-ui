@@ -13,8 +13,6 @@
 		"core-js": "^3.6.5",
 		"marked": "^2.0.0",
 		"pretty-ms": "^7.0.1",
-		"strophe.js": "^1.4.1",
-		"strophejs-plugin-muc": "^1.1.0",
 		"v-clappr": "^1.5.0",
 		"vue": "^2.6.11",
 		"vue-chat-scroll": "^1.4.0",
