@@ -2,7 +2,7 @@
   <v-container fluid id="Live">
     <v-row no-gutters>
       <v-col cols="12" md="8" class="d-flex flex-column">
-        <VideoPlayerWrapper :video="video" :viewers="viewers" :source="source" class="mx-n2" />
+        <VideoPlayerWrapper :video="video" :source="source" class="mx-n2" />
       </v-col>
       <v-col cols="12" md="4" v-if="video !== null && video.chat">
         <ChatBox class="ma-2" :room="video.channel.id" />
@@ -68,7 +68,7 @@ export default {
         // skip websocket binding on existing stream
         if (this.video == null || response.data.channel.id != this.video.channel.id) {
           websocket.joinHandler(response.data.channel.id, 'status', (ev) => {
-            this.viewers = ev.viewers;
+            this.video.viewers = ev.viewers;
             if (ev.stream != this.video.id) {
               console.log("new stream description", ev.stream, this.video.channel.id)
               this.loadStream()

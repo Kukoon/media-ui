@@ -8,7 +8,7 @@
         :event="video.event"
         :duration="video.duration"
         :running="video.running"
-        :viewers="viewers"
+        :viewers="video.viewers"
       />
     </div>
     <v-card-text class="px-0" v-if="markedDesc">
@@ -21,7 +21,7 @@
         :event="video.event"
         :duration="video.duration"
         :running="video.running"
-        :viewers="viewers"
+        :viewers="video.viewers"
       />
     </div>
   </div>
@@ -36,7 +36,7 @@ import Speakers from "@/components/Speakers.vue";
 export default {
   name: "VideoDescription",
   components: { Tags, Speakers },
-  props: ["tagsPosition", "video", "viewers", "dense", "long"],
+  props: ["tagsPosition", "video", "dense", "long"],
   computed: {
     markedDesc() {
       if (this.video.lang) {

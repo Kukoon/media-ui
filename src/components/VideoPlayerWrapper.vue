@@ -21,7 +21,6 @@
     <VideoDescription
       v-if="video"
       :video="video"
-      :viewers="viewers"
       :tagsPosition="tagsPosition"
       :long="true"
       class="px-4"

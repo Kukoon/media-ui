@@ -2,7 +2,7 @@
   <v-container fluid id="Player" v-if="recording">
     <v-row no-gutters>
       <v-col cols="12" md="8" class="d-flex flex-column">
-        <VideoPlayerWrapper :video="recording" :viewers="recording.viewers" class="mx-n2" />
+        <VideoPlayerWrapper :video="recording" class="mx-n2" />
       </v-col>
       <v-col cols="12" md="4" xl="3">
         <h3 class="mx-2 mt-2">Suggestions</h3>
