@@ -39,6 +39,7 @@
               :tags="video.tags"
               :event="video.event"
               :duration="video.duration"
+              :viewers="video.viewers"
               :class="$vuetify.breakpoint.xsOnly ? 'px-4' : 'pb-4 px-4'"
             />
             <VideoDescription :video="video" class="d-flex d-sm-none px-4" />
