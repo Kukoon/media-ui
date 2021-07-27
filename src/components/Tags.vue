@@ -12,7 +12,7 @@
     <v-chip v-if="running" label small color="red" text-color="white" class="mr-2 my-1">
       <span style="margin-bottom: -2px">Live</span>
     </v-chip>
-    <v-chip v-if="event !== null" label small color="orange" class="mr-2 my-1">
+    <v-chip v-if="event" label small color="orange" class="mr-2 my-1">
       <v-icon small left>mdi-calendar</v-icon>
       {{ event.name }}
     </v-chip>
