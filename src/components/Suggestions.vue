@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     load() {
-      console.log(this.video);
       api.ListRecordingsSuggestion(this.video).then((response) => (this.recordings = response.data))
     },
   },
@@ -46,9 +45,6 @@ export default {
     video() {
       this.load()
     },
-  },
-  created() {
-    this.load()
   },
 };
 </script>
