@@ -12,7 +12,7 @@
     <v-chip v-if="running" label small color="red" text-color="white" class="mr-2 my-1">
       <span style="margin-bottom: -2px">Live</span>
     </v-chip>
-    <v-chip v-if="event" label small color="orange" class="mr-2 my-1">
+    <v-chip v-if="event" label small color="orange" class="mr-2 my-1" :to="{ name: 'VideoList', query: { event: event.id } }">
       <v-icon small left>mdi-calendar</v-icon>
       {{ event.name }}
     </v-chip>
@@ -27,6 +27,7 @@
       small
       class="mr-2 my-1"
       label
+      :to="{ name: 'VideoList', query: { tag: tag.id } }"
     >
       <v-icon small left> mdi-label </v-icon>
       <span style="margin-bottom: -2px" v-if="tag.lang !== null">

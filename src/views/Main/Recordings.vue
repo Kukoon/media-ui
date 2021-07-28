@@ -103,13 +103,18 @@ export default {
     },
   },
   methods: {
-    loadRecordings() {
-      api.ListRecordings().then((response) => (this.recordings = response.data))
+    load() {
+      api.ListRecordings(this.$router.history.current.query).then((response) => (this.recordings = response.data))
     },
     openPodcast() {},
   },
+  watch: {
+    $route() {
+      this.load();
+    },
+  },
   created() {
-    this.loadRecordings();
+    this.load();
   },
 };
 </script>

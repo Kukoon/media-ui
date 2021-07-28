@@ -9,6 +9,7 @@
       color="accent"
       label
       :title="speaker.organisation"
+      :to="{ name: 'VideoList', query: { speaker: speaker.id } }"
     >
       <v-icon small left> mdi-account </v-icon>
       <span style="margin-bottom: -2px">{{ speaker.name }}</span>
