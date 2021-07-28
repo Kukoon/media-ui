@@ -11,6 +11,7 @@ import { websocket } from "@/services/websocket.js";
 
 export default {
   name: "Single",
+  props: ['id'],
   components: { VideoPlayer },
   data() {
     return {
@@ -22,7 +23,7 @@ export default {
   },
   methods: {
     load() {
-      api.GetStream(this.$router.history.current.query.id).then((response) => {
+      api.GetStream(this.id).then((response) => {
         // skip websocket binding on existing stream
         if (this.video == null || response.data.channel.id != this.video.channel.id) {
           websocket.joinHandler(response.data.channel.id, 'status', (ev) => {
@@ -41,15 +42,13 @@ export default {
     },
   },
   watch: {
-    $route(to) {
-      this.currentID = to.query.id;
+    id() {
       this.load();
     },
   },
   created() {
     this.$store.commit("autoPlay", true);
-    this.currentID = this.$router.history.current.query.id;
-    this.loadStream();
+    this.load();
   },
 };
 </script>

@@ -17,7 +17,7 @@
         <v-list-item
           link
           v-if="channel"
-          :to="{ name: pages[0].target, query: { id: channel } }"
+          :to="{ name: 'Live', params: { id: channel } }"
         >
           <v-list-item-action>
             <v-icon>{{ pages[0].icon }}</v-icon>

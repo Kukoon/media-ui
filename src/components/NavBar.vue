@@ -15,7 +15,7 @@
       text
       v-if="channel"
       class="mx-2 mr-1 d-none d-sm-flex"
-      :to="{ name: pages[0].target, query: { id: channel } }"
+      :to="{ name: 'Live', params: { id: channel } }"
     >
       {{ pages[0].name }}
     </v-btn>

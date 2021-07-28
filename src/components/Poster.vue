@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="'/play?id=' + video.id"
+    :to="{ name: 'Player', params: { id: video.id } }"
     class="title-link pointer"
     :title="video.lang.title"
     @click.stop="goToTop()"

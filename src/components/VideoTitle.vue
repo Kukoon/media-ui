@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="'/play?id=' + video.id"
+    :to="{ name: 'Player', params: { id: video.id } }"
     class="title-link px-0 dense-text"
     :title="video.lang.title"
   >

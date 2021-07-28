@@ -10,8 +10,7 @@
       <v-col cols="12" md="4" v-if="video === null || !video.chat">
         <h3 class="mx-2 mt-2">Suggestions</h3>
         <v-divider class="mx-2 mb-4 mt-2" />
-        <Suggestions class="hidden-sm-and-down" :videos="suggestions" />
-        <VideoList class="hidden-md-and-up" :videos="suggestions" />
+        <Suggestions class="hidden-sm-and-down" :video="video" />
       </v-col>
     </v-row>
   </v-container>
@@ -20,7 +19,6 @@
 <script>
 import ChatBox from "@/components/ChatBox";
 import VideoPlayerWrapper from "@/components/VideoPlayerWrapper";
-import VideoList from "@/components/VideoList";
 import Suggestions from "@/components/Suggestions";
 
 import { config } from "../../../config.js"; // HLS url
@@ -29,10 +27,10 @@ import { websocket } from "@/services/websocket.js";
 
 export default {
   name: "Live",
+  props: ['id'],
   components: {
     ChatBox,
     VideoPlayerWrapper,
-    VideoList,
     Suggestions,
   },
   data() {
@@ -41,29 +39,19 @@ export default {
       source: "",
       viewers: 0,
       tagsPosition: "top",
-      currentID: null,
       isRunning: true,
-      recordings: [],
     };
-  },
-  computed: {
-    suggestions() {
-      const result = this.recordings.filter(
-        (recording) => recording.id != this.currentID
-      );
-      return result.slice(0, 3);
-    },
   },
   methods: {
     load() {
-      api.GetStream(this.$router.history.current.query.id).then((response) => {
+      api.GetStream(this.id).then((response) => {
         // skip websocket binding on existing stream
         if (this.video == null || response.data.channel.id != this.video.channel.id) {
           websocket.joinHandler(response.data.channel.id, 'status', (ev) => {
             this.video.viewers = ev.viewers;
             if (ev.stream != this.video.id) {
               console.log("new stream description", ev.stream, this.video.channel.id)
-              this.loadStream()
+              this.load()
             }
             this.video.running = ev.running;
           })
@@ -71,20 +59,16 @@ export default {
         // update description 
         this.video = response.data;
         this.source = config.sourceURL.replace("{ID}", this.video.channel.id);
-        // load for suggestion
-        api.ListRecordingsSuggestion(response.data).then((response) => (this.recordings = response.data))
       });
     },
   },
   watch: {
-    $route(to) {
-      this.currentID = to.query.id;
+    id() {
       this.load();
     },
   },
   created() {
     this.$store.commit("autoPlay", true);
-    this.currentID = this.$router.history.current.query.id;
     this.load();
   },
 };

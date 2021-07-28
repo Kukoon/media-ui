@@ -37,9 +37,10 @@ const routes = [
 				component: Home,
 			},
 			{
-				path: "live",
+				path: "live/:id",
 				name: "Live",
 				component: Live,
+				props: true
 			},
 			{
 				path: "recordings",
@@ -60,9 +61,10 @@ const routes = [
 				]
 			},
 			{
-				path: "play",
+				path: "play/:id",
 				name: "Player",
 				component: Player,
+				props: true
 			},
 		]
 	},
@@ -110,9 +112,10 @@ const routes = [
 		name: "Login",
 	},
 	{
-		path: "/Single",
+		path: "/single/:id",
 		component: Single,
-		name: "Single"
+		name: "Single",
+		props: true
 	}
 ]
 

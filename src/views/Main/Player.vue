@@ -1,14 +1,13 @@
 <template>
-  <v-container fluid id="Player" v-if="recording">
+  <v-container fluid id="Player" v-if="video">
     <v-row no-gutters>
       <v-col cols="12" md="8" class="d-flex flex-column">
-        <VideoPlayerWrapper :video="recording" class="mx-n2" />
+        <VideoPlayerWrapper :video="video" class="mx-n2" />
       </v-col>
       <v-col cols="12" md="4" xl="3">
         <h3 class="mx-2 mt-2">Suggestions</h3>
         <v-divider class="mx-2 mb-4 mt-2" />
-        <Suggestions class="hidden-sm-and-down" :videos="suggestions" />
-        <VideoList class="hidden-md-and-up" :videos="suggestions" />
+        <Suggestions class="hidden-sm-and-down" :video="video" />
       </v-col>
       <v-col cols="0" md="0" xl="1" />
     </v-row>
@@ -17,46 +16,36 @@
 
 <script>
 import VideoPlayerWrapper from "@/components/VideoPlayerWrapper";
-import VideoList from "@/components/VideoList";
 import Suggestions from "@/components/Suggestions";
 
 import { api } from "@/services/api.js";
 
 export default {
   name: "Player",
+  props: ['id'],
   components: {
     VideoPlayerWrapper,
-    VideoList,
     Suggestions,
   },
   data() {
     return {
-      currentID: this.$router.history.current.query.id,
-      recording: null,
-      recordings: [],
+      video: null,
     };
-  },
-  computed: {
-    suggestions() {
-      const result = this.recordings.filter(
-        (recording) => recording.id != this.currentID
-      );
-      return result.slice(0, 3);
-    },
   },
   methods: {
     load() {
-      api.GetRecording(this.$router.history.current.query.id).then((response) => {
-        this.recording = response.data;
-        api.ListRecordingsSuggestion(response.data).then((response) => (this.recordings = response.data))
+      api.GetRecording(this.id).then((response) => {
+        this.video = response.data;
       })
     },
   },
   watch: {
-    $route(to) {
-      this.currentID = to.query.id;
+    id() {
       this.load();
     },
+  },
+  created() {
+    this.load();
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
@@ -64,10 +53,6 @@ export default {
         vm.$store.commit("autoPlay", true);
       }
     });
-  },
-  created() {
-    this.load();
-    this.currentID = this.$router.history.current.query.id;
   },
 };
 </script>

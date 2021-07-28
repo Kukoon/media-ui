@@ -1,11 +1,11 @@
 <template>
-  <div id="suggestions">
+  <div>
     <v-row
       class="mx-n1"
-      v-for="(video, n) in videos"
+      v-for="(video, n) in suggestions"
       cols="12"
       :key="video + n"
-      :class="n === videos.length - 1 ? 'mb-6' : null"
+      :class="n === suggestions.length - 1 ? 'mb-6' : null"
     >
       <v-col class="pb-1">
         <PreviewCard :video="video" />
@@ -17,19 +17,38 @@
 <script>
 import PreviewCard from "@/components/PreviewCard.vue";
 
+import { api } from "@/services/api.js";
+
 export default {
   name: "Suggestions",
   components: { PreviewCard },
-  props: ["videos"],
+  props: ["video"],
   data() {
     return {
-      currentID: this.$router.history.current.query.id,
+      recordings: [],
     };
   },
-  watch: {
-    $route(to) {
-      this.currentID = to.query.id;
+  computed: {
+    suggestions() {
+      const result = this.recordings.filter(
+        (recording) => recording.id != this.video.id
+      );
+      return result.slice(0, 3);
     },
+  },
+  methods: {
+    load() {
+      console.log(this.video);
+      api.ListRecordingsSuggestion(this.video).then((response) => (this.recordings = response.data))
+    },
+  },
+  watch: {
+    video() {
+      this.load()
+    },
+  },
+  created() {
+    this.load()
   },
 };
 </script>

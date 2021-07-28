@@ -19,8 +19,8 @@ export const api = {
 	},
 	ListRecordingsSuggestion(video) {
 		var params = {}
-		if (video["event"]) {
-			params["event"] = event.id
+		if (video && video["event"]) {
+			params["event"] = video.event.id
 		}
 		return this.ListRecordings(params)
         },
