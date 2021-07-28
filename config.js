@@ -1,8 +1,8 @@
 export const config = {
 	// "apiURL": `http://localhost:8090/api/v1`,
 	// "wsURL": `ws://localhost:8090/ws/v1`,
-	// "apiURL": `https://v2.media.kukoon.de/api/v1`,
-	// "wsURL": `wss://v2.media.kukoon.de/ws/v1`,
+	// "apiURL": `https://media.kukoon.de/api/v1`,
+	// "wsURL": `wss://media.kukoon.de/ws/v1`,
 	"apiURL": `${location.protocol}//${location.host}/api/v1`,
 	"wsURL": `ws${location.protocol == 'https:' ? 's' : ''}://${location.host}/ws/v1`,
 	"sourceURL": "https://edge01.media.kukoon.de/stream/stream/{ID}/playlist.m3u8",

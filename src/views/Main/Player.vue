@@ -16,15 +16,11 @@
 </template>
 
 <script>
-import axios from "axios";
-
 import VideoPlayerWrapper from "@/components/VideoPlayerWrapper";
 import VideoList from "@/components/VideoList";
 import Suggestions from "@/components/Suggestions";
 
-import { config } from "../../../config.js";
-
-import { mapGetters } from "vuex";
+import { api } from "@/services/api.js";
 
 export default {
   name: "Player",
@@ -37,10 +33,10 @@ export default {
     return {
       currentID: this.$router.history.current.query.id,
       recording: null,
+      recordings: [],
     };
   },
   computed: {
-    ...mapGetters(["recordings"]),
     suggestions() {
       const result = this.recordings.filter(
         (recording) => recording.id != this.currentID
@@ -49,19 +45,17 @@ export default {
     },
   },
   methods: {
-    loadRecording() {
-      const apiURL =
-        config.apiURL +
-        "/recording/" +
-        this.$router.history.current.query.id +
-        "?lang=de";
-      axios.get(apiURL).then((response) => (this.recording = response.data));
+    load() {
+      api.GetRecording(this.$router.history.current.query.id).then((response) => {
+        this.recording = response.data;
+        api.ListRecordingsSuggestion(response.data).then((response) => (this.recordings = response.data))
+      })
     },
   },
   watch: {
     $route(to) {
       this.currentID = to.query.id;
-      this.loadRecording();
+      this.load();
     },
   },
   beforeRouteEnter(to, from, next) {
@@ -72,7 +66,7 @@ export default {
     });
   },
   created() {
-    this.loadRecording();
+    this.load();
     this.currentID = this.$router.history.current.query.id;
   },
 };

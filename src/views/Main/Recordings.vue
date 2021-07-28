@@ -77,6 +77,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { api } from "@/services/api.js";
 
 export default {
   name: "Recordings",
@@ -84,10 +85,11 @@ export default {
     return {
       audioPodcastSrc: "https://media.kukoon.de/rss/kukoon/de/audio_best",
       videoPodcastSrc: "https://media.kukoon.de/rss/kukoon/de/video_best",
+      recordings: [],
     };
   },
   computed: {
-    ...mapGetters(["darkMode", "recordings"]),
+    ...mapGetters(["darkMode"]),
     // Returns an array of unique channels
     channels() {
       const channels = Array.from(
@@ -101,10 +103,13 @@ export default {
     },
   },
   methods: {
+    loadRecordings() {
+      api.ListRecordings().then((response) => (this.recordings = response.data))
+    },
     openPodcast() {},
   },
   created() {
-    this.$store.dispatch("loadRecordings");
+    this.loadRecordings();
   },
 };
 </script>

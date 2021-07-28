@@ -19,7 +19,7 @@ export default {
   name: "Main",
   components: { NavBar, NavDrawer },
   created() {
-    this.$store.dispatch("loadRecordings");
+    // this.$store.dispatch("language");
   },
 };
 </script>

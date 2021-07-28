@@ -3,11 +3,10 @@
 </template>
 
 <script>
-import axios from "axios";
-
 import VideoPlayer from "@/components/VideoPlayer";
 
-import { config } from "../../config.js";
+import { config } from "../../config.js"; // HLS url
+import { api } from "@/services/api.js";
 import { websocket } from "@/services/websocket.js";
 
 export default {
@@ -22,12 +21,21 @@ export default {
     };
   },
   methods: {
-    loadStream() {
-      const apiURL =
-        config.apiURL + "/stream/" + this.$router.history.current.query.id;
-      axios.get(apiURL).then((response) => {
+    load() {
+      api.GetStream(this.$router.history.current.query.id).then((response) => {
+        // skip websocket binding on existing stream
+        if (this.video == null || response.data.channel.id != this.video.channel.id) {
+          websocket.joinHandler(response.data.channel.id, 'status', (ev) => {
+            this.video.viewers = ev.viewers;
+            if (ev.stream != this.video.id) {
+              console.log("new stream description", ev.stream, this.video.channel.id)
+              this.loadStream()
+            }
+            this.video.running = ev.running;
+          })
+        }
+        // update description 
         this.video = response.data;
-        websocket.join(this.video.channel.id)
         this.source = config.sourceURL.replace("{ID}", this.video.channel.id);
       });
     },
@@ -35,7 +43,7 @@ export default {
   watch: {
     $route(to) {
       this.currentID = to.query.id;
-      this.loadStream();
+      this.load();
     },
   },
   created() {

@@ -9,7 +9,7 @@
         class="flex-grow-0"
       ></v-img>
     </router-link>
-    <!-- <v-toolbar-title link to="/">v2.media.kukoon.de</v-toolbar-title> -->
+    <!-- <v-toolbar-title link to="/">media.kukoon.de</v-toolbar-title> -->
     <v-spacer></v-spacer>
     <v-btn
       text

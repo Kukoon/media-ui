@@ -18,16 +18,13 @@
 </template>
 
 <script>
-import axios from "axios";
-
 import ChatBox from "@/components/ChatBox";
 import VideoPlayerWrapper from "@/components/VideoPlayerWrapper";
 import VideoList from "@/components/VideoList";
 import Suggestions from "@/components/Suggestions";
 
-import { mapGetters } from "vuex";
-
-import { config } from "../../../config.js";
+import { config } from "../../../config.js"; // HLS url
+import { api } from "@/services/api.js";
 import { websocket } from "@/services/websocket.js";
 
 export default {
@@ -46,10 +43,10 @@ export default {
       tagsPosition: "top",
       currentID: null,
       isRunning: true,
+      recordings: [],
     };
   },
   computed: {
-    ...mapGetters(["recordings"]),
     suggestions() {
       const result = this.recordings.filter(
         (recording) => recording.id != this.currentID
@@ -58,13 +55,8 @@ export default {
     },
   },
   methods: {
-    loadStream() {
-      const apiURL =
-        config.apiURL +
-        "/stream/" +
-        this.$router.history.current.query.id +
-        "?lang=de";
-      axios.get(apiURL).then((response) => {
+    load() {
+      api.GetStream(this.$router.history.current.query.id).then((response) => {
         // skip websocket binding on existing stream
         if (this.video == null || response.data.channel.id != this.video.channel.id) {
           websocket.joinHandler(response.data.channel.id, 'status', (ev) => {
@@ -79,19 +71,21 @@ export default {
         // update description 
         this.video = response.data;
         this.source = config.sourceURL.replace("{ID}", this.video.channel.id);
+        // load for suggestion
+        api.ListRecordingsSuggestion(response.data).then((response) => (this.recordings = response.data))
       });
     },
   },
   watch: {
     $route(to) {
       this.currentID = to.query.id;
-      this.loadStream();
+      this.load();
     },
   },
   created() {
     this.$store.commit("autoPlay", true);
     this.currentID = this.$router.history.current.query.id;
-    this.loadStream();
+    this.load();
   },
 };
 </script>
