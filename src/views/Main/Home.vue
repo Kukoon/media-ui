@@ -1,10 +1,10 @@
 <template>
   <v-container fluid id="Home">
-    <v-row v-if="streams.length > 0" class="mb-12">
+    <v-row v-if="streamsLive.length > 0" class="mb-12">
       <v-col>
         <h1 class="px-2 headline">Live</h1>
         <v-divider class="mx-2 mb-2 mt-2" />
-        <VideoList :videos="streams" />
+        <VideoList :videos="streamsLive" />
       </v-col>
     </v-row>
     <v-row v-if="recordings.length > 0" class="mb-12">
@@ -29,12 +29,12 @@ export default {
   data() {
     return {
       recordings: [],
-      streams: [],
+      streamsLive: [],
     }
   },
   methods: {
     load() {
-      //api.ListStreams({"running": true}).then((response) => (this.streams = response.data))
+      api.ListStreams({"running": true}).then((response) => (this.streamsLive = response.data))
       api.ListRecordings().then((response) => (this.recordings = response.data))
     },
   },
