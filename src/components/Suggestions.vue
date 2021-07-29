@@ -46,5 +46,10 @@ export default {
       this.load()
     },
   },
+  created() {
+     if (this.video) {
+      this.load()
+    }
+  },
 };
 </script>
