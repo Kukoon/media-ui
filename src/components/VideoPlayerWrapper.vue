@@ -41,7 +41,7 @@ export default {
     VideoDescription,
     VideoSubtitle,
   },
-  props: ["video", "viewers", "source"],
+  props: ["video", "source"],
   data() {
     return {
       tagsPosition: "top",

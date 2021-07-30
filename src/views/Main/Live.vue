@@ -48,12 +48,12 @@ export default {
         // skip websocket binding on existing stream
         if (this.video == null || response.data.channel.id != this.video.channel.id) {
           websocket.joinHandler(response.data.channel.id, 'status', (ev) => {
-            this.video.viewers = ev.viewers;
+            this.$set(this.video, 'viewers', ev.viewers);
+            this.$set(this.video, 'running', ev.running);
             if (ev.stream != this.video.id) {
               console.log("new stream description", ev.stream, this.video.channel.id)
               this.load()
             }
-            this.video.running = ev.running;
           })
         }
         // update description 
