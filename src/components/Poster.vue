@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="{ name: 'Player', params: { id: video.id } }"
+    :to="linkTo"
     class="title-link pointer"
     :title="video.lang.title"
     @click.stop="goToTop()"
@@ -13,7 +13,7 @@
     >
       <v-img
         v-ripple="{ class: 'neutral--text', center: true }"
-        :src="preview"
+        :src="video.preview"
         class="white--text align-end"
         gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
         height="100%"
@@ -33,7 +33,7 @@
         <v-img
           v-if="!showPreview"
           v-ripple="{ class: 'neutral--text', center: true }"
-          :src="source"
+          :src="video.poster"
           class="white--text align-end"
           gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
           height="100%"
@@ -57,11 +57,22 @@
 <script>
 export default {
   name: "Poster",
-  props: ["source", "preview", "video"],
+  props: {
+    "video": Object,
+    "isStream": Boolean,
+  },
   data() {
     return {
       showPreview: false,
     };
+  },
+  computed: {
+    linkTo() {
+        if (this.isStream) {
+          return { name: 'Live', params: { id: this.video.channel.id}};
+        }
+        return { name: 'Player',  params: { id: this.video.id} };
+    },
   },
   methods: {
     openVideo(video) {

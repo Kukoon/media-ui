@@ -4,7 +4,7 @@
       <v-col>
         <h1 class="px-2 headline">Live</h1>
         <v-divider class="mx-2 mb-2 mt-2" />
-        <VideoList :videos="streamsLive" />
+        <VideoList :videos="streamsLive" isStream="true" />
       </v-col>
     </v-row>
     <v-row v-if="recordings.length > 0" class="mb-12">

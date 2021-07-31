@@ -1,6 +1,6 @@
 <template>
   <router-link
-    :to="{ name: 'Player', params: { id: video.id } }"
+    :to="linkTo"
     class="title-link px-0 dense-text"
     :title="video.lang.title"
   >
@@ -17,7 +17,19 @@
 <script>
 export default {
   name: "VideoTitle",
-  props: ["video", "dense"],
+  props: {
+    "video": Object,
+    "dense": Boolean,
+    "isStream": Boolean,
+  },
+  computed: {
+    linkTo() {
+        if (this.isStream) {
+          return { name: 'Live', params: { id: this.video.channel.id}};
+        }
+        return { name: 'Player',  params: { id: this.video.id} };
+    },
+  },
 };
 </script>
 

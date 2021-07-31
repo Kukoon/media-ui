@@ -1,12 +1,7 @@
 <template>
   <v-card outlined tile elevation="0" width="100%">
     <v-responsive :aspect-ratio="16 / 9">
-      <Poster
-        :source="video.poster"
-        :video="video"
-        :preview="video.preview"
-        :title="video.lang.title"
-      />
+      <Poster :video="video" />
     </v-responsive>
     <VideoTitle :video="video" :dense="dense" />
     <VideoSubtitle :video="video" :dense="dense" />
