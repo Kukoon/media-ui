@@ -14,10 +14,11 @@
               :aspect-ratio="16 / 9"
               :class="!$vuetify.breakpoint.xsOnly ? 'pl-4 pt-4 pr-2' : null"
             >
-              <Poster :video="video" :isStream="isStream" />
+              <Poster :video="video" :noLink="noLink" :isStream="isStream" />
             </v-responsive>
             <VideoTitle
               :video="video"
+              :noLink="noLink"
               :isStream="isStream"
               v-if="$vuetify.breakpoint.xsOnly"
               :class="$vuetify.breakpoint.xsOnly ? 'pt-4' : null"
@@ -55,7 +56,7 @@
             height="100%"
             style="border-left: none"
           >
-            <VideoTitle :video="video" :isStream="isStream" class="d-none d-sm-flex ml-n1" />
+            <VideoTitle :video="video" :noLink="noLink" :isStream="isStream" class="d-none d-sm-flex ml-n1" />
             <VideoSubtitle :video="video" class="d-none d-sm-flex ml-n1" />
             <VideoDescription
               :video="video"
@@ -92,7 +93,7 @@ export default {
     Tags,
     Speakers,
   },
-  props: ["videos", "isStream"],
+  props: ["videos", "noLink", "isStream"],
   data: () => ({
     selected: [],
   }),

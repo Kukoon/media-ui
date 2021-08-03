@@ -1,9 +1,9 @@
 <template>
   <v-card outlined tile elevation="0" width="100%">
     <v-responsive :aspect-ratio="16 / 9">
-      <Poster :video="video" />
+      <Poster :video="video" :noLink="noLink" :isStream="isStream" />
     </v-responsive>
-    <VideoTitle :video="video" :dense="dense" />
+    <VideoTitle :video="video" :noLink="noLink" :isStream="isStream" :dense="dense" />
     <VideoSubtitle :video="video" :dense="dense" />
     <v-expansion-panels flat tile>
       <v-expansion-panel>
@@ -49,7 +49,7 @@ export default {
     VideoTitle,
     VideoSubtitle,
   },
-  props: ["video"],
+  props: ["video", "noLink", "isStream"],
   data() {
     return {
       tagsPosition: "top",

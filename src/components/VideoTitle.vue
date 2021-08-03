@@ -3,6 +3,7 @@
     :to="linkTo"
     class="title-link px-0 dense-text"
     :title="video.lang.title"
+    :tag="noLink? 'span' : 'a'"
   >
     <v-card-title
       v-if="video.lang"
@@ -20,10 +21,14 @@ export default {
   props: {
     "video": Object,
     "dense": Boolean,
+    "noLink": Boolean,
     "isStream": Boolean,
   },
   computed: {
     linkTo() {
+        if (this.noLink) {
+          return '';
+        }
         if (this.isStream) {
           return { name: 'Live', params: { id: this.video.channel.id}};
         }

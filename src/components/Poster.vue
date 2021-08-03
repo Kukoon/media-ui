@@ -1,9 +1,10 @@
 <template>
   <router-link
     :to="linkTo"
-    class="title-link pointer"
+    :class="noLink ? '': 'title-link pointer'"
     :title="video.lang.title"
     @click.stop="goToTop()"
+    :tag="noLink? 'span' : 'a'"
   >
     <div
       style="height: 100%; position: relative"
@@ -59,6 +60,7 @@ export default {
   name: "Poster",
   props: {
     "video": Object,
+    "noLink": Boolean,
     "isStream": Boolean,
   },
   data() {
@@ -68,6 +70,9 @@ export default {
   },
   computed: {
     linkTo() {
+        if (this.noLink) {
+          return '';
+        }
         if (this.isStream) {
           return { name: 'Live', params: { id: this.video.channel.id}};
         }

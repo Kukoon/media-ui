@@ -6,6 +6,8 @@
           v-for="(video, n) in videos"
           :key="video + n"
           :video="video"
+          :noLink="noLink"
+          :isStream="isStream"
           class="mb-4"
         />
       </masonry>
@@ -21,6 +23,6 @@ export default {
   components: {
     PreviewCard,
   },
-  props: ["videos"],
+  props: ["videos", "noLink", "isStream"],
 };
 </script>
