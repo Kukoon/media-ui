@@ -4,11 +4,7 @@
       <v-col cols="12" md="8" class="d-flex flex-column">
         <VideoPlayerWrapper :video="video" class="mx-n2" />
       </v-col>
-      <v-col cols="12" md="4" xl="3">
-        <h3 class="mx-2 mt-2">Suggestions</h3>
-        <v-divider class="mx-2 mb-4 mt-2" />
-        <Suggestions class="hidden-sm-and-down" :video="video" />
-      </v-col>
+      <Suggestions cols="12" md="4" xl="3" :video="video" />
       <v-col cols="0" md="0" xl="1" />
     </v-row>
   </v-container>

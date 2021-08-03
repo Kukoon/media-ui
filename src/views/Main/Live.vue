@@ -7,11 +7,12 @@
       <v-col cols="12" md="4" v-if="video !== null && video.chat">
         <ChatBox class="ma-2" :room="video.channel.id" />
       </v-col>
-      <v-col cols="12" md="4" v-if="video === null || !video.chat">
-        <h3 class="mx-2 mt-2">Suggestions</h3>
-        <v-divider class="mx-2 mb-4 mt-2" />
-        <Suggestions class="hidden-sm-and-down" :video="video" />
-      </v-col>
+      <Suggestions
+        cols="12"
+        md="4"
+        v-if="video === null || !video.chat"
+        :video="video"
+       />
     </v-row>
   </v-container>
 </template>
