@@ -35,6 +35,7 @@
               :tags="video.tags"
               :event="video.event"
               :duration="video.duration"
+              :running="video.running"
               :viewers="video.viewers"
               :class="$vuetify.breakpoint.xsOnly ? 'px-4' : 'pb-4 px-4'"
             />
