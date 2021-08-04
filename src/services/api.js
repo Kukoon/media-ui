@@ -20,7 +20,7 @@ function getSearchParams(params) {
 
 export const api = {
 	ListStreams(params) {
-		params = (typeof params !== 'undefined') ? params : {};
+		params = Object.assign({}, params);
 		if (!params["lang"]) {
 			params["lang"] = store.getters.language
 		}
@@ -40,7 +40,7 @@ export const api = {
 		return this.ListRecordings(params)
         },
 	ListRecordings(params) {
-		params = (typeof params !== 'undefined') ? params : {};
+		params = Object.assign({}, params);
 		if (!params["lang"]) {
 			params["lang"] = store.getters.language
 		}
@@ -53,7 +53,7 @@ export const api = {
 		return axios.get(url)
 	},
 	ListTags(params) {
-		params = (typeof params !== 'undefined') ? params : {};
+		params = Object.assign({}, params);
 		if (!params["lang"]) {
 			params["lang"] = store.getters.language
 		}
