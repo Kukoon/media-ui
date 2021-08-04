@@ -37,4 +37,21 @@ export const api = {
 		var url = new URL(config.apiURL + "/recording/" + id + "?lang=" + store.getters.language)
 		return axios.get(url)
 	},
+	ListTags(params) {
+		params = (typeof params !== 'undefined') ? params : {};
+		if (!params["lang"]) {
+			params["lang"] = store.getters.language
+		}
+		const query = new URLSearchParams(params)
+		var url = new URL(config.apiURL + "/tags?"+query.toString());
+		return axios.get(url)
+	},
+	ListSpeakers() {
+		var url = new URL(config.apiURL + "/speakers");
+		return axios.get(url)
+	},
+	ListEvents() {
+		var url = new URL(config.apiURL + "/events");
+		return axios.get(url)
+	},
 }
