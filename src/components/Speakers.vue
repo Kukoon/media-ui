@@ -9,7 +9,7 @@
       color="accent"
       label
       :title="speaker.organisation"
-      :to="{ name: 'VideoList', query: { speaker: speaker.id } }"
+      :to="{ name: filterView, query: { speaker: speaker.id } }"
     >
       <v-icon small left> mdi-account </v-icon>
       <span style="margin-bottom: -2px">{{ speaker.name }}</span>
@@ -20,5 +20,8 @@
 export default {
   name: "Speakers",
   props: ["speakers"],
+  computed: {
+    filterView() {return this.$router.history.current.name == 'VideoGrid'?'VideoGrid':'VideoList';},
+  },
 };
 </script>
