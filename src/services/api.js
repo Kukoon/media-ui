@@ -3,13 +3,28 @@ import axios from 'axios';
 import { config } from "../../config.js";
 import { store } from "./store.js";
 
+function getSearchParams(params) {
+	var ret = [];
+	Object.keys(params).forEach((key) =>{
+		const value = params[key]
+		if (Array.isArray(value)){
+			value.forEach((el) => {
+				ret.push([key,el])
+			})
+		} else {
+			ret.push([key,value])
+		}
+	})
+	return new URLSearchParams(ret)
+}
+
 export const api = {
 	ListStreams(params) {
 		params = (typeof params !== 'undefined') ? params : {};
 		if (!params["lang"]) {
 			params["lang"] = store.getters.language
 		}
-		const query = new URLSearchParams(params)
+		const query = getSearchParams(params)
 		var url = new URL(config.apiURL + "/streams?"+query.toString());
 		return axios.get(url)
 	},
@@ -29,7 +44,7 @@ export const api = {
 		if (!params["lang"]) {
 			params["lang"] = store.getters.language
 		}
-		const query = new URLSearchParams(params)
+		const query = getSearchParams(params)
 		var url = new URL(config.apiURL + "/recordings?"+query.toString());
 		return axios.get(url)
 	},
@@ -42,7 +57,7 @@ export const api = {
 		if (!params["lang"]) {
 			params["lang"] = store.getters.language
 		}
-		const query = new URLSearchParams(params)
+		const query = getSearchParams(params)
 		var url = new URL(config.apiURL + "/tags?"+query.toString());
 		return axios.get(url)
 	},
