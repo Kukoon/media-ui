@@ -8,8 +8,7 @@
         <ChatBox class="ma-2" :room="video.channel.id" />
       </v-col>
       <Suggestions
-        cols="12"
-        md="4"
+        class="col-md-4 col-xl-3 col-12"
         v-if="video === null || !video.chat"
         :video="video"
        />
