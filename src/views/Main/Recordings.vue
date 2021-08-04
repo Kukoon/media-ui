@@ -60,11 +60,11 @@
           group
           :color="darkMode ? 'accent lighten-3' : 'accent'"
         >
-          <v-btn to="../recordings" exact>
+          <v-btn :to="{ name: 'VideoList', query: $router.history.current.query }" exact-path>
             <span>List</span>
             <v-icon right class="pr-2">mdi-view-list</v-icon>
           </v-btn>
-          <v-btn to="../recordings/grid" exact>
+          <v-btn :to="{ name: 'VideoGrid', query: $router.history.current.query }" exact-path>
             <span>Grid</span>
             <v-icon right small class="pr-2">mdi-view-grid</v-icon>
           </v-btn>
