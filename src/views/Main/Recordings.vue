@@ -1,29 +1,8 @@
 <template>
   <v-container fluid id="Recordings">
     <v-row no-gutters class="d-flex align-center mx-2 mb-3">
-      <v-col>
-        <v-tabs
-          :color="darkMode ? 'accent lighten-3' : 'accent'"
-          :background-color="darkMode ? '#121212' : null"
-        >
-          <v-tabs-slider
-            :color="darkMode ? 'accent lighten-3' : 'accent'"
-          ></v-tabs-slider>
-          <v-tab v-for="(channel, id) in channels" :key="channel + id">
-            {{ channel.title }}
-          </v-tab>
-        </v-tabs>
-      </v-col>
-      <v-col>
-        <v-card
-          tile
-          flat
-          class="d-flex"
-          :color="darkMode ? '#121212' : null"
-          :class="[
-            $vuetify.breakpoint.xsOnly ? 'justify-end' : 'justify-center',
-          ]"
-        >
+      <v-col class="justify-start">
+        <v-card tile flat class="d-flex" :color="darkMode ? '#121212' : null">
           <v-btn
             tile
             depressed
@@ -52,6 +31,19 @@
       </v-col>
       <v-col class="d-none d-sm-flex justify-end">
         <v-btn-toggle
+          :color="darkMode ? 'accent lighten-3' : 'accent'"
+          tile
+          class="my-1"
+          borderless
+          dense
+          group
+        >
+          <v-btn @click="showFilter = !showFilter">
+            <span>Filter</span>
+            <v-icon right class="pr-2">mdi-filter-variant</v-icon>
+          </v-btn>
+        </v-btn-toggle>
+        <v-btn-toggle
           mandatory
           dense
           class="my-1 mr-n1 align-self-center"
@@ -60,60 +52,63 @@
           group
           :color="darkMode ? 'accent lighten-3' : 'accent'"
         >
-          <v-btn :to="{ name: 'VideoList', query: $router.history.current.query }" exact-path>
+          <v-btn
+            :to="{ name: 'VideoList', query: $router.history.current.query }"
+            exact-path
+          >
             <span>List</span>
             <v-icon right class="pr-2">mdi-view-list</v-icon>
           </v-btn>
-          <v-btn :to="{ name: 'VideoGrid', query: $router.history.current.query }" exact-path>
+          <v-btn
+            :to="{ name: 'VideoGrid', query: $router.history.current.query }"
+            exact-path
+          >
             <span>Grid</span>
             <v-icon right small class="pr-2">mdi-view-grid</v-icon>
           </v-btn>
         </v-btn-toggle>
       </v-col>
     </v-row>
-    <v-row no-gutters class="d-flex align-center mx-2 mb-3">
+    <v-row no-gutters class="d-flex align-center mx-2 py-2" v-if="showFilter">
       <v-col cols="4">
         <v-autocomplete
+          class="mr-2 pt-1"
           label="Events"
           :items="events"
           item-text="name"
           item-value="id"
           v-model="eventsFilter"
-          dense
-          chips
           small-chips
           clearable
-         >
+        >
         </v-autocomplete>
       </v-col>
       <v-col cols="4">
         <v-autocomplete
+          class="mx-2 pt-1"
           label="Tags"
           :items="tags"
           item-text="lang.name"
           item-value="id"
           v-model="tagsFilter"
-          dense
-          chips
           small-chips
           deletable-chips
           multiple
-         >
+        >
         </v-autocomplete>
       </v-col>
       <v-col cols="4">
         <v-autocomplete
+          class="ml-2 pt-1"
           label="Speakers"
           :items="speakers"
           item-text="name"
           item-value="id"
           v-model="speakersFilter"
-          dense
-          chips
           small-chips
           deletable-chips
           multiple
-         >
+        >
         </v-autocomplete>
       </v-col>
     </v-row>
@@ -135,6 +130,7 @@ export default {
       tags: [],
       speakers: [],
       events: [],
+      showFilter: false,
     };
   },
   computed: {
@@ -152,54 +148,69 @@ export default {
     },
     tagsFilter: {
       cache: false,
-      get() { return this.filterGet("tag")},
-      set(newValue) { this.filterSet("tag", newValue)},
+      get() {
+        return this.filterGet("tag");
+      },
+      set(newValue) {
+        this.filterSet("tag", newValue);
+      },
     },
     speakersFilter: {
       cache: false,
-      get() { return this.filterGet("speaker")},
-      set(newValue) { this.filterSet("speaker", newValue)},
+      get() {
+        return this.filterGet("speaker");
+      },
+      set(newValue) {
+        this.filterSet("speaker", newValue);
+      },
     },
     eventsFilter: {
       cache: false,
-      get() { return this.filterGet("event")},
-      set(newValue) { this.filterSet("event", newValue)},
+      get() {
+        return this.filterGet("event");
+      },
+      set(newValue) {
+        this.filterSet("event", newValue);
+      },
     },
   },
   methods: {
     filterGet(key) {
-        return this.$router.history.current.query[key] ? this.$router.history.current.query[key] : [];
+      return this.$router.history.current.query[key]
+        ? this.$router.history.current.query[key]
+        : [];
     },
     filterSet(key, value) {
-	var query = Object.assign({}, this.$router.history.current.query);
-        if (value) {
-          query[key] = value;
-        } else {
-          delete query[key]
-        }
-        console.log("from", this.$router.history.current, "to", query);
-        this.$router.push({
-          name: this.$router.history.current.name,
-          query: query,
-        });
-      
+      var query = Object.assign({}, this.$router.history.current.query);
+      if (value) {
+        query[key] = value;
+      } else {
+        delete query[key];
+      }
+      console.log("from", this.$router.history.current, "to", query);
+      this.$router.push({
+        name: this.$router.history.current.name,
+        query: query,
+      });
     },
     loadFilterData() {
-      api.ListTags().then((response) => (this.tags = response.data))
-      api.ListEvents().then((response) => (this.events = response.data))
-      api.ListSpeakers().then((response) => (this.speakers = response.data))
+      api.ListTags().then((response) => (this.tags = response.data));
+      api.ListEvents().then((response) => (this.events = response.data));
+      api.ListSpeakers().then((response) => (this.speakers = response.data));
     },
     load() {
-      api.ListRecordings(this.$router.history.current.query).then((response) => (this.recordings = response.data))
+      api
+        .ListRecordings(this.$router.history.current.query)
+        .then((response) => (this.recordings = response.data));
     },
     openPodcast() {},
   },
   watch: {
     $route() {
       this.load();
-      this.$forceCmpile('tagsFilter');
-      this.$forceCmpile('speakersFilter');
-      this.$forceCmpile('eventsFilter');
+      this.$forceCmpile("tagsFilter");
+      this.$forceCmpile("speakersFilter");
+      this.$forceCmpile("eventsFilter");
     },
   },
   created() {
