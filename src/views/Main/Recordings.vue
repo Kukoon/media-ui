@@ -38,7 +38,7 @@
           dense
           group
         >
-          <v-btn @click="showFilter = !showFilter">
+          <v-btn v-model="showFilter">
             <span>Filter</span>
             <v-icon right class="pr-2">mdi-filter-variant</v-icon>
           </v-btn>
@@ -208,14 +208,15 @@ export default {
   watch: {
     $route() {
       this.load();
-      this.$forceCmpile("tagsFilter");
-      this.$forceCmpile("speakersFilter");
-      this.$forceCmpile("eventsFilter");
+      this.showFilter =
+        Object.keys(this.$router.history.current.query).length != 0;
     },
   },
   created() {
     this.loadFilterData();
     this.load();
+    this.showFilter =
+      Object.keys(this.$router.history.current.query).length != 0;
   },
 };
 </script>
