@@ -149,7 +149,7 @@ export default {
     tagsFilter: {
       cache: false,
       get() {
-        return this.filterGet("tag");
+        return this.filterGet("tag", true);
       },
       set(newValue) {
         this.filterSet("tag", newValue);
@@ -158,7 +158,7 @@ export default {
     speakersFilter: {
       cache: false,
       get() {
-        return this.filterGet("speaker");
+        return this.filterGet("speaker", true);
       },
       set(newValue) {
         this.filterSet("speaker", newValue);
@@ -167,7 +167,7 @@ export default {
     eventsFilter: {
       cache: false,
       get() {
-        return this.filterGet("event");
+        return this.filterGet("event", false);
       },
       set(newValue) {
         this.filterSet("event", newValue);
@@ -175,10 +175,15 @@ export default {
     },
   },
   methods: {
-    filterGet(key) {
-      return this.$router.history.current.query[key]
-        ? this.$router.history.current.query[key]
-        : [];
+    filterGet(key, needArray) {
+      if(this.$router.history.current.query[key]) {
+          const v = this.$router.history.current.query[key];
+          if(!Array.isArray(v) && needArray) {
+            return [v]
+          }
+          return v
+      }
+      return [];
     },
     filterSet(key, value) {
       var query = Object.assign({}, this.$router.history.current.query);
