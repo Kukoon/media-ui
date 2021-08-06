@@ -37,8 +37,9 @@
           borderless
           dense
           group
+          v-model="showFilterGroup"
         >
-          <v-btn v-model="showFilter">
+          <v-btn>
             <span>Filter</span>
             <v-icon right class="pr-2">mdi-filter-variant</v-icon>
           </v-btn>
@@ -146,6 +147,10 @@ export default {
         .map((el) => el.channel);
       return channels;
     },
+    showFilterGroup: {
+      get() { return this.showFilter ? 0 : undefined; },
+      set(v) { this.showFilter = v == 0 ? true : false },
+    },
     tagsFilter: {
       cache: false,
       get() {
@@ -211,19 +216,17 @@ export default {
     openPodcast() {},
   },
   watch: {
-    $route() {
+    $route(to) {
       this.load();
       this.showFilter =
-        Object.keys(this.$router.history.current.query).length !== 0;
+        Object.keys(to.query).length !== 0;
     },
   },
   created() {
     this.loadFilterData();
     this.load();
-    this.$nextTick(() => {
-      this.showFilter =
-        Object.keys(this.$router.history.current.query).length !== 0;
-    });
+    this.showFilter =
+      Object.keys(this.$router.history.current.query).length !== 0;
   },
 };
 </script>
