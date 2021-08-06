@@ -176,12 +176,12 @@ export default {
   },
   methods: {
     filterGet(key, needArray) {
-      if(this.$router.history.current.query[key]) {
-          const v = this.$router.history.current.query[key];
-          if(!Array.isArray(v) && needArray) {
-            return [v]
-          }
-          return v
+      if (this.$router.history.current.query[key]) {
+        const v = this.$router.history.current.query[key];
+        if (!Array.isArray(v) && needArray) {
+          return [v];
+        }
+        return v;
       }
       return [];
     },
@@ -214,14 +214,16 @@ export default {
     $route() {
       this.load();
       this.showFilter =
-        Object.keys(this.$router.history.current.query).length != 0;
+        Object.keys(this.$router.history.current.query).length !== 0;
     },
   },
   created() {
     this.loadFilterData();
     this.load();
-    this.showFilter =
-      Object.keys(this.$router.history.current.query).length != 0;
+    this.$nextTick(() => {
+      this.showFilter =
+        Object.keys(this.$router.history.current.query).length !== 0;
+    });
   },
 };
 </script>
