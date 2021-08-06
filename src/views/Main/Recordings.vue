@@ -70,7 +70,7 @@
         </v-btn-toggle>
       </v-col>
     </v-row>
-    <v-row no-gutters class="d-flex align-center mx-2 py-2" v-if="showFilter">
+    <v-row no-gutters class="d-flex align-center mx-2 pb-2" v-if="showFilter">
       <v-col cols="4">
         <v-autocomplete
           class="mr-2 pt-1"
@@ -81,6 +81,8 @@
           v-model="eventsFilter"
           small-chips
           clearable
+          filled
+          dense
         >
         </v-autocomplete>
       </v-col>
@@ -95,6 +97,8 @@
           small-chips
           deletable-chips
           multiple
+          filled
+          dense
         >
         </v-autocomplete>
       </v-col>
@@ -109,6 +113,8 @@
           small-chips
           deletable-chips
           multiple
+          filled
+          dense
         >
         </v-autocomplete>
       </v-col>

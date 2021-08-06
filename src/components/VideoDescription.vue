@@ -4,7 +4,7 @@
       <td v-html="markedDesc"></td>
     </v-card-text>
     <div v-if="tagsPosition">
-      <BTNVideoDownload :sources="video.formats"/>
+      <BTNVideoDownload :sources="video.formats" class="mt-1" />
       <Speakers :speakers="video.speakers" />
       <Tags
         :tags="video.tags"
