@@ -16,6 +16,11 @@ import AdminBar from "@/components/AdminBar";
 export default {
   name: "Admin",
   components: { Drawer, AdminBar },
+  mounted() {
+    if(!this.$store.getters.loggedin) {
+      this.$router.replace({ name: "Login" });
+    }
+  },
   created() {
     this.$store.commit("toggleDarkMode", true);
     this.$vuetify.theme.dark = this.$store.getters.darkMode;

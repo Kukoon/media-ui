@@ -69,4 +69,8 @@ export const api = {
 		var url = new URL(config.apiURL + "/events");
 		return axios.get(url)
 	},
+	Login(username, password) {
+		var url = new URL(config.apiURL + "/auth/login");
+		return axios.post(url, {username: username, password: password})
+	},
 }
