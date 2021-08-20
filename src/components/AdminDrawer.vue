@@ -25,7 +25,7 @@
 
     <template v-slot:append>
       <div class="pa-2">
-        <v-btn block text color="primary lighten-1"> Logout </v-btn>
+        <v-btn block text color="primary lighten-1" @click="logout"> Logout </v-btn>
       </div>
     </template>
   </v-navigation-drawer>
@@ -53,6 +53,13 @@ export default {
   },
   methods: {
     ...mapActions(["toggleDrawer"]),
+    logout() {
+      document.cookie.split(';').forEach(function(c) {
+        document.cookie = c.trim().split('=')[0] + '=;' + 'expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+      });
+      this.$store.commit("user", {});
+      this.$router.replace({ name: 'Home' })
+    },
   },
 };
 </script>

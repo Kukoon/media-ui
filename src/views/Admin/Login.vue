@@ -26,6 +26,7 @@
                 v-model="password"
                 :rules="passwordRules"
                 label="Password"
+                type="password"
                 required
               ></v-text-field>
 
@@ -33,7 +34,7 @@
                 class="ml-auto"
                 :disabled="!valid"
                 color="success"
-                @click="validate"
+                @click="login"
               >
                 Login
               </v-btn>
@@ -46,6 +47,9 @@
 </template>
 
 <script>
+
+import { api } from "@/services/api.js";
+
 export default {
   name: "Login",
   data() {
@@ -60,6 +64,22 @@ export default {
       password: "",
       passwordRules: [(v) => !!v || "Password is required"],
     };
+  },
+  methods: {
+    login () {
+      api.Login(this.name, this.password)
+	.then(resp => {
+           this.$store.commit("user", resp.data);
+           this.$router.replace({ name: "Admin" });
+           this.$refs.form.reset()
+	})
+	.catch(() => this.$refs.form.reset())
+    },
+  },
+  mounted() {
+    if(this.$store.getters.loggedin) {
+      this.$router.replace({ name: "Admin" });
+    }
   },
 };
 </script>

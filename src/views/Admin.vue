@@ -13,9 +13,22 @@
 import Drawer from "@/components/AdminDrawer";
 import AdminBar from "@/components/AdminBar";
 
+import { store } from "@/services/store.js";
+
 export default {
   name: "Admin",
   components: { Drawer, AdminBar },
+  beforeRouteEnter(to, from, next) {
+    store.dispatch('getLoginStatus').then(() => {
+      if(!store.getters.loggedin) {
+        next(vm => vm.$router.replace({ name: "Login" }));
+      } else {
+        next()
+      }
+    }).catch(() => {
+        next(vm => vm.$router.replace({ name: "Login" }));
+    })
+  },
   created() {
     this.$store.commit("toggleDarkMode", true);
     this.$vuetify.theme.dark = this.$store.getters.darkMode;
