@@ -1,6 +1,10 @@
 export const config = {
 	"apiURL": `${location.protocol}//${location.host}/api/v1`,
 	"wsURL": `ws${location.protocol == 'https:' ? 's' : ''}://${location.host}/ws/v1`,
+	"ingressURL": {
+		"rtmp": "rtmp://ingress.media.kukoon.de/stream/{ID}",
+		"ws": "wss://edge01.media.kukoon.de/stream/ws/stream/{ID}?direction=send&transport=tcp",
+	},
 	"sourceURL": "https://edge01.media.kukoon.de/stream/stream/{ID}/playlist.m3u8",
 	"defaultChannel": "kukoon",
 	// "defaultChannel": "df1555f5-7046-4f7a-adcc-195b73949723",

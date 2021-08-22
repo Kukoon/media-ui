@@ -24,6 +24,51 @@
       </v-badge>
     </v-form>
     <v-divider class="mt-4 mb-4"/>
+    <h4>Stream Ingress</h4>
+    <v-simple-table dense>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">
+              Description
+            </th>
+            <th class="text-left">
+              Value
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>RTMP Complete Link</td>
+            <td><code>{{ ingressRTMP.replace("{ID}", channel.id) }}</code></td>
+          </tr>
+          <tr>
+            <td>
+              or <br/>
+              RTMP URL
+            </td>
+            <td><code>{{ ingressRTMP.replace("{ID}","") }}</code></td>
+          </tr>
+          <tr>
+            <td>Secret</td>
+            <td><code>{{ channel.id }}</code></td>
+          </tr>
+          <tr>
+            <td>
+              or <br/>
+              Stream from Browser, by using this WebRTC-URL in Input like
+              <a href="https://demo.ovenplayer.com/demo_input.html" target="_blank">
+                OvenPlayer Demo Input
+              </a>
+            </td>
+            <td>
+             <code>{{ ingressWS.replace("{ID}", channel.id) }}</code>
+            </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>   
+    <v-divider class="mt-4 mb-4"/>
     <h4>ReStream / Push</h4>
     <v-simple-table dense>
       <template v-slot:default>
@@ -121,12 +166,15 @@
 import { mapGetters } from "vuex";
 
 import { api } from "@/services/api.js";
+import { config } from "../../config.js"; // HLS ingressURLs
 
 export default {
   name: "ChannelEditor",
   props: ["channel"],
   data() {
      return {
+       ingressRTMP: config.ingressURL.rtmp,
+       ingressWS: config.ingressURL.ws,
        form: {},
        data: this.channel,
        restreams: [],
