@@ -15,7 +15,7 @@
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
-          <v-badge overlap color="red" content="dev" v-if="item.dev"></v-badge>
+          <v-badge overlap color="grey" content="dev" v-if="item.dev"></v-badge>
         </v-list-item-icon>
 
         <v-list-item-content>

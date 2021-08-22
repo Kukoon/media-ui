@@ -18,6 +18,11 @@ function getSearchParams(params) {
 	return new URLSearchParams(ret)
 }
 
+function delay(resp) {
+	return new Promise(resolve => setTimeout(() => resolve(resp), 300));
+}
+
+
 export const api = {
 	ListStreams(params) {
 		params = Object.assign({}, params);
@@ -83,6 +88,6 @@ export const api = {
 		return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/restream"), data)
 	},
 	RestreamDelete(channelID, id){
-		return axios.delete(new URL(config.apiURL + "/channel/"+channelID+"/restream/"+id))
+		return axios.delete(new URL(config.apiURL + "/channel/"+channelID+"/restream/"+id)).then(delay)
 	},
 }

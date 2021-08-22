@@ -16,10 +16,10 @@
         label="Logo (URL to an logo)"
         v-model="data.logo"
       ></v-text-field>
-      <v-badge overlap color="red" content="dev">
-        <v-btn disabled class="ml-auto" color="primary lighten-3"> Save </v-btn>
+      <v-badge overlap color="grey" content="dev">
+        <v-btn disabled class="ml-auto" color="green lighten-3"> Save </v-btn>
       </v-badge>
-      <v-badge overlap color="red" content="dev">
+      <v-badge overlap color="grey" content="dev">
         <v-btn disabled outlined color="error darken-1"> Delete </v-btn>
       </v-badge>
     </v-form>
@@ -66,7 +66,54 @@
           </tr>
         </tbody>
       </template>
-    </v-simple-table>    
+    </v-simple-table>   
+    <v-form>
+      <v-container>
+        <v-row>
+          <v-col
+            cols="12"
+            md="12"
+          >
+            <v-text-field
+              v-model="restreamForm.name"
+              label="Name"
+              required
+            ></v-text-field>
+          </v-col> 
+          <v-col
+            cols="12"
+            md="4"
+          >
+            <v-text-field
+              v-model="restreamForm.protocol"
+              label="Protocol"
+              required
+            ></v-text-field>
+          </v-col> 
+          <v-col
+            cols="12"
+            md="8"
+          >
+            <v-text-field
+              v-model="restreamForm.url"
+              label="URL"
+              required
+            ></v-text-field>
+          </v-col> 
+          <v-col
+            cols="12"
+            md="12"
+          >
+            <v-text-field
+              v-model="restreamForm.secret"
+              label="Secret"
+              required
+            ></v-text-field>
+            <v-btn class="ml-auto" color="green" @click="addRestream"> Add </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-form> 
   </div>
 </template>
 
@@ -83,6 +130,10 @@ export default {
        form: {},
        data: this.channel,
        restreams: [],
+       restreamFormDefault: {
+         protocol: "rtmp",
+         url: "rtmp://a.rtmp.youtube.com/live2",
+       },
        restreamForm: {},
      }
   },
@@ -94,7 +145,10 @@ export default {
       api.ListRestreams(this.data.id).then(resp => this.restreams = resp.data).catch(()=>{ this.restreams = []})
     },
     addRestream() {
-      api.RestreamAdd(this.data.id, this.restreamForm).then(this.loadRestream)
+      api.RestreamAdd(this.data.id, this.restreamForm).then(()=> {
+        this.restreamForm = Object.assign({}, this.restreamFormDefault)
+        this.loadRestream()
+      })
     },
     deleteRestream(id) {
       api.RestreamDelete(this.data.id, id).then(this.loadRestream)
@@ -102,11 +156,13 @@ export default {
   },
   watch: {
     channel(to) {
+      this.restreamForm = Object.assign({}, this.restreamFormDefault)
       this.data = to;
       this.loadRestream();
     },
   },
   mounted() {
+    this.restreamForm = Object.assign({}, this.restreamFormDefault)
     this.loadRestream()
   },
 };
