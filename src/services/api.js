@@ -73,4 +73,16 @@ export const api = {
 		var url = new URL(config.apiURL + "/auth/login");
 		return axios.post(url, {username: username, password: password})
 	},
+	ListMyChannels(){
+		return axios.get(new URL(config.apiURL + "/my/channels"))
+	},
+	ListRestreams(channelID){
+		return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/restreams"))
+	},
+	RestreamAdd(channelID, data){
+		return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/restream"), data)
+	},
+	RestreamDelete(channelID, id){
+		return axios.delete(new URL(config.apiURL + "/channel/"+channelID+"/restream/"+id))
+	},
 }

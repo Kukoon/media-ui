@@ -15,6 +15,7 @@
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
+          <v-badge overlap color="red" content="dev" v-if="item.dev"></v-badge>
         </v-list-item-icon>
 
         <v-list-item-content>
@@ -39,12 +40,13 @@ export default {
   data() {
     return {
       items: [
-        { title: "Stream", icon: "mdi-broadcast" },
-        { title: "Chat", icon: "mdi-chat" },
-        { title: "Videos", icon: "mdi-video" },
-        { title: "Stats", icon: "mdi-chart-timeline-variant" },
-        { title: "Server", icon: "mdi-server" },
-        { title: "About", icon: "mdi-information" },
+        { title: "Channels", icon: "mdi-broadcast" },
+        { title: "Stream", icon: "mdi-calendar", dev: true },
+        { title: "Chat", icon: "mdi-chat", dev: true },
+        { title: "Videos", icon: "mdi-video", dev: true },
+        { title: "Stats", icon: "mdi-chart-timeline-variant", dev: true },
+        { title: "Server", icon: "mdi-server", dev: true },
+        { title: "About", icon: "mdi-information", dev: true },
       ],
     };
   },

@@ -3,6 +3,7 @@ import VueRouter from "vue-router"
 
 // Admin Views
 import Admin from "@/views/Admin.vue"
+import Channels from "@/views/Admin/Channels.vue"
 import Stream from "@/views/Admin/Stream.vue"
 import Chat from "@/views/Admin/Chat.vue"
 import Videos from "@/views/Admin/Videos.vue"
@@ -73,6 +74,11 @@ const routes = [
 		name: "Admin",
 		component: Admin,
 		children: [
+			{
+				path: "",
+				name: "Channels",
+				component: Channels
+			},
 			{
 				path: "stream",
 				name: "Stream",
