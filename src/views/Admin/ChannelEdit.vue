@@ -100,8 +100,8 @@ export default {
   methods: {
     load() {
       api
-        .ListMyChannels()
-        .then((response) => (this.channel = response.data.find((el) => el.id == this.channelid)));
+        .GetChannel(this.channelid)
+        .then((response) => (this.channel = response.data));
     },
   },
   watch: {
