@@ -4,6 +4,7 @@ import VueRouter from "vue-router"
 // Admin Views
 import Admin from "@/views/Admin.vue"
 import Channels from "@/views/Admin/Channels.vue"
+import Restream from "@/views/Admin/Restream.vue"
 import Stream from "@/views/Admin/Stream.vue"
 import Chat from "@/views/Admin/Chat.vue"
 import Videos from "@/views/Admin/Videos.vue"
@@ -26,6 +27,29 @@ import VideoGrid from "@/components/VideoGrid.vue"
 import VideoList from "@/components/VideoList.vue"
 
 Vue.use(VueRouter)
+
+const adminRoutes = [
+                        {
+                                path: "",
+				name: "Channels",
+                                component: Channels,
+                        },
+			{
+				path: "stats",
+				name: "Stats",
+				component: Stats
+			},
+			{
+				path: "server",
+				name: "Server",
+				component: Server
+			},
+			{
+				path: "about",
+				name: "About",
+				component: About
+			}
+];
 
 const routes = [
 	{
@@ -70,15 +94,17 @@ const routes = [
 		]
 	},
 	{
-		path: "/admin",
-		name: "Admin",
+                path: "/admin/:channelid",
+		name: "AdminChannel",
 		component: Admin,
+                props: true,
 		children: [
-			{
-				path: "",
-				name: "Channels",
-				component: Channels
-			},
+                        {
+                                path: "restream",
+				name: "Restream",
+                                component: Restream,
+                                props: true,
+                        },
 			{
 				path: "stream",
 				name: "Stream",
@@ -94,23 +120,14 @@ const routes = [
 				name: "Videos",
 				component: Videos
 			},
-			{
-				path: "stats",
-				name: "Stats",
-				component: Stats
-			},
-			{
-				path: "server",
-				name: "Server",
-				component: Server
-			},
-			{
-				path: "about",
-				name: "About",
-				component: About
-			}
-		]
+                ].concat(adminRoutes)
 	},
+	{
+		path: "/admin",
+		name: "Admin",
+		component: Admin,
+		children: adminRoutes
+        },
 	{
 		path: "/login",
 		component: Login,

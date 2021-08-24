@@ -1,7 +1,7 @@
 <template>
   <div id="Admin">
     <AdminBar />
-    <Drawer />
+    <Drawer :channelid="channelid"/>
 
     <v-main>
       <router-view></router-view>
@@ -17,6 +17,7 @@ import { store } from "@/services/store.js";
 
 export default {
   name: "Admin",
+  props: ["channelid"],
   components: { Drawer, AdminBar },
   beforeRouteEnter(to, from, next) {
     store.dispatch('getLoginStatus').then(() => {

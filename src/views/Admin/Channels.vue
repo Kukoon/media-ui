@@ -4,7 +4,7 @@
       <v-col>
         <h3>Channels</h3>
         <v-divider class="mt-2"></v-divider>
-        <v-expansion-panels accordion tile class="mt-4">
+        <v-expansion-panels tile class="mt-4">
           <v-expansion-panel v-for="(item, n) in channels" :key="n">
             <v-expansion-panel-header>
               {{item.title}}
