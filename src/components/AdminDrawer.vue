@@ -12,6 +12,13 @@
             <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
             <span  v-else>{{ channel.title.slice(0,2) }}</span>
           </v-list-item-avatar>
+          <v-list-item-content v-if="channel">
+          </v-list-item-content>
+          <v-list-item-icon v-if="channel">
+            <v-btn icon class="mr-4" dark :to="{name: 'ChannelEdit'}">
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+          </v-list-item-icon>
           <v-list-item-avatar v-else color="indigo">
             <v-icon>mdi-account-circle</v-icon>
           </v-list-item-avatar>
@@ -30,7 +37,7 @@
             v-for="(channel, i) in channels"
             :key="i"
             link
-            :to="{ name: 'Restream', params: { channelid: channel.id }}"
+            :to="{ name: 'ChannelEdit', params: { channelid: channel.id }}"
           >
             <v-list-item-avatar color="black">
               <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
@@ -109,7 +116,6 @@ export default {
         { title: "Videos", icon: "mdi-video", dev: true },
       ],
       globalMenu: [
-        { title: "Channels", icon: "mdi-broadcast", dev: true },
         { title: "Stats", icon: "mdi-chart-timeline-variant", dev: true },
         { title: "Server", icon: "mdi-server", dev: true },
         { title: "About", icon: "mdi-information", dev: true },

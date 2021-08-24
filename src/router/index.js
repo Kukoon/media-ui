@@ -3,7 +3,7 @@ import VueRouter from "vue-router"
 
 // Admin Views
 import Admin from "@/views/Admin.vue"
-import Channels from "@/views/Admin/Channels.vue"
+import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
 import Restream from "@/views/Admin/Restream.vue"
 import Stream from "@/views/Admin/Stream.vue"
 import Chat from "@/views/Admin/Chat.vue"
@@ -29,11 +29,6 @@ import VideoList from "@/components/VideoList.vue"
 Vue.use(VueRouter)
 
 const adminRoutes = [
-                        {
-                                path: "",
-				name: "Channels",
-                                component: Channels,
-                        },
 			{
 				path: "stats",
 				name: "Stats",
@@ -99,6 +94,12 @@ const routes = [
 		component: Admin,
                 props: true,
 		children: [
+                        {
+                                path: "edit",
+				name: "ChannelEdit",
+                                component: ChannelEdit,
+                                props: true,
+                        },
                         {
                                 path: "restream",
 				name: "Restream",
