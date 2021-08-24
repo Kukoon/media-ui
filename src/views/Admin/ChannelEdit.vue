@@ -4,7 +4,7 @@
       <v-col>
         <h3>Channel</h3>
         <v-divider class="mt-2"></v-divider>
-        <v-form ref="form" lazy-validation class="pa-0 mt-2">
+        <v-form class="pa-0 mt-2" @submit="save()">
           <v-text-field
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Title"
@@ -20,9 +20,7 @@
             label="Logo (URL to an logo)"
             v-model="channel.logo"
           ></v-text-field>
-          <v-badge overlap color="grey" content="dev">
-            <v-btn disabled class="ml-auto" color="green lighten-3"> Save </v-btn>
-          </v-badge>
+          <v-btn class="ml-auto" color="green" @click="save()"> Save </v-btn>
           <v-badge overlap color="grey" content="dev">
             <v-btn disabled outlined color="error darken-1"> Delete </v-btn>
           </v-badge>
@@ -90,7 +88,6 @@ export default {
     return {
       ingressRTMP: config.ingressURL.rtmp,
       ingressWS: config.ingressURL.ws,
-      form: {},
       channel: {},
     }
   },
@@ -98,6 +95,14 @@ export default {
     ...mapGetters(["darkMode"]),
   },
   methods: {
+    save() {
+      api
+        .SaveChannel(this.channelid, this.channel)
+        .then((response) => {
+          this.channel = response.data;
+          this.$emit('change-channel');
+        });
+    },
     load() {
       api
         .GetChannel(this.channelid)

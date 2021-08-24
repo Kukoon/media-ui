@@ -1,10 +1,10 @@
 <template>
   <div id="Admin">
     <AdminBar />
-    <Drawer :channelid="channelid"/>
+    <Drawer :channelid="channelid" ref="drawer"/>
 
     <v-main>
-      <router-view></router-view>
+      <router-view @change-channel="updateDrawer"></router-view>
     </v-main>
   </div>
 </template>
@@ -19,6 +19,11 @@ export default {
   name: "Admin",
   props: ["channelid"],
   components: { Drawer, AdminBar },
+  methods: {
+    updateDrawer() {
+      this.$refs.drawer.load();
+    }
+  },
   beforeRouteEnter(to, from, next) {
     store.dispatch('getLoginStatus').then(() => {
       if(!store.getters.loggedin) {

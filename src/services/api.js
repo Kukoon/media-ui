@@ -84,6 +84,9 @@ export const api = {
 	GetChannel(channelID){
 		return axios.get(new URL(config.apiURL + "/channel/"+channelID))
 	},
+	SaveChannel(channelID, channel){
+		return axios.put(new URL(config.apiURL + "/channel/"+channelID), channel)
+	},
 	ListRestreams(channelID){
 		return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/restreams"))
 	},
