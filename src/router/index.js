@@ -11,6 +11,7 @@ import Stats from "@/views/Admin/Stats.vue"
 import Server from "@/views/Admin/Server.vue"
 import About from "@/views/Admin/About.vue"
 import Login from "@/views/Admin/Login.vue"
+import StreamSchedule from "@/views/Admin/StreamSchedule.vue"
 
 // Main Views
 import Main from "@/views/Main.vue"
@@ -125,7 +126,13 @@ const routes = [
 		path: "/admin",
 		name: "Admin",
 		component: Admin,
-		children: adminRoutes
+		children: [
+                        {
+                                path: "",
+                                name: "StreamSchedule",
+                                component: StreamSchedule,
+                        },
+                ].concat(adminRoutes)
         },
 	{
 		path: "/login",
