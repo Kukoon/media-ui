@@ -15,7 +15,7 @@
           <v-list-item-content v-if="channel">
           </v-list-item-content>
           <v-list-item-icon v-if="channel">
-            <v-btn icon class="mr-4" dark :to="{name: 'ChannelEdit'}">
+            <v-btn icon class="mr-4" :to="{name: 'ChannelEdit'}">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </v-list-item-icon>
