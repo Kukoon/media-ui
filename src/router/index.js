@@ -6,7 +6,6 @@ import Admin from "@/views/Admin.vue"
 import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
 import Restream from "@/views/Admin/Restream.vue"
 import Stream from "@/views/Admin/Stream.vue"
-import Chat from "@/views/Admin/Chat.vue"
 import Videos from "@/views/Admin/Videos.vue"
 import Stats from "@/views/Admin/Stats.vue"
 import Server from "@/views/Admin/Server.vue"
@@ -110,11 +109,6 @@ const routes = [
 				path: "stream",
 				name: "Stream",
 				component: Stream
-			},
-			{
-				path: "chat",
-				name: "Chat",
-				component: Chat
 			},
 			{
 				path: "videos",

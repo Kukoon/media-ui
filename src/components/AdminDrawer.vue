@@ -112,7 +112,6 @@ export default {
       channelMenu: [
         { title: "Restream", icon: "mdi-broadcast" },
         { title: "Stream", icon: "mdi-calendar", dev: true },
-        { title: "Chat", icon: "mdi-chat", dev: true },
         { title: "Videos", icon: "mdi-video", dev: true },
       ],
       globalMenu: [
