@@ -37,7 +37,7 @@
             v-for="(channel, i) in channels"
             :key="i"
             link
-            :to="{ name: 'ChannelEdit', params: { channelid: channel.id }}"
+            :to="{ name: 'AdminChannel', params: { channelid: channel.id }}"
           >
             <v-list-item-avatar color="black">
               <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>

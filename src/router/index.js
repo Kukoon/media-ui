@@ -89,10 +89,14 @@ const routes = [
 	},
 	{
                 path: "/admin/:channelid",
-		name: "AdminChannel",
-		component: Admin,
+                component: Admin,
                 props: true,
-		children: [
+                children: [
+                        {
+                                path: "",
+                                name: "AdminChannel",
+                                redirect: "edit",
+                        },
                         {
                                 path: "edit",
 				name: "ChannelEdit",
