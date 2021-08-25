@@ -25,7 +25,7 @@
         </v-list-item>
 
         <v-list-group
-          value="channelMenuOpen"
+          :value="channelMenuOpen"
         >
           <template v-slot:activator>
           <v-list-item-content>
