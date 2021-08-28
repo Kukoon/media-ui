@@ -6,49 +6,50 @@
     :class="[darkMode ? 'neutral lighten-1' : null]"
     mobile-breakpoint="600"
   >
-    <v-list>
-        <v-list-item>
-          <v-list-item-avatar v-if="channel" color="black">
-            <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
-            <span  v-else>{{ channel.title.slice(0,2) }}</span>
-          </v-list-item-avatar>
-          <v-list-item-content v-if="channel">
-          </v-list-item-content>
-          <v-list-item-icon v-if="channel">
-            <v-btn icon class="mr-4" :to="{name: 'ChannelEdit'}">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-          </v-list-item-icon>
-          <v-list-item-avatar v-else color="indigo">
-            <v-icon>mdi-account-circle</v-icon>
-          </v-list-item-avatar>
-        </v-list-item>
+    <v-list dense>
+      <v-list-item>
+        <v-list-item-avatar v-if="channel" color="black">
+          <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
+          <span v-else>{{ channel.title.slice(0, 2) }}</span>
+        </v-list-item-avatar>
+        <v-list-item-content v-if="channel"> </v-list-item-content>
+        <v-list-item-icon v-if="channel">
+          <v-btn icon small :to="{ name: 'ChannelEdit' }">
+            <v-icon small>mdi-pencil</v-icon>
+          </v-btn>
+        </v-list-item-icon>
+        <v-list-item-avatar v-else color="indigo">
+          <v-icon>mdi-account-circle</v-icon>
+        </v-list-item-avatar>
+      </v-list-item>
 
-        <v-list-group
-          :value="channelMenuOpen"
-        >
-          <template v-slot:activator>
+      <v-list-group :value="channelMenuOpen">
+        <template v-slot:activator>
           <v-list-item-content>
-            <v-list-item-title class="text-h6" v-if="channel">{{ channel.title }}</v-list-item-title>
-            <v-list-item-title class="text-h6" v-else>Channels: </v-list-item-title>
+            <v-list-item-title class="text-h7" v-if="channel">{{
+              channel.title
+            }}</v-list-item-title>
+            <v-list-item-title class="text-h7" v-else
+              >Channels:
+            </v-list-item-title>
           </v-list-item-content>
-          </template>
-          <v-list-item
-            v-for="(channel, i) in channels"
-            :key="i"
-            link
-            :to="{ name: 'AdminChannel', params: { channelid: channel.id }}"
-          >
-            <v-list-item-avatar color="black">
-              <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
-              <span  v-else>{{ channel.title.slice(0,2) }}</span>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              {{channel.title}}
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-group>
-      </v-list>
+        </template>
+        <v-list-item
+          v-for="(channel, i) in channels"
+          :key="i"
+          link
+          :to="{ name: 'AdminChannel', params: { channelid: channel.id } }"
+        >
+          <v-list-item-avatar color="black" size="24">
+            <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
+            <span v-else>{{ channel.title.slice(0, 2) }}</span>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>{{ channel.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+    </v-list>
     <v-divider></v-divider>
     <v-list dense v-if="channel">
       <v-subheader>Channel</v-subheader>
@@ -90,7 +91,9 @@
 
     <template v-slot:append>
       <div class="pa-2">
-        <v-btn block text color="primary lighten-1" @click="logout"> Logout </v-btn>
+        <v-btn block text color="primary lighten-1" @click="logout">
+          Logout
+        </v-btn>
       </div>
     </template>
   </v-navigation-drawer>
@@ -127,24 +130,25 @@ export default {
   methods: {
     ...mapActions(["toggleDrawer"]),
     load() {
-      api
-        .ListMyChannels()
-        .then((response) => {
-          this.channels = response.data;
-          const channel = this.channels.find((el) => el.id == this.channelid);
-          if (channel) {
-            this.channel = channel;
-          } else {
-            this.channel = null;
-          }
-        });
+      api.ListMyChannels().then((response) => {
+        this.channels = response.data;
+        const channel = this.channels.find((el) => el.id == this.channelid);
+        if (channel) {
+          this.channel = channel;
+        } else {
+          this.channel = null;
+        }
+      });
     },
     logout() {
-      document.cookie.split(';').forEach(function(c) {
-        document.cookie = c.trim().split('=')[0] + '=;' + 'expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+      document.cookie.split(";").forEach(function (c) {
+        document.cookie =
+          c.trim().split("=")[0] +
+          "=;" +
+          "expires=Thu, 01 Jan 1970 00:00:00 UTC;";
       });
       this.$store.commit("user", {});
-      this.$router.replace({ name: 'Home' })
+      this.$router.replace({ name: "Home" });
     },
   },
   watch: {

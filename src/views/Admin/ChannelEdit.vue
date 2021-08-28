@@ -9,62 +9,73 @@
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Title"
             v-model="channel.title"
+            outlined
+            dense
           ></v-text-field>
           <v-text-field
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Comman Name (used for nice and short urls)"
             v-model="channel.common_name"
+            outlined
+            dense
           ></v-text-field>
           <v-text-field
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-            label="Logo (URL to an logo)"
+            label="Logo URL"
             v-model="channel.logo"
+            outlined
+            dense
           ></v-text-field>
-          <v-btn class="ml-auto" color="green" @click="save()"> Save </v-btn>
+          <v-btn class="ml-auto mr-1" color="sucess" @click="save()">
+            Save
+          </v-btn>
           <v-badge overlap color="grey" content="dev">
-            <v-btn disabled outlined color="error darken-1"> Delete </v-btn>
+            <v-btn class="ml-1" disabled outlined color="error darken-1">
+              Delete
+            </v-btn>
           </v-badge>
         </v-form>
-        <v-divider class="mt-4 mb-4"/>
+        <v-divider class="mt-4 mb-4" />
         <h4>Stream Ingress</h4>
         <v-simple-table dense>
           <template v-slot:default>
-           <thead>
-             <tr>
-                <th class="text-left">
-                  Description
-                </th>
-                <th class="text-left">
-                  Value
-                </th>
+            <thead>
+              <tr>
+                <th class="text-left">Description</th>
+                <th class="text-left">Value</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>RTMP Complete Link</td>
-                <td><code>{{ ingressRTMP.replace("{ID}", channel.id) }}</code></td>
+                <td>
+                  <code>{{ ingressRTMP.replace("{ID}", channel.id) }}</code>
+                </td>
               </tr>
               <tr>
+                <td>RTMP URL</td>
                 <td>
-                  or <br/>
-                  RTMP URL
+                  <code>{{ ingressRTMP.replace("{ID}", "") }}</code>
                 </td>
-                <td><code>{{ ingressRTMP.replace("{ID}","") }}</code></td>
               </tr>
               <tr>
                 <td>Secret</td>
-                <td><code>{{ channel.id }}</code></td>
+                <td>
+                  <code>{{ channel.id }}</code>
+                </td>
               </tr>
               <tr>
-               <td>
-                  or <br/>
+                <td>
                   Stream from Browser, by using this WebRTC-URL in Input like
-                  <a href="https://demo.ovenplayer.com/demo_input.html" target="_blank">
+                  <a
+                    href="https://demo.ovenplayer.com/demo_input.html"
+                    target="_blank"
+                  >
                     OvenPlayer Demo Input
                   </a>
                 </td>
                 <td>
-                 <code>{{ ingressWS.replace("{ID}", channel.id) }}</code>
+                  <code>{{ ingressWS.replace("{ID}", channel.id) }}</code>
                 </td>
               </tr>
             </tbody>
@@ -89,19 +100,17 @@ export default {
       ingressRTMP: config.ingressURL.rtmp,
       ingressWS: config.ingressURL.ws,
       channel: {},
-    }
+    };
   },
   computed: {
     ...mapGetters(["darkMode"]),
   },
   methods: {
     save() {
-      api
-        .SaveChannel(this.channelid, this.channel)
-        .then((response) => {
-          this.channel = response.data;
-          this.$emit('change-channel');
-        });
+      api.SaveChannel(this.channelid, this.channel).then((response) => {
+        this.channel = response.data;
+        this.$emit("change-channel");
+      });
     },
     load() {
       api
@@ -111,9 +120,11 @@ export default {
   },
   watch: {
     channelid() {
-      this.load()
-   },
+      this.load();
+    },
   },
-  created() {this.load()},
+  created() {
+    this.load();
+  },
 };
 </script>

@@ -2,43 +2,29 @@
   <v-container fluid>
     <v-row no-gutters>
       <v-col>
-        <h3>ReStream / Push</h3>
+        <h3>Restream</h3>
         <v-simple-table dense class="mt-2">
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left">
-                  Name
-                </th>
-                <th class="text-left">
-                  Protocol
-                </th>
-                <th class="text-left">
-                  URL
-                </th>
-                <th class="text-left">
-                  State
-                </th>
-                <th class="text-left">
-                  Actions
-                </th>
+                <th class="text-left">Name</th>
+                <th class="text-left">Protocol</th>
+                <th class="text-left">URL</th>
+                <th class="text-left">State</th>
+                <th class="text-left">Count</th>
+                <th class="text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="item in restreams"
-                :key="item.name"
-              >
+              <tr v-for="item in restreams" :key="item.name">
                 <td>{{ item.name }}</td>
                 <td>{{ item.protocol }}</td>
                 <td>{{ item.url }}</td>
+                <td>{{ item.state }}<br /></td>
+                <td>{{ item.sequence }}</td>
                 <td>
-                  Current: {{ item.state }}<br/>
-                  Used count:  {{ item.sequence }}
-                </td>
-                <td>
-                  <v-btn icon @click="deleteRestream(item.id)">
-                    <v-icon>mdi-delete</v-icon>
+                  <v-btn icon small @click="deleteRestream(item.id)">
+                    <v-icon small>mdi-delete</v-icon>
                   </v-btn>
                 </td>
               </tr>
@@ -46,53 +32,47 @@
           </template>
         </v-simple-table>
         <h4 class="mt-4">New Restream</h4>
-        <v-form>
-          <v-container>
-            <v-row>
-              <v-col
-                cols="12"
-                md="12"
-              >
-                <v-text-field
-                  v-model="restreamForm.name"
-                  label="Name"
-                  required
-                ></v-text-field>
-              </v-col> 
-              <v-col
-                cols="12"
-                md="4"
-              >
-                <v-text-field
-                  v-model="restreamForm.protocol"
-                  label="Protocol"
-                  required
-                ></v-text-field>
-              </v-col> 
-              <v-col
-                cols="12"
-                md="8"
-              >
-                <v-text-field
-                  v-model="restreamForm.url"
-                  label="URL"
-                  required
-                ></v-text-field>
-              </v-col> 
-              <v-col
-                cols="12"
-                md="12"
-              >
-                <v-text-field
-                  v-model="restreamForm.secret"
-                  label="Secret"
-                  required
-                ></v-text-field>
-                <v-btn class="ml-auto" color="green" @click="addRestream"> Add </v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-form> 
+        <v-row no-gutters>
+          <v-col>
+            <v-form class="pa-0 mt-2" @submit="addRestream()">
+              <v-text-field
+                v-model="restreamForm.name"
+                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                label="Name"
+                required
+                outlined
+                dense
+              ></v-text-field>
+              <v-text-field
+                v-model="restreamForm.protocol"
+                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                label="Protocol"
+                required
+                outlined
+                dense
+              ></v-text-field>
+              <v-text-field
+                v-model="restreamForm.url"
+                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                label="URL"
+                required
+                outlined
+                dense
+              ></v-text-field>
+              <v-text-field
+                v-model="restreamForm.secret"
+                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                label="Secret"
+                required
+                outlined
+                dense
+              ></v-text-field>
+              <v-btn class="ml-auto" color="sucess" @click="addRestream()">
+                Add
+              </v-btn>
+            </v-form>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -107,41 +87,46 @@ export default {
   name: "Restream",
   props: ["channelid"],
   data() {
-     return {
-       restreams: [],
-       restreamFormDefault: {
-         protocol: "rtmp",
-         url: "rtmp://a.rtmp.youtube.com/live2",
-       },
-       restreamForm: {},
-     }
+    return {
+      restreams: [],
+      restreamFormDefault: {
+        protocol: "rtmp",
+        url: "rtmp://a.rtmp.youtube.com/live2",
+      },
+      restreamForm: {},
+    };
   },
   computed: {
     ...mapGetters(["darkMode"]),
   },
   methods: {
     loadRestream() {
-      api.ListRestreams(this.channelid).then(resp => this.restreams = resp.data).catch(()=>{ this.restreams = []})
+      api
+        .ListRestreams(this.channelid)
+        .then((resp) => (this.restreams = resp.data))
+        .catch(() => {
+          this.restreams = [];
+        });
     },
     addRestream() {
-      api.RestreamAdd(this.channelid, this.restreamForm).then(()=> {
-        this.restreamForm = Object.assign({}, this.restreamFormDefault)
-        this.loadRestream()
-      })
+      api.RestreamAdd(this.channelid, this.restreamForm).then(() => {
+        this.restreamForm = Object.assign({}, this.restreamFormDefault);
+        this.loadRestream();
+      });
     },
     deleteRestream(id) {
-      api.RestreamDelete(this.channelid, id).then(this.loadRestream)
+      api.RestreamDelete(this.channelid, id).then(this.loadRestream);
     },
   },
   watch: {
     channelid() {
-      this.restreamForm = Object.assign({}, this.restreamFormDefault)
+      this.restreamForm = Object.assign({}, this.restreamFormDefault);
       this.loadRestream();
     },
   },
   created() {
-    this.restreamForm = Object.assign({}, this.restreamFormDefault)
-    this.loadRestream()
+    this.restreamForm = Object.assign({}, this.restreamFormDefault);
+    this.loadRestream();
   },
 };
 </script>
