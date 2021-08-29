@@ -85,7 +85,7 @@ export default {
     },
     load() {
       api
-        .ListMyChannels()
+        .Channels.My()
         .then((response) => {
           this.channelIDs = response.data.map((el)=> el.id);
           this.channelNames = response.data.map((el)=> el.title);
@@ -96,7 +96,7 @@ export default {
     },
     fetchStreams ({ start, end }) {
       api
-        .ListStreams({
+        .Streams.List({
           channel: this.channelIDs,
           from: new Date(start.date +"T00:00:00").toJSON(),
           to: new Date(end.date+"T23:59:59").toJSON(),
@@ -109,7 +109,6 @@ export default {
               color: this.getStreamColor(el),
               name: el.lang.title,
               start: start,
-              end: new Date(start.getTime()+2*60*60*1000),
               timed: true,
               category: el.channel.title,
             }

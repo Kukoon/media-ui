@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     load() {
-      api.ListRecordingsSuggestion(this.video).then((response) => (this.recordings = response.data))
+      api.Recordings.ListSuggestion(this.video).then((response) => (this.recordings = response.data))
     },
   },
   watch: {

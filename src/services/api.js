@@ -24,76 +24,96 @@ function delay(resp) {
 
 
 export const api = {
-	ListStreams(params) {
-		params = Object.assign({}, params);
-		if (!params["lang"]) {
-			params["lang"] = store.getters.language
-		}
-		const query = getSearchParams(params)
-		var url = new URL(config.apiURL + "/streams?"+query.toString());
-		return axios.get(url)
-	},
-	GetStream(id) {
-		var url = new URL(config.apiURL + "/stream/" + id + "?lang=" + store.getters.language)
-		return axios.get(url)
-	},
-	ListRecordingsSuggestion(video) {
-		var params = {}
-		if (video && video["event"]) {
-			params["event"] = video.event.id
-		}
-		return this.ListRecordings(params)
-        },
-	ListRecordings(params) {
-		params = Object.assign({}, params);
-		if (!params["lang"]) {
-			params["lang"] = store.getters.language
-		}
-		const query = getSearchParams(params)
-		var url = new URL(config.apiURL + "/recordings?"+query.toString());
-		return axios.get(url)
-	},
-	GetRecording(id) {
-		var url = new URL(config.apiURL + "/recording/" + id + "?lang=" + store.getters.language)
-		return axios.get(url)
-	},
-	ListTags(params) {
-		params = Object.assign({}, params);
-		if (!params["lang"]) {
-			params["lang"] = store.getters.language
-		}
-		const query = getSearchParams(params)
-		var url = new URL(config.apiURL + "/tags?"+query.toString());
-		return axios.get(url)
-	},
-	ListSpeakers() {
-		var url = new URL(config.apiURL + "/speakers");
-		return axios.get(url)
-	},
-	ListEvents() {
-		var url = new URL(config.apiURL + "/events");
-		return axios.get(url)
-	},
 	Login(username, password) {
 		var url = new URL(config.apiURL + "/auth/login");
 		return axios.post(url, {username: username, password: password})
 	},
-	ListMyChannels(){
-		return axios.get(new URL(config.apiURL + "/my/channels"))
+	Channels: {
+		My(){
+			return axios.get(new URL(config.apiURL + "/my/channels"))
+		},
+		Get(channelID){
+			return axios.get(new URL(config.apiURL + "/channel/"+channelID))
+		},
+		Add(channel){
+			return axios.post(new URL(config.apiURL + "/channel/"), channel)
+		},
+		Save(channelID, channel){
+			return axios.put(new URL(config.apiURL + "/channel/"+channelID), channel)
+		},
+		Delete(channelID){
+			return axios.delete(new URL(config.apiURL + "/channel/"+channelID))
+		},
+		Restreams: {
+			List(channelID){
+				return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/restreams"))
+			},
+			Add(channelID, data){
+				return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/restream"), data)
+			},
+			Delete(channelID, id){
+				return axios.delete(new URL(config.apiURL + "/channel/"+channelID+"/restream/"+id)).then(delay)
+			},
+		},
 	},
-	GetChannel(channelID){
-		return axios.get(new URL(config.apiURL + "/channel/"+channelID))
+	Streams: {
+		List(params) {
+			params = Object.assign({}, params);
+			if (!params["lang"]) {
+				params["lang"] = store.getters.language
+			}
+			const query = getSearchParams(params)
+			var url = new URL(config.apiURL + "/streams?"+query.toString());
+			return axios.get(url)
+		},
+		Get(id) {
+			var url = new URL(config.apiURL + "/stream/" + id + "?lang=" + store.getters.language)
+			return axios.get(url)
+		},
 	},
-	SaveChannel(channelID, channel){
-		return axios.put(new URL(config.apiURL + "/channel/"+channelID), channel)
+	Recordings: {
+		List(params) {
+			params = Object.assign({}, params);
+			if (!params["lang"]) {
+				params["lang"] = store.getters.language
+			}
+			const query = getSearchParams(params)
+			var url = new URL(config.apiURL + "/recordings?"+query.toString());
+			return axios.get(url)
+		},
+		ListSuggestion(video) {
+			var params = {}
+			if (video && video["event"]) {
+				params["event"] = video.event.id
+			}
+			return this.List(params)
+		},
+		Get(id) {
+			var url = new URL(config.apiURL + "/recording/" + id + "?lang=" + store.getters.language)
+			return axios.get(url)
+		},
 	},
-	ListRestreams(channelID){
-		return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/restreams"))
+	Tags: {
+		List(params) {
+			params = Object.assign({}, params);
+			if (!params["lang"]) {
+				params["lang"] = store.getters.language
+			}
+			const query = getSearchParams(params)
+			var url = new URL(config.apiURL + "/tags?"+query.toString());
+			return axios.get(url)
+		},
 	},
-	RestreamAdd(channelID, data){
-		return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/restream"), data)
+	Speakers: {
+		List() {
+			var url = new URL(config.apiURL + "/speakers");
+			return axios.get(url)
+		},
 	},
-	RestreamDelete(channelID, id){
-		return axios.delete(new URL(config.apiURL + "/channel/"+channelID+"/restream/"+id)).then(delay)
+	Events: {
+		List() {
+			var url = new URL(config.apiURL + "/events");
+			return axios.get(url)
+		},
 	},
 }

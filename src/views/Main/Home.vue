@@ -42,9 +42,9 @@ export default {
   },
   methods: {
     load() {
-      api.ListStreams({"running": true}).then((response) => (this.streamsLive = response.data))
-      api.ListStreams({"upcoming": true}).then((response) => (this.streamsUpcoming = response.data))
-      api.ListRecordings().then((response) => (this.recordings = response.data.slice(0, 6)))
+      api.Streams.List({"running": true}).then((response) => (this.streamsLive = response.data))
+      api.Streams.List({"upcoming": true}).then((response) => (this.streamsUpcoming = response.data))
+      api.Recordings.List().then((response) => (this.recordings = response.data.slice(0, 6)))
     },
   },
   created() {

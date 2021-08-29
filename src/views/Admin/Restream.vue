@@ -102,20 +102,20 @@ export default {
   methods: {
     loadRestream() {
       api
-        .ListRestreams(this.channelid)
+        .Channels.Restreams.List(this.channelid)
         .then((resp) => (this.restreams = resp.data))
         .catch(() => {
           this.restreams = [];
         });
     },
     addRestream() {
-      api.RestreamAdd(this.channelid, this.restreamForm).then(() => {
+      api.Channels.Restreams.Add(this.channelid, this.restreamForm).then(() => {
         this.restreamForm = Object.assign({}, this.restreamFormDefault);
         this.loadRestream();
       });
     },
     deleteRestream(id) {
-      api.RestreamDelete(this.channelid, id).then(this.loadRestream);
+      api.Channels.Restreams.Delete(this.channelid, id).then(this.loadRestream);
     },
   },
   watch: {

@@ -203,20 +203,19 @@ export default {
       } else {
         delete query[key];
       }
-      console.log("from", this.$router.history.current, "to", query);
       this.$router.push({
         name: this.$router.history.current.name,
         query: query,
       });
     },
     loadFilterData() {
-      api.ListTags().then((response) => (this.tags = response.data));
-      api.ListEvents().then((response) => (this.events = response.data));
-      api.ListSpeakers().then((response) => (this.speakers = response.data));
+      api.Tags.List().then((response) => (this.tags = response.data));
+      api.Events.List().then((response) => (this.events = response.data));
+      api.Speakers.List().then((response) => (this.speakers = response.data));
     },
     load() {
       api
-        .ListRecordings(this.$router.history.current.query)
+        .Recordings.List(this.$router.history.current.query)
         .then((response) => (this.recordings = response.data));
     },
     openPodcast() {},

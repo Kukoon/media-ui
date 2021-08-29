@@ -29,15 +29,13 @@
           <v-btn class="ml-auto mr-1" color="sucess" @click="save()">
             Save
           </v-btn>
-          <v-badge overlap color="grey" content="dev">
-            <v-btn class="ml-1" disabled outlined color="error darken-1">
-              Delete
-            </v-btn>
-          </v-badge>
+          <v-btn class="ml-1" color="error darken-1" @click="remove()" v-if="channelid">
+            Delete
+          </v-btn>
         </v-form>
-        <v-divider class="mt-4 mb-4" />
-        <h4>Stream Ingress</h4>
-        <v-simple-table dense>
+        <v-divider class="mt-4 mb-4" v-if="channelid" />
+        <h4 v-if="channelid">Stream Ingress</h4>
+        <v-simple-table dense v-if="channelid">
           <template v-slot:default>
             <thead>
               <tr>
@@ -100,21 +98,41 @@ export default {
       ingressRTMP: config.ingressURL.rtmp,
       ingressWS: config.ingressURL.ws,
       channel: {},
-    };
+      channelFormDefault: {
+      },
+    }
   },
   computed: {
     ...mapGetters(["darkMode"]),
   },
   methods: {
     save() {
-      api.SaveChannel(this.channelid, this.channel).then((response) => {
-        this.channel = response.data;
-        this.$emit("change-channel");
-      });
+      let resp = null;
+      if (this.channelid) {
+       resp = api.Channels.Save(this.channelid, this.channel)
+      } else {
+        resp = api.Channels.Add(this.channel)
+      }
+      resp.then((response) => {
+          this.channel = response.data;
+          this.$emit('change-channel');
+        });
+    },
+    remove() {
+      api
+        .Channels.Delete(this.channelid)
+        .then(() => {
+          this.$emit('change-channel');
+          this.$router.replace({ name: "ChannelAdd" });
+        });
     },
     load() {
+      if (!this.channelid) {
+         this.channel = Object.assign({}, this.channelFormDefault);
+         return
+      }
       api
-        .GetChannel(this.channelid)
+        .Channels.Get(this.channelid)
         .then((response) => (this.channel = response.data));
     },
   },

@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     loadStream() {
-        return api.GetStream(this.id).then((response) => {
+        return api.Streams.Get(this.id).then((response) => {
           // skip websocket binding on existing stream
           if (this.video == null || response.data.channel.id != this.video.channel.id) {
             websocket.joinHandler(response.data.channel.id, 'status', (ev) => {
@@ -41,7 +41,7 @@ export default {
         });
     },
     loadRecording() {
-        return api.GetRecording(this.id).then((response) => {
+        return api.Recordings.Get(this.id).then((response) => {
           this.video = response.data;
           const urls = this.video.formats.map((i) => i.url);
           this.source = urls[0];

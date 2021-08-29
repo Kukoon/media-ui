@@ -132,6 +132,11 @@ const routes = [
                                 name: "StreamSchedule",
                                 component: StreamSchedule,
                         },
+                        {
+                                path: "add",
+				name: "ChannelAdd",
+                                component: ChannelEdit,
+                        },
                 ].concat(adminRoutes)
         },
 	{

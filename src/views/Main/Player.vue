@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     load() {
-      api.GetRecording(this.id).then((response) => {
+      api.Recordings.Get(this.id).then((response) => {
         this.video = response.data;
       })
     },

@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     load() {
-      api.GetStream(this.id).then((response) => {
+      api.Streams.Get(this.id).then((response) => {
         // skip websocket binding on existing stream
         if (this.video == null || response.data.channel.id != this.video.channel.id) {
           websocket.joinHandler(response.data.channel.id, 'status', (ev) => {
