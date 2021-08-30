@@ -33,31 +33,29 @@
               >Channels:
             </v-list-item-title>
           </v-list-item-content>
-          </template>
-          <v-list-item
-            v-for="(channel, i) in channels"
-            :key="i"
-            link
-            :to="{ name: 'AdminChannel', params: { channelid: channel.id }}"
-          >
-            <v-list-item-avatar color="black">
-              <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
-              <span  v-else>{{ channel.title.slice(0,2) }}</span>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              {{channel.title}}
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item
-            :to="{ name: 'ChannelAdd'}"
-          >
-            <v-list-item-icon>
-              <v-icon>mdi-plus</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              Add
-            </v-list-item-content>
-          </v-list-item>
+        </template>
+        <v-list-item
+          v-for="(channel, i) in channels"
+          :key="i"
+          link
+          :to="{ name: 'AdminChannel', params: { channelid: channel.id } }"
+        >
+          <v-list-item-avatar color="black" size="24" class="mr-8">
+            <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
+            <span v-else>{{ channel.title.slice(0, 2) }}</span>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>{{ channel.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item :to="{ name: 'ChannelAdd' }">
+          <v-list-item-icon>
+            <v-icon>mdi-plus</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Add</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list-group>
     </v-list>
     <v-divider></v-divider>

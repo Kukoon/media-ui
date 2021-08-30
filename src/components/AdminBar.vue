@@ -2,14 +2,16 @@
   <v-app-bar app color="primary" dark>
     <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
 
-    <v-toolbar-title link :to="{ name:'StreamSchedule'}">media.kukoon.de</v-toolbar-title>
+    <v-toolbar-title link :to="{ name: 'StreamSchedule' }"
+      >media.kukoon.de</v-toolbar-title
+    >
     <v-spacer></v-spacer>
     <v-switch
       :value="darkMode"
       :input-value="darkMode"
       @change="toggleDarkMode"
       inset
-      color="accent lighten-3"
+      color="accent darken-3"
       label="Dark Mode"
       hide-details
     ></v-switch>
