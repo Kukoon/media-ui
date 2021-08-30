@@ -2,7 +2,25 @@
   <v-container fluid>
     <v-row no-gutters>
       <v-col>
-        <h3>Distribution</h3>
+        <v-row no-gutters>
+          <h3>Distribution</h3>
+          <v-spacer></v-spacer>
+          <v-btn icon small @click.stop="info = !info">
+            <v-icon small>mdi-help-circle</v-icon>
+          </v-btn>
+        </v-row>
+        <v-alert
+          v-show="info"
+          dense
+          text
+          icon="mdi-help-circle"
+          type="info"
+          border="left"
+          class="mt-2"
+        >
+          In the <strong>distribution</strong> menu, the user can add and remove
+          distribution channels or restreams.
+        </v-alert>
         <v-simple-table dense class="mt-2">
           <template v-slot:default>
             <thead>
@@ -88,6 +106,7 @@ export default {
   props: ["channelid"],
   data() {
     return {
+      info: false,
       restreams: [],
       restreamFormDefault: {
         protocol: "rtmp",

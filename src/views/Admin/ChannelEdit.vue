@@ -3,6 +3,26 @@
     <v-row no-gutters>
       <v-col>
         <h3>Channel</h3>
+        <v-alert
+          class="mt-2"
+          border="left"
+          type="error"
+          prominent
+          dense
+          dismissible
+          v-if="confirmRemove"
+          v-model="confirmRemove"
+        >
+          <v-row align="center">
+            <v-col class="grow">
+              Do you really want to remove this Channel? This action cannot be
+              undone.
+            </v-col>
+            <v-col class="shrink">
+              <v-btn outlined @click="remove()">Remove</v-btn>
+            </v-col>
+          </v-row>
+        </v-alert>
         <v-divider class="mt-2"></v-divider>
         <v-form class="pa-0 mt-2" @submit="save()">
           <v-text-field
@@ -11,25 +31,38 @@
             v-model="channel.title"
             outlined
             dense
+            @input="enableSave = true"
           ></v-text-field>
           <v-text-field
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-            label="Comman Name (used for nice and short urls)"
+            label="Comman Name (used in URLs)"
             v-model="channel.common_name"
             outlined
             dense
+            @input="enableSave = true"
           ></v-text-field>
           <v-text-field
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Logo URL"
-            v-model="channel.logo"
+            v-model.lazy="channel.logo"
             outlined
             dense
+            @input="enableSave = true"
           ></v-text-field>
-          <v-btn class="ml-auto mr-1" color="sucess" @click="save()">
+          <v-btn
+            class="ml-auto mr-1"
+            color="sucess"
+            @click="save()"
+            :disabled="!enableSave"
+          >
             Save
           </v-btn>
-          <v-btn class="ml-1" color="error darken-1" @click="remove()" v-if="channelid">
+          <v-btn
+            class="ml-1"
+            color="error"
+            @click="confirmRemove = true"
+            v-if="channelid"
+          >
             Delete
           </v-btn>
         </v-form>
@@ -98,9 +131,10 @@ export default {
       ingressRTMP: config.ingressURL.rtmp,
       ingressWS: config.ingressURL.ws,
       channel: {},
-      channelFormDefault: {
-      },
-    }
+      channelFormDefault: {},
+      enableSave: false,
+      confirmRemove: false,
+    };
   },
   computed: {
     ...mapGetters(["darkMode"]),
@@ -109,31 +143,33 @@ export default {
     save() {
       let resp = null;
       if (this.channelid) {
-       resp = api.Channels.Save(this.channelid, this.channel)
+        resp = api.Channels.Save(this.channelid, this.channel);
       } else {
-        resp = api.Channels.Add(this.channel)
+        resp = api.Channels.Add(this.channel);
       }
       resp.then((response) => {
-          this.channel = response.data;
-          this.$emit('change-channel');
-        });
+        this.channel = response.data;
+        this.$emit("change-channel");
+      });
     },
     remove() {
-      api
-        .Channels.Delete(this.channelid)
-        .then(() => {
-          this.$emit('change-channel');
-          this.$router.replace({ name: "ChannelAdd" });
-        });
+      api.Channels.Delete(this.channelid).then(() => {
+        this.$emit("change-channel");
+        this.$router.replace({ name: "ChannelAdd" });
+      });
+      this.confirmRemove = false;
+    },
+    cancel() {
+      this.confirmRemove = false;
     },
     load() {
       if (!this.channelid) {
-         this.channel = Object.assign({}, this.channelFormDefault);
-         return
+        this.channel = Object.assign({}, this.channelFormDefault);
+        return;
       }
-      api
-        .Channels.Get(this.channelid)
-        .then((response) => (this.channel = response.data));
+      api.Channels.Get(this.channelid).then(
+        (response) => (this.channel = response.data)
+      );
     },
   },
   watch: {
