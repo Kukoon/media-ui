@@ -15,7 +15,7 @@
         >
           <v-row align="center">
             <v-col class="grow">
-              Do you really want to remove this Channel? This action cannot be
+              Do you really want to remove this channel? This action cannot be
               undone.
             </v-col>
             <v-col class="shrink">
