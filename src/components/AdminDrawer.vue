@@ -12,8 +12,8 @@
           <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
           <span v-else>{{ channel.title.slice(0, 2) }}</span>
         </v-list-item-avatar>
-        <v-list-item-content v-if="channel"> </v-list-item-content>
-        <v-list-item-icon v-if="channel">
+        <v-spacer v-if="channel"></v-spacer>
+        <v-list-item-icon v-if="channel" class="my-auto">
           <v-btn icon small :to="{ name: 'ChannelEdit' }">
             <v-icon small>mdi-pencil</v-icon>
           </v-btn>
@@ -172,3 +172,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.v-list-item--active {
+  color: var(--v-primary-base) !important;
+  caret-color: var(--v-primary-base) !important;
+}
+</style>
