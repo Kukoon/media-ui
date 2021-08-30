@@ -4,7 +4,7 @@ import VueRouter from "vue-router"
 // Admin Views
 import Admin from "@/views/Admin.vue"
 import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
-import Restream from "@/views/Admin/Restream.vue"
+import Distribution from "@/views/Admin/Distribution.vue"
 import Stream from "@/views/Admin/Stream.vue"
 import Videos from "@/views/Admin/Videos.vue"
 import Stats from "@/views/Admin/Stats.vue"
@@ -29,21 +29,21 @@ import VideoList from "@/components/VideoList.vue"
 Vue.use(VueRouter)
 
 const adminRoutes = [
-			{
-				path: "stats",
-				name: "Stats",
-				component: Stats
-			},
-			{
-				path: "server",
-				name: "Server",
-				component: Server
-			},
-			{
-				path: "about",
-				name: "About",
-				component: About
-			}
+	{
+		path: "stats",
+		name: "Stats",
+		component: Stats
+	},
+	{
+		path: "server",
+		name: "Server",
+		component: Server
+	},
+	{
+		path: "about",
+		name: "About",
+		component: About
+	}
 ];
 
 const routes = [
@@ -89,27 +89,27 @@ const routes = [
 		]
 	},
 	{
-                path: "/admin/:channelid",
-                component: Admin,
-                props: true,
-                children: [
-                        {
-                                path: "",
-                                name: "AdminChannel",
-                                redirect: "edit",
-                        },
-                        {
-                                path: "edit",
+		path: "/admin/:channelid",
+		component: Admin,
+		props: true,
+		children: [
+			{
+				path: "",
+				name: "AdminChannel",
+				redirect: "edit",
+			},
+			{
+				path: "edit",
 				name: "ChannelEdit",
-                                component: ChannelEdit,
-                                props: true,
-                        },
-                        {
-                                path: "restream",
-				name: "Restream",
-                                component: Restream,
-                                props: true,
-                        },
+				component: ChannelEdit,
+				props: true,
+			},
+			{
+				path: "distribution",
+				name: "Distribution",
+				component: Distribution,
+				props: true,
+			},
 			{
 				path: "stream",
 				name: "Stream",
@@ -120,25 +120,25 @@ const routes = [
 				name: "Videos",
 				component: Videos
 			},
-                ].concat(adminRoutes)
+		].concat(adminRoutes)
 	},
 	{
 		path: "/admin",
 		name: "Admin",
 		component: Admin,
 		children: [
-                        {
-                                path: "",
-                                name: "StreamSchedule",
-                                component: StreamSchedule,
-                        },
-                        {
-                                path: "add",
+			{
+				path: "",
+				name: "StreamSchedule",
+				component: StreamSchedule,
+			},
+			{
+				path: "add",
 				name: "ChannelAdd",
-                                component: ChannelEdit,
-                        },
-                ].concat(adminRoutes)
-        },
+				component: ChannelEdit,
+			},
+		].concat(adminRoutes)
+	},
 	{
 		path: "/login",
 		component: Login,

@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row no-gutters>
       <v-col>
-        <h3>Restream</h3>
+        <h3>Distribution</h3>
         <v-simple-table dense class="mt-2">
           <template v-slot:default>
             <thead>
@@ -101,8 +101,7 @@ export default {
   },
   methods: {
     loadRestream() {
-      api
-        .Channels.Restreams.List(this.channelid)
+      api.Channels.Restreams.List(this.channelid)
         .then((resp) => (this.restreams = resp.data))
         .catch(() => {
           this.restreams = [];
