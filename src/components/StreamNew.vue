@@ -47,7 +47,7 @@
               ></v-text-field>
             </v-row>
             <v-row no-gutters class="d-flex my-1">
-              <v-col>
+              <v-col cols="12" md="8" lg="8">
                 <v-menu
                   ref="menuDate"
                   :close-on-content-click="false"
@@ -69,7 +69,7 @@
                       prepend-icon="mdi-calendar"
                       v-model="date"
                       hide-details
-                      class="flex-grow-1 flex-shrink-1"
+                      class="flex-grow-1 flex-shrink-1 mb-2"
                       @input="$refs.menuDate.save(date)"
                     >
                     </v-text-field>
@@ -92,10 +92,6 @@
                     </v-btn>
                   </v-date-picker>
                 </v-menu>
-              </v-col>
-            </v-row>
-            <v-row no-gutters class="d-flex my-1">
-              <v-col>
                 <v-menu
                   ref="menuTime"
                   v-model="menuTime"
@@ -119,6 +115,7 @@
                       hide-details
                       v-bind="attrs"
                       v-on="on"
+                      class="mb-2"
                       @input="$refs.menuTime.save(time)"
                     ></v-text-field>
                   </template>
@@ -131,28 +128,26 @@
                     @click:minute="$refs.menuTime.save(time)"
                   ></v-time-picker>
                 </v-menu>
+
+                <v-file-input
+                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  label="Poster File (JPG, 1920x1080)"
+                  outlined
+                  dense
+                  hide-details
+                ></v-file-input>
               </v-col>
-            </v-row>
-            <v-row no-gutters class="d-flex align-center my-1">
-              <v-btn
-                :color="darkMode ? 'neutral lighten-3' : 'neutral'"
-                class="mr-4 flex-grow-0 flex-shrink-0 hidden-sm-and-down"
-              >
-                <span>Browse</span>
-              </v-btn>
-              <v-btn icon class="mr-2 hidden-md-and-up">
-                <v-icon>mdi-folder-outline</v-icon>
-              </v-btn>
-              <v-text-field
-                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                hide-details
-                class="flex-shrink-1 flex-grow-1"
-                outlined
-                readonly
-                disabled
-                dense
-                label="Thumbnail File"
-              ></v-text-field>
+              <v-col cols="12" md="4" lg="4">
+                <v-img
+                  contain
+                  max-height="136"
+                  src="https://cdn.media.kukoon.de/videos/df1555f5-7046-4f7a-adcc-195b73949723/a7816cbb-3fab-40e4-a753-a87d2439df7f/poster.jpg"
+                  :class="{
+                    'ml-2': $vuetify.breakpoint.md,
+                    'mt-2': $vuetify.breakpoint.smAndDown,
+                  }"
+                ></v-img>
+              </v-col>
             </v-row>
             <v-row no-gutters class="my-1">
               <v-text-field
@@ -228,6 +223,7 @@ export default {
       menu: false,
       time: null,
       menuTime: false,
+      poster: null,
     };
   },
   computed: {
