@@ -70,6 +70,11 @@ export const api = {
 			var url = new URL(config.apiURL + "/streams?"+query.toString());
 			return axios.get(url)
 		},
+		ListChannelMy(channelID, params){
+			params = Object.assign({}, params);
+			const query = getSearchParams(params)
+			return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/streams?"+query.toString()))
+		},
 		Get(streamID){
 			return axios.get(new URL(config.apiURL + "/stream/"+streamID))
 		},
