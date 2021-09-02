@@ -28,24 +28,6 @@ import VideoList from "@/components/VideoList.vue"
 
 Vue.use(VueRouter)
 
-const adminRoutes = [
-	{
-		path: "stats",
-		name: "Stats",
-		component: Stats
-	},
-	{
-		path: "server",
-		name: "Server",
-		component: Server
-	},
-	{
-		path: "about",
-		name: "About",
-		component: About
-	}
-];
-
 const routes = [
 	{
 		path: "/",
@@ -89,6 +71,38 @@ const routes = [
 		]
 	},
 	{
+		path: "/admin",
+		name: "Admin",
+		component: Admin,
+		children: [
+			{
+				path: "",
+				name: "StreamSchedule",
+				component: StreamSchedule,
+			},
+			{
+				path: "add",
+				name: "ChannelAdd",
+				component: ChannelEdit,
+			},
+			{
+				path: "stats",
+				name: "Stats",
+				component: Stats
+			},
+			{
+				path: "server",
+				name: "Server",
+				component: Server
+			},
+			{
+				path: "about",
+				name: "About",
+				component: About
+			}
+		]
+	},
+	{
 		path: "/admin/:channelid",
 		component: Admin,
 		props: true,
@@ -120,24 +134,7 @@ const routes = [
 				name: "Videos",
 				component: Videos
 			},
-		].concat(adminRoutes)
-	},
-	{
-		path: "/admin",
-		name: "Admin",
-		component: Admin,
-		children: [
-			{
-				path: "",
-				name: "StreamSchedule",
-				component: StreamSchedule,
-			},
-			{
-				path: "add",
-				name: "ChannelAdd",
-				component: ChannelEdit,
-			},
-		].concat(adminRoutes)
+		]
 	},
 	{
 		path: "/login",

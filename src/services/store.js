@@ -14,6 +14,11 @@ export const store = new Vuex.Store({
 		darkMode: false,
 		drawer: false,
 		user: {},
+		selection: {
+			admin: {
+				channel: null,
+			},
+		},
 		language: config.defaultLang,
 	},
 	actions: {
@@ -26,6 +31,9 @@ export const store = new Vuex.Store({
 		// toggleDrawer action receives context object and commits 'toggleDrawer' mutation
 		toggleDrawer(context, payload) {
 			context.commit('toggleDrawer', payload)
+		},
+		setSelectionAdminChannel(context, payload) {
+			context.commit('selectionAdminChannel', payload)
 		},
 	},
 	mutations: {
@@ -47,6 +55,9 @@ export const store = new Vuex.Store({
 		},
 		language: (state, payload) => {
 			state.language = payload
+		},
+		selectionAdminChannel: (state, payload) => {
+			state.selection.admin.channel = payload
 		},
 	},
 	getters: {
@@ -73,6 +84,9 @@ export const store = new Vuex.Store({
 		// platform language
 		language: state => {
 			return state.language ? state.language : config.defaultLang
+		},
+		selectionAdminChannel: state => {
+			return state.selection.admin.channel
 		},
 	}
 });

@@ -14,7 +14,7 @@
         </v-list-item-avatar>
         <v-spacer v-if="channel"></v-spacer>
         <v-list-item-icon v-if="channel" class="my-auto">
-          <v-btn icon small :to="{ name: 'ChannelEdit' }">
+          <v-btn icon small :to="{ name: 'ChannelEdit', params: { channelid: selectionAdminChannel } }">
             <v-icon small>mdi-pencil</v-icon>
           </v-btn>
         </v-list-item-icon>
@@ -65,7 +65,7 @@
         v-for="item in channelMenu"
         :key="item.title"
         link
-        :to="{ name: item.title }"
+        :to="{ name: item.title, params: { channelid: selectionAdminChannel } }"
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
@@ -133,14 +133,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["darkMode", "drawer"]),
+    ...mapGetters(["darkMode", "drawer", "selectionAdminChannel"]),
   },
   methods: {
-    ...mapActions(["toggleDrawer"]),
+    ...mapActions(["toggleDrawer", "setSelectionAdminChannel"]),
     load() {
       api.Channels.My().then((response) => {
         this.channels = response.data;
-        const channel = this.channels.find((el) => el.id == this.channelid);
+        const channel = this.channels.find((el) => el.id == this.selectionAdminChannel);
         if (channel) {
           this.channel = channel;
         } else {
@@ -161,13 +161,21 @@ export default {
   },
   watch: {
     channelid(to) {
-      this.channelMenuOpen = !to;
+      if (to) {
+        this.setSelectionAdminChannel(to);
+      }
+      if(this.selectionAdminChannel) {
+        this.channelMenuOpen = false;
+      }
     },
     $route() {
       this.load();
     },
   },
   created() {
+    if (this.channelid) {
+      this.setSelectionAdminChannel(this.channelid);
+    }
     this.load();
   },
 };
