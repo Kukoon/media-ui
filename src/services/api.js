@@ -55,6 +55,10 @@ export const api = {
 				return axios.delete(new URL(config.apiURL + "/channel/"+channelID+"/restream/"+id)).then(delay)
 			},
 		},
+		GetStream(channelID) {
+			var url = new URL(config.apiURL + "/channel/" + channelID + "/stream?lang=" + store.getters.language)
+			return axios.get(url)
+		},
 	},
 	Streams: {
 		List(params) {
@@ -66,9 +70,11 @@ export const api = {
 			var url = new URL(config.apiURL + "/streams?"+query.toString());
 			return axios.get(url)
 		},
-		Get(id) {
-			var url = new URL(config.apiURL + "/stream/" + id + "?lang=" + store.getters.language)
-			return axios.get(url)
+		Get(streamID){
+			return axios.get(new URL(config.apiURL + "/stream/"+streamID))
+		},
+		Add(channelID, stream){
+			return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/stream"), stream)
 		},
 	},
 	Recordings: {
