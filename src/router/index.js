@@ -5,7 +5,7 @@ import VueRouter from "vue-router"
 import Admin from "@/views/Admin.vue"
 import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
 import Distribution from "@/views/Admin/Distribution.vue"
-import Stream from "@/views/Admin/Stream.vue"
+import ChannelStreams from "@/views/Admin/ChannelStreams.vue"
 import Videos from "@/views/Admin/Videos.vue"
 import Stats from "@/views/Admin/Stats.vue"
 import Server from "@/views/Admin/Server.vue"
@@ -125,9 +125,10 @@ const routes = [
 				props: true,
 			},
 			{
-				path: "stream",
-				name: "Stream",
-				component: Stream
+				path: "streams",
+				name: "Streams",
+				component: ChannelStreams,
+				props: true,
 			},
 			{
 				path: "videos",

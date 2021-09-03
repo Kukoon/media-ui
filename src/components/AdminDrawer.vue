@@ -121,7 +121,7 @@ export default {
       channel: null,
       channels: [],
       channelMenu: [
-        { title: "Stream", icon: "mdi-broadcast", dev: true },
+        { title: "Streams", icon: "mdi-broadcast" },
         { title: "Distribution", icon: "mdi-vector-polyline" },
         { title: "Videos", icon: "mdi-video", dev: true },
       ],

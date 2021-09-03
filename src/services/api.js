@@ -72,6 +72,9 @@ export const api = {
 		},
 		ListChannelMy(channelID, params){
 			params = Object.assign({}, params);
+			if (!params["lang"]) {
+				params["lang"] = store.getters.language
+			}
 			const query = getSearchParams(params)
 			return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/streams?"+query.toString()))
 		},
