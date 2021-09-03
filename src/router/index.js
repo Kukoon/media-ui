@@ -77,7 +77,11 @@ const routes = [
 		children: [
 			{
 				path: "",
-				name: "StreamSchedule",
+				redirect: "upcoming",
+			},
+			{
+				path: "upcoming",
+				name: "Upcoming",
 				component: StreamSchedule,
 			},
 			{

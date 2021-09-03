@@ -2,9 +2,8 @@
   <v-app-bar app color="primary" dark>
     <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
 
-    <v-toolbar-title link :to="{ name: 'StreamSchedule' }"
-      >media.kukoon.de</v-toolbar-title
-    >
+    <v-app-bar-title>MediaThek Admin</v-app-bar-title>
+
     <v-spacer></v-spacer>
     <v-switch
       :value="darkMode"

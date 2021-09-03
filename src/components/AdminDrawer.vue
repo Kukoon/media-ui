@@ -126,6 +126,7 @@ export default {
         { title: "Videos", icon: "mdi-video", dev: true },
       ],
       globalMenu: [
+        { title: "Upcoming", icon: "mdi-broadcast" },
         { title: "Stats", icon: "mdi-chart-timeline-variant", dev: true },
         { title: "Server", icon: "mdi-server", dev: true },
         { title: "About", icon: "mdi-information", dev: true },
