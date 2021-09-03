@@ -128,8 +128,8 @@ export default {
       globalMenu: [
         { title: "Upcoming", icon: "mdi-broadcast" },
         { title: "Stats", icon: "mdi-chart-timeline-variant", dev: true },
-        { title: "Server", icon: "mdi-server", dev: true },
-        { title: "About", icon: "mdi-information", dev: true },
+        { title: "Server", icon: "mdi-server" },
+        { title: "About", icon: "mdi-information" },
       ],
     };
   },
