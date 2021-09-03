@@ -110,7 +110,7 @@ const routes = [
 			{
 				path: "",
 				name: "AdminChannel",
-				redirect: "edit",
+				redirect: "streams",
 			},
 			{
 				path: "edit",
