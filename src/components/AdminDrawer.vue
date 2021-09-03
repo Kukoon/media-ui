@@ -117,7 +117,7 @@ export default {
   props: ["channelid"],
   data() {
     return {
-      channelMenuOpen: !this.channelid,
+      channelMenuOpen: true,
       channel: null,
       channels: [],
       channelMenu: [
@@ -163,8 +163,6 @@ export default {
     channelid(to) {
       if (to) {
         this.setSelectionAdminChannel(to);
-      }
-      if(this.selectionAdminChannel) {
         this.channelMenuOpen = false;
       }
     },
@@ -175,6 +173,7 @@ export default {
   created() {
     if (this.channelid) {
       this.setSelectionAdminChannel(this.channelid);
+      this.channelMenuOpen = false;
     }
     this.load();
   },
