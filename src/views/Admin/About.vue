@@ -49,7 +49,14 @@ export default {
   data() {
     return {
       contributes: [
-        { name: "genofire", www: "https://fireorbit.de" },
+        {
+          name: "janebuoy",
+          www: "https://github.com/janebuoy",
+	},
+        {
+          name: "genofire",
+          www: "https://fireorbit.de",
+	},
       ]
     }
   },
