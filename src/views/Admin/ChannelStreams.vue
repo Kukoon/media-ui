@@ -82,10 +82,12 @@
           :events="streams"
           :event-color="getStreamColor"
           :type="type"
-          @click:event="showEvent"
-          @click:more="viewDay"
-          @click:date="viewDay"
           @change="fetchStreams"
+          @mousedown:event="dragStart"
+          @mousedown:time="startTime"
+          @mousemove:time="moveTime"
+          @mouseup:time="dragEnd"
+          @mouseleave.native="dragCancel"
         ></v-calendar>
       </v-sheet>
     </v-col>
@@ -94,7 +96,7 @@
 
 <script>
 import { api } from "@/services/api.js";
-import { uuidToArrayElement } from "@/services/lib.js";
+import { uuidToArrayElement, models } from "@/services/lib.js";
 import { config } from "../../../config.js";
 
 export default {
@@ -102,6 +104,7 @@ export default {
   props: ["channelid"],
   data() {
     return {
+      channel: { title: 'unknown' },
       focus: '',
       type: 'month',
       typeToLabel: {
@@ -111,7 +114,8 @@ export default {
         '4day': '4 Days',
       },
       streams: [],
-      channel: { title: 'unknown' },
+      streamDrag: null,
+      streamDragTime: null,
     };
   },
   methods: {
@@ -132,6 +136,15 @@ export default {
     getStreamColor(stream) {
       return uuidToArrayElement(stream.id, config.colors.calendar)
     },
+    toTime (tms) {
+        return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
+    },
+    roundTime (time, down = true) {
+      const roundTo = 15 * 60 * 1000 // 15 minutes
+      return down
+        ? time - time % roundTo
+        : time + (roundTo - (time % roundTo))
+    },
     fetchStreams ({ start, end }) {
       api
         .Streams.ListChannelMy(this.channelid,
@@ -148,9 +161,49 @@ export default {
               name: el.lang.title,
               start: start,
               timed: true,
+              data: el,
             }
           });
         });
+    },
+    loadStreams() {
+      this.fetchStreams({
+        start: this.$refs.calendar.lastStart,
+        end: this.$refs.calendar.lastEnd,
+      })
+    },
+    dragStart ({ event, timed }) {
+        if (event && timed) {
+          this.streamDrag = event;
+          this.streamDragTime = null;
+        }
+    },
+    dragEnd () {
+      if (this.streamDrag) {
+        let stream = models.Stream.ToRequest(this.streamDrag.data);
+	stream.start_at = new Date(this.streamDrag.start).toJSON();
+        api.Streams.Save(this.streamDrag.id, stream).then(()=>{
+          this.loadStreams();
+	});
+      }
+      this.streamDrag = null;
+      this.streamDragTime = null;
+    },
+    dragCancel () {
+      this.streamDrag = null;
+      this.streamDragTime = null;
+    },
+    startTime (tms) {
+      const mouse = this.toTime(tms)
+      if (this.streamDrag) {
+        this.streamDragTime = mouse - this.streamDrag.start;
+      }
+    },
+    moveTime (tms) {
+      const mouse = this.toTime(tms)
+      if (this.streamDrag && this.streamDragTime !== null) {
+        this.streamDrag.start = this.roundTime(mouse - this.streamDragTime);
+      }
     },
   },
   mounted () {
