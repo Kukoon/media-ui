@@ -55,6 +55,7 @@
             @click="save()"
             :disabled="!enableSave"
           >
+            <v-icon left>mdi-content-save</v-icon>
             Save
           </v-btn>
           <v-btn
@@ -63,6 +64,7 @@
             @click="confirmRemove = true"
             v-if="channelid"
           >
+            <v-icon left>mdi-delete</v-icon>
             Delete
           </v-btn>
         </v-form>

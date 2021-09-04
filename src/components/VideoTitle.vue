@@ -2,15 +2,14 @@
   <router-link
     :to="linkTo"
     class="title-link px-0 dense-text"
-    :title="video.lang.title"
+    :title="video.lang ? video.lang.title : video.common_name ? video.common_name : video.id"
     :tag="noLink? 'span' : 'a'"
   >
     <v-card-title
-      v-if="video.lang"
       class="pt-0 pb-1 dense-text text-truncate"
       :class="dense ? 'pt-2' : 'pt-0'"
     >
-      {{ video.lang.title }}
+      {{ video.lang ? video.lang.title : video.common_name ? video.common_name : video.id }}
     </v-card-title>
   </router-link>
 </template>

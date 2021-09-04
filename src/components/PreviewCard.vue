@@ -5,7 +5,7 @@
     </v-responsive>
     <VideoTitle :video="video" :noLink="noLink" :isStream="isStream" :dense="dense" />
     <VideoSubtitle :video="video" :dense="dense" />
-    <v-expansion-panels flat tile>
+    <v-expansion-panels flat tile v-if="video.lang">
       <v-expansion-panel>
         <v-expansion-panel-header
           @click="toggleDescription(video.id)"
@@ -32,6 +32,7 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+    <slot></slot>
   </v-card>
 </template>
 

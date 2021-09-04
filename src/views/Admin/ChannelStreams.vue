@@ -92,6 +92,46 @@
           @mouseup:time="dragEnd"
           @mouseleave.native="dragCancel"
         ></v-calendar>
+        <v-menu
+          v-model="selectedOpen"
+          :close-on-content-click="false"
+          :activator="selectedElement"
+          offset-x
+        >
+          <PreviewCard
+           :video="selectedStream"
+           :noLink="true"
+           :isStream="true"
+          >
+            <v-card-actions>
+              <v-badge overlap color="grey" content="dev">
+                <v-btn
+                  text
+                  disabled
+                  :to="{ name: 'Stats', params: { channelid: selectedStream.id } }"
+                >
+                  <v-icon left>mdi-pencil</v-icon>
+                  Edit
+                </v-btn>
+              </v-badge>
+              <v-btn
+                text
+                color="red"
+                @click="deleteStream(selectedStream.id)"
+              >
+                <v-icon left>mdi-delete</v-icon>
+                Delete
+              </v-btn>
+              <v-btn
+                text
+                @click="selectedOpen = false"
+              >
+                <v-icon left>mdi-close</v-icon>
+                Cancel
+              </v-btn>
+            </v-card-actions>
+          </PreviewCard>
+        </v-menu>
       </v-sheet>
     </v-col>
   </v-row>
@@ -102,9 +142,14 @@ import { api } from "@/services/api.js";
 import { uuidToArrayElement, models } from "@/services/lib.js";
 import { config } from "../../../config.js";
 
+import PreviewCard from "@/components/PreviewCard.vue";
+
 export default {
   name: "ChannelStreams",
   props: ["channelid"],
+  components: {
+    PreviewCard,
+  },
   data() {
     return {
       channel: { title: 'unknown' },
@@ -119,6 +164,9 @@ export default {
       streams: [],
       streamDrag: null,
       streamDragTime: null,
+      selectedOpen: false,
+      selectedElement: null,
+      selectedStream: {},
     };
   },
   methods: {
@@ -221,7 +269,32 @@ export default {
         this.streamDrag.start = this.roundTime(mouse - this.streamDragTime);
       }
     },
-    showStream: console.log,
+    showStream ({ nativeEvent, event }) {
+      const open = () => {
+        this.selectedStream = event.data
+        this.selectedElement = nativeEvent.target
+        requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
+      }
+      if (this.selectedOpen) {
+        this.selectedOpen = false
+        requestAnimationFrame(() => requestAnimationFrame(() => open()))
+      } else {
+        open()
+      }
+      nativeEvent.stopPropagation()
+    },
+    deleteStream(id) {
+      api.Streams.Delete(id).then(()=>{
+        this.selectedOpen = false;
+        this.loadStreams();
+      });
+    },
+  },
+  watch: {
+    channelid() {
+      this.load();
+      this.loadStreams();
+    },
   },
   mounted () {
     this.$refs.calendar.checkChange()

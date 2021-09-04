@@ -2,7 +2,7 @@
   <router-link
     :to="linkTo"
     :class="noLink ? '': 'title-link pointer'"
-    :title="video.lang.title"
+    :title="video.lang ? video.lang.title : video.common_name ? video.common_name : video.id"
     @click.stop="goToTop()"
     :tag="noLink? 'span' : 'a'"
   >
