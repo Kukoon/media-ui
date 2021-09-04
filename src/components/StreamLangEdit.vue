@@ -101,7 +101,7 @@ export default {
       type: Object,
       default() {
         return {
-          lang: "de",
+          lang: this.$store.getters.language,
         }
       },
     },
