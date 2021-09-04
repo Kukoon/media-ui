@@ -108,7 +108,7 @@ export default {
             return {
               id: el.id,
               color: this.getStreamColor(el),
-              name: el.lang.title,
+              name: el.lang ? el.lang.title : el.common_name ? el.common_name : el.id,
               start: start,
               timed: true,
               category: el.channel.title,

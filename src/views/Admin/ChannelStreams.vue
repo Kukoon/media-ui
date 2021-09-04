@@ -79,9 +79,12 @@
           ref="calendar"
           v-model="focus"
           color="primary"
+          :type="type"
           :events="streams"
           :event-color="getStreamColor"
-          :type="type"
+          @click:event="showStream"
+          @click:more="zoom"
+          @click:date="zoom"
           @change="fetchStreams"
           @mousedown:event="dragStart"
           @mousedown:time="startTime"
@@ -122,6 +125,14 @@ export default {
     setToday () {
       this.focus = ''
     },
+    zoom ({ date }) {
+      this.focus = date
+      if (this.type == 'month') {
+        this.type = 'week'
+      } else{
+        this.type = 'day'
+      }
+    },
     prev () {
       this.$refs.calendar.prev()
     },
@@ -158,7 +169,7 @@ export default {
             return {
               id: el.id,
               color: this.getStreamColor(el),
-              name: el.lang.title,
+              name: el.lang ? el.lang.title : el.common_name ? el.common_name : el.id,
               start: start,
               timed: true,
               data: el,
@@ -180,11 +191,12 @@ export default {
     },
     dragEnd () {
       if (this.streamDrag) {
-        let stream = models.Stream.ToRequest(this.streamDrag.data);
-	stream.start_at = new Date(this.streamDrag.start).toJSON();
-        api.Streams.Save(this.streamDrag.id, stream).then(()=>{
-          this.loadStreams();
-	});
+        const newStart = new Date(this.streamDrag.start)
+        if (newStart.getTime() !== new Date(this.streamDrag.data.start_at).getTime()) {
+          let stream = models.Stream.ToRequest(this.streamDrag.data);
+          stream.start_at = newStart.toJSON();
+          api.Streams.Save(this.streamDrag.id, stream).then(this.loadStreams);
+	}
       }
       this.streamDrag = null;
       this.streamDragTime = null;
@@ -197,6 +209,10 @@ export default {
       const mouse = this.toTime(tms)
       if (this.streamDrag) {
         this.streamDragTime = mouse - this.streamDrag.start;
+      } else {
+        api.Streams.Add(this.channelid, models.Stream.ToRequest({
+          start_at: new Date(this.roundTime(mouse)).toJSON(),
+        })).then(this.loadStreams)
       }
     },
     moveTime (tms) {
@@ -205,6 +221,7 @@ export default {
         this.streamDrag.start = this.roundTime(mouse - this.streamDragTime);
       }
     },
+    showStream: console.log,
   },
   mounted () {
     this.$refs.calendar.checkChange()
