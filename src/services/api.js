@@ -96,6 +96,15 @@ export const api = {
 				const query = getSearchParams(params)
 				return axios.get(new URL(config.apiURL + "/stream/"+streamID+"/langs?"+query.toString()))
 			},
+			Add(streamID, lang){
+				return axios.post(new URL(config.apiURL + "/stream/"+streamID+"/lang"), lang)
+			},
+			Save(streamLangID, lang){
+				return axios.put(new URL(config.apiURL + "/stream-lang/"+streamLangID), lang)
+			},
+			Delete(streamLangID){
+				return axios.delete(new URL(config.apiURL + "/stream-lang/"+streamLangID))
+			},
 		},
 	},
 	Recordings: {

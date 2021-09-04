@@ -6,6 +6,7 @@ import Admin from "@/views/Admin.vue"
 import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
 import Distribution from "@/views/Admin/Distribution.vue"
 import ChannelStreams from "@/views/Admin/ChannelStreams.vue"
+import StreamEdit from "@/views/Admin/StreamEdit.vue"
 import Videos from "@/views/Admin/Videos.vue"
 import Stats from "@/views/Admin/Stats.vue"
 import Server from "@/views/Admin/Server.vue"
@@ -132,6 +133,18 @@ const routes = [
 				path: "streams",
 				name: "Streams",
 				component: ChannelStreams,
+				props: true,
+			},
+			{
+				path: "stream",
+				name: "StreamAdd",
+				component: StreamEdit,
+				props: true,
+			},
+			{
+				path: "stream/:streamid",
+				name: "StreamEdit",
+				component: StreamEdit,
 				props: true,
 			},
 			{

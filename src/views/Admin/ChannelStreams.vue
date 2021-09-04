@@ -104,16 +104,13 @@
            :isStream="true"
           >
             <v-card-actions>
-              <v-badge overlap color="grey" content="dev">
-                <v-btn
-                  text
-                  disabled
-                  :to="{ name: 'Stats', params: { channelid: selectedStream.id } }"
-                >
-                  <v-icon left>mdi-pencil</v-icon>
-                  Edit
-                </v-btn>
-              </v-badge>
+              <v-btn
+                text
+                :to="{ name: 'StreamEdit', params: { channelid: channelid, streamid: selectedStream.id } }"
+              >
+                <v-icon left>mdi-pencil</v-icon>
+                Edit
+              </v-btn>
               <v-btn
                 text
                 color="red"
