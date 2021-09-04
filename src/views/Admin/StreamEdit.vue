@@ -75,6 +75,50 @@
             dense
             @input="enableSave = true"
           ></v-switch>
+          <v-autocomplete
+            :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+            label="Tags"
+            v-model="stream.tags"
+            :items="tags"
+            item-text="lang.name"
+            item-value="id"
+            small-chips
+            deletable-chips
+            multiple
+            filled
+            dense
+            @input="enableSave = true"
+          >
+          </v-autocomplete>
+          <v-autocomplete
+            :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+            label="Event"
+            v-model="stream.event_id"
+            :items="events"
+            item-text="name"
+            item-value="id"
+            small-chips
+            clearable
+            filled
+            dense
+            @input="enableSave = true"
+          >
+          </v-autocomplete>
+          <v-autocomplete
+            :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+            label="Speakers"
+            v-model="stream.speakers"
+            :items="speakers"
+            item-text="name"
+            item-value="id"
+            small-chips
+            deletable-chips
+            multiple
+            filled
+            dense
+            @input="enableSave = true"
+          >
+          </v-autocomplete>
           <v-btn
             class="ml-auto mr-1"
             color="sucess"
@@ -165,12 +209,12 @@ export default {
     save() {
       let resp = null;
       if (this.streamid) {
-        resp = api.Streams.Save(this.streamid, models.Stream.ToRequest(this.stream));
+        resp = api.Streams.Save(this.streamid, this.stream);
       } else {
-        resp = api.Streams.Add(models.Stream.ToRequest(this.stream));
+        resp = api.Streams.Add(this.stream);
       }
       resp.then((response) => {
-        this.stream = response.data;
+        this.stream = models.Stream.ToRequest(response.data);
       });
     },
     remove() {
@@ -198,7 +242,7 @@ export default {
         return;
       }
       api.Streams.Get(this.streamid).then((response) => {
-        this.stream = response.data;
+        this.stream = models.Stream.ToRequest(response.data);
       });
     },
   },

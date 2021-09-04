@@ -10,8 +10,8 @@ export const models = {
 				poster: stream.poster,
 				preview: stream.preview,
 				event_id: stream.event ? stream.event.id : null,
-				tags: stream.tags ? stream.tags.map((el)=> el.id) : null,
-				speakers: stream.speakers ? stream.speakers.map((el)=> el.id) : null,
+				tags: stream.tags ? stream.tags.map((el)=> el.id) : [],
+				speakers: stream.speakers ? stream.speakers.map((el)=> el.id) : [],
 			}
 		},
 	},
