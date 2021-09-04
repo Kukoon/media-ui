@@ -84,6 +84,19 @@ export const api = {
 		Add(channelID, stream){
 			return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/stream"), stream)
 		},
+		Save(streamID, stream){
+			return axios.put(new URL(config.apiURL + "/stream/"+streamID), stream)
+		},
+		Delete(streamID){
+			return axios.delete(new URL(config.apiURL + "/stream/"+streamID))
+		},
+		Langs: {
+			List(streamID, params){
+				params = Object.assign({}, params);
+				const query = getSearchParams(params)
+				return axios.get(new URL(config.apiURL + "/stream/"+streamID+"/langs?"+query.toString()))
+			},
+		},
 	},
 	Recordings: {
 		List(params) {
