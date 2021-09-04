@@ -61,6 +61,8 @@
 
 <script>
 import { api } from "@/services/api.js";
+import { uuidToArrayElement } from "@/services/lib.js";
+import { config } from "../../../config.js";
 
 export default {
   name: "StreamSchedule",
@@ -70,7 +72,6 @@ export default {
       streams: [],
       channelIDs: [],
       channelNames: [],
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
     };
   },
   methods: {
@@ -92,7 +93,7 @@ export default {
         });
     },
     getStreamColor(stream) {
-      return this.colors[stream.id.charCodeAt(0) % this.colors.length];
+      return uuidToArrayElement(stream.id, config.colors.calendar)
     },
     fetchStreams ({ start, end }) {
       api

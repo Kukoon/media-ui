@@ -94,6 +94,8 @@
 
 <script>
 import { api } from "@/services/api.js";
+import { uuidToArrayElement } from "@/services/lib.js";
+import { config } from "../../../config.js";
 
 export default {
   name: "ChannelStreams",
@@ -110,7 +112,6 @@ export default {
       },
       streams: [],
       channel: { title: 'unknown' },
-      colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
     };
   },
   methods: {
@@ -129,7 +130,7 @@ export default {
         .then((response) => this.channel = response.data );
     },
     getStreamColor(stream) {
-      return this.colors[stream.id.charCodeAt(0) % this.colors.length];
+      return uuidToArrayElement(stream.id, config.colors.calendar)
     },
     fetchStreams ({ start, end }) {
       api
@@ -140,7 +141,7 @@ export default {
         })
         .then((response) => {
           this.streams = response.data.map((el)=> {
-            const start = new Date(el.start_at)
+            const start = new Date(el.start_at);
             return {
               id: el.id,
               color: this.getStreamColor(el),
