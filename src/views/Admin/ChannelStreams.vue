@@ -76,6 +76,7 @@
           ref="calendar"
           v-model="focus"
           color="primary"
+          show-week
           :type="type"
           :events="streams"
           :event-color="getStreamColor"
