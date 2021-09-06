@@ -67,9 +67,6 @@
               <v-list-item @click="type = 'month'">
                 <v-list-item-title>Month</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = '4day'">
-                <v-list-item-title>4 days</v-list-item-title>
-              </v-list-item>
             </v-list>
           </v-menu>
         </v-toolbar>
@@ -151,12 +148,11 @@ export default {
     return {
       channel: { title: 'unknown' },
       focus: '',
-      type: 'month',
+      type: 'week',
       typeToLabel: {
         month: 'Month',
         week: 'Week',
         day: 'Day',
-        '4day': '4 Days',
       },
       streams: [],
       streamDrag: null,
