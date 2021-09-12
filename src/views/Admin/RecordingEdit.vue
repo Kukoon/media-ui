@@ -204,7 +204,7 @@
               </v-chip>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <RecordingFormatEdit :recordingid="recordingid" @change-recording="load" :format="format" />
+              <RecordingFormatEdit :recordingid="recordingid" :channelid="channelid" @change-recording="load" :format="format" />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -214,7 +214,7 @@
               <span class="text-truncate">New Format</span>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <RecordingFormatEdit :recordingid="recordingid" @change-recording="load" />
+              <RecordingFormatEdit :recordingid="recordingid" :channelid="channelid" @change-recording="load" />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>

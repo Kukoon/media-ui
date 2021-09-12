@@ -115,7 +115,7 @@ export default {
       default() {
         return {
           lang: this.$store.getters.language,
-          poster: "https://cdn.media.kukoon.de/videos/"+this.channelid+"/"+this.recordingid+"/poster.jpg",
+          url: "https://cdn.media.kukoon.de/videos/"+this.channelid+"/"+this.recordingid+"/video_best.mp4",
           resolution: "1920x1080",
           quality: 0,
           bytes: 0,
