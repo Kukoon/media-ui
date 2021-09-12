@@ -124,6 +124,14 @@ export const api = {
 			}
 			return this.List(params)
 		},
+		ListChannelMy(channelID, params){
+			params = Object.assign({}, params);
+			if (!params["lang"]) {
+				params["lang"] = store.getters.language
+			}
+			const query = getSearchParams(params)
+			return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/recordings?"+query.toString()))
+		},
 		Get(id, params) {
 			params = Object.assign({}, params);
 			if (!params["lang"]) {
@@ -132,6 +140,15 @@ export const api = {
 			const query = getSearchParams(params)
 			var url = new URL(config.apiURL + "/recording/" + id + "?" + query.toString())
 			return axios.get(url)
+		},
+		Add(recordingID, recording){
+			return axios.post(new URL(config.apiURL + "/channel/"+recordingID+"/recording"), recording)
+		},
+		Save(recordingID, recording){
+			return axios.put(new URL(config.apiURL + "/recording/"+recordingID), recording)
+		},
+		Delete(recordingID){
+			return axios.delete(new URL(config.apiURL + "/recording/"+recordingID))
 		},
 		Langs: {
 			List(recordingID, params){
@@ -147,6 +164,17 @@ export const api = {
 			},
 			Delete(recordingLangID){
 				return axios.delete(new URL(config.apiURL + "/recording-lang/"+recordingLangID))
+			},
+		},
+		Formats: {
+			Add(recordingID, format){
+				return axios.post(new URL(config.apiURL + "/recording/"+recordingID+"/format"), format)
+			},
+			Save(recordingFormatID, format){
+				return axios.put(new URL(config.apiURL + "/recording-format/"+recordingFormatID), format)
+			},
+			Delete(recordingFormatID){
+				return axios.delete(new URL(config.apiURL + "/recording-format/"+recordingFormatID))
 			},
 		},
 	},
