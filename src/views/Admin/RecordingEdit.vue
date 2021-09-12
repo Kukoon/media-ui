@@ -295,7 +295,7 @@ export default {
       }
       api.Recordings.Get(this.recordingid).then((response) => {
         this.recording = models.Recording.ToRequest(response.data);
-        this.formats = response.data.formats;
+        this.formats = response.data.formats ? response.data.formats : [];
       });
     },
   },
