@@ -148,7 +148,7 @@
             class="ml-1"
             color="blue"
             v-if="recordingid"
-            outline
+            outlined
             :to="{ name: 'Player', params: { id: recordingid} }"
             target="_blank"
           >
