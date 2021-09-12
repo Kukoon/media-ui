@@ -12,7 +12,7 @@
         >
           <v-row align="center">
             <v-col class="grow">
-              Do you really want to remove this recording? This action cannot be
+              Do you really want to remove this recording format? This action cannot be
               undone.
             </v-col>
             <v-col class="shrink">
@@ -107,11 +107,18 @@ export default {
     "recordingid": {
       type: String,
     },
+    "channelid": {
+      type: String,
+    },
     "format": {
       type: Object,
       default() {
         return {
-          lang: this.$store.getters.formatuage,
+          lang: this.$store.getters.language,
+          poster: "https://cdn.media.kukoon.de/videos/"+this.channelid+"/"+this.recordingid+"/poster.jpg",
+          resolution: "1920x1080",
+          quality: 0,
+          bytes: 0,
         }
       },
     },
@@ -129,6 +136,8 @@ export default {
   methods: {
     save() {
       let resp = null;
+      this.formatForm.quality = parseInt(this.formatForm.quality);
+      this.formatForm.bytes = parseInt(this.formatForm.bytes);
       if (this.format.id) {
         resp = api.Recordings.Formats.Save(this.format.id, this.formatForm);
       } else {
