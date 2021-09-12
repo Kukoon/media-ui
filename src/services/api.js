@@ -124,9 +124,30 @@ export const api = {
 			}
 			return this.List(params)
 		},
-		Get(id) {
-			var url = new URL(config.apiURL + "/recording/" + id + "?lang=" + store.getters.language)
+		Get(id, params) {
+			params = Object.assign({}, params);
+			if (!params["lang"]) {
+				params["lang"] = store.getters.language
+			}
+			const query = getSearchParams(params)
+			var url = new URL(config.apiURL + "/recording/" + id + "?" + query.toString())
 			return axios.get(url)
+		},
+		Langs: {
+			List(recordingID, params){
+				params = Object.assign({}, params);
+				const query = getSearchParams(params)
+				return axios.get(new URL(config.apiURL + "/recording/"+recordingID+"/langs?"+query.toString()))
+			},
+			Add(recordingID, lang){
+				return axios.post(new URL(config.apiURL + "/recording/"+recordingID+"/lang"), lang)
+			},
+			Save(recordingLangID, lang){
+				return axios.put(new URL(config.apiURL + "/recording-lang/"+recordingLangID), lang)
+			},
+			Delete(recordingLangID){
+				return axios.delete(new URL(config.apiURL + "/recording-lang/"+recordingLangID))
+			},
 		},
 	},
 	Tags: {

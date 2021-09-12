@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     load() {
-      api.Recordings.Get(this.id).then((response) => {
+      api.Recordings.Get(this.id, { "count_viewer": true}).then((response) => {
         this.video = response.data;
       })
     },
