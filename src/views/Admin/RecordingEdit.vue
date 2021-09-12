@@ -144,6 +144,17 @@
             <v-icon left>mdi-delete</v-icon>
             Delete
           </v-btn>
+          <v-btn
+            class="ml-1"
+            color="blue"
+            v-if="recordingid"
+            outline
+            :to="{ name: 'Player', params: { id: recordingid} }"
+            target="_blank"
+          >
+            <v-icon left>mdi-web</v-icon>
+            View
+          </v-btn>
         </v-form>
         <v-divider class="mt-4 mb-4" v-if="recordingid" />
         <h4 v-if="recordingid">Descriptions</h4>
