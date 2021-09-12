@@ -43,7 +43,7 @@
           ></v-text-field>
           <v-text-field
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-            type="datetime-local"
+            type="number"
             label="Duration"
             v-model="recording.duration"
             outlined
@@ -268,6 +268,7 @@ export default {
   methods: {
     save() {
       let resp = null;
+      this.recording.duration = parseInt(this.recording.duration);
       if (this.recordingid) {
         resp = api.Recordings.Save(this.recordingid, this.recording);
       } else {
