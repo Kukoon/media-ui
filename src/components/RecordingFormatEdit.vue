@@ -119,6 +119,7 @@ export default {
           resolution: "1920x1080",
           quality: 0,
           bytes: 0,
+          is_video: true,
         }
       },
     },

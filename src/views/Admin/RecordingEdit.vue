@@ -35,6 +35,14 @@
           ></v-text-field>
           <v-text-field
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+            label="Created At"
+            v-model="recording.created_at"
+            outlined
+            dense
+            @input="enableSave = true"
+          ></v-text-field>
+          <v-text-field
+            :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             type="datetime-local"
             label="Duration"
             v-model="recording.duration"
