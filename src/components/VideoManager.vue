@@ -6,9 +6,18 @@
           {{ video.lang.title }}
         </span>
         <v-chip
+          v-if="video.listed"
+          small
+          color="green"
+          class="flex-grow-0 flex-shrink-0 pr-3 monospace mr-4"
+          label
+          outlined
+          >Listed</v-chip
+        >
+        <v-chip
           v-if="video.public"
           small
-          color="success"
+          color="blue"
           class="flex-grow-0 flex-shrink-0 pr-3 monospace mr-4"
           label
           outlined
@@ -17,7 +26,7 @@
         <v-chip
           v-else
           small
-          color="warning"
+          color="orange"
           class="flex-grow-0 flex-shrink-0 pr-3 monospace mr-4"
           label
           outlined
