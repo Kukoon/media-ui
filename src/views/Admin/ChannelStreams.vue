@@ -104,6 +104,7 @@
             <v-card-actions>
               <v-btn
                 text
+                color="green"
                 :to="{ name: 'StreamEdit', params: { channelid: channelid, streamid: selectedStream.id } }"
               >
                 <v-icon left>mdi-pencil</v-icon>
@@ -116,6 +117,14 @@
               >
                 <v-icon left>mdi-delete</v-icon>
                 Delete
+              </v-btn>
+              <v-btn
+                text
+                color="blue"
+                @click="exportStream(selectedStream.id)"
+              >
+                <v-icon left>mdi-video-plus</v-icon>
+                Export
               </v-btn>
               <v-btn
                 text
@@ -276,6 +285,11 @@ export default {
         open()
       }
       nativeEvent.stopPropagation()
+    },
+    exportStream(id) {
+      api.Streams.Export(id).then(()=>{
+        this.$router.replace({ name: "RecordingEdit", params: { channelid: this.channelid, recordingid: id } });
+      });
     },
     deleteStream(id) {
       api.Streams.Delete(id).then(()=>{

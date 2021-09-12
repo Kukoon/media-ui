@@ -4,8 +4,7 @@
       <v-col>
         <h3>Videos</h3>
         <v-divider class="mt-2"></v-divider>
-        <VideoUpload />
-        <VideoManager />
+        <VideoManager :channelid="channelid" />
       </v-col>
     </v-row>
   </v-container>
@@ -13,10 +12,10 @@
 
 <script>
 import VideoManager from "@/components/VideoManager.vue";
-import VideoUpload from "@/components/VideoUpload.vue";
 
 export default {
-  name: "Videos",
-  components: { VideoManager, VideoUpload },
+  name: "ChannelRecordings",
+  components: { VideoManager },
+  props: ["channelid"],
 };
 </script>

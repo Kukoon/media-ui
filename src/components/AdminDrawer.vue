@@ -123,7 +123,7 @@ export default {
       channelMenu: [
         { title: "Streams", icon: "mdi-broadcast" },
         { title: "Distribution", icon: "mdi-vector-polyline" },
-        { title: "Videos", icon: "mdi-video", dev: true },
+        { title: "ChannelRecordings", icon: "mdi-video" },
       ],
       globalMenu: [
         { title: "Upcoming", icon: "mdi-broadcast" },

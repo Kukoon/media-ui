@@ -90,6 +90,9 @@ export const api = {
 		Delete(streamID){
 			return axios.delete(new URL(config.apiURL + "/stream/"+streamID))
 		},
+		Export(streamID){
+			return axios.post(new URL(config.apiURL + "/stream/"+streamID+"/to-recording"))
+		},
 		Langs: {
 			List(streamID, params){
 				params = Object.assign({}, params);

@@ -1,12 +1,12 @@
 <template>
   <v-expansion-panels accordion tile class="mt-4">
-    <v-expansion-panel v-for="(video, i) in videos" :key="i">
+    <v-expansion-panel v-for="video in recordings" :key="video.id">
       <v-expansion-panel-header>
         <span class="text-truncate">
-          {{ video.name }}
+          {{ video.lang.title }}
         </span>
         <v-chip
-          v-if="video.published"
+          v-if="video.public"
           small
           color="success"
           class="flex-grow-0 flex-shrink-0 pr-3 monospace mr-4"
@@ -29,98 +29,32 @@
           outlined
           class="flex-grow-0 flex-shrink-0 monospace pr-3 mr-4"
         >
-          {{ video.date }}
+          {{ video.created_at }}
         </v-chip>
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-card tile elevation="0" class="pa-0 mt-2">
           <v-card-text class="pa-0 d-flex flex-column justify-end">
-            <v-row no-gutters class="my-1">
-              <v-text-field
-                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                outlined
-                dense
-                label="Title"
-                hide-details
-                v-model="video.name"
-              ></v-text-field>
-            </v-row>
-            <v-row no-gutters class="d-flex align-center my-1">
-              <v-btn
-                :color="darkMode ? 'neutral lighten-3' : 'neutral'"
-                class="mr-4 flex-grow-0 flex-shrink-0 hidden-sm-and-down"
-              >
-                <span>Browse</span>
-              </v-btn>
-              <v-btn icon class="mr-2 hidden-md-and-up">
-                <v-icon>mdi-folder-outline</v-icon>
-              </v-btn>
-              <v-text-field
-                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                hide-details
-                class="flex-shrink-1 flex-grow-1"
-                outlined
-                readonly
-                disabled
-                dense
-                label="Thumbnail File"
-              ></v-text-field>
-            </v-row>
-            <v-row no-gutters class="d-flex align-center my-1">
-              <v-btn
-                :color="darkMode ? 'neutral lighten-3' : 'neutral'"
-                class="mr-4 flex-grow-0 flex-shrink-0 hidden-sm-and-down"
-              >
-                <span>Browse</span>
-              </v-btn>
-              <v-btn icon class="mr-2 hidden-md-and-up">
-                <v-icon>mdi-folder-outline</v-icon>
-              </v-btn>
-              <v-text-field
-                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                hide-details
-                class="flex-shrink-1 flex-grow-1"
-                outlined
-                readonly
-                disabled
-                dense
-                label="Thumbnail File"
-              ></v-text-field>
-            </v-row>
-            <v-row no-gutters class="my-1">
-              <v-text-field
-                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                outlined
-                dense
-                label="Tags (separated by comma)"
-                hide-details
-                v-model="video.tags"
-              ></v-text-field>
-            </v-row>
-            <v-row no-gutters class="my-1">
-              <v-textarea
-                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                dense
-                rows="10"
-                outlined
-                label="Description (using markdown syntax)"
-                v-model="video.desc"
-                hide-details
-              ></v-textarea>
-            </v-row>
             <v-row no-gutters dense>
               <v-switch
-                :input-value="video.published"
+                v-model="video.public"
                 class="pt-4 pb-4 ma-0"
                 hide-details
                 label="Public"
                 color="primary lighten-3"
               ></v-switch>
+              <v-switch
+                v-model="video.listed"
+                class="pt-4 pb-4 ma-0"
+                hide-details
+                label="Listed"
+                color="primary lighten-3"
+              ></v-switch>
             </v-row>
           </v-card-text>
           <v-card-actions class="pa-0">
-            <v-btn outlined color="error darken-1"> Delete </v-btn>
-            <v-btn class="ml-auto" color="sucess"> Save </v-btn>
+            <v-btn outlined class="ml-auto" color="sucess" @click="save(video)"> Save </v-btn>
+            <v-btn color="sucess darken-1" :to="{ name: 'RecordingEdit', params: { channelid: video.channel.id, recordingid: video.id} }"> Edit </v-btn>
           </v-card-actions>
         </v-card>
       </v-expansion-panel-content>
@@ -129,18 +63,39 @@
 </template>
 
 <script>
-import VideoData from "@/data/VideoData.json";
 import { mapGetters } from "vuex";
+
+import { api } from "@/services/api.js";
+import { models } from "@/services/lib.js";
 
 export default {
   name: "VideoManager",
+  props: ["channelid"],
   data() {
     return {
-      videos: VideoData,
+      recordings: [],
     };
   },
   computed: {
     ...mapGetters(["darkMode"]),
+  },
+  methods: {
+    save(video) {
+      api.Recordings.Save(video.id, models.Recording.ToRequest(video)).then(this.load);
+    },
+    load() {
+      api
+        .Recordings.ListChannelMy(this.channelid)
+        .then((response) => (this.recordings = response.data));
+    },
+  },
+  watch: {
+    channelid() {
+      this.load()
+    },
+  },
+  mounted() {
+    this.load()
   },
 };
 </script>
