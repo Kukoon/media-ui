@@ -2,6 +2,18 @@
   <v-row class="fill-height">
     <v-col>
       <h2 class="mt-4 mx-2 mb-2">Streams of {{ channel.title }}</h2>
+      <v-fab-transition>
+        <v-btn
+          color="green"
+          fixed
+          bottom
+          right
+          fab
+          :to="{ name: 'StreamAdd', params: {channelid: channelid } }"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-fab-transition>
       <v-sheet>
         <v-toolbar
           flat

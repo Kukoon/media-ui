@@ -145,7 +145,7 @@
             Delete
           </v-btn>
           <v-btn
-            class="ml-1"
+            class="ml-1 float-right"
             color="blue"
             v-if="recordingid"
             outlined

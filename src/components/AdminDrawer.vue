@@ -63,9 +63,9 @@
       <v-subheader>Channel</v-subheader>
       <v-list-item
         v-for="item in channelMenu"
-        :key="item.title"
+        :key="item.name"
         link
-        :to="{ name: item.title, params: { channelid: selectionAdminChannel } }"
+        :to="{ name: item.name, params: { channelid: selectionAdminChannel } }"
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
@@ -82,9 +82,9 @@
       <v-subheader>Global</v-subheader>
       <v-list-item
         v-for="item in globalMenu"
-        :key="item.title"
+        :key="item.name"
         link
-        :to="{ name: item.title }"
+        :to="{ name: item.name }"
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
@@ -121,15 +121,15 @@ export default {
       channel: null,
       channels: [],
       channelMenu: [
-        { title: "Streams", icon: "mdi-broadcast" },
-        { title: "Distribution", icon: "mdi-vector-polyline" },
-        { title: "ChannelRecordings", icon: "mdi-video" },
+        { name: "ChannelStreams", icon: "mdi-broadcast", title: "Streams" },
+        { name: "Distribution", icon: "mdi-vector-polyline", title: "Distribution" },
+        { name: "ChannelRecordings", icon: "mdi-video", title: "Recordings" },
       ],
       globalMenu: [
-        { title: "Upcoming", icon: "mdi-broadcast" },
-        { title: "Stats", icon: "mdi-chart-timeline-variant", dev: true },
-        { title: "Server", icon: "mdi-server" },
-        { title: "About", icon: "mdi-information" },
+        { name: "Upcoming", icon: "mdi-broadcast", title: "Upcoming" },
+        { name: "Stats", icon: "mdi-chart-timeline-variant", title: "Stats", dev: true },
+        { name: "Server", icon: "mdi-server", title: "Server" },
+        { name: "About", icon: "mdi-information", title: "About" },
       ],
     };
   },

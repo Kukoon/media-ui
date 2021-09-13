@@ -62,9 +62,9 @@
             </v-row>
           </v-card-text>
           <v-card-actions class="pa-0">
-            <v-btn outlined class="ml-auto" color="sucess" @click="save(video)"> Save </v-btn>
-            <v-btn class="ml-auto" color="sucess darken-1" :to="{ name: 'RecordingEdit', params: { channelid: video.channel.id, recordingid: video.id} }"> Edit </v-btn>
+            <v-btn outlined color="sucess" @click="save(video)"><v-icon left>mdi-content-save</v-icon> Save </v-btn>
             <v-btn outlined class="ml-auto" color="blue" :to="{ name: 'Player', params: { id: video.id} }" target="_blank"><v-icon left>mdi-web</v-icon> View </v-btn>
+            <v-btn color="sucess darken-1" :to="{ name: 'RecordingEdit', params: { channelid: video.channel.id, recordingid: video.id} }"><v-icon left>mdi-pencil</v-icon> Edit </v-btn>
           </v-card-actions>
         </v-card>
       </v-expansion-panel-content>

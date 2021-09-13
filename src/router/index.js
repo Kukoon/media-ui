@@ -133,7 +133,7 @@ const routes = [
 			},
 			{
 				path: "streams",
-				name: "Streams",
+				name: "ChannelStreams",
 				component: ChannelStreams,
 				props: true,
 			},
