@@ -3,7 +3,12 @@
     <v-responsive :aspect-ratio="16 / 9">
       <Poster :video="video" :noLink="noLink" :isStream="isStream" />
     </v-responsive>
-    <VideoTitle :video="video" :noLink="noLink" :isStream="isStream" :dense="dense" />
+    <VideoTitle
+      :video="video"
+      :noLink="noLink"
+      :isStream="isStream"
+      :dense="dense"
+    />
     <VideoSubtitle :video="video" :dense="dense" />
     <v-expansion-panels flat tile v-if="video.lang">
       <v-expansion-panel>
@@ -50,7 +55,7 @@ export default {
     VideoTitle,
     VideoSubtitle,
   },
-  props: ["video", "noLink", "isStream"],
+  props: ["video", "noLink", "isStream", "width"],
   data() {
     return {
       tagsPosition: "top",

@@ -1,7 +1,7 @@
 <template>
   <v-card-subtitle
     v-if="video.lang"
-    class="pb-0 pt-0 mt-n2"
+    class="pb-0 pt-0 mt-n2 px-4"
     :class="[dense === true ? 'text-truncate' : null]"
   >
     {{ video.lang.subtitle }}
