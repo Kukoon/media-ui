@@ -197,11 +197,35 @@ export const api = {
 			var url = new URL(config.apiURL + "/speakers");
 			return axios.get(url)
 		},
+		ListChannelMy(channelID) {
+			return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/speakers"))
+		},
+		Add(channelID, speaker) {
+			return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/speaker"), speaker)
+		},
+		Save(speakerID, speaker) {
+			return axios.put(new URL(config.apiURL + "/speaker/"+speakerID), speaker)
+		},
+		Delete(speakerID) {
+			return axios.delete(new URL(config.apiURL + "/speaker/"+speakerID))
+		},
 	},
 	Events: {
 		List() {
 			var url = new URL(config.apiURL + "/events");
 			return axios.get(url)
+		},
+		ListChannelMy(channelID) {
+			return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/events"))
+		},
+		Add(channelID, eventData) {
+			return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/event"), eventData)
+		},
+		Save(eventID, eventData) {
+			return axios.put(new URL(config.apiURL + "/event/"+eventID), eventData)
+		},
+		Delete(eventID) {
+			return axios.delete(new URL(config.apiURL + "/event/"+eventID))
 		},
 	},
 }
