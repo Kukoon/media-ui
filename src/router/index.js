@@ -15,6 +15,8 @@ import ChannelStreams from "@/views/Admin/ChannelStreams.vue"
 import StreamEdit from "@/views/Admin/StreamEdit.vue"
 import ChannelRecordings from "@/views/Admin/ChannelRecordings.vue"
 import RecordingEdit from "@/views/Admin/RecordingEdit.vue"
+import ChannelSpeakers from "@/views/Admin/ChannelSpeakers.vue"
+import ChannelEvents from "@/views/Admin/ChannelEvents.vue"
 
 // Main Views
 import Main from "@/views/Main.vue"
@@ -165,6 +167,18 @@ const routes = [
 				path: "recording/:recordingid",
 				name: "RecordingEdit",
 				component: RecordingEdit,
+				props: true,
+			},
+			{
+				path: "speakers",
+				name: "ChannelSpeakers",
+				component: ChannelSpeakers,
+				props: true,
+			},
+			{
+				path: "events",
+				name: "ChannelEvents",
+				component: ChannelEvents,
 				props: true,
 			},
 		]

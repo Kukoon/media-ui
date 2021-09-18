@@ -124,6 +124,8 @@ export default {
         { name: "ChannelStreams", icon: "mdi-broadcast", title: "Streams" },
         { name: "Distribution", icon: "mdi-vector-polyline", title: "Distribution" },
         { name: "ChannelRecordings", icon: "mdi-video", title: "Recordings" },
+        { name: "ChannelSpeakers", icon: "mdi-tooltip-account", title: "Speakers" },
+        { name: "ChannelEvents", icon: "mdi-calendar", title: "Events" },
       ],
       globalMenu: [
         { name: "Upcoming", icon: "mdi-broadcast", title: "Upcoming" },
