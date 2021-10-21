@@ -1,17 +1,32 @@
 export const models = {
 	Stream: {
-		ToRequest(stream) {
+		ToRequest(data) {
 			return {
-				start_at: stream.start_at,
-				listen_at: stream.listen_at,
-				chat: stream.chat,
-				running: stream.running,
-				common_name: stream.common_name,
-				poster: stream.poster,
-				preview: stream.preview,
-				event_id: stream.event ? stream.event.id : null,
-				tags: stream.tags ? stream.tags.map((el)=> el.id) : [],
-				speakers: stream.speakers ? stream.speakers.map((el)=> el.id) : [],
+				start_at: data.start_at,
+				listen_at: data.listen_at,
+				chat: data.chat,
+				running: data.running,
+				common_name: data.common_name,
+				poster: data.poster,
+				preview: data.preview,
+				event_id: data.event ? data.event.id : null,
+				tags: data.tags ? data.tags.map((el)=> el.id) : [],
+				speakers: data.speakers ? data.speakers.map((el)=> el.id) : [],
+			}
+		},
+	},
+	Recording: {
+		ToRequest(data) {
+			return {
+				created_at: data.created_at,
+				public: data.public,
+				listed: data.listed,
+				common_name: data.common_name,
+				poster: data.poster,
+				preview: data.preview,
+				event_id: data.event ? data.event.id : null,
+				tags: data.tags ? data.tags.map((el)=> el.id) : [],
+				speakers: data.speakers ? data.speakers.map((el)=> el.id) : [],
 			}
 		},
 	},

@@ -2,6 +2,18 @@
   <v-row class="fill-height">
     <v-col>
       <h2 class="mt-4 mx-2 mb-2">Streams of {{ channel.title }}</h2>
+      <v-fab-transition>
+        <v-btn
+          color="green"
+          fixed
+          bottom
+          right
+          fab
+          :to="{ name: 'StreamAdd', params: {channelid: channelid } }"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </v-fab-transition>
       <v-sheet>
         <v-toolbar
           flat
@@ -67,9 +79,6 @@
               <v-list-item @click="type = 'month'">
                 <v-list-item-title>Month</v-list-item-title>
               </v-list-item>
-              <v-list-item @click="type = '4day'">
-                <v-list-item-title>4 days</v-list-item-title>
-              </v-list-item>
             </v-list>
           </v-menu>
         </v-toolbar>
@@ -79,6 +88,7 @@
           ref="calendar"
           v-model="focus"
           color="primary"
+          show-week
           :type="type"
           :events="streams"
           :event-color="getStreamColor"
@@ -106,6 +116,7 @@
             <v-card-actions>
               <v-btn
                 text
+                color="green"
                 :to="{ name: 'StreamEdit', params: { channelid: channelid, streamid: selectedStream.id } }"
               >
                 <v-icon left>mdi-pencil</v-icon>
@@ -118,6 +129,14 @@
               >
                 <v-icon left>mdi-delete</v-icon>
                 Delete
+              </v-btn>
+              <v-btn
+                text
+                color="blue"
+                @click="exportStream(selectedStream.id)"
+              >
+                <v-icon left>mdi-video-plus</v-icon>
+                Export
               </v-btn>
               <v-btn
                 text
@@ -151,12 +170,11 @@ export default {
     return {
       channel: { title: 'unknown' },
       focus: '',
-      type: 'month',
+      type: 'week',
       typeToLabel: {
         month: 'Month',
         week: 'Week',
         day: 'Day',
-        '4day': '4 Days',
       },
       streams: [],
       streamDrag: null,
@@ -279,6 +297,11 @@ export default {
         open()
       }
       nativeEvent.stopPropagation()
+    },
+    exportStream(id) {
+      api.Streams.Export(id).then(()=>{
+        this.$router.replace({ name: "RecordingEdit", params: { channelid: this.channelid, recordingid: id } });
+      });
     },
     deleteStream(id) {
       api.Streams.Delete(id).then(()=>{

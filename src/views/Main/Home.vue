@@ -18,7 +18,7 @@
       <v-col>
         <h1 class="px-2 headline">Recordings</h1>
         <v-divider class="mx-2 mb-2 mt-2" />
-        <VideoGrid :videos="recordings" />
+        <VideoGrid :videos="recordings" @showMore="loadAllRecordings" />
       </v-col>
     </v-row>
   </v-container>
@@ -38,13 +38,24 @@ export default {
       recordings: [],
       streamsLive: [],
       streamsUpcoming: [],
-    }
+    };
   },
   methods: {
     load() {
-      api.Streams.List({"running": true}).then((response) => (this.streamsLive = response.data))
-      api.Streams.List({"upcoming": true}).then((response) => (this.streamsUpcoming = response.data))
-      api.Recordings.List().then((response) => (this.recordings = response.data.slice(0, 6)))
+      api.Streams.List({ running: true }).then(
+        (response) => (this.streamsLive = response.data)
+      );
+      api.Streams.List({ upcoming: true }).then(
+        (response) => (this.streamsUpcoming = response.data)
+      );
+      api.Recordings.List().then(
+        (response) => (this.recordings = response.data.slice(0, 6))
+      );
+    },
+    loadAllRecordings() {
+      api.Recordings.List().then(
+        (response) => (this.recordings = response.data)
+      );
     },
   },
   created() {

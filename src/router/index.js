@@ -3,16 +3,20 @@ import VueRouter from "vue-router"
 
 // Admin Views
 import Admin from "@/views/Admin.vue"
-import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
-import Distribution from "@/views/Admin/Distribution.vue"
-import ChannelStreams from "@/views/Admin/ChannelStreams.vue"
-import StreamEdit from "@/views/Admin/StreamEdit.vue"
-import Videos from "@/views/Admin/Videos.vue"
+import Login from "@/views/Admin/Login.vue"
 import Stats from "@/views/Admin/Stats.vue"
 import Server from "@/views/Admin/Server.vue"
 import About from "@/views/Admin/About.vue"
-import Login from "@/views/Admin/Login.vue"
 import StreamSchedule from "@/views/Admin/StreamSchedule.vue"
+import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
+// for channel
+import Distribution from "@/views/Admin/Distribution.vue"
+import ChannelStreams from "@/views/Admin/ChannelStreams.vue"
+import StreamEdit from "@/views/Admin/StreamEdit.vue"
+import ChannelRecordings from "@/views/Admin/ChannelRecordings.vue"
+import RecordingEdit from "@/views/Admin/RecordingEdit.vue"
+import ChannelSpeakers from "@/views/Admin/ChannelSpeakers.vue"
+import ChannelEvents from "@/views/Admin/ChannelEvents.vue"
 
 // Main Views
 import Main from "@/views/Main.vue"
@@ -131,7 +135,7 @@ const routes = [
 			},
 			{
 				path: "streams",
-				name: "Streams",
+				name: "ChannelStreams",
 				component: ChannelStreams,
 				props: true,
 			},
@@ -148,9 +152,34 @@ const routes = [
 				props: true,
 			},
 			{
-				path: "videos",
-				name: "Videos",
-				component: Videos
+				path: "recordings",
+				name: "ChannelRecordings",
+				component: ChannelRecordings,
+				props: true,
+			},
+			{
+				path: "recording",
+				name: "RecordingAdd",
+				component: RecordingEdit,
+				props: true,
+			},
+			{
+				path: "recording/:recordingid",
+				name: "RecordingEdit",
+				component: RecordingEdit,
+				props: true,
+			},
+			{
+				path: "speakers",
+				name: "ChannelSpeakers",
+				component: ChannelSpeakers,
+				props: true,
+			},
+			{
+				path: "events",
+				name: "ChannelEvents",
+				component: ChannelEvents,
+				props: true,
 			},
 		]
 	},

@@ -50,6 +50,7 @@
           </template>
         </v-simple-table>
         <h4 class="mt-4">New Restream</h4>
+        <v-divider class="mt-2"></v-divider>
         <v-row no-gutters>
           <v-col>
             <v-form class="pa-0 mt-2" @submit="addRestream()">
@@ -86,6 +87,7 @@
                 dense
               ></v-text-field>
               <v-btn class="ml-auto" color="sucess" @click="addRestream()">
+                <v-icon left>mdi-plus</v-icon>
                 Add
               </v-btn>
             </v-form>
