@@ -2,8 +2,7 @@
   <v-container fluid>
     <v-row no-gutters>
       <v-col>
-        <h3>Recordings of {{ channel.title }}</h3>
-        <v-divider class="mt-2"></v-divider>
+        <h3 class="pb-2">Recordings</h3>
         <v-fab-transition>
           <v-btn
             color="green"
@@ -11,7 +10,7 @@
             bottom
             right
             fab
-            :to="{ name: 'RecordingAdd', params: {channelid: channelid } }"
+            :to="{ name: 'RecordingAdd', params: { channelid: channelid } }"
           >
             <v-icon>mdi-plus</v-icon>
           </v-btn>
@@ -33,14 +32,14 @@ export default {
   props: ["channelid"],
   data() {
     return {
-      channel: { title: 'unknown' },
+      channel: { title: "unknown" },
     };
   },
   methods: {
     load() {
-      api
-        .Channels.Get(this.channelid)
-        .then((response) => this.channel = response.data );
+      api.Channels.Get(this.channelid).then(
+        (response) => (this.channel = response.data)
+      );
     },
   },
   watch: {

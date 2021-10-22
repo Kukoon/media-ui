@@ -14,7 +14,14 @@
         </v-list-item-avatar>
         <v-spacer v-if="channel"></v-spacer>
         <v-list-item-icon v-if="channel" class="my-auto">
-          <v-btn icon small :to="{ name: 'ChannelEdit', params: { channelid: selectionAdminChannel } }">
+          <v-btn
+            icon
+            small
+            :to="{
+              name: 'ChannelEdit',
+              params: { channelid: selectionAdminChannel },
+            }"
+          >
             <v-icon small>mdi-pencil</v-icon>
           </v-btn>
         </v-list-item-icon>
@@ -121,15 +128,36 @@ export default {
       channel: null,
       channels: [],
       channelMenu: [
-        { name: "ChannelStreams", icon: "mdi-broadcast", title: "Streams" },
-        { name: "Distribution", icon: "mdi-vector-polyline", title: "Distribution" },
+        {
+          name: "StreamSchedule",
+          icon: "mdi-broadcast",
+          title: "Stream Schedule",
+        },
+        {
+          name: "Distribution",
+          icon: "mdi-vector-polyline",
+          title: "Distribution",
+        },
         { name: "ChannelRecordings", icon: "mdi-video", title: "Recordings" },
-        { name: "ChannelSpeakers", icon: "mdi-tooltip-account", title: "Speakers" },
+        {
+          name: "ChannelSpeakers",
+          icon: "mdi-tooltip-account",
+          title: "Speakers",
+        },
         { name: "ChannelEvents", icon: "mdi-calendar", title: "Events" },
       ],
       globalMenu: [
-        { name: "Upcoming", icon: "mdi-broadcast", title: "Upcoming" },
-        { name: "Stats", icon: "mdi-chart-timeline-variant", title: "Stats", dev: true },
+        {
+          name: "Global Stream Schedule",
+          icon: "mdi-broadcast",
+          title: "Global Stream Schedule",
+        },
+        {
+          name: "Stats",
+          icon: "mdi-chart-timeline-variant",
+          title: "Stats",
+          dev: true,
+        },
         { name: "Server", icon: "mdi-server", title: "Server" },
         { name: "About", icon: "mdi-information", title: "About" },
       ],
@@ -143,7 +171,9 @@ export default {
     load() {
       api.Channels.My().then((response) => {
         this.channels = response.data;
-        const channel = this.channels.find((el) => el.id == this.selectionAdminChannel);
+        const channel = this.channels.find(
+          (el) => el.id == this.selectionAdminChannel
+        );
         if (channel) {
           this.channel = channel;
         } else {

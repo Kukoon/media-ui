@@ -7,7 +7,6 @@
           class="mt-2"
           border="left"
           type="error"
-          prominent
           dense
           dismissible
           v-if="confirmRemove"
@@ -19,7 +18,7 @@
               undone.
             </v-col>
             <v-col class="shrink">
-              <v-btn outlined @click="remove()">Remove</v-btn>
+              <v-btn small outlined @click="remove()">Remove</v-btn>
             </v-col>
           </v-row>
         </v-alert>
@@ -140,7 +139,12 @@
         </v-form>
         <v-divider class="mt-4 mb-4" v-if="streamid" />
         <h4 v-if="streamid">Descriptions</h4>
-	<v-expansion-panels accordion tile class="mt-4" v-if="streamid && langs.length > 0">
+        <v-expansion-panels
+          accordion
+          tile
+          class="mt-4"
+          v-if="streamid && langs.length > 0"
+        >
           <v-expansion-panel v-for="lang in langs" :key="lang.id">
             <v-expansion-panel-header>
               <span class="text-truncate">{{ lang.title }}</span>
@@ -151,21 +155,28 @@
                 label
                 outlined
               >
-               {{ lang.lang }}
+                {{ lang.lang }}
               </v-chip>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <StreamLangEdit :streamid="streamid" @change-stream="updateLang" :lang="lang" />
+              <StreamLangEdit
+                :streamid="streamid"
+                @change-stream="updateLang"
+                :lang="lang"
+              />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-	<v-expansion-panels accordion tile class="mt-4" v-if="streamid">
+        <v-expansion-panels accordion tile class="mt-4" v-if="streamid">
           <v-expansion-panel>
             <v-expansion-panel-header>
               <span class="text-truncate">New Language</span>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <StreamLangEdit :streamid="streamid" @change-stream="updateLang" />
+              <StreamLangEdit
+                :streamid="streamid"
+                @change-stream="updateLang"
+              />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -192,7 +203,12 @@ export default {
     return {
       stream: {},
       streamFormDefault: {
-        poster: "https://cdn.media.kukoon.de/videos/"+this.channelid+"/"+this.streamid+"/poster.jpg"
+        poster:
+          "https://cdn.media.kukoon.de/videos/" +
+          this.channelid +
+          "/" +
+          this.streamid +
+          "/poster.jpg",
       },
       enableSave: false,
       confirmRemove: false,
@@ -219,7 +235,10 @@ export default {
     },
     remove() {
       api.Streams.Delete(this.streamid).then(() => {
-        this.$router.replace({ name: 'StreamAdd', params: { channelid: this.channelid } });
+        this.$router.replace({
+          name: "StreamAdd",
+          params: { channelid: this.channelid },
+        });
       });
       this.confirmRemove = false;
     },

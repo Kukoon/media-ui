@@ -2,7 +2,6 @@
   <div id="Admin">
     <AdminBar />
     <Drawer :channelid="channelid" ref="drawer" />
-
     <v-main>
       <router-view @change-channel="updateDrawer"></router-view>
     </v-main>
@@ -18,6 +17,11 @@ import { store } from "@/services/store.js";
 export default {
   name: "Admin",
   props: ["channelid"],
+  data() {
+    return {
+      showAlert: false,
+    };
+  },
   components: { Drawer, AdminBar },
   methods: {
     updateDrawer() {

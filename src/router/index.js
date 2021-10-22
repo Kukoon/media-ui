@@ -7,11 +7,11 @@ import Login from "@/views/Admin/Login.vue"
 import Stats from "@/views/Admin/Stats.vue"
 import Server from "@/views/Admin/Server.vue"
 import About from "@/views/Admin/About.vue"
-import StreamSchedule from "@/views/Admin/StreamSchedule.vue"
+import GlobalStreamSchedule from "@/views/Admin/GlobalStreamSchedule.vue"
 import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
 // for channel
 import Distribution from "@/views/Admin/Distribution.vue"
-import ChannelStreams from "@/views/Admin/ChannelStreams.vue"
+import StreamSchedule from "@/views/Admin/StreamSchedule.vue"
 import StreamEdit from "@/views/Admin/StreamEdit.vue"
 import ChannelRecordings from "@/views/Admin/ChannelRecordings.vue"
 import RecordingEdit from "@/views/Admin/RecordingEdit.vue"
@@ -82,12 +82,12 @@ const routes = [
 		children: [
 			{
 				path: "",
-				redirect: "upcoming",
+				redirect: "global-stream-schedule",
 			},
 			{
-				path: "upcoming",
-				name: "Upcoming",
-				component: StreamSchedule,
+				path: "global-stream-schedule",
+				name: "Global Stream Schedule",
+				component: GlobalStreamSchedule,
 			},
 			{
 				path: "add",
@@ -135,8 +135,8 @@ const routes = [
 			},
 			{
 				path: "streams",
-				name: "ChannelStreams",
-				component: ChannelStreams,
+				name: "StreamSchedule",
+				component: StreamSchedule,
 				props: true,
 			},
 			{

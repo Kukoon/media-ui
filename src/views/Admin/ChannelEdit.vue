@@ -23,7 +23,6 @@
             </v-col>
           </v-row>
         </v-alert>
-        <v-divider class="mt-2"></v-divider>
         <v-form class="pa-0 mt-2" @submit="save()">
           <v-text-field
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
