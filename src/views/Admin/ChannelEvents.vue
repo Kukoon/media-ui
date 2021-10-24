@@ -86,7 +86,8 @@
         </v-btn>
         <v-dialog v-model="showDialog" width="540">
           <v-card
-            rounded
+            outlined
+            tile
             elevation="0"
             :color="darkMode ? 'grey darken-4' : 'grey lighten-5'"
           >

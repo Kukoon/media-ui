@@ -59,52 +59,19 @@
           ></v-calendar>
           <v-dialog
             v-model="selectedOpen"
-            :close-on-content-click="false"
             :activator="selectedElement"
             width="540"
           >
-            <PreviewCard
+            <StreamEditDialog
+              :key="dialogKey"
               :video="selectedStream"
-              :noLink="true"
-              :isStream="true"
+              :channelid="channelid"
+              :streamid="selectedStream.id"
+              :streamColor="selectedStreamColor"
+              @loadStreams="this.loadStreams"
+              @closeDialog="selectedOpen = false"
             >
-              <v-card-actions>
-                <v-btn
-                  text
-                  color="green"
-                  :to="{
-                    name: 'StreamEdit',
-                    params: {
-                      channelid: channelid,
-                      streamid: selectedStream.id,
-                    },
-                  }"
-                >
-                  <v-icon left>mdi-pencil</v-icon>
-                  Edit
-                </v-btn>
-                <v-btn
-                  text
-                  color="red"
-                  @click="deleteStream(selectedStream.id)"
-                >
-                  <v-icon left>mdi-delete</v-icon>
-                  Delete
-                </v-btn>
-                <v-btn
-                  text
-                  color="blue"
-                  @click="exportStream(selectedStream.id)"
-                >
-                  <v-icon left>mdi-video-plus</v-icon>
-                  Export
-                </v-btn>
-                <v-btn text @click="selectedOpen = false">
-                  <v-icon left>mdi-close</v-icon>
-                  Cancel
-                </v-btn>
-              </v-card-actions>
-            </PreviewCard>
+            </StreamEditDialog>
           </v-dialog>
         </v-sheet>
       </v-col>
@@ -117,17 +84,18 @@ import { api } from "@/services/api.js";
 import { uuidToArrayElement, models } from "@/services/lib.js";
 import { config } from "../../../config.js";
 
-import PreviewCard from "@/components/PreviewCard.vue";
+import StreamEditDialog from "@/components/StreamEditDialog.vue";
 
 export default {
   name: "StreamSchedule",
   props: ["channelid"],
   components: {
-    PreviewCard,
+    StreamEditDialog,
   },
   data() {
     return {
       channel: { title: "unknown" },
+      dialogKey: 0,
       focus: "",
       type: "week",
       typeToLabel: {
@@ -141,6 +109,7 @@ export default {
       selectedOpen: false,
       selectedElement: null,
       selectedStream: {},
+      selectedStreamColor: String,
       weekOrder: [1, 2, 3, 4, 5, 6, 0],
     };
   },
@@ -260,6 +229,7 @@ export default {
     showStream({ nativeEvent, event }) {
       const open = () => {
         this.selectedStream = event.data;
+        this.selectedStreamColor = event.color;
         this.selectedElement = nativeEvent.target;
         requestAnimationFrame(() =>
           requestAnimationFrame(() => (this.selectedOpen = true))
@@ -292,6 +262,11 @@ export default {
     channelid() {
       this.load();
       this.loadStreams();
+    },
+    selectedOpen() {
+      if (!this.selectedOpen) {
+        this.dialogKey += 1;
+      }
     },
   },
   mounted() {
