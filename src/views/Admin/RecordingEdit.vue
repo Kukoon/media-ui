@@ -36,6 +36,7 @@
           <v-text-field
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Created At"
+            type="datetime-local"
             v-model="recording.created_at"
             outlined
             dense
