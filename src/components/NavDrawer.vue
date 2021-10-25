@@ -20,18 +20,18 @@
           :to="{ name: 'Live', params: { id: channel } }"
         >
           <v-list-item-action>
-            <v-icon>{{ pages[0].icon }}</v-icon>
+            <v-icon>mdi-broadcast</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>{{ pages[0].name }}</v-list-item-title>
+            <v-list-item-title>Live</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link :to="{ name: pages[1].target }">
+        <v-list-item link :to="{ name: 'VideoList' }">
           <v-list-item-action>
-            <v-icon>{{ pages[1].icon }}</v-icon>
+            <v-icon>mdi-video-vintage</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>{{ pages[1].name }}</v-list-item-title>
+            <v-list-item-title>Recordings</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -62,20 +62,6 @@ export default {
   data: () => ({
     pageTitle: document.title,
     channel: config.defaultChannel,
-    pages: [
-      {
-        name: "Live",
-        target: "Live",
-        id: 0,
-        icon: "mdi-broadcast",
-      },
-      {
-        name: "Recordings",
-        target: "VideoList",
-        id: 1,
-        icon: "mdi-video-vintage",
-      },
-    ],
   }),
   computed: {
     ...mapGetters(["darkMode", "drawer"]),

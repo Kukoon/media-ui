@@ -11,13 +11,14 @@
           class="mb-4"
         />
         <v-card
-          v-if="videos.length < recordings.length"
+          v-if="moreLink"
           tile
           outlined
           elevation="0"
+          :to="moreLink"
         >
           <v-responsive :aspect-ratio="16 / 9">
-            <v-btn width="100%" height="100%" @click="showMore()"
+            <v-btn width="100%" height="100%"
               >Show More</v-btn
             >
           </v-responsive>
@@ -36,7 +37,7 @@ export default {
   components: {
     PreviewCard,
   },
-  props: ["videos", "noLink", "isStream"],
+  props: ["videos", "noLink", "isStream", "moreLink"],
   data() {
     return {
       recordings: [],
@@ -47,9 +48,6 @@ export default {
       api.Recordings.List().then(
         (response) => (this.recordings = response.data)
       );
-    },
-    showMore() {
-      this.$emit("showMore");
     },
   },
   created() {

@@ -17,14 +17,14 @@
       class="mx-2 mr-1 d-none d-sm-flex"
       :to="{ name: 'Live', params: { id: channel } }"
     >
-      {{ pages[0].name }}
+      Live
     </v-btn>
     <v-btn
       text
       class="mx-2 mr-1 d-none d-sm-flex"
-      :to="{ name: pages[1].target }"
+      :to="{ name: 'VideoList' }"
     >
-      {{ pages[1].name }}
+      Recordings
     </v-btn>
 
     <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
@@ -41,20 +41,6 @@ export default {
   data() {
     return {
       channel: config.defaultChannel,
-      pages: [
-        {
-          name: "Live",
-          target: "Live",
-          id: 0,
-          icon: "mdi-broadcast",
-        },
-        {
-          name: "Recordings",
-          target: "VideoList",
-          id: 1,
-          icon: "mdi-video-vintage",
-        },
-      ],
     };
   },
   computed: {
