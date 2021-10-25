@@ -13,7 +13,7 @@
     <v-spacer></v-spacer>
     <v-btn
       text
-      v-if="channel"
+      v-if="isLive"
       class="mx-2 mr-1 d-none d-sm-flex"
       :to="{ name: 'Live', params: { id: channel } }"
     >
@@ -38,6 +38,7 @@ import { config } from "../../config.js";
 
 export default {
   name: "NavBar",
+  props: ['isLive'],
   data() {
     return {
       channel: config.defaultChannel,

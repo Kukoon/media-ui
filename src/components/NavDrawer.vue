@@ -16,7 +16,7 @@
       <v-list dense>
         <v-list-item
           link
-          v-if="channel"
+          v-if="isLive"
           :to="{ name: 'Live', params: { id: channel } }"
         >
           <v-list-item-action>
@@ -59,6 +59,7 @@ import { mapActions, mapGetters } from "vuex";
 import { config } from "../../config.js";
 
 export default {
+  props: ['isLive'],
   data: () => ({
     pageTitle: document.title,
     channel: config.defaultChannel,
