@@ -346,7 +346,7 @@ export default {
         return;
       }
       api.Streams.Get(this.streamid).then((response) => {
-        this.stream = models.Stream.ToRequest(response.data);
+        this.stream = models.Stream.FromRequest(response.data);
       });
     },
     loadFilterData() {
@@ -382,13 +382,14 @@ export default {
     },
     save() {
       let resp = null;
+      const data = models.Stream.ToRequest(this.stream);
       if (this.streamid) {
-        resp = api.Streams.Save(this.streamid, this.stream);
+        resp = api.Streams.Save(this.streamid, data);
       } else {
-        resp = api.Streams.Add(this.stream);
+        resp = api.Streams.Add(data);
       }
       resp.then((response) => {
-        this.stream = models.Stream.ToRequest(response.data);
+        this.stream = models.Stream.FromRequest(response.data);
       });
       for (const lang of this.langs) {
         if (lang.id) {

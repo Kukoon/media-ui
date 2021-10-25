@@ -280,14 +280,14 @@ export default {
   methods: {
     save() {
       let resp = null;
-      this.recording.duration = parseInt(this.recording.duration);
+      const data = models.Recording.ToRequest(this.recording);
       if (this.recordingid) {
-        resp = api.Recordings.Save(this.recordingid, this.recording);
+        resp = api.Recordings.Save(this.recordingid, data);
       } else {
-        resp = api.Recordings.Add(this.recording);
+        resp = api.Recordings.Add(data);
       }
       resp.then((response) => {
-        this.recording = models.Recording.ToRequest(response.data);
+        this.recording = models.Recording.FromRequest(response.data);
       });
     },
     remove() {
@@ -315,7 +315,7 @@ export default {
         return;
       }
       api.Recordings.Get(this.recordingid).then((response) => {
-        this.recording = models.Recording.ToRequest(response.data);
+        this.recording = models.Recording.FromRequest(response.data);
         this.formats = response.data.formats ? response.data.formats : [];
       });
     },
