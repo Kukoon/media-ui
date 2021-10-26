@@ -6,7 +6,12 @@
         <v-card-title class="text-h6 font-weight-regular">
           <span>{{ currentTitle }}</span>
           <v-spacer />
-          <v-menu offset-x :close-on-content-click="true" max-width="240">
+          <v-menu
+            offset-x
+            nudge-right="10"
+            :close-on-content-click="true"
+            max-width="240"
+          >
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon class="mr-auto" v-bind="attrs" v-on="on">
                 <v-icon>mdi-dots-vertical</v-icon></v-btn
@@ -104,7 +109,8 @@
                   <template v-slot:append-outer>
                     <v-menu
                       v-model="showAddLang"
-                      offset-x
+                      offset-y
+                      nudge-right="12"
                       :close-on-content-click="false"
                       max-width="200"
                     >
