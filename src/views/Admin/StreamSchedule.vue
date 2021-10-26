@@ -195,8 +195,9 @@ export default {
           newStart.getTime() !==
           new Date(this.streamDrag.data.start_at).getTime()
         ) {
+          this.streamDrag.data.start_at = newStart;
+          this.streamDrag.data.end_at = this.streamDrag.end;
           let stream = models.Stream.ToRequest(this.streamDrag.data);
-          stream.start_at = newStart.toJSON();
           api.Streams.Save(this.streamDrag.id, stream).then(this.loadStreams);
         }
       }
@@ -225,7 +226,9 @@ export default {
     moveTime(tms) {
       const mouse = this.toTime(tms);
       if (this.streamDrag && this.streamDragTime !== null) {
+        const duration = this.streamDrag.end - this.streamDrag.start;
         this.streamDrag.start = this.roundTime(mouse - this.streamDragTime);
+        this.streamDrag.end = this.streamDrag.start + duration;
       }
     },
     showStream({ nativeEvent, event }) {
