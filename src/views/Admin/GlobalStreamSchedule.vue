@@ -20,6 +20,7 @@
         </v-sheet>
         <v-sheet>
           <v-calendar
+            id="calendar"
             ref="calendar"
             v-model="focus"
             color="primary"
@@ -103,3 +104,9 @@ export default {
 };
 </script>
 
+<style scoped>
+#calendar >>> .v-btn {
+  width: 34px;
+  height: 34px;
+}
+</style>

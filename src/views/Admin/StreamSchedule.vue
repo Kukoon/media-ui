@@ -39,6 +39,7 @@
         </v-sheet>
         <v-sheet>
           <v-calendar
+            id="calendar"
             ref="calendar"
             v-model="focus"
             color="primary"
@@ -58,10 +59,7 @@
             @mouseleave.native="dragCancel"
           >
             <template v-slot:event="{ event, timed, eventSummary }">
-              <div
-                class="v-event-draggable"
-                v-html="eventSummary()"
-              ></div>
+              <div class="v-event-draggable" v-html="eventSummary()"></div>
               <div
                 v-if="timed"
                 class="v-event-drag-bottom"
@@ -240,8 +238,8 @@ export default {
       }
     },
     moveTime(tms) {
-      if(!this.streamDrag) {
-        return
+      if (!this.streamDrag) {
+        return;
       }
       const mouse = this.toTime(tms);
       if (this.streamDragTime !== null) {
@@ -249,17 +247,17 @@ export default {
         this.streamDrag.start = this.roundTime(mouse - this.streamDragTime);
         this.streamDrag.end = this.streamDrag.start + duration;
       } else if (this.streamResizeTime !== null) {
-        const mouseRounded = this.roundTime(mouse, false)
-	const min = Math.min(mouseRounded, this.streamResizeTime)
-        const max = Math.max(mouseRounded, this.streamResizeTime)
+        const mouseRounded = this.roundTime(mouse, false);
+        const min = Math.min(mouseRounded, this.streamResizeTime);
+        const max = Math.max(mouseRounded, this.streamResizeTime);
 
-        this.streamDrag.start = min
-        this.streamDrag.end = max
+        this.streamDrag.start = min;
+        this.streamDrag.end = max;
       }
     },
     resize(ev) {
-       this.streamDrag = ev;
-       this.streamResizeTime = ev.start;
+      this.streamDrag = ev;
+      this.streamResizeTime = ev.start;
     },
     showStream({ nativeEvent, event }) {
       const open = () => {
@@ -341,11 +339,18 @@ export default {
     width: 16px;
     margin-left: -8px;
     opacity: 0.8;
-    content: '';
+    content: "";
   }
 
   &:hover::after {
     display: block;
   }
+}
+</style>
+
+<style scoped>
+#calendar >>> .v-btn {
+  width: 34px;
+  height: 34px;
 }
 </style>
