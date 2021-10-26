@@ -36,7 +36,14 @@ export default {
         })
       }, () => {
         this.isLive = false;
+        api.Channels.Get(config.defaultChannel).then((resp) => {
+          websocket.joinHandler(resp.data.id, 'status', (ev) => {
+            this.isLive = ev.running;
+          })
+        })
       })
+    } else {
+      this.isLive = false;
     }
     // this.$store.dispatch("language");
   },
