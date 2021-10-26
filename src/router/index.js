@@ -63,8 +63,9 @@ const routes = [
 					{
 						path: "grid",
 						name: "VideoGrid",
+						props: true,
 						component: VideoGrid,
-					}
+					},
 				]
 			},
 			{

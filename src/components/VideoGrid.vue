@@ -1,5 +1,6 @@
 <template>
   <div id="VideoGrid">
+    <h1 v-if="title" class="px-2 headline">{{ title }}</h1>
     <div class="py-2">
       <masonry :cols="{ default: 4, 1264: 3, 960: 2, 600: 1 }" :gutter="16">
         <PreviewCard
@@ -10,17 +11,9 @@
           :isStream="isStream"
           class="mb-4"
         />
-        <v-card
-          v-if="moreLink"
-          tile
-          outlined
-          elevation="0"
-          :to="moreLink"
-        >
+        <v-card v-if="moreLink" tile outlined elevation="0" :to="moreLink">
           <v-responsive :aspect-ratio="16 / 9">
-            <v-btn width="100%" height="100%"
-              >Show More</v-btn
-            >
+            <v-btn width="100%" height="100%">Show More</v-btn>
           </v-responsive>
         </v-card>
       </masonry>
@@ -37,7 +30,7 @@ export default {
   components: {
     PreviewCard,
   },
-  props: ["videos", "noLink", "isStream", "moreLink"],
+  props: ["videos", "noLink", "isStream", "moreLink", "title"],
   data() {
     return {
       recordings: [],
