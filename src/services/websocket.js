@@ -8,10 +8,10 @@ var sockets = {}
 var streamRoomPromise = {
 }
 function connect(room) {
-	var ws = new WebSocket(config.wsURL + '/stream/'+room);
-	ws.onmessage = function(ev) {
+	var ws = new WebSocket(config.wsURL + '/stream/' + room);
+	ws.onmessage = function (ev) {
 		const data = JSON.parse(ev.data);
-		switch(data.type) {
+		switch (data.type) {
 			case 'username':
 				var r = streamRoomPromise[room];
 				if (r) {
@@ -29,17 +29,17 @@ function connect(room) {
 				}
 		}
 	}
-	ws.onclose = function() {
-		setTimeout(function() {
+	ws.onclose = function () {
+		setTimeout(function () {
 			connect(room);
 		}, 1000);
 	}
-	ws.onerror = function() {
+	ws.onerror = function () {
 		ws.close();
 	}
 	const u = streamRoomUsernames[room];
 	if (!!u && !setUsername(room, u)) {
-		delete(streamRoomUsernames[room])
+		delete (streamRoomUsernames[room])
 	}
 	return ws
 }
@@ -56,17 +56,17 @@ function join(room) {
 
 async function setUsername(room, name) {
 	const s = sockets[room];
-	if(s){
+	if (s) {
 		s.ws.send(JSON.stringify({
 			'type': 'username',
 			'body': {
 				'set': name,
 			}
 		}));
-		var p = await new Promise((resolve) => 
+		var p = await new Promise((resolve) =>
 			streamRoomPromise[room] = resolve
 		)
-		delete(streamRoomPromise[room])
+		delete (streamRoomPromise[room])
 		if (p) {
 			streamRoomUsernames[room] = name
 		}
@@ -85,7 +85,7 @@ export const websocket = {
 	},
 	leave(room) {
 		const s = sockets[room];
-		if(s){
+		if (s) {
 			s.ws.close();
 			delete sockets[room]
 		} else {
@@ -94,7 +94,7 @@ export const websocket = {
 	},
 	sendChat(room, body) {
 		const s = sockets[room];
-		if(s){
+		if (s) {
 			s.ws.send(JSON.stringify({
 				'type': 'chat',
 				'body': {
@@ -122,7 +122,11 @@ export const websocket = {
 	},
 	renderText(text) {
 		var urlRegex = /(https?:\/\/[^\s]+)/g;
-		return text.replace(urlRegex, function(url) {
+		var boldRegex = /\*\*(.*?)\*\*/gm;
+		var italicRegex = /\*(.*?)\*/gm;
+		text = text.replace(boldRegex, '<strong>$1</strong>')
+		text = text.replace(italicRegex, '<italic>$1</italic>')
+		return text.replace(urlRegex, function (url) {
 			return '<a href="' + url + '" target="_blank">' + url + '</a>';
 		})
 	},
