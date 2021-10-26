@@ -49,7 +49,7 @@
             :event-ripple="false"
             :weekdays="weekOrder"
             show-week
-            @click:event="showStream"
+            @contextmenu:event="showStream"
             @click:more="zoom"
             @click:date="zoom"
             @change="fetchStreams"
