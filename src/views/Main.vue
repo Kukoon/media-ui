@@ -34,6 +34,8 @@ export default {
         websocket.joinHandler(resp.data.channel.id, 'status', (ev) => {
           this.isLive = ev.running;
         })
+      }, () => {
+        this.isLive = false;
       })
     }
     // this.$store.dispatch("language");

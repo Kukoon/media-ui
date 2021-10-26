@@ -59,6 +59,28 @@ export default {
         // update description 
         this.video = response.data;
         this.source = config.sourceURL.replace("{ID}", this.video.channel.id);
+      }, () => {
+        api.Channels.Get(this.id).then((response) => {
+          this.video = {
+            channel: response.data,
+            poster: response.data.logo,
+            lang: {
+              title: "No Stream Live",
+              subtitle: "no event scheduled",
+              short: "This Channel has no stream event scheduled",
+              long: "This Channel has no stream event scheduled",
+            },
+          };
+          this.source = config.sourceURL.replace("{ID}", response.data.id);
+          websocket.joinHandler(response.data.id, 'status', (ev) => {
+            this.$set(this.video, 'viewers', ev.viewers);
+            this.$set(this.video, 'running', ev.running);
+            if (ev.running) {
+              console.log("stream started description", ev.stream, this.video.channel.id)
+              this.load()
+            }
+          });
+        });
       });
     },
   },
