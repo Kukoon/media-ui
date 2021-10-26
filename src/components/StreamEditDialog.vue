@@ -258,7 +258,7 @@
     <v-card-actions>
       <v-btn :disabled="step === 1" text @click="step--"> Back </v-btn>
       <v-spacer></v-spacer>
-      <v-btn v-if="step !== 4" text @click="cancel()"> Cancel </v-btn>
+      <v-btn text @click="cancel()"> Cancel </v-btn>
       <v-btn v-if="step !== 4" color="primary" depressed @click="step++">
         Continue
       </v-btn>
