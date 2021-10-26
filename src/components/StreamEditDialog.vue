@@ -66,6 +66,15 @@
                   dense
                   @input="enableSave = true"
                 ></v-text-field>
+                <v-text-field
+                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  type="datetime-local"
+                  label="Planned End"
+                  v-model="stream.end_at"
+                  outlined
+                  dense
+                  @input="enableSave = true"
+                ></v-text-field>
                 <v-switch
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Chat"

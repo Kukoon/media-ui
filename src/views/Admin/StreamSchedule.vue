@@ -160,7 +160,6 @@ export default {
         to: new Date(end.date + "T23:59:59").toJSON(),
       }).then((response) => {
         this.streams = response.data.map((el) => {
-          const start = new Date(el.start_at);
           return {
             id: el.id,
             color: this.getStreamColor(el),
@@ -169,7 +168,8 @@ export default {
               : el.common_name
               ? el.common_name
               : el.id,
-            start: start,
+            start: new Date(el.start_at),
+            end: new Date(el.end_at),
             timed: true,
             data: el,
           };
@@ -212,10 +212,12 @@ export default {
       if (this.streamDrag) {
         this.streamDragTime = mouse - this.streamDrag.start;
       } else {
+        const start_at = this.roundTime(mouse);
         api.Streams.Add(
           this.channelid,
           models.Stream.ToRequest({
-            start_at: new Date(this.roundTime(mouse)).toJSON(),
+            start_at: new Date(start_at).toJSON(),
+            end_at: new Date(start_at + 60 * 60 * 1000).toJSON(),
           })
         ).then(this.loadStreams);
       }

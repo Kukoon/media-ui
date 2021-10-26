@@ -1,13 +1,16 @@
+function dateString(date) {
+	let d = new Date(date);
+	d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+	return d.toISOString().slice(0,16);
+}
+
 export const models = {
 	Stream: {
 		FromRequest(data) {
-			let start_at = new Date(data.start_at);
-			start_at.setMinutes(start_at.getMinutes() - start_at.getTimezoneOffset());
-			let listen_at = new Date(data.listen_at);
-			listen_at.setMinutes(listen_at.getMinutes() - listen_at.getTimezoneOffset());
 			return {
-				start_at: start_at.toISOString().slice(0,16),
-				listen_at: listen_at.toISOString().slice(0,16),
+				listen_at: dateString(data.listen_at),
+				start_at: dateString(data.start_at),
+				end_at: dateString(data.end_at),
 				chat: data.chat,
 				running: data.running,
 				common_name: data.common_name,
@@ -20,8 +23,9 @@ export const models = {
 		},
 		ToRequest(data) {
 			return {
-				start_at: new Date(data.start_at),
 				listen_at: new Date(data.listen_at),
+				start_at: new Date(data.start_at),
+				end_at: new Date(data.end_at),
 				chat: data.chat,
 				running: data.running,
 				common_name: data.common_name,
@@ -35,10 +39,8 @@ export const models = {
 	},
 	Recording: {
 		FromRequest(data) {
-			let created_at = new Date(data.created_at);
-			created_at.setMinutes(created_at.getMinutes() - created_at.getTimezoneOffset());
 			return {
-				created_at: created_at.toISOString().slice(0,16),
+				created_at: dateString(data.created_at),
 				duration: data.duration,
 				public: data.public,
 				listed: data.listed,
