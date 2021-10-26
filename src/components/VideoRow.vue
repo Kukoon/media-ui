@@ -4,6 +4,7 @@
       <h1 class="px-2 mb-2 headline d-flex" to="{ path: 'recordings/grid/' }">
         {{ title }}
         <router-link
+          v-if="eventID && !tagID"
           :to="{
             path: 'recordings/grid/',
             params: {
@@ -11,11 +12,39 @@
             },
             query: {
               event: eventID,
+            },
+          }"
+        >
+          <v-btn icon class="ml-2 mt-n1" color="primary"
+            ><v-icon>mdi-chevron-double-right</v-icon></v-btn
+          >
+        </router-link>
+        <router-link
+          v-else-if="!eventID && tagID"
+          :to="{
+            path: 'recordings/grid/',
+            params: {
+              title: title,
+            },
+            query: {
               tag: tagID,
             },
           }"
         >
-          <v-btn icon class="ml-2 mt-n1"
+          <v-btn icon class="ml-2 mt-n1" color="primary"
+            ><v-icon>mdi-chevron-double-right</v-icon></v-btn
+          >
+        </router-link>
+        <router-link
+          v-else
+          :to="{
+            path: 'recordings/grid/',
+            params: {
+              title: title,
+            },
+          }"
+        >
+          <v-btn icon class="ml-2 mt-n1" color="primary"
             ><v-icon>mdi-chevron-double-right</v-icon></v-btn
           >
         </router-link>
@@ -23,7 +52,7 @@
         <v-btn
           class="ml-auto"
           icon
-          color="pink"
+          color="primary"
           @click="prevVideo"
           :disabled="counter === 0"
         >
@@ -31,7 +60,7 @@
         </v-btn>
         <v-btn
           icon
-          color="pink"
+          color="primary"
           @click="nextVideo"
           :disabled="counter == filterVideos.length - this.columns"
         >
