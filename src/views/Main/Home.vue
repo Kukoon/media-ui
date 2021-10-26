@@ -14,12 +14,13 @@
         <VideoGrid :videos="streamsUpcoming" :noLink="true" />
       </v-col>
     </v-row>
-    <v-row v-for="(row, n) in rows" :key="row + n">
+    <v-row v-for="(row, n) in rows" :key="row + n" class="mt-0">
       <v-col>
         <VideoRow
           :videos="recordings"
           :title="row.title"
           :eventID="row.eventID"
+          :tagID="row.tagID"
         />
       </v-col>
     </v-row>
@@ -44,6 +45,10 @@ export default {
       rows: [
         {
           title: "Latest Recordings",
+        },
+        {
+          title: "Buchvorstellungen",
+          tagID: "0bca0cf4-a9b9-46d7-821f-18c59c08fc1d",
         },
         {
           title: "Grand Piano Festival 2021",

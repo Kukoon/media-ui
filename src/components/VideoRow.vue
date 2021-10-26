@@ -11,6 +11,7 @@
             },
             query: {
               event: eventID,
+              tag: tagID,
             },
           }"
         >
@@ -61,7 +62,7 @@ export default {
   components: {
     PreviewCard,
   },
-  props: ["videos", "eventID", "title"],
+  props: ["videos", "title", "eventID", "tagID"],
   data() {
     return {
       isMounted: false,
@@ -76,12 +77,17 @@ export default {
       }
     },
     filterVideos() {
-      if (this.eventID === undefined) {
-        return this.videos;
-      } else {
+      if (this.eventID) {
         return this.videos
           .filter((r) => r.event)
           .filter((r) => r.event.id === this.eventID);
+      }
+      if (this.tagID) {
+        return this.videos.filter((r) =>
+          r.tags.find((el) => el.id === this.tagID)
+        );
+      } else {
+        return this.videos;
       }
     },
     displayedVideos() {
@@ -90,6 +96,7 @@ export default {
   },
   methods: {
     nextVideo() {
+      console.log(this.videos);
       this.counter++;
     },
     prevVideo() {
