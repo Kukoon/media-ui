@@ -46,6 +46,7 @@
             :type="type"
             :events="streams"
             :event-color="getStreamColor"
+            :event-ripple="false"
             :weekdays="weekOrder"
             show-week
             @click:event="showStream"
@@ -218,6 +219,10 @@ export default {
       this.streamResizeTime = null;
     },
     dragCancel() {
+      if (this.streamDrag) {
+          this.streamDrag.start = new Date(this.streamDrag.data.start_at);
+          this.streamDrag.end = new Date(this.streamDrag.data.end_at);
+      }
       this.streamDrag = null;
       this.streamDragTime = null;
       this.streamResizeTime = null;
