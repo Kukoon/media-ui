@@ -56,7 +56,19 @@
             @mousemove:time="moveTime"
             @mouseup:time="dragEnd"
             @mouseleave.native="dragCancel"
-          ></v-calendar>
+          >
+            <template v-slot:event="{ event, timed, eventSummary }">
+              <div
+                class="v-event-draggable"
+                v-html="eventSummary()"
+              ></div>
+              <div
+                v-if="timed"
+                class="v-event-drag-bottom"
+                @mousedown.stop="resize(event)"
+              ></div>
+            </template>
+          </v-calendar>
           <v-dialog
             v-model="selectedOpen"
             :activator="selectedElement"
@@ -106,6 +118,7 @@ export default {
       streams: [],
       streamDrag: null,
       streamDragTime: null,
+      streamResizeTime: null,
       selectedOpen: false,
       selectedElement: null,
       selectedStream: {},
@@ -186,6 +199,7 @@ export default {
       if (event && timed) {
         this.streamDrag = event;
         this.streamDragTime = null;
+        this.streamResizeTime = null;
       }
     },
     dragEnd() {
@@ -203,10 +217,12 @@ export default {
       }
       this.streamDrag = null;
       this.streamDragTime = null;
+      this.streamResizeTime = null;
     },
     dragCancel() {
       this.streamDrag = null;
       this.streamDragTime = null;
+      this.streamResizeTime = null;
     },
     startTime(tms) {
       const mouse = this.toTime(tms);
@@ -224,12 +240,26 @@ export default {
       }
     },
     moveTime(tms) {
+      if(!this.streamDrag) {
+        return
+      }
       const mouse = this.toTime(tms);
-      if (this.streamDrag && this.streamDragTime !== null) {
+      if (this.streamDragTime !== null) {
         const duration = this.streamDrag.end - this.streamDrag.start;
         this.streamDrag.start = this.roundTime(mouse - this.streamDragTime);
         this.streamDrag.end = this.streamDrag.start + duration;
+      } else if (this.streamResizeTime !== null) {
+        const mouseRounded = this.roundTime(mouse, false)
+	const min = Math.min(mouseRounded, this.streamResizeTime)
+        const max = Math.max(mouseRounded, this.streamResizeTime)
+
+        this.streamDrag.start = min
+        this.streamDrag.end = max
       }
+    },
+    resize(ev) {
+       this.streamDrag = ev;
+       this.streamResizeTime = ev.start;
     },
     showStream({ nativeEvent, event }) {
       const open = () => {
@@ -283,3 +313,39 @@ export default {
 };
 </script>
 
+<style lang="scss" scoped>
+.v-event-draggable {
+  padding-left: 6px;
+}
+
+.v-event-timed {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.v-event-drag-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 4px;
+  cursor: ns-resize;
+
+  &::after {
+    display: none;
+    position: absolute;
+    left: 50%;
+    height: 4px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    width: 16px;
+    margin-left: -8px;
+    opacity: 0.8;
+    content: '';
+  }
+
+  &:hover::after {
+    display: block;
+  }
+}
+</style>
