@@ -125,7 +125,7 @@ export const websocket = {
 		var boldRegex = /\*\*(.*?)\*\*/gm;
 		var italicRegex = /\*(.*?)\*/gm;
 		text = text.replace(boldRegex, '<strong>$1</strong>')
-		text = text.replace(italicRegex, '<italic>$1</italic>')
+		text = text.replace(italicRegex, '<i>$1</i>')
 		return text.replace(urlRegex, function (url) {
 			return '<a href="' + url + '" target="_blank">' + url + '</a>';
 		})
