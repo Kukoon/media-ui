@@ -66,7 +66,7 @@
       <v-window v-model="step" class="flex-grow-1">
         <v-window-item :value="1">
           <v-row no-gutters>
-            <div class="d-flex flex-row align-center flex-grow-1">
+            <div class="d-flex flex-row align-center flex-grow-1 py-1">
               <v-textarea
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-3'"
                 class="black--text mt-0 pt-0"
@@ -88,7 +88,7 @@
         <v-window-item :value="2">
           <v-row no-gutters>
             <v-col>
-              <div class="d-flex flex-row align-center">
+              <div class="d-flex flex-row align-center py-1">
                 <v-menu
                   v-model="userMenu"
                   top
