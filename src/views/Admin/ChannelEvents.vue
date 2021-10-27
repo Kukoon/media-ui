@@ -159,8 +159,8 @@ export default {
   },
   methods: {
     add() {
+      this.formData = Object.assign({}, this.formDefault);
       this.showDialog = true;
-      this.formData = this.formDefault;
     },
     edit(item) {
       this.showDialog = true;
