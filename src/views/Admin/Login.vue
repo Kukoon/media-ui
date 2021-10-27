@@ -28,6 +28,7 @@
                 label="Password"
                 type="password"
                 required
+                @keypress.enter="login()"
               ></v-text-field>
 
               <v-btn
@@ -47,7 +48,6 @@
 </template>
 
 <script>
-
 import { api } from "@/services/api.js";
 
 export default {
@@ -66,18 +66,19 @@ export default {
     };
   },
   methods: {
-    login () {
-      api.Login(this.name, this.password)
-	.then(resp => {
-           this.$store.commit("user", resp.data);
-           this.$router.replace({ name: "Admin" });
-           this.$refs.form.reset()
-	})
-	.catch(() => this.$refs.form.reset())
+    login() {
+      api
+        .Login(this.name, this.password)
+        .then((resp) => {
+          this.$store.commit("user", resp.data);
+          this.$router.replace({ name: "Admin" });
+          this.$refs.form.reset();
+        })
+        .catch(() => this.$refs.form.reset());
     },
   },
   mounted() {
-    if(this.$store.getters.loggedin) {
+    if (this.$store.getters.loggedin) {
       this.$router.replace({ name: "Admin" });
     }
   },
