@@ -1,18 +1,24 @@
 <template>
   <router-link
     :to="linkTo"
-    :class="noLink ? '': 'title-link pointer'"
-    :title="video.lang ? video.lang.title : video.common_name ? video.common_name : video.id"
+    :class="noLink ? '' : 'title-link pointer'"
+    :title="
+      video.lang
+        ? video.lang.title
+        : video.common_name
+        ? video.common_name
+        : video.id
+    "
     @click.stop="goToTop()"
-    :tag="noLink? 'span' : 'a'"
+    :tag="noLink ? 'span' : 'a'"
   >
     <div
-      style="height: 100%; position: relative"
-      id="switcherWrapper"
+      v-if="video.preview"
       @mouseenter="showPreview = true"
       @mouseleave="showPreview = false"
     >
       <v-img
+        v-if="showPreview"
         v-ripple="{ class: 'neutral--text', center: true }"
         :src="video.preview"
         class="white--text align-end"
@@ -30,6 +36,7 @@
           </v-row>
         </template>
       </v-img>
+
       <transition name="fade" appear>
         <v-img
           v-if="!showPreview"
@@ -52,6 +59,25 @@
         </v-img>
       </transition>
     </div>
+    <v-img
+      v-else
+      v-ripple="{ class: 'neutral--text', center: true }"
+      :src="video.poster"
+      class="white--text align-end"
+      gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
+      height="100%"
+      width="100%"
+      style="position: absolute"
+    >
+      <template v-slot:placeholder>
+        <v-row class="fill-height ma-0" align="center" justify="center">
+          <v-progress-circular
+            indeterminate
+            color="grey lighten-5"
+          ></v-progress-circular>
+        </v-row>
+      </template>
+    </v-img>
   </router-link>
 </template>
 
@@ -59,9 +85,9 @@
 export default {
   name: "Poster",
   props: {
-    "video": Object,
-    "noLink": Boolean,
-    "isStream": Boolean,
+    video: Object,
+    noLink: Boolean,
+    isStream: Boolean,
   },
   data() {
     return {
@@ -70,13 +96,13 @@ export default {
   },
   computed: {
     linkTo() {
-        if (this.noLink) {
-          return '';
-        }
-        if (this.isStream) {
-          return { name: 'Live', params: { id: this.video.channel.id}};
-        }
-        return { name: 'Player',  params: { id: this.video.id} };
+      if (this.noLink) {
+        return "";
+      }
+      if (this.isStream) {
+        return { name: "Live", params: { id: this.video.channel.id } };
+      }
+      return { name: "Player", params: { id: this.video.id } };
     },
   },
   methods: {
