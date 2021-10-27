@@ -27,7 +27,7 @@
         <v-row no-gutters>
           <h3>Speakers</h3>
           <v-spacer></v-spacer>
-          <v-btn icon small @click="showDialog = true">
+          <v-btn icon small @click="add()">
             <v-icon small>mdi-plus</v-icon>
           </v-btn>
         </v-row>
@@ -45,14 +45,7 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.organisation }}</td>
                 <td>
-                  <v-btn
-                    icon
-                    small
-                    @click="
-                      showDialog = true;
-                      formData = item;
-                    "
-                  >
+                  <v-btn icon small @click="edit(item)">
                     <v-icon small>mdi-pencil</v-icon>
                   </v-btn>
                   <v-btn
@@ -70,7 +63,7 @@
             </tbody>
           </template>
         </v-simple-table>
-        <v-btn class="mt-4" color="sucess" @click="showDialog = true">
+        <v-btn class="mt-4" color="sucess" @click="add()">
           <v-icon left>mdi-plus</v-icon>
           Add Speaker
         </v-btn>
@@ -138,6 +131,14 @@ export default {
     ...mapGetters(["darkMode"]),
   },
   methods: {
+    add() {
+      this.showDialog = true;
+      this.formData = this.formDefault;
+    },
+    edit(item) {
+      this.showDialog = true;
+      this.formData = item;
+    },
     load() {
       api.Speakers.ListChannelMy(this.channelid)
         .then((resp) => (this.list = resp.data))

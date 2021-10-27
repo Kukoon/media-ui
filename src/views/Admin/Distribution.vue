@@ -32,7 +32,7 @@
             <v-icon small>mdi-help-circle</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
-          <v-btn icon small @click="showDialog = true">
+          <v-btn icon small @click="add()">
             <v-icon small>mdi-plus</v-icon>
           </v-btn>
         </v-row>
@@ -68,6 +68,9 @@
                 <td>{{ item.state }}<br /></td>
                 <td>{{ item.sequence }}</td>
                 <td>
+                  <v-btn icon small @click="edit(item)">
+                    <v-icon small>mdi-pencil</v-icon>
+                  </v-btn>
                   <v-btn
                     icon
                     small
@@ -83,7 +86,7 @@
             </tbody>
           </template>
         </v-simple-table>
-        <v-btn class="mt-4" color="sucess" @click="showDialog = true">
+        <v-btn class="mt-4" color="sucess" @click="add()">
           <v-icon left>mdi-plus</v-icon>
           Add Re-Stream
         </v-btn>
@@ -93,11 +96,12 @@
             elevation="1"
             :color="darkMode ? 'grey darken-4' : 'grey lighten-5'"
           >
-            <v-card-title>New Re-Stream</v-card-title>
+            <v-card-title v-if="formData.id">Edit</v-card-title>
+            <v-card-title v-else>New Re-Stream</v-card-title>
             <v-card-text class="pb-0">
               <v-form class="pa-0 mt-2" @submit="addRestream()">
                 <v-text-field
-                  v-model="restreamForm.name"
+                  v-model="formData.name"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Name"
                   required
@@ -105,7 +109,7 @@
                   dense
                 ></v-text-field>
                 <v-text-field
-                  v-model="restreamForm.protocol"
+                  v-model="formData.protocol"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Protocol"
                   required
@@ -113,7 +117,7 @@
                   dense
                 ></v-text-field>
                 <v-text-field
-                  v-model="restreamForm.url"
+                  v-model="formData.url"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="URL"
                   required
@@ -121,13 +125,15 @@
                   dense
                 ></v-text-field>
                 <v-text-field
-                  v-model="restreamForm.secret"
+                  v-model="formData.secret"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Secret"
                   required
                   outlined
                   dense
                 ></v-text-field>
+                <!-- TODO: Add 'active' field to API -->
+                <!-- <v-switch v-model="formData.active"></v-switch> -->
               </v-form>
             </v-card-text>
             <v-card-actions class="px-6 pb-4">
@@ -157,11 +163,11 @@ export default {
       info: false,
       removeID: null,
       restreams: [],
-      restreamFormDefault: {
+      formDefault: {
         protocol: "rtmp",
         url: "rtmp://a.rtmp.youtube.com/live2",
       },
-      restreamForm: {},
+      formData: {},
       showDialog: false,
     };
   },
@@ -169,6 +175,14 @@ export default {
     ...mapGetters(["darkMode"]),
   },
   methods: {
+    add() {
+      this.showDialog = true;
+      this.formData = this.formDefault;
+    },
+    edit(item) {
+      this.showDialog = true;
+      this.formData = item;
+    },
     loadRestream() {
       api.Channels.Restreams.List(this.channelid)
         .then((resp) => (this.restreams = resp.data))
@@ -177,8 +191,8 @@ export default {
         });
     },
     addRestream() {
-      api.Channels.Restreams.Add(this.channelid, this.restreamForm).then(() => {
-        this.restreamForm = Object.assign({}, this.restreamFormDefault);
+      api.Channels.Restreams.Add(this.channelid, this.formData).then(() => {
+        this.formData = Object.assign({}, this.formDefault);
         this.loadRestream();
       });
       this.showDialog = false;
@@ -192,12 +206,12 @@ export default {
   },
   watch: {
     channelid() {
-      this.restreamForm = Object.assign({}, this.restreamFormDefault);
+      this.formData = Object.assign({}, this.formDefault);
       this.loadRestream();
     },
   },
   created() {
-    this.restreamForm = Object.assign({}, this.restreamFormDefault);
+    this.formData = Object.assign({}, this.formDefault);
     this.loadRestream();
   },
 };

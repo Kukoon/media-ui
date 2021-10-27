@@ -27,7 +27,7 @@
         <v-row no-gutters>
           <h3>Events</h3>
           <v-spacer></v-spacer>
-          <v-btn icon small @click="showDialog = true">
+          <v-btn icon small @click="add()">
             <v-icon small>mdi-plus</v-icon>
           </v-btn>
         </v-row>
@@ -65,14 +65,7 @@
                   >
                     <v-icon small>mdi-pencil</v-icon>
                   </v-btn>
-                  <v-btn
-                    icon
-                    small
-                    @click="
-                      confirmRemove = true;
-                      removeID = item.id;
-                    "
-                  >
+                  <v-btn icon small @click="edit(item)">
                     <v-icon small>mdi-delete</v-icon>
                   </v-btn>
                 </td>
@@ -80,7 +73,7 @@
             </tbody>
           </template>
         </v-simple-table>
-        <v-btn class="mt-4" color="sucess" @click="showDialog = true">
+        <v-btn class="mt-4" color="sucess" @click="add()">
           <v-icon left>mdi-plus</v-icon>
           Add Event
         </v-btn>
@@ -165,6 +158,14 @@ export default {
     ...mapGetters(["darkMode"]),
   },
   methods: {
+    add() {
+      this.showDialog = true;
+      this.formData = this.formDefault;
+    },
+    edit(item) {
+      this.showDialog = true;
+      this.formData = item;
+    },
     load() {
       api.Events.ListChannelMy(this.channelid)
         .then((resp) => (this.list = resp.data))
