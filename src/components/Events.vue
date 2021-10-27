@@ -1,25 +1,23 @@
 <template>
   <div class="chips d-flex-inline align-start justify-start">
     <v-chip
-      v-for="(tag, n) in tags"
-      :key="tag + n"
-      small
-      class="mr-2 my-1"
+      v-if="event"
       label
-      :to="{ name: filterView, query: { tag: tag.id } }"
+      small
+      color="orange"
+      class="mr-2 my-1"
+      :to="{ name: filterView, query: { event: event.id } }"
     >
-      <v-icon small left> mdi-label </v-icon>
-      <span style="margin-bottom: -2px" v-if="tag.lang !== null">
-        {{ tag.lang.name }}
-      </span>
+      <v-icon small left>mdi-calendar</v-icon>
+      {{ event.name }}
     </v-chip>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Tags",
-  props: ["tags"],
+  name: "Events",
+  props: ["event"],
   computed: {
     filterView() {
       return this.$router.history.current.name == "VideoGrid"

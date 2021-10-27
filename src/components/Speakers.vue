@@ -6,8 +6,9 @@
       small
       class="mr-2 my-1"
       dark
-      color="accent"
+      color="grey darken-1"
       label
+      outlined
       :title="speaker.organisation"
       :to="{ name: filterView, query: { speaker: speaker.id } }"
     >
@@ -21,7 +22,11 @@ export default {
   name: "Speakers",
   props: ["speakers"],
   computed: {
-    filterView() {return this.$router.history.current.name == 'VideoGrid'?'VideoGrid':'VideoList';},
+    filterView() {
+      return this.$router.history.current.name == "VideoGrid"
+        ? "VideoGrid"
+        : "VideoList";
+    },
   },
 };
 </script>
