@@ -49,7 +49,7 @@
             :event-ripple="false"
             :weekdays="weekOrder"
             show-week
-            @contextmenu:event="showStream"
+            @click:event="(e) => onClickCapture(e)"
             @click:more="zoom"
             @click:date="zoom"
             @change="fetchStreams"
@@ -107,7 +107,9 @@ export default {
     return {
       channel: { title: "unknown" },
       dialogKey: 0,
+      dragging: false,
       focus: "",
+      timer: null,
       type: "week",
       typeToLabel: {
         month: "Month",
@@ -199,7 +201,12 @@ export default {
         this.streamDrag = event;
         this.streamDragTime = null;
         this.streamResizeTime = null;
+        this.timer = setTimeout(() => this.onTimer(), 100);
       }
+    },
+    onTimer() {
+      this.timer = null;
+      this.dragging = true;
     },
     dragEnd() {
       if (this.streamDrag) {
@@ -217,11 +224,16 @@ export default {
       this.streamDrag = null;
       this.streamDragTime = null;
       this.streamResizeTime = null;
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+      setTimeout(() => (this.dragging = false));
     },
     dragCancel() {
       if (this.streamDrag) {
-          this.streamDrag.start = new Date(this.streamDrag.data.start_at);
-          this.streamDrag.end = new Date(this.streamDrag.data.end_at);
+        this.streamDrag.start = new Date(this.streamDrag.data.start_at);
+        this.streamDrag.end = new Date(this.streamDrag.data.end_at);
       }
       this.streamDrag = null;
       this.streamDragTime = null;
@@ -259,10 +271,22 @@ export default {
         this.streamDrag.start = min;
         this.streamDrag.end = max;
       }
+      this.timer = setTimeout(() => this.onTimer(), 100);
     },
     resize(ev) {
       this.streamDrag = ev;
       this.streamResizeTime = ev.start;
+    },
+    onClickCapture(e) {
+      if (this.dragging) {
+        this.dragging = false;
+        e.nativeEvent.preventDefault();
+        e.nativeEvent.stopPropagation();
+      } else {
+        const nativeEvent = e.nativeEvent;
+        const event = e.event;
+        this.showStream({ nativeEvent, event });
+      }
     },
     showStream({ nativeEvent, event }) {
       const open = () => {
