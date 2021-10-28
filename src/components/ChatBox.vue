@@ -169,7 +169,7 @@ export default {
   props: ["room"],
   data() {
     return {
-      allowCookie: false,
+      allowCookie: true, // TODO not yet implemented - first backend
       chat: [],
       keepOpen: true,
       msg: null,

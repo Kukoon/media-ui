@@ -78,6 +78,9 @@ export const websocket = {
 		ex[id] = handler;
 		sockets[room].on[type] = ex;
 	},
+	leaveHandler(room, type, id) {
+		delete sockets[room].on[type][id];
+	},
 	leave(room) {
 		const s = sockets[room];
 		if (s) {
