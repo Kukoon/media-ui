@@ -45,6 +45,7 @@ export default {
   methods: {
     init() {
       api.Channels.Get(this.id).then((resp) => {
+        this.source = config.sourceURL.replace("{ID}", resp.data.id);
         websocket.joinHandler(resp.data.id, 'status', 'live for status', (ev) => {
           this.$set(this.video, 'viewers', ev.viewers);
           this.$set(this.video, 'running', ev.running);
@@ -55,14 +56,18 @@ export default {
               console.log("load stream description - next", ev.stream, this.video.channel.id)
             }
             this.load()
+            // try trigger stream again
+            this.source = config.sourceURL.replace("{ID}", resp.data.id);
           }
         })
-        this.source = config.sourceURL.replace("{ID}", resp.data.id);
       })
     },
     load() {
       api.Channels.GetStream(this.id).then((resp) => {
         this.video = resp.data;
+	if (this.video.poster == "") {
+          this.video.poster = resp.data.channel.logo;
+	}
       }, () => {
         api.Channels.Get(this.id).then((resp) => {
           this.video = {

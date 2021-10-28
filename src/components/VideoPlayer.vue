@@ -75,6 +75,11 @@ export default {
         setTimeout(this.restart, 30000);
       }
     },
+    // trigger try to play - poster set is not nessasary
+    poster(newPoster) {
+      this.options.poster = newPoster;
+      this.localclappr.play();
+    },
     // Watch for changes in the prop 'source' passed from parent component
     source(newSrc) {
       // Load new source into clappr and play

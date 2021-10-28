@@ -21,7 +21,8 @@ export default {
   },
   methods: {
     connectStream() {
-      api.Channels.Get(this.id).then((resp) => {
+      return api.Channels.Get(this.id).then((resp) => {
+        this.source = config.sourceURL.replace("{ID}", resp.data.id);
         websocket.joinHandler(resp.data.id, 'status', 'single for poster', (ev) => {
           if (ev.stream != this.video.id) {
             if (ev.stream == "00000000-0000-0000-0000-000000000000") {
@@ -30,14 +31,18 @@ export default {
               console.log("load stream description - next", ev.stream, this.video.channel.id)
             }
             this.loadStream()
+            // try trigger stream again
+            this.source = config.sourceURL.replace("{ID}", resp.data.id);
           }
         })
-        this.source = config.sourceURL.replace("{ID}", resp.data.id);
       })
     },
     loadStream() {
-      api.Channels.GetStream(this.id).then((resp) => {
+      return api.Channels.GetStream(this.id).then((resp) => {
         this.video = resp.data;
+	if (this.video.poster == "") {
+          this.video.poster = resp.data.channel.logo;
+	}
       }, () => {
         api.Channels.Get(this.id).then((resp) => {
           this.video = {
@@ -66,9 +71,9 @@ export default {
     },
     load() {
       if (this.$router.history.current.query.stream) {
-		this.stream().catch(this.loadRecording);
+		this.stream().catch(this.recording);
       }else{
-		this.loadRecording().catch(this.stream);
+		this.recording().catch(this.stream);
       }
     },
   },

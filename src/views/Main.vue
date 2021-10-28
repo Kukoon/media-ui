@@ -33,7 +33,6 @@ export default {
         if (this.isLive != ev.running) {
           this.isLive = ev.running;
 	}
-	console.log("isLive button", ev.running);
       })
     },
   },
