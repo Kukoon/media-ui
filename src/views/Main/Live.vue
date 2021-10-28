@@ -43,27 +43,32 @@ export default {
     };
   },
   methods: {
-    load() {
-      api.Channels.GetStream(this.id).then((response) => {
-        // skip websocket binding on existing stream
-        if (this.video == null || response.data.channel.id != this.video.channel.id) {
-          websocket.joinHandler(response.data.channel.id, 'status', (ev) => {
-            this.$set(this.video, 'viewers', ev.viewers);
-            this.$set(this.video, 'running', ev.running);
-            if (ev.stream != this.video.id) {
-              console.log("new stream description", ev.stream, this.video.channel.id)
-              this.load()
+    init() {
+      api.Channels.Get(this.id).then((resp) => {
+        websocket.joinHandler(resp.data.id, 'status', 'live for status', (ev) => {
+          this.$set(this.video, 'viewers', ev.viewers);
+          this.$set(this.video, 'running', ev.running);
+          if (ev.stream != this.video.id) {
+            if (ev.stream == "00000000-0000-0000-0000-000000000000") {
+              console.log("load stream description - no new", ev.stream, this.video.channel.id)
+            } else {
+              console.log("load stream description - next", ev.stream, this.video.channel.id)
             }
-          })
-        }
-        // update description 
-        this.video = response.data;
-        this.source = config.sourceURL.replace("{ID}", this.video.channel.id);
+            this.load()
+          }
+        })
+        this.source = config.sourceURL.replace("{ID}", resp.data.id);
+      })
+    },
+    load() {
+      api.Channels.GetStream(this.id).then((resp) => {
+        this.video = resp.data;
       }, () => {
-        api.Channels.Get(this.id).then((response) => {
+        api.Channels.Get(this.id).then((resp) => {
           this.video = {
-            channel: response.data,
-            poster: response.data.logo,
+            id: "00000000-0000-0000-0000-000000000000",
+            channel: resp.data,
+            poster: resp.data.logo,
             lang: {
               title: "No Stream Live",
               subtitle: "no event scheduled",
@@ -71,26 +76,19 @@ export default {
               long: "This Channel has no stream event scheduled",
             },
           };
-          this.source = config.sourceURL.replace("{ID}", response.data.id);
-          websocket.joinHandler(response.data.id, 'status', (ev) => {
-            this.$set(this.video, 'viewers', ev.viewers);
-            this.$set(this.video, 'running', ev.running);
-            if (ev.running) {
-              console.log("stream started description", ev.stream, this.video.channel.id)
-              this.load()
-            }
-          });
         });
       });
     },
   },
   watch: {
     id() {
+      this.init();
       this.load();
     },
   },
   created() {
     this.$store.commit("autoPlay", true);
+    this.init();
     this.load();
   },
 };

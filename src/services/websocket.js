@@ -23,7 +23,7 @@ function connect(room) {
 			default:
 				var handler = sockets[room].on[data.type];
 				if (handler) {
-					handler(data.body);
+					Object.values(handler).map((el)=>el(data.body));
 				} else {
 					console.log("ws: no", data.type, "handler for", data.body);
 				}
@@ -79,9 +79,14 @@ async function setUsername(room, name) {
 
 export const websocket = {
 	join: join,
-	joinHandler(room, type, handler) {
+	joinHandler(room, type, id, handler) {
 		join(room)
-		sockets[room].on[type] = handler
+		let ex = sockets[room].on[type];
+		if (!ex) {
+			ex = {};
+		}
+		ex[id] = handler;
+		sockets[room].on[type] = ex;
 	},
 	leave(room) {
 		const s = sockets[room];

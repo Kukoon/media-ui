@@ -27,19 +27,25 @@ export default {
       isLive: true,
     }
   },
+  methods: {
+    connect(channelID) {
+      websocket.joinHandler(channelID, 'status', 'main for menu', (ev) => {
+        if (this.isLive != ev.running) {
+          this.isLive = ev.running;
+	}
+	console.log("isLive button", ev.running);
+      })
+    },
+  },
   created() {
     if (config.defaultChannel) {
       api.Channels.GetStream(config.defaultChannel).then((resp) => {
         this.isLive = resp.data.running;
-        websocket.joinHandler(resp.data.channel.id, 'status', (ev) => {
-          this.isLive = ev.running;
-        })
+        this.connect(resp.data.channel.id);
       }, () => {
         this.isLive = false;
         api.Channels.Get(config.defaultChannel).then((resp) => {
-          websocket.joinHandler(resp.data.id, 'status', (ev) => {
-            this.isLive = ev.running;
-          })
+          this.connect(resp.data.id);
         })
       })
     } else {

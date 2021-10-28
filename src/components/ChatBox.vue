@@ -186,7 +186,7 @@ export default {
     },
   },
   created() {
-    websocket.joinHandler(this.room, "chat", this.onMessage);
+    websocket.joinHandler(this.room, "chat", 'ChatBox', this.onMessage);
   },
   watch: {
     room(to, from) {
