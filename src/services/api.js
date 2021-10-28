@@ -24,6 +24,17 @@ function delay(resp) {
 
 
 export const api = {
+	Or(f, params, flat = true) {
+		const result = Promise.all(params.map((el) => f(el)));
+		if (flat) {
+			return result.then((values)=> {
+				return {
+					data: [].concat.apply([], values.map((resp)=>resp.data))
+				}
+			})
+		}
+		return result
+	},
 	Login(username, password) {
 		var url = new URL(config.apiURL + "/auth/login");
 		return axios.post(url, {username: username, password: password})
