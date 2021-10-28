@@ -1,5 +1,5 @@
 <template>
-  <VideoPlayer :source="source" :poster="video.poster" />
+  <VideoPlayer ref="player" :source="source" :poster="video.poster" />
 </template>
 
 <script>
@@ -31,8 +31,7 @@ export default {
               console.log("load stream description - next", ev.stream, this.video.channel.id)
             }
             this.loadStream()
-            // try trigger stream again
-            this.source = config.sourceURL.replace("{ID}", resp.data.id);
+            this.$refs.player.play();
           }
         })
       })

@@ -62,23 +62,21 @@ export default {
         this.localclappr.play();
       }
     },
+    play(){
+      this.localclappr.play();
+    },
     restart(){
       this.localclappr.load(this.source);
       this.localclappr.play();
     },
   },
   watch: {
-    running(is) {
-      if(is){
+    running(is, old) {
+      if(is && !old){
         console.log("stream goes live: restart it in 30s")
         // start 30s later -> HLS should be ready now
         setTimeout(this.restart, 30000);
       }
-    },
-    // trigger try to play - poster set is not nessasary
-    poster(newPoster) {
-      this.options.poster = newPoster;
-      this.localclappr.play();
     },
     // Watch for changes in the prop 'source' passed from parent component
     source(newSrc) {

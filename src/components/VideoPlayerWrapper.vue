@@ -11,6 +11,7 @@
       <v-responsive :aspect-ratio="16 / 9" class="responsive">
         <VideoPlayer
           v-if="getSource && video.poster"
+          ref="player"
           class="flex-column"
           :source="getSource"
           :poster="video.poster"
@@ -56,6 +57,11 @@ export default {
       const urls = this.video.formats.map((i) => i.url);
       return urls[0];
     },
+  },
+  methods: {
+    play() {
+      this.$refs.player.play()
+    }
   },
 };
 </script>

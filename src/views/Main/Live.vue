@@ -2,7 +2,7 @@
   <v-container fluid id="Live">
     <v-row no-gutters>
       <v-col cols="12" md="8" class="d-flex flex-column">
-        <VideoPlayerWrapper :video="video" :source="source" class="mx-n2" />
+        <VideoPlayerWrapper ref="player" :video="video" :source="source" class="mx-n2" />
       </v-col>
       <v-col cols="12" md="4" v-if="video !== null && video.chat">
         <ChatBox class="ma-2" :room="video.channel.id" />
@@ -56,8 +56,7 @@ export default {
               console.log("load stream description - next", ev.stream, this.video.channel.id)
             }
             this.load()
-            // try trigger stream again
-            this.source = config.sourceURL.replace("{ID}", resp.data.id);
+            this.$refs.player.play();
           }
         })
       })
