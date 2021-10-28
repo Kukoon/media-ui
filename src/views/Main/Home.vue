@@ -9,9 +9,11 @@
     </v-row>
     <v-row v-if="streamsUpcoming.length > 0" class="mb-4">
       <v-col>
-        <h1 class="px-2 headline">Upcoming Stream</h1>
-        <v-divider class="mx-2 mb-2 mt-2" />
-        <VideoGrid :videos="streamsUpcoming" :noLink="true" />
+        <VideoRow
+          :videos="streamsUpcoming"
+          :noLink="true"
+          title="Upcoming Streams"
+        />
       </v-col>
     </v-row>
     <v-row v-for="(row, n) in rows" :key="row + n" class="mt-0">
@@ -29,14 +31,14 @@
 
 <script>
 import VideoList from "@/components/VideoList";
-import VideoGrid from "@/components/VideoGrid";
+//import VideoGrid from "@/components/VideoGrid";
 import VideoRow from "@/components/VideoRow";
 
 import { api } from "@/services/api.js";
 
 export default {
   name: "Home",
-  components: { VideoList, VideoGrid, VideoRow },
+  components: { VideoList, VideoRow },
   data() {
     return {
       recordings: [],
@@ -63,7 +65,9 @@ export default {
         (response) => (this.streamsLive = response.data)
       );
       api.Streams.List({ upcoming: true }).then(
-        (response) => (this.streamsUpcoming = response.data)
+        (response) => (
+          (this.streamsUpcoming = response.data), console.log(response.data)
+        )
       );
       api.Recordings.List().then(
         (response) => (this.recordings = response.data)

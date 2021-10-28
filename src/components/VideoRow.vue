@@ -4,7 +4,7 @@
       <h1 class="px-2 mb-2 headline d-flex" to="{ path: 'recordings/grid/' }">
         {{ title }}
         <router-link
-          v-if="eventID && !tagID"
+          v-if="eventID && !tagID && !noLink"
           :to="{
             path: 'recordings/grid/',
             params: {
@@ -20,7 +20,7 @@
           >
         </router-link>
         <router-link
-          v-else-if="!eventID && tagID"
+          v-else-if="!eventID && tagID && !noLink"
           :to="{
             path: 'recordings/grid/',
             params: {
@@ -36,7 +36,7 @@
           >
         </router-link>
         <router-link
-          v-else
+          v-else-if="!noLink"
           :to="{
             path: 'recordings/grid/',
             params: {
@@ -62,7 +62,10 @@
           icon
           color="primary"
           @click="nextVideo"
-          :disabled="counter == filterVideos.length - this.columns"
+          :disabled="
+            counter == filterVideos.length - this.columns ||
+            filterVideos.length < this.columns
+          "
         >
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
@@ -76,6 +79,7 @@
           v-for="(video, n) in displayedVideos"
           :key="video + n"
           :video="video"
+          :noLink="noLink"
           class="mb-4"
         />
       </masonry>
@@ -91,7 +95,7 @@ export default {
   components: {
     PreviewCard,
   },
-  props: ["videos", "title", "eventID", "tagID"],
+  props: ["videos", "title", "eventID", "tagID", "noLink"],
   data() {
     return {
       isMounted: false,
