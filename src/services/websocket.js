@@ -1,8 +1,5 @@
 import { config } from "../../config.js"
 
-const randomUsernames = config.chat.anonym.names
-
-var streamRoomUsernames = {}
 var sockets = {}
 
 var streamRoomPromise = {
@@ -15,7 +12,7 @@ function connect(room) {
 			case 'username':
 				var r = streamRoomPromise[room];
 				if (r) {
-					r(!data.body['error'])
+					r(data.body['error'])
 				} else {
 					console.log("ws: unhandle username", data.body)
 				}
@@ -36,10 +33,6 @@ function connect(room) {
 	}
 	ws.onerror = function () {
 		ws.close();
-	}
-	const u = streamRoomUsernames[room];
-	if (!!u && !setUsername(room, u)) {
-		delete (streamRoomUsernames[room])
 	}
 	return ws
 }
@@ -67,14 +60,11 @@ async function setUsername(room, name) {
 			streamRoomPromise[room] = resolve
 		)
 		delete (streamRoomPromise[room])
-		if (p) {
-			streamRoomUsernames[room] = name
-		}
 		return p;
 	} else {
 		console.log("ws: setUsername - not connected to", room)
 	}
-	return false;
+	return "not connected";
 }
 
 export const websocket = {
@@ -111,20 +101,6 @@ export const websocket = {
 		}
 	},
 	setUsername: setUsername,
-	async getUsername(room) {
-		const u = streamRoomUsernames[room]
-		if (!u) {
-			for (let i = 0; i < randomUsernames.length; i++) {
-				const u = randomUsernames[i]
-				const b = await setUsername(room, u)
-				if (b) {
-					return u
-				}
-			}
-			return "unknown"
-		}
-		return u
-	},
 	renderText(text) {
 		var urlRegex = /(https?:\/\/[^\s]+)/g;
 		var boldRegex = /\*\*(.*?)\*\*/gm;

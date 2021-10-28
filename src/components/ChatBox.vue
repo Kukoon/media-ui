@@ -77,9 +77,9 @@
                 outlined
                 hide-details
                 placeholder="Choose a Username"
-                @keypress.enter="step++"
+                @keypress.enter="setUsername"
               ></v-textarea>
-              <v-btn depressed class="ml-2" @click="step++" color="success">
+              <v-btn depressed class="ml-2" @click="setUsername" color="success">
                 Save
               </v-btn>
             </div>
@@ -199,6 +199,16 @@ export default {
     accept() {
       this.allowCookie = true;
     },
+    setUsername() {
+      websocket.setUsername(this.room, this.userName).then((err) => {
+        if(!err) {
+          this.step++
+        } else {
+          // TODO - error handling in UI
+          console.log("setUsername", err);
+	}
+      })
+    },
     onMessage(msg) {
       this.chat.push({
         from: msg.username,
@@ -209,12 +219,12 @@ export default {
     async send(e) {
       // Send message with 'Ctrl+Enter'
       if (e.ctrlKey) {
+        websocket.sendChat(this.room, this.msg)
         this.chat.push({
-          from: await websocket.getUsername(this.room),
+          from: this.userName,
           me: true,
           msg: websocket.renderText(this.msg),
         });
-        websocket.sendChat(this.room, this.msg);
         this.msg = null;
       }
     },
