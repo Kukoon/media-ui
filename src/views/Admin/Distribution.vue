@@ -199,7 +199,7 @@ export default {
     },
     deleteRestream(id) {
       api.Channels.Restreams.Delete(this.channelid, id).then(() => {
-        this.loadRestream;
+        this.loadRestream();
         this.confirmRemove = false;
       });
     },
