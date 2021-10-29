@@ -18,10 +18,7 @@
     </v-row>
     <v-row v-for="(row, n) in recordingConfigs" :key="row + n" class="mt-0">
       <v-col>
-        <VideoRow
-          :title="row.title"
-          :params="row.params"
-        />
+        <VideoRow :title="row.title" :params="row.params" />
       </v-col>
     </v-row>
   </v-container>
@@ -42,10 +39,12 @@ export default {
     return {
       streamsLive: [],
       streamsUpcoming: [],
-      recordingConfigs: [{
-        title: "Latest Recordings",
-	params: {},
-      }].concat(config.home.recordings),
+      recordingConfigs: [
+        {
+          title: "Latest Recordings",
+          params: {},
+        },
+      ].concat(config.home.recordings),
     };
   },
   methods: {

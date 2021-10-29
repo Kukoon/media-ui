@@ -65,7 +65,12 @@
           ></div>
         </template>
       </v-calendar>
-      <v-dialog v-model="selectedOpen" :activator="selectedElement" width="540">
+      <v-dialog
+        v-if="selectedOpen"
+        v-model="selectedOpen"
+        :activator="selectedElement"
+        width="540"
+      >
         <StreamEditDialog
           :key="dialogKey"
           :video="selectedStream"

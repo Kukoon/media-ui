@@ -6,6 +6,21 @@
         <v-card-title class="text-h6 font-weight-regular">
           <span>{{ currentTitle }}</span>
           <v-spacer />
+          <v-btn
+            icon
+            :loading="loading"
+            :disabled="Object.entries(savedStreamData).length <= 0"
+            :color="shallowEqual(stream, savedStreamData) ? 'sucess' : 'error'"
+            @click="
+              {
+                loader = 'loading';
+                keepOpen = true;
+                save();
+              }
+            "
+          >
+            <v-icon>mdi-lock</v-icon>
+          </v-btn>
           <v-menu
             offset-x
             nudge-right="10"
@@ -286,11 +301,15 @@ export default {
   data() {
     return {
       events: [],
+      keepOpen: false,
       langForm: {},
       langs: [],
       langExists: false,
       loaded: false,
+      loading: false,
       newLang: "",
+      savedStreamData: {},
+      savedLangs: {},
       selectedLang: null,
       showAddLang: false,
       speakers: [],
@@ -355,14 +374,18 @@ export default {
     },
     exportToRecording() {
       api.Streams.Export(this.streamid);
+      this.$emit("closeDialog");
+      this.step = 1;
     },
     load() {
       if (!this.streamid) {
         this.stream = Object.assign({}, this.streamFormDefault);
+        this.savedStreamData = { ...this.stream };
         return;
       }
       api.Streams.Get(this.streamid).then((response) => {
         this.stream = models.Stream.FromRequest(response.data);
+        this.savedStreamData = { ...this.stream };
         this.loaded = true;
       });
     },
@@ -378,6 +401,7 @@ export default {
           this.selectedLang = this.$store.getters.language;
         }
         this.updateLangForm();
+        this.savedLangs = { ...this.langs };
       });
     },
     updateLangForm() {
@@ -408,6 +432,7 @@ export default {
       }
       resp.then((response) => {
         this.stream = models.Stream.FromRequest(response.data);
+
         for (const lang of this.langs) {
           if (lang.id) {
             resp = api.Streams.Langs.Save(lang.id, lang);
@@ -418,8 +443,26 @@ export default {
         }
         this.step = 1;
         this.$emit("loadStreams");
-        this.$emit("closeDialog");
+        if (!this.keepOpen) {
+          this.$emit("closeDialog");
+          this.keepOpen = false;
+        }
+        this.savedStreamData = { ...this.stream };
+        this.savedLangs = { ...this.langs };
       });
+    },
+    shallowEqual(object1, object2) {
+      const keys1 = Object.keys(object1);
+      const keys2 = Object.keys(object2);
+      if (keys1.length !== keys2.length) {
+        return false;
+      }
+      for (let key of keys1) {
+        if (object1[key] !== object2[key]) {
+          return false;
+        }
+      }
+      return true;
     },
   },
   mounted() {
