@@ -263,7 +263,8 @@ export default {
     return {
       recording: {},
       recordingFormDefault: {
-        poster: "https://cdn.media.kukoon.de/videos/"+this.channelid+"/"+this.recordingid+"/poster.jpg"
+        poster: "https://cdn.media.kukoon.de/videos/"+this.channelid+"/"+this.recordingid+"/poster.jpg",
+        preview: "https://cdn.media.kukoon.de/videos/"+this.channelid+"/"+this.recordingid+"/preview.webp",
       },
       enableSave: false,
       confirmRemove: false,

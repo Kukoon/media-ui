@@ -55,7 +55,7 @@ export const models = {
 		ToRequest(data) {
 			return {
 				created_at: new Date(data.created_at),
-				duration: data.duration,
+				duration: parseInt(data.duration),
 				public: data.public,
 				listed: data.listed,
 				common_name: data.common_name,
