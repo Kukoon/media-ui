@@ -87,7 +87,15 @@ export default {
   },
   methods: {
     load() {
-      api.Recordings.List(this.params).then((resp)=>this.filterVideo = resp.data);
+      let prom = api.Recordings.List(this.params);
+      // handle multiple parameters / or
+      if (Array.isArray(this.params)) {
+        prom = api.Or(api.Recordings.List, this.params)
+      }
+      // filter duplicate - maybe just a try (better with id)
+      prom.then((resp)=>this.filterVideo = resp.data.filter(function(item, pos) {
+        return resp.data.indexOf(item) == pos;
+      }));
     },
     nextVideo() {
       this.counter++;
@@ -98,10 +106,10 @@ export default {
   },
   mounted() {
     this.isMounted = true;
-    if (this.params) {
-      this.load();
-    } else {
+    if (!this.params) {
       this.filterVideo = this.videos;
+    } else {
+      this.load();
     }
   },
 };
