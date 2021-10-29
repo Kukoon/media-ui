@@ -74,6 +74,7 @@
           :streamColor="selectedStreamColor"
           @loadStreams="this.loadStreams"
           @closeDialog="selectedOpen = false"
+          @keydown.esc="selectedOpen = false"
         >
         </StreamEditDialog>
       </v-dialog>

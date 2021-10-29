@@ -44,7 +44,7 @@
         <v-window v-model="step">
           <v-window-item :value="1">
             <v-card-text>
-              <v-form class="pa-0 mt-2" @submit="save()">
+              <v-form class="pa-0 mt-2" @submit="save()" :disabled="!loaded">
                 <v-text-field
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Comman Name (used in URLs)"
@@ -289,6 +289,7 @@ export default {
       langForm: {},
       langs: [],
       langExists: false,
+      loaded: false,
       newLang: "",
       selectedLang: null,
       showAddLang: false,
@@ -362,6 +363,7 @@ export default {
       }
       api.Streams.Get(this.streamid).then((response) => {
         this.stream = models.Stream.FromRequest(response.data);
+        this.loaded = true;
       });
     },
     loadFilterData() {
@@ -424,8 +426,12 @@ export default {
     this.loadFilterData();
     this.loadLangs();
   },
+  created() {
+    this.load();
+  },
   watch: {
     streamid() {
+      this.loadFilterData();
       this.loadLangs();
       this.load();
     },
