@@ -1,92 +1,83 @@
 <template>
-  <v-container fluid>
-    <v-row no-gutters>
-      <v-col>
-        <h3 class="pb-2">Stream Schedule</h3>
-        <v-sheet rounded>
-          <v-toolbar flat dense class="align-center" rounded>
-            <v-btn outlined small class="mr-4" @click="setToday"> Today </v-btn>
-            <v-btn fab text small @click="prev">
-              <v-icon small> mdi-chevron-left </v-icon>
+  <v-container fluid class="pa-0">
+    <v-sheet rounded>
+      <v-toolbar flat dense class="align-center" rounded>
+        <v-btn outlined small class="mr-4" @click="setToday"> Today </v-btn>
+        <v-btn fab text small @click="prev">
+          <v-icon small> mdi-chevron-left </v-icon>
+        </v-btn>
+        <v-btn fab text small @click="next" class="mr-4">
+          <v-icon small> mdi-chevron-right </v-icon>
+        </v-btn>
+        <v-toolbar-title v-if="$refs.calendar">
+          {{ $refs.calendar.title }}
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-menu bottom right>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn outlined small v-bind="attrs" v-on="on">
+              <span>{{ typeToLabel[type] }}</span>
+              <v-icon right> mdi-menu-down </v-icon>
             </v-btn>
-            <v-btn fab text small @click="next" class="mr-4">
-              <v-icon small> mdi-chevron-right </v-icon>
-            </v-btn>
-            <v-toolbar-title v-if="$refs.calendar">
-              {{ $refs.calendar.title }}
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-menu bottom right>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn outlined small v-bind="attrs" v-on="on">
-                  <span>{{ typeToLabel[type] }}</span>
-                  <v-icon right> mdi-menu-down </v-icon>
-                </v-btn>
-              </template>
-              <v-list dense>
-                <v-list-item @click="type = 'day'">
-                  <v-list-item-title>Day</v-list-item-title>
-                </v-list-item>
-                <v-list-item @click="type = 'week'">
-                  <v-list-item-title>Week</v-list-item-title>
-                </v-list-item>
-                <v-list-item @click="type = 'month'">
-                  <v-list-item-title>Month</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-toolbar>
-        </v-sheet>
-        <v-sheet>
-          <v-calendar
-            id="calendar"
-            ref="calendar"
-            v-model="focus"
-            color="primary"
-            :type="type"
-            :events="streams"
-            :event-color="getStreamColor"
-            :event-ripple="false"
-            :weekdays="weekOrder"
-            show-week
-            @click:event="(e) => onClickCapture(e)"
-            @click:more="zoom"
-            @click:date="zoom"
-            @change="fetchStreams"
-            @mousedown:event="dragStart"
-            @mousedown:time="startTime"
-            @mousemove:time="moveTime"
-            @mouseup:time="dragEnd"
-            @mouseleave.native="dragCancel"
-          >
-            <template v-slot:event="{ event, timed, eventSummary }">
-              <div class="v-event-draggable" v-html="eventSummary()"></div>
-              <div
-                v-if="timed"
-                class="v-event-drag-bottom"
-                @mousedown.stop="resize(event)"
-              ></div>
-            </template>
-          </v-calendar>
-          <v-dialog
-            v-model="selectedOpen"
-            :activator="selectedElement"
-            width="540"
-          >
-            <StreamEditDialog
-              :key="dialogKey"
-              :video="selectedStream"
-              :channelid="channelid"
-              :streamid="selectedStream.id"
-              :streamColor="selectedStreamColor"
-              @loadStreams="this.loadStreams"
-              @closeDialog="selectedOpen = false"
-            >
-            </StreamEditDialog>
-          </v-dialog>
-        </v-sheet>
-      </v-col>
-    </v-row>
+          </template>
+          <v-list dense>
+            <v-list-item @click="type = 'day'">
+              <v-list-item-title>Day</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="type = 'week'">
+              <v-list-item-title>Week</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="type = 'month'">
+              <v-list-item-title>Month</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-toolbar>
+    </v-sheet>
+    <v-sheet>
+      <v-calendar
+        id="calendar"
+        ref="calendar"
+        v-model="focus"
+        color="primary"
+        :type="type"
+        :events="streams"
+        :event-color="getStreamColor"
+        :event-ripple="false"
+        :weekdays="weekOrder"
+        show-week
+        @click:event="(e) => onClickCapture(e)"
+        @click:more="zoom"
+        @click:date="zoom"
+        @change="fetchStreams"
+        @mousedown:event="dragStart"
+        @mousedown:time="startTime"
+        @mousemove:time="moveTime"
+        @mouseup:time="dragEnd"
+        @mouseleave.native="dragCancel"
+      >
+        <template v-slot:event="{ event, timed, eventSummary }">
+          <div class="v-event-draggable" v-html="eventSummary()"></div>
+          <div
+            v-if="timed"
+            class="v-event-drag-bottom"
+            @mousedown.stop="resize(event)"
+          ></div>
+        </template>
+      </v-calendar>
+      <v-dialog v-model="selectedOpen" :activator="selectedElement" width="540">
+        <StreamEditDialog
+          :key="dialogKey"
+          :video="selectedStream"
+          :channelid="channelid"
+          :streamid="selectedStream.id"
+          :streamColor="selectedStreamColor"
+          @loadStreams="this.loadStreams"
+          @closeDialog="selectedOpen = false"
+        >
+        </StreamEditDialog>
+      </v-dialog>
+    </v-sheet>
   </v-container>
 </template>
 
@@ -251,7 +242,27 @@ export default {
             start_at: new Date(start_at).toJSON(),
             end_at: new Date(start_at + 60 * 60 * 1000).toJSON(),
           })
-        ).then(this.loadStreams);
+        ).then((resp) => {
+          this.loadStreams();
+          const targetEvent = null;
+          const eventArr = [resp.data].map((el) => {
+            return {
+              id: el.id,
+              color: this.getStreamColor(el),
+              name: el.lang
+                ? el.lang.title
+                : el.common_name
+                ? el.common_name
+                : el.id,
+              start: new Date(el.start_at),
+              end: new Date(el.end_at),
+              timed: true,
+              data: el,
+            };
+          });
+          const event = eventArr[0];
+          this.showStream({ targetEvent, event });
+        });
       }
     },
     moveTime(tms) {
@@ -292,7 +303,9 @@ export default {
       const open = () => {
         this.selectedStream = event.data;
         this.selectedStreamColor = event.color;
-        this.selectedElement = nativeEvent.target;
+        if (nativeEvent) {
+          this.selectedElement = nativeEvent.target;
+        }
         requestAnimationFrame(() =>
           requestAnimationFrame(() => (this.selectedOpen = true))
         );

@@ -1,39 +1,34 @@
 <template>
-  <v-container fluid>
-    <v-row no-gutters>
-      <v-col>
-        <h3 class="pb-2">Global Stream Schedule</h3>
-        <v-sheet>
-          <v-toolbar flat dense class="align-center" rounded>
-            <v-btn outlined small class="mr-4" @click="setToday"> Today </v-btn>
-            <v-btn fab text small @click="prev">
-              <v-icon small> mdi-chevron-left </v-icon>
-            </v-btn>
-            <v-btn fab text small @click="next" class="mr-4">
-              <v-icon small> mdi-chevron-right </v-icon>
-            </v-btn>
-            <v-toolbar-title v-if="$refs.calendar">
-              {{ $refs.calendar.title }}
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-        </v-sheet>
-        <v-sheet>
-          <v-calendar
-            id="calendar"
-            ref="calendar"
-            v-model="focus"
-            color="primary"
-            type="category"
-            category-show-all
-            :categories="channelNames"
-            :events="streams"
-            :event-color="getStreamColor"
-            @change="fetchStreams"
-          ></v-calendar>
-        </v-sheet>
-      </v-col>
-    </v-row>
+  <v-container fluid class="pa-0">
+    <v-sheet>
+      <v-toolbar flat dense class="align-center" rounded>
+        <v-btn outlined small class="mr-4" @click="setToday"> Today </v-btn>
+        <v-btn fab text small @click="prev">
+          <v-icon small> mdi-chevron-left </v-icon>
+        </v-btn>
+        <v-btn fab text small @click="next" class="mr-4">
+          <v-icon small> mdi-chevron-right </v-icon>
+        </v-btn>
+        <v-toolbar-title v-if="$refs.calendar">
+          {{ $refs.calendar.title }}
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+    </v-sheet>
+    <v-sheet>
+      <v-calendar
+        id="calendar"
+        ref="calendar"
+        v-model="focus"
+        color="primary"
+        type="category"
+        category-show-all
+        :categories="channelNames"
+        :events="streams"
+        :event-color="getStreamColor"
+        @change="fetchStreams"
+      ></v-calendar>
+    </v-sheet>
   </v-container>
 </template>
 
