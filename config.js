@@ -11,10 +11,10 @@ export const config = {
 	"home": {
 		"recordings": [
 			{
-				"title": "Buchvorstellungen und Interviews",
+				"title": "Buchvorstellungen",
 				"params": [
 					{"tag": "0bca0cf4-a9b9-46d7-821f-18c59c08fc1d"},
-					{"tag": "1aa3f441-4461-42da-a858-63abf5ee254c"}
+					// Interviews: {"tag": "1aa3f441-4461-42da-a858-63abf5ee254c"}
 				],
 			},
 			{
