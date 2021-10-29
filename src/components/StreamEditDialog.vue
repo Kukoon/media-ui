@@ -390,10 +390,11 @@ export default {
       }
     },
     remove() {
-      api.Streams.Delete(this.streamid);
-      this.step = 1;
-      this.$emit("loadStreams");
-      this.$emit("closeDialog");
+      api.Streams.Delete(this.streamid).then(() => {
+        this.step = 1;
+        this.$emit("loadStreams", this.streamid);
+        this.$emit("closeDialog");
+      });
     },
     save() {
       let resp = null;
@@ -405,24 +406,23 @@ export default {
       }
       resp.then((response) => {
         this.stream = models.Stream.FromRequest(response.data);
-      });
-      for (const lang of this.langs) {
-        if (lang.id) {
-          resp = api.Streams.Langs.Save(lang.id, lang);
+        for (const lang of this.langs) {
+          if (lang.id) {
+            resp = api.Streams.Langs.Save(lang.id, lang);
+          }
+          resp.then(() => {
+            this.loadLangs();
+          });
         }
-        resp.then(() => {
-          this.loadLangs();
-        });
-      }
-      this.step = 1;
-      this.$emit("loadStreams");
-      this.$emit("closeDialog");
+        this.step = 1;
+        this.$emit("loadStreams");
+        this.$emit("closeDialog");
+      });
     },
   },
   mounted() {
     this.loadFilterData();
     this.loadLangs();
-    this.load();
   },
   watch: {
     streamid() {
