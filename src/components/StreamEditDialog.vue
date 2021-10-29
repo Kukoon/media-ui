@@ -30,7 +30,7 @@
                 >
                   <v-list-item-title>Edit </v-list-item-title>
                 </v-list-item>
-                <v-list-item>
+                <v-list-item @click="exportToRecording()">
                   <v-list-item-title>Save to Recordings</v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="remove()">
@@ -353,7 +353,7 @@ export default {
       this.$emit("closeDialog");
       this.step = 1;
     },
-    export() {
+    exportToRecording() {
       api.Streams.Export(this.streamid);
     },
     load() {
