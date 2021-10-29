@@ -198,10 +198,10 @@ export default {
       this.showDialog = false;
     },
     deleteRestream(id) {
-      api.Channels.Restreams.Delete(this.channelid, id).then(
-        this.loadRestream,
-        (this.confirmRemove = false)
-      );
+      api.Channels.Restreams.Delete(this.channelid, id).then(() => {
+        this.loadRestream;
+        this.confirmRemove = false;
+      });
     },
   },
   watch: {

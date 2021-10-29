@@ -187,9 +187,11 @@ export default {
       this.showDialog = false;
     },
     remove(id) {
-      api.Events.Delete(id).then(this.load);
-      this.removeID = null;
-      this.confirmRemove = false;
+      api.Events.Delete(id).then(() => {
+        this.load;
+        this.removeID = null;
+        this.confirmRemove = false;
+      });
     },
     clear() {
       this.formData = Object.assign({}, this.formDefault);
