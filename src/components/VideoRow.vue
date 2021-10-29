@@ -10,7 +10,7 @@
             params: {
               title: title,
             },
-            query: params,
+            query: query,
           }"
         >
           <v-btn icon class="ml-2 mt-n1" color="primary"
@@ -84,6 +84,12 @@ export default {
     displayedVideos() {
       return this.filterVideo.slice(this.counter, this.columns + this.counter);
     },
+    query() {
+      if (Array.isArray(this.params)) {
+        return this.params[0]
+      }
+      return this.params
+    }
   },
   methods: {
     load() {
