@@ -8,6 +8,22 @@ export const config = {
 	"sourceURL": "https://edge01.media.kukoon.de/stream/stream/{ID}/playlist.m3u8",
 	"defaultChannel": "kukoon",
 	// "defaultChannel": "df1555f5-7046-4f7a-adcc-195b73949723",
+	"home": {
+		"recordings": [
+			{
+				"title": "Buchvorestellungen",
+				"params": {
+					"tag": "0bca0cf4-a9b9-46d7-821f-18c59c08fc1d",
+				},
+			},
+			{
+				"title": "Grand Piano Festival 2021",
+				"params": {
+					"event": "4abb3a05-60a3-4be5-a6aa-323b9755e0b5",
+				},
+			},
+		]
+	},
 	"defaultLang": "de",
 	"colors": {
 		"calendar": [

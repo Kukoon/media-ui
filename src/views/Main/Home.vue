@@ -10,19 +10,17 @@
     <v-row v-if="streamsUpcoming.length > 0" class="mb-4">
       <v-col>
         <VideoRow
+          title="Upcoming Streams"
           :videos="streamsUpcoming"
           :noLink="true"
-          title="Upcoming Streams"
         />
       </v-col>
     </v-row>
-    <v-row v-for="(row, n) in rows" :key="row + n" class="mt-0">
+    <v-row v-for="(row, n) in recordingConfigs" :key="row + n" class="mt-0">
       <v-col>
         <VideoRow
-          :videos="recordings"
           :title="row.title"
-          :eventID="row.eventID"
-          :tagID="row.tagID"
+          :params="row.params"
         />
       </v-col>
     </v-row>
@@ -34,6 +32,7 @@ import VideoList from "@/components/VideoList";
 //import VideoGrid from "@/components/VideoGrid";
 import VideoRow from "@/components/VideoRow";
 
+import { config } from "../../../config.js"; // home recordings
 import { api } from "@/services/api.js";
 
 export default {
@@ -41,22 +40,12 @@ export default {
   components: { VideoList, VideoRow },
   data() {
     return {
-      recordings: [],
       streamsLive: [],
       streamsUpcoming: [],
-      rows: [
-        {
-          title: "Latest Recordings",
-        },
-        {
-          title: "Buchvorstellungen",
-          tagID: "0bca0cf4-a9b9-46d7-821f-18c59c08fc1d",
-        },
-        {
-          title: "Grand Piano Festival 2021",
-          eventID: "4abb3a05-60a3-4be5-a6aa-323b9755e0b5",
-        },
-      ],
+      recordingConfigs: [{
+        title: "Latest Recordings",
+	params: {},
+      }].concat(config.home.recordings),
     };
   },
   methods: {
@@ -68,9 +57,6 @@ export default {
         (response) => (
           (this.streamsUpcoming = response.data), console.log(response.data)
         )
-      );
-      api.Recordings.List().then(
-        (response) => (this.recordings = response.data)
       );
     },
   },
