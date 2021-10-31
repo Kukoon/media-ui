@@ -55,17 +55,17 @@
                   }}</a>
                 </td>
                 <td>
+                  <v-btn icon small @click="edit(item)">
+                    <v-icon small>mdi-pencil</v-icon>
+                  </v-btn>
                   <v-btn
                     icon
                     small
                     @click="
-                      showDialog = true;
-                      formData = item;
+                      removeID = item.id;
+                      confirmRemove = true;
                     "
                   >
-                    <v-icon small>mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-btn icon small @click="edit(item)">
                     <v-icon small>mdi-delete</v-icon>
                   </v-btn>
                 </td>
