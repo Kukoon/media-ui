@@ -188,9 +188,9 @@ export default {
     },
     remove(id) {
       api.Events.Delete(id).then(() => {
-        this.load;
         this.removeID = null;
         this.confirmRemove = false;
+        this.load();
       });
     },
     clear() {
