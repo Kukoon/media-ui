@@ -165,38 +165,34 @@ export default {
         ? time - (time % roundTo)
         : time + (roundTo - (time % roundTo));
     },
-    fetchStreams({ start, end }, deletedStreamID) {
+    fetchStreams({ start, end }) {
       api.Streams.ListChannelMy(this.channelid, {
         from: new Date(start.date + "T00:00:00").toJSON(),
         to: new Date(end.date + "T23:59:59").toJSON(),
       }).then((response) => {
         this.streams = response.data.map((el) => {
-          if (el.id !== deletedStreamID) {
-            return {
-              id: el.id,
-              color: this.getStreamColor(el),
-              name: el.lang
-                ? el.lang.title
-                : el.common_name
-                ? el.common_name
-                : el.id,
-              start: new Date(el.start_at),
-              end: new Date(el.end_at),
-              timed: true,
-              data: el,
-            };
-          }
+          return {
+            id: el.id,
+            color: this.getStreamColor(el),
+            name: el.lang
+              ? el.lang.title
+              : el.common_name
+              ? el.common_name
+              : el.id,
+            start: new Date(el.start_at),
+            end: new Date(el.end_at),
+            timed: true,
+            data: el,
+          };
         });
       });
     },
-    loadStreams(deletedStreamID) {
+    loadStreams() {
       this.fetchStreams(
         {
           start: this.$refs.calendar.lastStart,
           end: this.$refs.calendar.lastEnd,
-        },
-        deletedStreamID
-      );
+        });
     },
     dragStart({ event, timed }) {
       if (event && timed) {

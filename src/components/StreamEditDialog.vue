@@ -380,14 +380,15 @@ export default {
       this.$emit("closeDialog");
       this.step = 1;
     },
+    reset() {
+      this.stream = Object.assign({}, this.streamFormDefault);
+    },
     exportToRecording() {
-      api.Streams.Export(this.streamid);
-      this.$emit("closeDialog");
-      this.step = 1;
+      api.Streams.Export(this.streamid).then(this.close).then(this.reset);
     },
     load() {
       if (!this.streamid) {
-        this.stream = Object.assign({}, this.streamFormDefault);
+        this.reset();
         this.savedStreamData = { ...this.stream };
         return;
       }
@@ -438,9 +439,9 @@ export default {
     },
     remove() {
       api.Streams.Delete(this.streamid).then(() => {
-        this.step = 1;
-        this.$emit("loadStreams", this.streamid);
-        this.$emit("closeDialog");
+        this.close();
+        this.reset();
+        this.$emit("loadStreams");
       });
     },
     autoSave() {
@@ -473,8 +474,7 @@ export default {
         }
         this.$emit("loadStreams");
         if (!this.keepOpen) {
-          this.$emit("closeDialog");
-          this.step = 1;
+          this.close();
         }
         this.keepOpen = false;
         this.savedStreamData = { ...this.stream };
