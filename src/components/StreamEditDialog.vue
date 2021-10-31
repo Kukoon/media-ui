@@ -6,21 +6,21 @@
         <v-card-title class="text-h6 font-weight-regular">
           <span>{{ currentTitle }}</span>
           <v-spacer />
-          <v-btn
+          <v-progress-circular
+            indeterminate
+            v-if="loading"
+            size="24"
+            class="mr-1"
+          ></v-progress-circular>
+          <v-icon
+            v-else
             icon
-            :loading="loading"
-            :disabled="Object.entries(savedStreamData).length <= 0"
-            :color="shallowEqual(stream, savedStreamData) ? 'sucess' : 'error'"
-            @click="
-              {
-                loader = 'loading';
-                keepOpen = true;
-                save();
-              }
-            "
+            class="mr-1"
+            :disabled="Object.entries(savedStreamData).length <= 0 || loading"
+            :color="enableSave && !loading ? 'sucess' : 'error'"
           >
-            <v-icon>mdi-lock</v-icon>
-          </v-btn>
+            mdi-lock
+          </v-icon>
           <v-menu
             offset-x
             nudge-right="10"
@@ -63,10 +63,10 @@
                 <v-text-field
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Comman Name (used in URLs)"
-                  v-model="stream.common_name"
+                  v-model.lazy="stream.common_name"
                   outlined
                   dense
-                  @input="enableSave = true"
+                  @change="autoSave()"
                 ></v-text-field>
                 <v-text-field
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -75,7 +75,7 @@
                   v-model="stream.listen_at"
                   outlined
                   dense
-                  @input="enableSave = true"
+                  @change="autoSave()"
                 ></v-text-field>
                 <v-text-field
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -84,7 +84,7 @@
                   v-model="stream.start_at"
                   outlined
                   dense
-                  @input="enableSave = true"
+                  @change="autoSave()"
                 ></v-text-field>
                 <v-text-field
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -93,7 +93,7 @@
                   v-model="stream.end_at"
                   outlined
                   dense
-                  @input="enableSave = true"
+                  @change="autoSave()"
                 ></v-text-field>
                 <v-switch
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -101,7 +101,7 @@
                   v-model.lazy="stream.chat"
                   outlined
                   dense
-                  @input="enableSave = true"
+                  @change="autoSave()"
                 ></v-switch>
               </v-form>
             </v-card-text>
@@ -119,7 +119,7 @@
                   maxlength="2"
                   outlined
                   dense
-                  @input="(enableSave = true), updateLangForm()"
+                  @input="updateLangForm()"
                 >
                   <template v-slot:append-outer>
                     <v-menu
@@ -149,7 +149,7 @@
                         <v-card-actions class="pt-0">
                           <v-spacer></v-spacer>
                           <v-btn text @click="showAddLang = false">
-                            Cancel
+                            Close
                           </v-btn>
                           <v-btn
                             color="success"
@@ -167,10 +167,10 @@
                 <v-text-field
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Title"
-                  v-model="langForm.title"
+                  v-model.lazy="langForm.title"
                   outlined
                   dense
-                  @input="enableSave = true"
+                  @change="autoSave()"
                 ></v-text-field>
                 <v-text-field
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -178,7 +178,7 @@
                   v-model.lazy="langForm.subtitle"
                   outlined
                   dense
-                  @input="enableSave = true"
+                  @change="autoSave()"
                 ></v-text-field>
                 <v-textarea
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -187,7 +187,7 @@
                   outlined
                   dense
                   height="70"
-                  @input="enableSave = true"
+                  @change="autoSave()"
                 ></v-textarea>
                 <v-textarea
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -195,7 +195,7 @@
                   v-model.lazy="langForm.long"
                   outlined
                   dense
-                  @input="enableSave = true"
+                  @change="autoSave()"
                 ></v-textarea
               ></v-form>
             </v-card-text>
@@ -220,7 +220,7 @@
                 v-model.lazy="stream.poster"
                 outlined
                 dense
-                @input="enableSave = true"
+                @change="autoSave()"
               ></v-text-field>
             </v-card-text>
           </v-window-item>
@@ -238,7 +238,7 @@
                 multiple
                 outlined
                 dense
-                @input="enableSave = true"
+                @change="autoSave()"
               >
               </v-autocomplete>
               <v-autocomplete
@@ -252,7 +252,7 @@
                 clearable
                 outlined
                 dense
-                @input="enableSave = true"
+                @change="autoSave()"
               >
               </v-autocomplete>
               <v-autocomplete
@@ -267,7 +267,7 @@
                 multiple
                 outlined
                 dense
-                @input="enableSave = true"
+                @change="autoSave()"
               >
               </v-autocomplete>
             </v-card-text>
@@ -279,7 +279,7 @@
     <v-card-actions>
       <v-btn :disabled="step === 1" text @click="step--"> Back </v-btn>
       <v-spacer></v-spacer>
-      <v-btn text @click="cancel()"> Cancel </v-btn>
+      <v-btn text @click="close()"> Close </v-btn>
       <v-btn v-if="step !== 4" color="primary" depressed @click="step++">
         Continue
       </v-btn>
@@ -310,6 +310,7 @@ export default {
       newLang: "",
       savedStreamData: {},
       savedLangs: {},
+      savedCurrentLang: {},
       selectedLang: null,
       showAddLang: false,
       speakers: [],
@@ -349,6 +350,12 @@ export default {
           !this.langAbbrs.includes(this.newLang) || "Language already exists!",
       };
     },
+    enableSave() {
+      return (
+        this.shallowEqual(this.stream, this.savedStreamData) &&
+        this.shallowEqual(this.savedCurrentLang, this.langForm)
+      );
+    },
   },
   methods: {
     addLang() {
@@ -357,9 +364,10 @@ export default {
         lang: this.newLang,
       };
       if (!this.langAbbrs.includes(this.newLang)) {
+        const newLang = this.newLang;
         resp = api.Streams.Langs.Add(this.streamid, langForm);
         resp.then(() => {
-          this.loadLangs();
+          this.loadLangs(newLang);
         });
         this.newLang = "";
         this.langExists = "false";
@@ -368,7 +376,7 @@ export default {
         this.langExists = "true";
       }
     },
-    cancel() {
+    close() {
       this.$emit("closeDialog");
       this.step = 1;
     },
@@ -394,14 +402,22 @@ export default {
       api.Events.List().then((response) => (this.events = response.data));
       api.Speakers.List().then((response) => (this.speakers = response.data));
     },
-    loadLangs() {
+    loadLangs(newLang) {
       api.Streams.Langs.List(this.streamid).then((response) => {
         this.langs = response.data;
-        if (this.langAbbrs.includes(this.$store.getters.language)) {
+        if (newLang) {
+          this.selectedLang = newLang;
+        } else if (this.langAbbrs.includes(this.$store.getters.language)) {
           this.selectedLang = this.$store.getters.language;
         }
         this.updateLangForm();
-        this.savedLangs = { ...this.langs };
+        this.savedLangs = this.langs.map((a) => {
+          return { ...a };
+        });
+        this.savedCurrentLang = this.savedLangs.find(
+          (item) => item.id === this.langForm.id
+        );
+        this.loading = false;
       });
     },
     updateLangForm() {
@@ -411,6 +427,11 @@ export default {
         this.langForm = Object.assign(
           this.langs.find((item) => item.lang === this.selectedLang)
         );
+        if (Object.keys(this.savedLangs).length > 0) {
+          this.savedCurrentLang = this.savedLangs.find(
+            (item) => item.id === this.langForm.id
+          );
+        }
       } else {
         this.langForm = {};
       }
@@ -422,8 +443,17 @@ export default {
         this.$emit("closeDialog");
       });
     },
+    autoSave() {
+      if (!this.enableSave) {
+        this.keepOpen = true;
+        setTimeout(() => {
+          this.save();
+        }, 500);
+      }
+    },
     save() {
       let resp = null;
+      this.loading = true;
       const data = models.Stream.ToRequest(this.stream);
       if (this.streamid) {
         resp = api.Streams.Save(this.streamid, data);
@@ -441,14 +471,14 @@ export default {
             this.loadLangs();
           });
         }
-        this.step = 1;
         this.$emit("loadStreams");
         if (!this.keepOpen) {
           this.$emit("closeDialog");
-          this.keepOpen = false;
+          this.step = 1;
         }
+        this.keepOpen = false;
         this.savedStreamData = { ...this.stream };
-        this.savedLangs = { ...this.langs };
+        // this.savedLangs = { ...this.langs };
       });
     },
     shallowEqual(object1, object2) {

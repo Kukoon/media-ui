@@ -12,6 +12,9 @@
           <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
           <span v-else>{{ channel.title.slice(0, 2) }}</span>
         </v-list-item-avatar>
+        <v-btn icon small :to="{ path: '/' }"
+          ><v-icon small>mdi-open-in-new</v-icon></v-btn
+        >
         <v-spacer v-if="channel"></v-spacer>
         <v-list-item-icon v-if="channel" class="my-auto">
           <v-btn
