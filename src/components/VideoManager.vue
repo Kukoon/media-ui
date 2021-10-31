@@ -3,7 +3,7 @@
     <v-expansion-panel v-for="video in recordings" :key="video.id">
       <v-expansion-panel-header>
         <span class="text-truncate">
-          {{ video.lang.title }}
+          {{ video.lang ? video.lang.title : video.id }}
         </span>
         <v-chip
           v-if="video.listed"
