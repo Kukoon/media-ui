@@ -132,8 +132,8 @@ export default {
     remove() {
       api.Recordings.Langs.Delete(this.lang.id).then(() => {
         this.$emit("change-recording");
+        this.confirmRemove = false;
       });
-      this.confirmRemove = false;
     },
     cancel() {
       this.confirmRemove = false;

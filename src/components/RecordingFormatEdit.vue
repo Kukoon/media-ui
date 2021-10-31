@@ -150,10 +150,10 @@ export default {
       });
     },
     remove() {
-      api.Recordings.s.Delete(this.format.id).then(() => {
+      api.Recordings.Formats.Delete(this.format.id).then(() => {
         this.$emit("change-recording");
+        this.confirmRemove = false;
       });
-      this.confirmRemove = false;
     },
     cancel() {
       this.confirmRemove = false;
