@@ -10,7 +10,7 @@
       style="height: 90%"
     >
       <v-img
-        src="@/assets/logo3.png"
+        src="@/assets/logo.png"
         height="100%"
         max-width="88.4"
         contain

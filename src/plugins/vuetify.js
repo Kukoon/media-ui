@@ -11,22 +11,22 @@ export default new Vuetify({
 		themes: {
 			light: {
 				primary: {
-					base: "#770702",
-					lighten1: "#860802",
-					lighten2: "#950903",
-					lighten3: "#a40a03",
-					darken1: "#680602",
-					darken2: "#590501",
-					darken3: "#4a0401"
+					base: "#000000",
+					lighten1: "#000000",
+					lighten2: "#000000",
+					lighten3: "#000000",
+					darken1: "#000000",
+					darken2: "#000000",
+					darken3: "#000000"
 				},
 				accent: {
-					base: "#428C90",
-					lighten1: "#47969a",
-					lighten2: "#4ca0a5",
-					lighten3: "#51aaaf",
-					darken1: "#3d8285",
-					darken2: "#38787b",
-					darken3: "#346d71"
+					base: "#000000",
+					lighten1: "#000000",
+					lighten2: "#000000",
+					lighten3: "#000000",
+					darken1: "#000000",
+					darken2: "#000000",
+					darken3: "#000000"
 				},
 				neutral: {
 					base: "#E0E0E0",
@@ -76,22 +76,22 @@ export default new Vuetify({
 			},
 			dark: {
 				primary: {
-					base: "#51aaaf",
-					lighten1: "#47969a",
-					lighten2: "#4ca0a5",
-					lighten3: "#51aaaf",
-					darken1: "#3d8285",
-					darken2: "#2D666F",
-					darken3: "#1C4958"
+					base: "#000000",
+					lighten1: "#000000",
+					lighten2: "#000000",
+					lighten3: "#000000",
+					darken1: "#000000",
+					darken2: "#000000",
+					darken3: "#000000"
 				},
 				accent: {
-					base: "#0C3638",
-					lighten1: "#47969a",
-					lighten2: "#4ca0a5",
-					lighten3: "#51aaaf",
-					darken1: "#3d8285",
-					darken2: "#2D666F",
-					darken3: "#1C4958"
+					base: "#000000",
+					lighten1: "#000000",
+					lighten2: "#000000",
+					lighten3: "#000000",
+					darken1: "#000000",
+					darken2: "#000000",
+					darken3: "#000000"
 				},
 				neutral: {
 					base: "#121212",
