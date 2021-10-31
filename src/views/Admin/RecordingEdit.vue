@@ -285,7 +285,7 @@ export default {
       if (this.recordingid) {
         resp = api.Recordings.Save(this.recordingid, data);
       } else {
-        resp = api.Recordings.Add(data);
+        resp = api.Recordings.Add(this.channelid, data);
       }
       resp.then((response) => {
         this.recording = models.Recording.FromRequest(response.data);

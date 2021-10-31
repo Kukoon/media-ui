@@ -155,8 +155,8 @@ export const api = {
 			var url = new URL(config.apiURL + "/recording/" + id + "?" + query.toString())
 			return axios.get(url)
 		},
-		Add(recordingID, recording){
-			return axios.post(new URL(config.apiURL + "/channel/"+recordingID+"/recording"), recording)
+		Add(channelID, recording){
+			return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/recording"), recording)
 		},
 		Save(recordingID, recording){
 			return axios.put(new URL(config.apiURL + "/recording/"+recordingID), recording)
