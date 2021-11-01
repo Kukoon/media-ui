@@ -1,6 +1,13 @@
 <template>
   <v-container fluid>
-    <v-snackbar v-model="confirmRemove" app top max-width="100%" tile>
+    <v-snackbar
+      v-model="confirmRemove"
+      app
+      top
+      max-width="100%"
+      tile
+      transition="scroll-y-transition"
+    >
       <v-alert
         v-model="confirmRemove"
         id="alert"
