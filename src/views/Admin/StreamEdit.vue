@@ -18,21 +18,12 @@
               undone.
             </v-col>
             <v-col class="shrink">
-              <v-btn
-                small
-                outlined
-                @click="remove()"
-              >
-                Remove
-              </v-btn>
+              <v-btn small outlined @click="remove()"> Remove </v-btn>
             </v-col>
           </v-row>
         </v-alert>
         <v-divider class="mt-2" />
-        <v-form
-          class="pa-0 mt-2"
-          @submit="save()"
-        >
+        <v-form class="pa-0 mt-2" @submit="save()">
           <v-text-field
             v-model="stream.common_name"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -135,13 +126,11 @@
           />
           <v-btn
             class="ml-auto mr-1"
-            color="sucess"
+            color="success"
             :disabled="!enableSave"
             @click="save()"
           >
-            <v-icon left>
-              mdi-content-save
-            </v-icon>
+            <v-icon left> mdi-content-save </v-icon>
             Save
           </v-btn>
           <v-btn
@@ -150,29 +139,19 @@
             color="error"
             @click="confirmRemove = true"
           >
-            <v-icon left>
-              mdi-delete
-            </v-icon>
+            <v-icon left> mdi-delete </v-icon>
             Delete
           </v-btn>
         </v-form>
-        <v-divider
-          v-if="streamid"
-          class="mt-4 mb-4"
-        />
-        <h4 v-if="streamid">
-          Descriptions
-        </h4>
+        <v-divider v-if="streamid" class="mt-4 mb-4" />
+        <h4 v-if="streamid">Descriptions</h4>
         <v-expansion-panels
           v-if="streamid && langs.length > 0"
           accordion
           tile
           class="mt-4"
         >
-          <v-expansion-panel
-            v-for="lang in langs"
-            :key="lang.id"
-          >
+          <v-expansion-panel v-for="lang in langs" :key="lang.id">
             <v-expansion-panel-header>
               <span class="text-truncate">{{ lang.title }}</span>
               <v-chip
@@ -194,12 +173,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-expansion-panels
-          v-if="streamid"
-          accordion
-          tile
-          class="mt-4"
-        >
+        <v-expansion-panels v-if="streamid" accordion tile class="mt-4">
           <v-expansion-panel>
             <v-expansion-panel-header>
               <span class="text-truncate">New Language</span>

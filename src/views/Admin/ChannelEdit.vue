@@ -19,19 +19,11 @@
               undone.
             </v-col>
             <v-col class="shrink">
-              <v-btn
-                outlined
-                @click="remove()"
-              >
-                Remove
-              </v-btn>
+              <v-btn outlined @click="remove()"> Remove </v-btn>
             </v-col>
           </v-row>
         </v-alert>
-        <v-form
-          class="pa-0 mt-2"
-          @submit="save()"
-        >
+        <v-form class="pa-0 mt-2" @submit="save()">
           <v-text-field
             v-model="channel.title"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -58,13 +50,11 @@
           />
           <v-btn
             class="ml-auto mr-1"
-            color="sucess"
+            color="success"
             :disabled="!enableSave"
             @click="save()"
           >
-            <v-icon left>
-              mdi-content-save
-            </v-icon>
+            <v-icon left> mdi-content-save </v-icon>
             Save
           </v-btn>
           <v-btn
@@ -73,32 +63,18 @@
             color="error"
             @click="confirmRemove = true"
           >
-            <v-icon left>
-              mdi-delete
-            </v-icon>
+            <v-icon left> mdi-delete </v-icon>
             Delete
           </v-btn>
         </v-form>
-        <v-divider
-          v-if="channelid"
-          class="mt-4 mb-4"
-        />
-        <h4 v-if="channelid">
-          Stream Ingress
-        </h4>
-        <v-simple-table
-          v-if="channelid"
-          dense
-        >
+        <v-divider v-if="channelid" class="mt-4 mb-4" />
+        <h4 v-if="channelid">Stream Ingress</h4>
+        <v-simple-table v-if="channelid" dense>
           <template #default>
             <thead>
               <tr>
-                <th class="text-left">
-                  Description
-                </th>
-                <th class="text-left">
-                  Value
-                </th>
+                <th class="text-left">Description</th>
+                <th class="text-left">Value</th>
               </tr>
             </thead>
             <tbody>

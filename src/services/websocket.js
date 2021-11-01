@@ -20,7 +20,7 @@ function connect(room) {
 			default:
 				var handler = sockets[room].on[data.type];
 				if (handler) {
-					Object.values(handler).map((el)=>el(data.body));
+					Object.values(handler).map((el) => el(data.body));
 				} else {
 					console.log("ws: no", data.type, "handler for", data.body);
 				}
@@ -115,4 +115,3 @@ export const websocket = {
 		})
 	},
 }
-

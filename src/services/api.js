@@ -5,14 +5,14 @@ import { store } from "./store.js";
 
 function getSearchParams(params) {
 	var ret = [];
-	Object.keys(params).forEach((key) =>{
+	Object.keys(params).forEach((key) => {
 		const value = params[key]
-		if (Array.isArray(value)){
+		if (Array.isArray(value)) {
 			value.forEach((el) => {
-				ret.push([key,el])
+				ret.push([key, el])
 			})
 		} else {
-			ret.push([key,value])
+			ret.push([key, value])
 		}
 	})
 	return new URLSearchParams(ret)
@@ -27,9 +27,9 @@ export const api = {
 	Or(f, params, flat = true) {
 		const result = Promise.all(params.map((el) => f(el)));
 		if (flat) {
-			return result.then((values)=> {
+			return result.then((values) => {
 				return {
-					data: [].concat.apply([], values.map((resp)=>resp.data))
+					data: [].concat.apply([], values.map((resp) => resp.data))
 				}
 			})
 		}
@@ -37,33 +37,33 @@ export const api = {
 	},
 	Login(username, password) {
 		var url = new URL(config.apiURL + "/auth/login");
-		return axios.post(url, {username: username, password: password})
+		return axios.post(url, { username: username, password: password })
 	},
 	Channels: {
-		My(){
+		My() {
 			return axios.get(new URL(config.apiURL + "/my/channels"))
 		},
-		Get(channelID){
-			return axios.get(new URL(config.apiURL + "/channel/"+channelID))
+		Get(channelID) {
+			return axios.get(new URL(config.apiURL + "/channel/" + channelID))
 		},
-		Add(channel){
+		Add(channel) {
 			return axios.post(new URL(config.apiURL + "/channel/"), channel)
 		},
-		Save(channelID, channel){
-			return axios.put(new URL(config.apiURL + "/channel/"+channelID), channel)
+		Save(channelID, channel) {
+			return axios.put(new URL(config.apiURL + "/channel/" + channelID), channel)
 		},
-		Delete(channelID){
-			return axios.delete(new URL(config.apiURL + "/channel/"+channelID))
+		Delete(channelID) {
+			return axios.delete(new URL(config.apiURL + "/channel/" + channelID))
 		},
 		Restreams: {
-			List(channelID){
-				return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/restreams"))
+			List(channelID) {
+				return axios.get(new URL(config.apiURL + "/channel/" + channelID + "/restreams"))
 			},
-			Add(channelID, data){
-				return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/restream"), data)
+			Add(channelID, data) {
+				return axios.post(new URL(config.apiURL + "/channel/" + channelID + "/restream"), data)
 			},
-			Delete(channelID, id){
-				return axios.delete(new URL(config.apiURL + "/channel/"+channelID+"/restream/"+id)).then(delay)
+			Delete(channelID, id) {
+				return axios.delete(new URL(config.apiURL + "/channel/" + channelID + "/restream/" + id)).then(delay)
 			},
 		},
 		GetStream(channelID) {
@@ -78,46 +78,46 @@ export const api = {
 				params["lang"] = store.getters.language
 			}
 			const query = getSearchParams(params)
-			var url = new URL(config.apiURL + "/streams?"+query.toString());
+			var url = new URL(config.apiURL + "/streams?" + query.toString());
 			return axios.get(url)
 		},
-		ListChannelMy(channelID, params){
+		ListChannelMy(channelID, params) {
 			params = Object.assign({}, params);
 			if (!params["lang"]) {
 				params["lang"] = store.getters.language
 			}
 			const query = getSearchParams(params)
-			return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/streams?"+query.toString()))
+			return axios.get(new URL(config.apiURL + "/channel/" + channelID + "/streams?" + query.toString()))
 		},
-		Get(streamID){
-			return axios.get(new URL(config.apiURL + "/stream/"+streamID))
+		Get(streamID) {
+			return axios.get(new URL(config.apiURL + "/stream/" + streamID))
 		},
-		Add(channelID, stream){
-			return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/stream"), stream)
+		Add(channelID, stream) {
+			return axios.post(new URL(config.apiURL + "/channel/" + channelID + "/stream"), stream)
 		},
-		Save(streamID, stream){
-			return axios.put(new URL(config.apiURL + "/stream/"+streamID), stream)
+		Save(streamID, stream) {
+			return axios.put(new URL(config.apiURL + "/stream/" + streamID), stream)
 		},
-		Delete(streamID){
-			return axios.delete(new URL(config.apiURL + "/stream/"+streamID))
+		Delete(streamID) {
+			return axios.delete(new URL(config.apiURL + "/stream/" + streamID))
 		},
-		Export(streamID){
-			return axios.post(new URL(config.apiURL + "/stream/"+streamID+"/to-recording"))
+		Export(streamID) {
+			return axios.post(new URL(config.apiURL + "/stream/" + streamID + "/to-recording"))
 		},
 		Langs: {
-			List(streamID, params){
+			List(streamID, params) {
 				params = Object.assign({}, params);
 				const query = getSearchParams(params)
-				return axios.get(new URL(config.apiURL + "/stream/"+streamID+"/langs?"+query.toString()))
+				return axios.get(new URL(config.apiURL + "/stream/" + streamID + "/langs?" + query.toString()))
 			},
-			Add(streamID, lang){
-				return axios.post(new URL(config.apiURL + "/stream/"+streamID+"/lang"), lang)
+			Add(streamID, lang) {
+				return axios.post(new URL(config.apiURL + "/stream/" + streamID + "/lang"), lang)
 			},
-			Save(streamLangID, lang){
-				return axios.put(new URL(config.apiURL + "/stream-lang/"+streamLangID), lang)
+			Save(streamLangID, lang) {
+				return axios.put(new URL(config.apiURL + "/stream-lang/" + streamLangID), lang)
 			},
-			Delete(streamLangID){
-				return axios.delete(new URL(config.apiURL + "/stream-lang/"+streamLangID))
+			Delete(streamLangID) {
+				return axios.delete(new URL(config.apiURL + "/stream-lang/" + streamLangID))
 			},
 		},
 	},
@@ -128,7 +128,7 @@ export const api = {
 				params["lang"] = store.getters.language
 			}
 			const query = getSearchParams(params)
-			var url = new URL(config.apiURL + "/recordings?"+query.toString());
+			var url = new URL(config.apiURL + "/recordings?" + query.toString());
 			return axios.get(url)
 		},
 		ListSuggestion(video) {
@@ -138,13 +138,13 @@ export const api = {
 			}
 			return this.List(params)
 		},
-		ListChannelMy(channelID, params){
+		ListChannelMy(channelID, params) {
 			params = Object.assign({}, params);
 			if (!params["lang"]) {
 				params["lang"] = store.getters.language
 			}
 			const query = getSearchParams(params)
-			return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/recordings?"+query.toString()))
+			return axios.get(new URL(config.apiURL + "/channel/" + channelID + "/recordings?" + query.toString()))
 		},
 		Get(id, params) {
 			params = Object.assign({}, params);
@@ -155,40 +155,40 @@ export const api = {
 			var url = new URL(config.apiURL + "/recording/" + id + "?" + query.toString())
 			return axios.get(url)
 		},
-		Add(channelID, recording){
-			return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/recording"), recording)
+		Add(channelID, recording) {
+			return axios.post(new URL(config.apiURL + "/channel/" + channelID + "/recording"), recording)
 		},
-		Save(recordingID, recording){
-			return axios.put(new URL(config.apiURL + "/recording/"+recordingID), recording)
+		Save(recordingID, recording) {
+			return axios.put(new URL(config.apiURL + "/recording/" + recordingID), recording)
 		},
-		Delete(recordingID){
-			return axios.delete(new URL(config.apiURL + "/recording/"+recordingID))
+		Delete(recordingID) {
+			return axios.delete(new URL(config.apiURL + "/recording/" + recordingID))
 		},
 		Langs: {
-			List(recordingID, params){
+			List(recordingID, params) {
 				params = Object.assign({}, params);
 				const query = getSearchParams(params)
-				return axios.get(new URL(config.apiURL + "/recording/"+recordingID+"/langs?"+query.toString()))
+				return axios.get(new URL(config.apiURL + "/recording/" + recordingID + "/langs?" + query.toString()))
 			},
-			Add(recordingID, lang){
-				return axios.post(new URL(config.apiURL + "/recording/"+recordingID+"/lang"), lang)
+			Add(recordingID, lang) {
+				return axios.post(new URL(config.apiURL + "/recording/" + recordingID + "/lang"), lang)
 			},
-			Save(recordingLangID, lang){
-				return axios.put(new URL(config.apiURL + "/recording-lang/"+recordingLangID), lang)
+			Save(recordingLangID, lang) {
+				return axios.put(new URL(config.apiURL + "/recording-lang/" + recordingLangID), lang)
 			},
-			Delete(recordingLangID){
-				return axios.delete(new URL(config.apiURL + "/recording-lang/"+recordingLangID))
+			Delete(recordingLangID) {
+				return axios.delete(new URL(config.apiURL + "/recording-lang/" + recordingLangID))
 			},
 		},
 		Formats: {
-			Add(recordingID, format){
-				return axios.post(new URL(config.apiURL + "/recording/"+recordingID+"/format"), format)
+			Add(recordingID, format) {
+				return axios.post(new URL(config.apiURL + "/recording/" + recordingID + "/format"), format)
 			},
-			Save(recordingFormatID, format){
-				return axios.put(new URL(config.apiURL + "/recording-format/"+recordingFormatID), format)
+			Save(recordingFormatID, format) {
+				return axios.put(new URL(config.apiURL + "/recording-format/" + recordingFormatID), format)
 			},
-			Delete(recordingFormatID){
-				return axios.delete(new URL(config.apiURL + "/recording-format/"+recordingFormatID))
+			Delete(recordingFormatID) {
+				return axios.delete(new URL(config.apiURL + "/recording-format/" + recordingFormatID))
 			},
 		},
 	},
@@ -199,7 +199,7 @@ export const api = {
 				params["lang"] = store.getters.language
 			}
 			const query = getSearchParams(params)
-			var url = new URL(config.apiURL + "/tags?"+query.toString());
+			var url = new URL(config.apiURL + "/tags?" + query.toString());
 			return axios.get(url)
 		},
 	},
@@ -209,16 +209,16 @@ export const api = {
 			return axios.get(url)
 		},
 		ListChannelMy(channelID) {
-			return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/speakers"))
+			return axios.get(new URL(config.apiURL + "/channel/" + channelID + "/speakers"))
 		},
 		Add(channelID, speaker) {
-			return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/speaker"), speaker)
+			return axios.post(new URL(config.apiURL + "/channel/" + channelID + "/speaker"), speaker)
 		},
 		Save(speakerID, speaker) {
-			return axios.put(new URL(config.apiURL + "/speaker/"+speakerID), speaker)
+			return axios.put(new URL(config.apiURL + "/speaker/" + speakerID), speaker)
 		},
 		Delete(speakerID) {
-			return axios.delete(new URL(config.apiURL + "/speaker/"+speakerID))
+			return axios.delete(new URL(config.apiURL + "/speaker/" + speakerID))
 		},
 	},
 	Events: {
@@ -227,16 +227,16 @@ export const api = {
 			return axios.get(url)
 		},
 		ListChannelMy(channelID) {
-			return axios.get(new URL(config.apiURL + "/channel/"+channelID+"/events"))
+			return axios.get(new URL(config.apiURL + "/channel/" + channelID + "/events"))
 		},
 		Add(channelID, eventData) {
-			return axios.post(new URL(config.apiURL + "/channel/"+channelID+"/event"), eventData)
+			return axios.post(new URL(config.apiURL + "/channel/" + channelID + "/event"), eventData)
 		},
 		Save(eventID, eventData) {
-			return axios.put(new URL(config.apiURL + "/event/"+eventID), eventData)
+			return axios.put(new URL(config.apiURL + "/event/" + eventID), eventData)
 		},
 		Delete(eventID) {
-			return axios.delete(new URL(config.apiURL + "/event/"+eventID))
+			return axios.delete(new URL(config.apiURL + "/event/" + eventID))
 		},
 	},
 }

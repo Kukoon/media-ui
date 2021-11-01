@@ -10,7 +10,7 @@ import About from "@/views/Admin/About.vue"
 import GlobalStreamSchedule from "@/views/Admin/GlobalStreamSchedule.vue"
 import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
 // for channel
-import Distribution from "@/views/Admin/Distribution.vue"
+import ChannelDistribution from "@/views/Admin/ChannelDistribution.vue"
 import StreamSchedule from "@/views/Admin/StreamSchedule.vue"
 import StreamEdit from "@/views/Admin/StreamEdit.vue"
 import ChannelRecordings from "@/views/Admin/ChannelRecordings.vue"
@@ -130,8 +130,8 @@ const routes = [
 			},
 			{
 				path: "distribution",
-				name: "Distribution",
-				component: Distribution,
+				name: "ChannelDistribution",
+				component: ChannelDistribution,
 				props: true,
 			},
 			{

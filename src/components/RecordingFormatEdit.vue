@@ -12,24 +12,16 @@
     >
       <v-row align="center">
         <v-col class="grow">
-          Do you really want to remove this recording format? This action cannot be
-          undone.
+          Do you really want to remove this recording format? This action cannot
+          be undone.
         </v-col>
         <v-col class="shrink">
-          <v-btn
-            outlined
-            @click="remove()"
-          >
-            Remove
-          </v-btn>
+          <v-btn outlined @click="remove()"> Remove </v-btn>
         </v-col>
       </v-row>
     </v-alert>
 
-    <v-form
-      class="pa-0 mt-2"
-      @submit="save()"
-    >
+    <v-form class="pa-0 mt-2" @submit="save()">
       <v-text-field
         v-model="formatForm.lang"
         :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -84,13 +76,11 @@
       />
       <v-btn
         class="ml-auto mr-1"
-        color="sucess"
+        color="success"
         :disabled="!enableSave"
         @click="save()"
       >
-        <v-icon left>
-          mdi-content-save
-        </v-icon>
+        <v-icon left> mdi-content-save </v-icon>
         Save
       </v-btn>
       <v-btn
@@ -99,9 +89,7 @@
         color="error"
         @click="confirmRemove = true"
       >
-        <v-icon left>
-          mdi-delete
-        </v-icon>
+        <v-icon left> mdi-delete </v-icon>
         Delete
       </v-btn>
     </v-form>
@@ -116,23 +104,28 @@ import { api } from "@/services/api.js";
 export default {
   name: "RecordingEdit",
   props: {
-    "recordingid": {
+    recordingid: {
       type: String,
     },
-    "channelid": {
+    channelid: {
       type: String,
     },
-    "format": {
+    format: {
       type: Object,
       default() {
         return {
           lang: this.$store.getters.language,
-          url: "https://cdn.media.kukoon.de/videos/"+this.channelid+"/"+this.recordingid+"/video_best.mp4",
+          url:
+            "https://cdn.media.kukoon.de/videos/" +
+            this.channelid +
+            "/" +
+            this.recordingid +
+            "/video_best.mp4",
           resolution: "1920x1080",
           quality: 0,
           bytes: 0,
           is_video: true,
-        }
+        };
       },
     },
   },

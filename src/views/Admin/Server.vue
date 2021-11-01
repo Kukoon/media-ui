@@ -2,25 +2,31 @@
   <v-container fluid>
     <v-row no-gutters>
       <v-col>
-        <h3 class="pb-2">
-          Server
-        </h3>
-        <v-simple-table dense>
+        <h3 class="pb-2">Server</h3>
+        <v-simple-table>
           <template #default>
             <tbody>
               <tr>
                 <td>Status</td>
-                <td
-                  v-if="status.up"
-                  class="green--text"
-                >
-                  Running
+                <td v-if="status.up">
+                  <v-chip
+                    small
+                    color="success"
+                    :text-color="darkMode ? 'black' : ''"
+                  >
+                    <v-icon small left>mdi-checkbox-marked-circle</v-icon>
+                    Running
+                  </v-chip>
                 </td>
-                <td
-                  v-else
-                  class="red--text"
-                >
-                  Stopped
+                <td v-else>
+                  <v-chip
+                    small
+                    color="error"
+                    :text-color="darkMode ? 'black' : ''"
+                  >
+                    <v-icon small left>mdi-checkbox-marked-circle</v-icon>
+                    Stopped
+                  </v-chip>
                 </td>
               </tr>
               <tr>
@@ -39,6 +45,7 @@
 import axios from "axios";
 
 import { config } from "../../../config.js";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Server",
@@ -49,6 +56,9 @@ export default {
         up: false,
       },
     };
+  },
+  computed: {
+    ...mapGetters(["darkMode"]),
   },
   created() {
     axios

@@ -5,7 +5,6 @@
       app
       top
       max-width="100%"
-      tile
       transition="scroll-y-transition"
     >
       <v-alert
@@ -16,7 +15,6 @@
         dense
         icon="mdi-alert"
         class="mb-0"
-        tile
       >
         <v-row align="center">
           <v-col class="grow">
@@ -24,13 +22,7 @@
             undone.
           </v-col>
           <v-col class="shrink">
-            <v-btn
-              small
-              outlined
-              @click="remove(removeID)"
-            >
-              Remove
-            </v-btn>
+            <v-btn small outlined @click="remove(removeID)"> Remove </v-btn>
           </v-col>
         </v-row>
       </v-alert>
@@ -40,69 +32,36 @@
         <v-row no-gutters>
           <h3>Events</h3>
           <v-spacer />
-          <v-btn
-            icon
-            small
-            @click="add()"
-          >
-            <v-icon small>
-              mdi-plus
-            </v-icon>
+          <v-btn icon small @click="add()">
+            <v-icon small> mdi-plus </v-icon>
           </v-btn>
         </v-row>
-        <v-simple-table
-          dense
-          class="mt-2"
-        >
+        <v-simple-table dense class="mt-2">
           <template #default>
             <thead>
               <tr>
-                <th class="text-left">
-                  Logo
-                </th>
-                <th class="text-left">
-                  Name
-                </th>
-                <th class="text-left">
-                  Website
-                </th>
-                <th class="text-left">
-                  Actions
-                </th>
+                <th class="text-left">Logo</th>
+                <th class="text-left">Name</th>
+                <th class="text-left">Website</th>
+                <th class="text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="item in list"
-                :key="item.id"
-              >
+              <tr v-for="item in list" :key="item.id">
                 <td>
-                  <v-avatar
-                    v-if="item.logo"
-                    size="24px"
-                  >
-                    <img :src="item.logo">
+                  <v-avatar v-if="item.logo" size="24px">
+                    <img :src="item.logo" />
                   </v-avatar>
                 </td>
                 <td>{{ item.name }}</td>
                 <td>
-                  <a
-                    v-if="item.url"
-                    :href="item.url"
-                    target="_blank"
-                  >{{
+                  <a v-if="item.url" :href="item.url" target="_blank">{{
                     item.url
                   }}</a>
                 </td>
                 <td>
-                  <v-btn
-                    icon
-                    small
-                    @click="edit(item)"
-                  >
-                    <v-icon small>
-                      mdi-pencil
-                    </v-icon>
+                  <v-btn icon small @click="edit(item)">
+                    <v-icon small> mdi-pencil </v-icon>
                   </v-btn>
                   <v-btn
                     icon
@@ -112,46 +71,28 @@
                       confirmRemove = true;
                     "
                   >
-                    <v-icon small>
-                      mdi-delete
-                    </v-icon>
+                    <v-icon small> mdi-delete </v-icon>
                   </v-btn>
                 </td>
               </tr>
             </tbody>
           </template>
         </v-simple-table>
-        <v-btn
-          class="mt-4"
-          color="sucess"
-          @click="add()"
-        >
-          <v-icon left>
-            mdi-plus
-          </v-icon>
+        <v-btn class="mt-4" color="success" @click="add()">
+          <v-icon left> mdi-plus </v-icon>
           Add Event
         </v-btn>
-        <v-dialog
-          v-model="showDialog"
-          width="540"
-        >
+        <v-dialog v-model="showDialog" width="540">
           <v-card
             outlined
             tile
             elevation="0"
             :color="darkMode ? 'grey darken-4' : 'grey lighten-5'"
           >
-            <v-card-title v-if="formData.id">
-              Edit
-            </v-card-title>
-            <v-card-title v-else>
-              New Event
-            </v-card-title>
+            <v-card-title v-if="formData.id"> Edit </v-card-title>
+            <v-card-title v-else> New Event </v-card-title>
             <v-card-text class="pb-0">
-              <v-form
-                class="mt-2"
-                @submit="save()"
-              >
+              <v-form class="mt-2" @submit="save()">
                 <v-text-field
                   v-model="formData.name"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -187,19 +128,10 @@
               </v-form>
             </v-card-text>
             <v-card-actions class="px-6 pb-4">
-              <v-btn
-                text
-                class="ml-auto"
-                @click="showDialog = false"
-              >
+              <v-btn text class="ml-auto" @click="showDialog = false">
                 Cancel
               </v-btn>
-              <v-btn
-                color="sucess"
-                @click="save()"
-              >
-                Save
-              </v-btn>
+              <v-btn color="success" @click="save()"> Save </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -285,14 +217,17 @@ export default {
 </script>
 
 <style scoped>
+#alert {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
 .v-snack >>> .v-snack__content {
   padding: 0 !important;
 }
 .v-snack >>> .v-snack__wrapper {
   display: block;
   margin: 0;
-
-  width: 100% !important;
+  width: 60% !important;
   min-height: unset !important;
 }
 </style>

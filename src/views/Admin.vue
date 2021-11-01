@@ -1,10 +1,7 @@
 <template>
   <div id="Admin">
     <AdminBar />
-    <Drawer
-      ref="drawer"
-      :channelid="channelid"
-    />
+    <Drawer ref="drawer" :channelid="channelid" />
     <v-main>
       <router-view @change-channel="updateDrawer" />
     </v-main>

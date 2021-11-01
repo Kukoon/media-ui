@@ -25,19 +25,22 @@ export default {
   data() {
     return {
       isLive: true,
-    }
+    };
   },
   created() {
     if (config.defaultChannel) {
-      api.Channels.GetStream(config.defaultChannel).then((resp) => {
-        this.isLive = resp.data.running;
-        this.connect(resp.data.channel.id);
-      }, () => {
-        this.isLive = false;
-        api.Channels.Get(config.defaultChannel).then((resp) => {
-          this.connect(resp.data.id);
-        })
-      })
+      api.Channels.GetStream(config.defaultChannel).then(
+        (resp) => {
+          this.isLive = resp.data.running;
+          this.connect(resp.data.channel.id);
+        },
+        () => {
+          this.isLive = false;
+          api.Channels.Get(config.defaultChannel).then((resp) => {
+            this.connect(resp.data.id);
+          });
+        }
+      );
     } else {
       this.isLive = false;
     }
@@ -45,11 +48,11 @@ export default {
   },
   methods: {
     connect(channelID) {
-      websocket.joinHandler(channelID, 'status', 'main for menu', (ev) => {
+      websocket.joinHandler(channelID, "status", "main for menu", (ev) => {
         if (this.isLive != ev.running) {
           this.isLive = ev.running;
-	}
-      })
+        }
+      });
     },
   },
 };

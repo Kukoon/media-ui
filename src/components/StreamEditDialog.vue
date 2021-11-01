@@ -1,14 +1,7 @@
 <template>
-  <v-card width="100%">
-    <v-row
-      class="d-flex"
-      no-gutters
-    >
-      <v-card
-        width="8px"
-        :color="streamColor"
-        tile
-      />
+  <v-card width="100%" :color="darkMode ? 'neutral lighten-2' : 'white'">
+    <v-row class="d-flex" no-gutters>
+      <v-card width="8px" :color="streamColor" tile />
       <div class="d-flex flex-column flex-grow-1">
         <v-card-title class="text-h6 font-weight-regular">
           <span>{{ currentTitle }}</span>
@@ -24,7 +17,7 @@
             icon
             class="mr-1"
             :disabled="Object.entries(savedStreamData).length <= 0 || loading"
-            :color="enableSave && !loading ? 'sucess' : 'error'"
+            :color="enableSave && !loading ? 'success' : 'error'"
           >
             mdi-lock
           </v-icon>
@@ -35,19 +28,11 @@
             max-width="240"
           >
             <template #activator="{ on, attrs }">
-              <v-btn
-                icon
-                class="mr-auto"
-                v-bind="attrs"
-                v-on="on"
-              >
+              <v-btn icon class="mr-auto" v-bind="attrs" v-on="on">
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </template>
-            <v-list
-              flat
-              dense
-            >
+            <v-list flat dense>
               <v-list-item-group>
                 <v-list-item
                   :to="{
@@ -74,11 +59,7 @@
         <v-window v-model="step">
           <v-window-item :value="1">
             <v-card-text>
-              <v-form
-                class="pa-0 mt-2"
-                :disabled="!loaded"
-                @submit="save()"
-              >
+              <v-form class="pa-0 mt-2" :disabled="!loaded" @submit="save()">
                 <v-text-field
                   v-model.lazy="stream.common_name"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -116,7 +97,7 @@
                 />
                 <v-switch
                   v-model.lazy="stream.chat"
-                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  color="success"
                   label="Chat"
                   outlined
                   dense
@@ -127,10 +108,7 @@
           </v-window-item>
           <v-window-item :value="2">
             <v-card-text>
-              <v-form
-                class="pa-0 mt-2"
-                @submit="save()"
-              >
+              <v-form class="pa-0 mt-2" @submit="save()">
                 <v-autocomplete
                   v-model="selectedLang"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -152,11 +130,7 @@
                       max-width="200"
                     >
                       <template #activator="{ on, attrs }">
-                        <v-icon
-                          left
-                          v-bind="attrs"
-                          v-on="on"
-                        >
+                        <v-icon left v-bind="attrs" v-on="on">
                           mdi-plus
                         </v-icon>
                       </template>
@@ -177,10 +151,7 @@
                         </v-list>
                         <v-card-actions class="pt-0">
                           <v-spacer />
-                          <v-btn
-                            text
-                            @click="showAddLang = false"
-                          >
+                          <v-btn text @click="showAddLang = false">
                             Close
                           </v-btn>
                           <v-btn
@@ -199,6 +170,7 @@
                 <v-text-field
                   v-model.lazy="langForm.title"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  :disabled="!selectedLang"
                   label="Title"
                   outlined
                   dense
@@ -207,6 +179,7 @@
                 <v-text-field
                   v-model.lazy="langForm.subtitle"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  :disabled="!selectedLang"
                   label="Subtitle"
                   outlined
                   dense
@@ -215,6 +188,7 @@
                 <v-textarea
                   v-model.lazy="langForm.short"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  :disabled="!selectedLang"
                   label="Short Description"
                   outlined
                   dense
@@ -224,6 +198,7 @@
                 <v-textarea
                   v-model.lazy="langForm.long"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  :disabled="!selectedLang"
                   label="Description"
                   outlined
                   dense
@@ -234,26 +209,17 @@
           </v-window-item>
           <v-window-item :value="3">
             <v-card-text>
-              <v-responsive
-                :aspect-ratio="16 / 9"
-                class="mb-6"
-              >
+              <v-responsive :aspect-ratio="16 / 9" class="mb-6">
                 <v-img
-                  v-if="video.poster"
+                  v-if="stream.poster"
                   :aspect-ratio="16 / 9"
-                  :src="video.poster"
+                  :src="stream.poster"
                   gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
                   height="100%"
                   width="100%"
                   style="border-radius: 4px"
                 />
-                <v-btn
-                  v-else
-                  height="100%"
-                  width="100%"
-                >
-                  Upload Poster
-                </v-btn>
+                <v-btn v-else height="100%" width="100%"> Upload Poster </v-btn>
               </v-responsive>
               <v-text-field
                 v-model.lazy="stream.poster"
@@ -315,35 +281,13 @@
     </v-row>
     <v-divider />
     <v-card-actions>
-      <v-btn
-        :disabled="step === 1"
-        text
-        @click="step--"
-      >
-        Back
-      </v-btn>
+      <v-btn :disabled="step === 1" text @click="step--"> Back </v-btn>
       <v-spacer />
-      <v-btn
-        text
-        @click="close()"
-      >
-        Close
-      </v-btn>
-      <v-btn
-        v-if="step !== 4"
-        color="primary"
-        depressed
-        @click="step++"
-      >
+      <v-btn text @click="close()"> Close </v-btn>
+      <v-btn v-if="step !== 4" color="primary" depressed @click="step++">
         Continue
       </v-btn>
-      <v-btn
-        v-else
-        color="success"
-        @click="save()"
-      >
-        Save
-      </v-btn>
+      <v-btn v-else color="success" @click="save()"> Save </v-btn>
     </v-card-actions>
     <slot />
   </v-card>
@@ -357,7 +301,7 @@ import { models } from "@/services/lib.js";
 
 export default {
   name: "StreamEditDialog",
-  props: ["video", "channelid", "streamid", "streamColor"],
+  props: ["channelid", "streamid", "streamColor"],
   data() {
     return {
       events: [],
@@ -411,10 +355,16 @@ export default {
       };
     },
     enableSave() {
-      return (
-        this.shallowEqual(this.stream, this.savedStreamData) &&
-        this.shallowEqual(this.savedCurrentLang, this.langForm)
-      );
+      let langsEqual;
+      if (
+        Object.keys(this.savedStreamData).length !== 0 &&
+        Object.keys(this.langForm).length !== 0
+      ) {
+        langsEqual = this.shallowEqual(this.savedCurrentLang, this.langForm);
+      } else {
+        langsEqual = true;
+      }
+      return this.shallowEqual(this.stream, this.savedStreamData) && langsEqual;
     },
   },
   watch: {
@@ -545,6 +495,9 @@ export default {
           resp.then(() => {
             this.loadLangs();
           });
+        }
+        if (this.langs.length === 0) {
+          this.loading = false;
         }
         this.$emit("loadStreams");
         if (!this.keepOpen) {

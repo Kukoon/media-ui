@@ -1,14 +1,7 @@
 <template>
-  <v-container
-    id="Live"
-    fluid
-  >
+  <v-container id="Live" fluid>
     <v-row no-gutters>
-      <v-col
-        cols="12"
-        md="8"
-        class="d-flex flex-column"
-      >
+      <v-col cols="12" md="8" class="d-flex flex-column">
         <VideoPlayerWrapper
           ref="player"
           :video="video"
@@ -16,15 +9,8 @@
           class="mx-n2"
         />
       </v-col>
-      <v-col
-        v-if="video !== null && video.chat"
-        cols="12"
-        md="4"
-      >
-        <ChatBox
-          class="ma-2"
-          :room="video.channel.id"
-        />
+      <v-col v-if="video !== null && video.chat" cols="12" md="4">
+        <ChatBox class="ma-2" :room="video.channel.id" />
       </v-col>
       <Suggestions
         v-if="video === null || !video.chat"
@@ -51,7 +37,7 @@ export default {
     VideoPlayerWrapper,
     Suggestions,
   },
-  props: ['id'],
+  props: ["id"],
   data() {
     return {
       video: null,
@@ -76,42 +62,58 @@ export default {
     init() {
       api.Channels.Get(this.id).then((resp) => {
         this.source = config.sourceURL.replace("{ID}", resp.data.id);
-        websocket.joinHandler(resp.data.id, 'status', 'live for status', (ev) => {
-          this.$set(this.video, 'viewers', ev.viewers);
-          this.$set(this.video, 'running', ev.running);
-          if (ev.stream != this.video.id) {
-            if (ev.stream == "00000000-0000-0000-0000-000000000000") {
-              console.log("load stream description - no new", ev.stream, this.video.channel.id)
-            } else {
-              console.log("load stream description - next", ev.stream, this.video.channel.id)
+        websocket.joinHandler(
+          resp.data.id,
+          "status",
+          "live for status",
+          (ev) => {
+            this.$set(this.video, "viewers", ev.viewers);
+            this.$set(this.video, "running", ev.running);
+            if (ev.stream != this.video.id) {
+              if (ev.stream == "00000000-0000-0000-0000-000000000000") {
+                console.log(
+                  "load stream description - no new",
+                  ev.stream,
+                  this.video.channel.id
+                );
+              } else {
+                console.log(
+                  "load stream description - next",
+                  ev.stream,
+                  this.video.channel.id
+                );
+              }
+              this.load();
+              this.$refs.player.play();
             }
-            this.load()
-            this.$refs.player.play();
           }
-        })
-      })
+        );
+      });
     },
     load() {
-      api.Channels.GetStream(this.id).then((resp) => {
-        this.video = resp.data;
-	if (this.video.poster == "") {
-          this.video.poster = resp.data.channel.logo;
-	}
-      }, () => {
-        api.Channels.Get(this.id).then((resp) => {
-          this.video = {
-            id: "00000000-0000-0000-0000-000000000000",
-            channel: resp.data,
-            poster: resp.data.logo,
-            lang: {
-              title: "No Stream Live",
-              subtitle: "no event scheduled",
-              short: "This Channel has no stream event scheduled",
-              long: "This Channel has no stream event scheduled",
-            },
-          };
-        });
-      });
+      api.Channels.GetStream(this.id).then(
+        (resp) => {
+          this.video = resp.data;
+          if (this.video.poster == "") {
+            this.video.poster = resp.data.channel.logo;
+          }
+        },
+        () => {
+          api.Channels.Get(this.id).then((resp) => {
+            this.video = {
+              id: "00000000-0000-0000-0000-000000000000",
+              channel: resp.data,
+              poster: resp.data.logo,
+              lang: {
+                title: "No Stream Live",
+                subtitle: "no event scheduled",
+                short: "This Channel has no stream event scheduled",
+                long: "This Channel has no stream event scheduled",
+              },
+            };
+          });
+        }
+      );
     },
   },
 };

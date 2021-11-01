@@ -9,21 +9,11 @@
     <v-list dense>
       <v-list-item v-if="channel">
         <v-list-item-avatar color="black">
-          <v-img
-            v-if="channel.logo"
-            :src="channel.logo"
-            contain
-          />
+          <v-img v-if="channel.logo" :src="channel.logo" contain />
           <span v-else>{{ channel.title.slice(0, 2) }}</span>
         </v-list-item-avatar>
-        <v-btn
-          icon
-          small
-          :to="{ path: '/' }"
-        >
-          <v-icon small>
-            mdi-open-in-new
-          </v-icon>
+        <v-btn icon small :to="{ path: '/' }">
+          <v-icon small> mdi-open-in-new </v-icon>
         </v-btn>
         <v-spacer />
         <v-list-item-icon class="my-auto">
@@ -35,9 +25,7 @@
               params: { channelid: selectionAdminChannel },
             }"
           >
-            <v-icon small>
-              mdi-pencil
-            </v-icon>
+            <v-icon small> mdi-pencil </v-icon>
           </v-btn>
         </v-list-item-icon>
       </v-list-item>
@@ -45,18 +33,10 @@
       <v-list-group :value="channelMenuOpen">
         <template #activator>
           <v-list-item-content>
-            <v-list-item-title
-              v-if="channel"
-              class="text-h7"
-            >
-              {{
-                channel.title
-              }}
+            <v-list-item-title v-if="channel" class="text-h7">
+              {{ channel.title }}
             </v-list-item-title>
-            <v-list-item-title
-              v-else
-              class="text-h7"
-            >
+            <v-list-item-title v-else class="text-h7">
               Channels:
             </v-list-item-title>
           </v-list-item-content>
@@ -67,16 +47,8 @@
           link
           :to="{ name: 'AdminChannel', params: { channelid: channel.id } }"
         >
-          <v-list-item-avatar
-            color="black"
-            size="24"
-            class="mr-8"
-          >
-            <v-img
-              v-if="channel.logo"
-              :src="channel.logo"
-              contain
-            />
+          <v-list-item-avatar color="black" size="24" class="mr-8">
+            <v-img v-if="channel.logo" :src="channel.logo" contain />
             <span v-else>{{ channel.title.slice(0, 2) }}</span>
           </v-list-item-avatar>
           <v-list-item-content>
@@ -94,11 +66,7 @@
       </v-list-group>
     </v-list>
     <v-divider />
-    <v-list
-      v-if="channel"
-      nav
-      dense
-    >
+    <v-list v-if="channel" nav dense>
       <v-subheader>Channel</v-subheader>
       <v-list-item
         v-for="item in channelMenu"
@@ -108,12 +76,7 @@
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
-          <v-badge
-            v-if="item.dev"
-            overlap
-            color="grey"
-            content="dev"
-          />
+          <v-badge v-if="item.dev" overlap color="grey" content="dev" />
         </v-list-item-icon>
 
         <v-list-item-content>
@@ -122,10 +85,7 @@
       </v-list-item>
     </v-list>
     <v-divider />
-    <v-list
-      nav
-      dense
-    >
+    <v-list nav dense>
       <v-subheader>Global</v-subheader>
       <v-list-item
         v-for="item in globalMenu"
@@ -135,12 +95,7 @@
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
-          <v-badge
-            v-if="item.dev"
-            overlap
-            color="grey"
-            content="dev"
-          />
+          <v-badge v-if="item.dev" overlap color="grey" content="dev" />
         </v-list-item-icon>
 
         <v-list-item-content>
@@ -151,12 +106,7 @@
 
     <template #append>
       <div class="pa-2">
-        <v-btn
-          block
-          text
-          color="primary lighten-1"
-          @click="logout"
-        >
+        <v-btn block text color="primary lighten-1" @click="logout">
           Logout
         </v-btn>
       </div>
@@ -184,7 +134,7 @@ export default {
           title: "Stream Schedule",
         },
         {
-          name: "Distribution",
+          name: "ChannelDistribution",
           icon: "mdi-vector-polyline",
           title: "Distribution",
         },

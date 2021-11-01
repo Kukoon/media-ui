@@ -4,21 +4,13 @@
       <v-col>
         <h3>Statistics</h3>
         <v-divider class="mt-2" />
-        <v-expansion-panels
-          accordion
-          tile
-          class="mt-4"
-        >
+        <v-expansion-panels accordion tile class="mt-4">
           <v-expansion-panel>
             <v-expansion-panel-header>
               <span>Graph Source</span>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-card
-                tile
-                elevation="0"
-                class="pa-0"
-              >
+              <v-card tile elevation="0" class="pa-0">
                 <v-card-text class="pa-0 d-flex flex-column justify-end">
                   <v-row no-gutters>
                     <v-text-field
@@ -31,10 +23,7 @@
                   </v-row>
                 </v-card-text>
                 <v-card-actions class="px-0 pt-4">
-                  <v-btn
-                    class="ml-auto"
-                    color="primary lighten-3"
-                  >
+                  <v-btn class="ml-auto" color="primary lighten-3">
                     Save
                   </v-btn>
                 </v-card-actions>
@@ -42,10 +31,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-card
-          tile
-          class="mt-4"
-        >
+        <v-card tile class="mt-4">
           <v-card-title />
           <v-card-subtitle />
           <v-card-text>
@@ -56,9 +42,7 @@
               :value="value"
               auto-draw
             ></v-sparkline> -->
-            <v-btn @click="printInfo">
-              Print Info
-            </v-btn>
+            <v-btn @click="printInfo"> Print Info </v-btn>
           </v-card-text>
         </v-card>
       </v-col>

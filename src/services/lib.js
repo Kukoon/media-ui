@@ -1,7 +1,7 @@
 function dateString(date) {
 	let d = new Date(date);
 	d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-	return d.toISOString().slice(0,16);
+	return d.toISOString().slice(0, 16);
 }
 
 export const models = {
@@ -17,8 +17,8 @@ export const models = {
 				poster: data.poster,
 				preview: data.preview,
 				event_id: data.event ? data.event.id : null,
-				tags: data.tags ? data.tags.map((el)=> el.id) : [],
-				speakers: data.speakers ? data.speakers.map((el)=> el.id) : [],
+				tags: data.tags ? data.tags.map((el) => el.id) : [],
+				speakers: data.speakers ? data.speakers.map((el) => el.id) : [],
 			}
 		},
 		ToRequest(data) {
@@ -32,8 +32,8 @@ export const models = {
 				poster: data.poster,
 				preview: data.preview,
 				event_id: data.event ? data.event.id : data.event_id ? data.event_id : null,
-				tags: data.tags ? data.tags.map((el)=> el.id ? el.id : el) : [],
-				speakers: data.speakers ? data.speakers.map((el)=> el.id ? el.id : el) : [],
+				tags: data.tags ? data.tags.map((el) => el.id ? el.id : el) : [],
+				speakers: data.speakers ? data.speakers.map((el) => el.id ? el.id : el) : [],
 			}
 		},
 	},
@@ -48,8 +48,8 @@ export const models = {
 				poster: data.poster,
 				preview: data.preview,
 				event_id: data.event ? data.event.id : null,
-				tags: data.tags ? data.tags.map((el)=> el.id) : [],
-				speakers: data.speakers ? data.speakers.map((el)=> el.id) : [],
+				tags: data.tags ? data.tags.map((el) => el.id) : [],
+				speakers: data.speakers ? data.speakers.map((el) => el.id) : [],
 			}
 		},
 		ToRequest(data) {
@@ -62,14 +62,14 @@ export const models = {
 				poster: data.poster,
 				preview: data.preview,
 				event_id: data.event ? data.event.id : data.event_id ? data.event_id : null,
-				tags: data.tags ? data.tags.map((el)=> el.id ? el.id : el) : [],
-				speakers: data.speakers ? data.speakers.map((el)=> el.id ? el.id : el) : [],
+				tags: data.tags ? data.tags.map((el) => el.id ? el.id : el) : [],
+				speakers: data.speakers ? data.speakers.map((el) => el.id ? el.id : el) : [],
 			}
 		},
 	},
 }
 
-export function	uuidToArrayElement(id, a) {
+export function uuidToArrayElement(id, a) {
 	const i = parseInt(id.replace(/-/g, ""), 16);
 	return a[i % a.length];
 }

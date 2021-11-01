@@ -19,20 +19,12 @@
               undone.
             </v-col>
             <v-col class="shrink">
-              <v-btn
-                outlined
-                @click="remove()"
-              >
-                Remove
-              </v-btn>
+              <v-btn outlined @click="remove()"> Remove </v-btn>
             </v-col>
           </v-row>
         </v-alert>
         <v-divider class="mt-2" />
-        <v-form
-          class="pa-0 mt-2"
-          @submit="save()"
-        >
+        <v-form class="pa-0 mt-2" @submit="save()">
           <v-text-field
             v-model="recording.common_name"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -134,13 +126,11 @@
           />
           <v-btn
             class="ml-auto mr-1"
-            color="sucess"
+            color="success"
             :disabled="!enableSave"
             @click="save()"
           >
-            <v-icon left>
-              mdi-content-save
-            </v-icon>
+            <v-icon left> mdi-content-save </v-icon>
             Save
           </v-btn>
           <v-btn
@@ -149,9 +139,7 @@
             color="error"
             @click="confirmRemove = true"
           >
-            <v-icon left>
-              mdi-delete
-            </v-icon>
+            <v-icon left> mdi-delete </v-icon>
             Delete
           </v-btn>
           <v-btn
@@ -159,32 +147,22 @@
             class="ml-1 float-right"
             color="blue"
             outlined
-            :to="{ name: 'Player', params: { id: recordingid} }"
+            :to="{ name: 'Player', params: { id: recordingid } }"
             target="_blank"
           >
-            <v-icon left>
-              mdi-web
-            </v-icon>
+            <v-icon left> mdi-web </v-icon>
             View
           </v-btn>
         </v-form>
-        <v-divider
-          v-if="recordingid"
-          class="mt-4 mb-4"
-        />
-        <h4 v-if="recordingid">
-          Descriptions
-        </h4>
+        <v-divider v-if="recordingid" class="mt-4 mb-4" />
+        <h4 v-if="recordingid">Descriptions</h4>
         <v-expansion-panels
           v-if="recordingid && langs.length > 0"
           accordion
           tile
           class="mt-4"
         >
-          <v-expansion-panel
-            v-for="lang in langs"
-            :key="lang.id"
-          >
+          <v-expansion-panel v-for="lang in langs" :key="lang.id">
             <v-expansion-panel-header>
               <span class="text-truncate">{{ lang.title }}</span>
               <v-chip
@@ -206,12 +184,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-expansion-panels
-          v-if="recordingid"
-          accordion
-          tile
-          class="mt-4"
-        >
+        <v-expansion-panels v-if="recordingid" accordion tile class="mt-4">
           <v-expansion-panel>
             <v-expansion-panel-header>
               <span class="text-truncate">New Language</span>
@@ -224,19 +197,14 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <h4 v-if="recordingid">
-          Formats
-        </h4>
+        <h4 v-if="recordingid">Formats</h4>
         <v-expansion-panels
           v-if="recordingid && formats.length > 0"
           accordion
           tile
           class="mt-4"
         >
-          <v-expansion-panel
-            v-for="format in formats"
-            :key="format.id"
-          >
+          <v-expansion-panel v-for="format in formats" :key="format.id">
             <v-expansion-panel-header>
               <span class="text-truncate">{{ format.resolution }}</span>
               <v-chip
@@ -279,12 +247,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-expansion-panels
-          v-if="recordingid"
-          accordion
-          tile
-          class="mt-4"
-        >
+        <v-expansion-panels v-if="recordingid" accordion tile class="mt-4">
           <v-expansion-panel>
             <v-expansion-panel-header>
               <span class="text-truncate">New Format</span>
@@ -323,8 +286,18 @@ export default {
     return {
       recording: {},
       recordingFormDefault: {
-        poster: "https://cdn.media.kukoon.de/videos/"+this.channelid+"/"+this.recordingid+"/poster.jpg",
-        preview: "https://cdn.media.kukoon.de/videos/"+this.channelid+"/"+this.recordingid+"/preview.webp",
+        poster:
+          "https://cdn.media.kukoon.de/videos/" +
+          this.channelid +
+          "/" +
+          this.recordingid +
+          "/poster.jpg",
+        preview:
+          "https://cdn.media.kukoon.de/videos/" +
+          this.channelid +
+          "/" +
+          this.recordingid +
+          "/preview.webp",
       },
       enableSave: false,
       confirmRemove: false,
@@ -364,7 +337,10 @@ export default {
     },
     remove() {
       api.Recordings.Delete(this.recordingid).then(() => {
-        this.$router.replace({ name: 'RecordingAdd', params: { channelid: this.channelid } });
+        this.$router.replace({
+          name: "RecordingAdd",
+          params: { channelid: this.channelid },
+        });
       });
       this.confirmRemove = false;
     },

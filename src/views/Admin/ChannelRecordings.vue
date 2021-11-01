@@ -9,8 +9,8 @@
       transition="scroll-y-transition"
     >
       <v-alert
-        id="alert"
         v-model="confirmRemove"
+        id="alert"
         type="error"
         dismissible
         dense
@@ -24,13 +24,7 @@
             undone.
           </v-col>
           <v-col class="shrink">
-            <v-btn
-              small
-              outlined
-              @click="remove(removeID)"
-            >
-              Remove
-            </v-btn>
+            <v-btn small outlined @click="remove(removeID)">Remove</v-btn>
           </v-col>
         </v-row>
       </v-alert>
@@ -38,18 +32,10 @@
     <v-row no-gutters>
       <v-col>
         <v-row no-gutters>
-          <h3 class="pb-2">
-            Recordings
-          </h3>
-          <v-spacer />
-          <v-btn
-            icon
-            small
-            @click="add()"
-          >
-            <v-icon small>
-              mdi-plus
-            </v-icon>
+          <h3 class="pb-2">Recordings</h3>
+          <v-spacer></v-spacer>
+          <v-btn icon small @click="add()">
+            <v-icon small>mdi-plus</v-icon>
           </v-btn>
         </v-row>
         <v-card>
@@ -60,7 +46,7 @@
               label="Search"
               single-line
               hide-details
-            />
+            ></v-text-field>
           </v-card-title>
           <v-data-table
             :headers="headers"
@@ -69,13 +55,13 @@
             sort-by="created_at"
             sort-desc
           >
-            <template #item.title="{ item }">
+            <template v-slot:item.title="{ item }">
               {{ item.lang.title }}
             </template>
-            <template #item.duration="{ item }">
+            <template v-slot:item.duration="{ item }">
               {{ readableDuration(item.duration) }}
             </template>
-            <template #item.listed="{ item }">
+            <template v-slot:item.listed="{ item }">
               <v-chip
                 v-if="item.listed"
                 small
@@ -117,15 +103,11 @@
                 Private
               </v-chip>
             </template>
-            <template #item.created_at="{ item }">
+            <template v-slot:item.created_at="{ item }">
               {{ readableDate(item.created_at) }}
             </template>
-            <template #item.actions="{ item }">
-              <v-icon
-                small
-                class="mr-2"
-                @click="editItem(item)"
-              >
+            <template v-slot:item.actions="{ item }">
+              <v-icon small class="mr-2" @click="editItem(item)">
                 mdi-pencil
               </v-icon>
               <v-icon
@@ -177,16 +159,6 @@ export default {
       search: "",
     };
   },
-  watch: {
-    channelid() {
-      this.load();
-      this.loadRecordings();
-    },
-  },
-  created() {
-    this.load();
-    this.loadRecordings();
-  },
 
   methods: {
     editItem(item) {
@@ -226,6 +198,16 @@ export default {
         this.loadRecordings();
       });
     },
+  },
+  watch: {
+    channelid() {
+      this.load();
+      this.loadRecordings();
+    },
+  },
+  created() {
+    this.load();
+    this.loadRecordings();
   },
 };
 </script>

@@ -55,7 +55,7 @@ export default new Vuetify({
 					darken2: "#6d4900",
 					darken3: "#241800"
 				},
-				sucess: {
+				success: {
 					base: "#47b857",
 					lighten1: "#7bcc87",
 					lighten2: "#b0e1b7",
@@ -114,7 +114,7 @@ export default new Vuetify({
 					darken2: "#6d4900",
 					darken3: "#241800"
 				},
-				sucess: {
+				success: {
 					base: "#47b857",
 					lighten1: "#7bcc87",
 					lighten2: "#b0e1b7",

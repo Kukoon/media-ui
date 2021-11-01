@@ -1,9 +1,6 @@
 <template>
   <v-expansion-panels accordion>
-    <v-expansion-panel
-      v-for="video in recordings"
-      :key="video.id"
-    >
+    <v-expansion-panel v-for="video in recordings" :key="video.id">
       <v-expansion-panel-header>
         <span class="text-truncate">
           {{ video.lang ? video.lang.title : video.id }}
@@ -48,15 +45,9 @@
         </v-chip>
       </v-expansion-panel-header>
       <v-expansion-panel-content>
-        <v-card
-          tile
-          elevation="0"
-        >
+        <v-card tile elevation="0">
           <v-card-text class="pa-0 d-flex flex-column justify-end">
-            <v-row
-              no-gutters
-              dense
-            >
+            <v-row no-gutters dense>
               <v-switch
                 v-model="video.public"
                 class="pt-0 mt-0 mr-4"
@@ -74,14 +65,8 @@
             </v-row>
           </v-card-text>
           <v-card-actions class="px-0 pt-4 mt-4">
-            <v-btn
-              outlined
-              color="sucess"
-              @click="save(video)"
-            >
-              <v-icon left>
-                mdi-content-save
-              </v-icon> Save
+            <v-btn outlined color="success" @click="save(video)">
+              <v-icon left> mdi-content-save </v-icon> Save
             </v-btn>
             <v-btn
               outlined
@@ -90,20 +75,16 @@
               :to="{ name: 'Player', params: { id: video.id } }"
               target="_blank"
             >
-              <v-icon left>
-                mdi-web
-              </v-icon> View
+              <v-icon left> mdi-web </v-icon> View
             </v-btn>
             <v-btn
-              color="sucess darken-1"
+              color="success darken-1"
               :to="{
                 name: 'RecordingEdit',
                 params: { channelid: video.channel.id, recordingid: video.id },
               }"
             >
-              <v-icon left>
-                mdi-pencil
-              </v-icon> Edit
+              <v-icon left> mdi-pencil </v-icon> Edit
             </v-btn>
           </v-card-actions>
         </v-card>

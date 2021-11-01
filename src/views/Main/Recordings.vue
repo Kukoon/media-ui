@@ -1,19 +1,8 @@
 <template>
-  <v-container
-    id="Recordings"
-    fluid
-  >
-    <v-row
-      no-gutters
-      class="d-flex align-center mx-2 mb-3"
-    >
+  <v-container id="Recordings" fluid>
+    <v-row no-gutters class="d-flex align-center mx-2 mb-3">
       <v-col class="justify-start">
-        <v-card
-          tile
-          flat
-          class="d-flex"
-          :color="darkMode ? '#121212' : null"
-        >
+        <v-card tile flat class="d-flex" :color="darkMode ? '#121212' : null">
           <v-btn
             tile
             depressed
@@ -23,9 +12,7 @@
             :href="audioPodcastSrc"
             target="_blank"
           >
-            <v-icon left>
-              mdi-rss
-            </v-icon>
+            <v-icon left> mdi-rss </v-icon>
             Audio
           </v-btn>
           <v-btn
@@ -37,9 +24,7 @@
             :href="videoPodcastSrc"
             target="_blank"
           >
-            <v-icon left>
-              mdi-rss
-            </v-icon>
+            <v-icon left> mdi-rss </v-icon>
             Video
           </v-btn>
         </v-card>
@@ -56,12 +41,7 @@
         >
           <v-btn>
             <span>Filter</span>
-            <v-icon
-              right
-              class="pr-2"
-            >
-              mdi-filter-variant
-            </v-icon>
+            <v-icon right class="pr-2"> mdi-filter-variant </v-icon>
           </v-btn>
         </v-btn-toggle>
         <v-btn-toggle
@@ -78,34 +58,19 @@
             exact-path
           >
             <span>List</span>
-            <v-icon
-              right
-              class="pr-2"
-            >
-              mdi-view-list
-            </v-icon>
+            <v-icon right class="pr-2"> mdi-view-list </v-icon>
           </v-btn>
           <v-btn
             :to="{ name: 'VideoGrid', query: $router.history.current.query }"
             exact-path
           >
             <span>Grid</span>
-            <v-icon
-              right
-              small
-              class="pr-2"
-            >
-              mdi-view-grid
-            </v-icon>
+            <v-icon right small class="pr-2"> mdi-view-grid </v-icon>
           </v-btn>
         </v-btn-toggle>
       </v-col>
     </v-row>
-    <v-row
-      v-if="showFilter"
-      no-gutters
-      class="d-flex align-center mx-2 pb-2"
-    >
+    <v-row v-if="showFilter" no-gutters class="d-flex align-center mx-2 pb-2">
       <v-col cols="4">
         <v-autocomplete
           v-model="eventsFilter"
@@ -186,8 +151,12 @@ export default {
       return channels;
     },
     showFilterGroup: {
-      get() { return this.showFilter ? 0 : undefined; },
-      set(v) { this.showFilter = v == 0 ? true : false },
+      get() {
+        return this.showFilter ? 0 : undefined;
+      },
+      set(v) {
+        this.showFilter = v == 0 ? true : false;
+      },
     },
     tagsFilter: {
       cache: false,
@@ -220,8 +189,7 @@ export default {
   watch: {
     $route(to) {
       this.load();
-      this.showFilter =
-        Object.keys(to.query).length !== 0;
+      this.showFilter = Object.keys(to.query).length !== 0;
     },
   },
   created() {
@@ -259,9 +227,9 @@ export default {
       api.Speakers.List().then((response) => (this.speakers = response.data));
     },
     load() {
-      api
-        .Recordings.List(this.$router.history.current.query)
-        .then((response) => (this.recordings = response.data));
+      api.Recordings.List(this.$router.history.current.query).then(
+        (response) => (this.recordings = response.data)
+      );
     },
     openPodcast() {},
   },

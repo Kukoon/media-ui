@@ -75,7 +75,7 @@ export const store = new Vuex.Store({
 		},
 		// loggedin exposes the state of 'current login' value to other components
 		loggedin: state => {
-			return state.user["id"]? true : false
+			return state.user["id"] ? true : false
 		},
 		// user exposes the state of 'current login user' value to other components
 		user: state => {
