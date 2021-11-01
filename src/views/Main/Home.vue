@@ -53,9 +53,7 @@ export default {
         (response) => (this.streamsLive = response.data)
       );
       api.Streams.List({ upcoming: true }).then(
-        (response) => (
-          (this.streamsUpcoming = response.data), console.log(response.data)
-        )
+        (response) => (this.streamsUpcoming = response.data)
       );
     },
   },
