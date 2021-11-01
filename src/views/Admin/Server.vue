@@ -3,17 +3,19 @@
     <v-row no-gutters>
       <v-col>
         <h3 class="pb-2">Server</h3>
-        <v-simple-table>
+        <v-simple-table dense>
           <template v-slot:default>
-            <tr>
-              <td class="grey--text pa-2">Status</td>
-              <td v-if="status.up" class="green--text pa-2">Running</td>
-              <td v-else class="red--text pa-2">Stopped</td>
-            </tr>
-            <tr>
-              <td class="grey--text pa-2">Version</td>
-              <td class="font-weight-medium pa-2">{{ status.version }}</td>
-            </tr>
+            <tbody>
+              <tr>
+                <td>Status</td>
+                <td v-if="status.up" class="green--text">Running</td>
+                <td v-else class="red--text">Stopped</td>
+              </tr>
+              <tr>
+                <td>Version</td>
+                <td>{{ status.version }}</td>
+              </tr>
+            </tbody>
           </template>
         </v-simple-table>
       </v-col>

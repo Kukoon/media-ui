@@ -88,7 +88,7 @@ export default new Vuetify({
 					darken3: "#1C4958"
 				},
 				neutral: {
-					base: "#141414",
+					base: "#121212",
 					lighten1: "#1C1C1C",
 					lighten2: "#242424",
 					lighten3: "#292929",

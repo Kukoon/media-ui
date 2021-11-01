@@ -1,9 +1,7 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar app color="primary" dark elevate-on-scroll>
     <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
-
-    <v-app-bar-title>MediaThek Admin</v-app-bar-title>
-
+    <v-app-bar-title class="flex-grow-1">{{ pageTitle }}/admin</v-app-bar-title>
     <v-spacer></v-spacer>
     <v-switch
       :value="darkMode"
@@ -22,6 +20,11 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "AdminBar",
+  data() {
+    return {
+      pageTitle: document.title,
+    };
+  },
   computed: {
     ...mapGetters(["darkMode"]),
   },

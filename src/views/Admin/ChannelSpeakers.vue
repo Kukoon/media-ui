@@ -96,10 +96,10 @@
               </v-form>
             </v-card-text>
             <v-card-actions class="px-6 pb-4">
-              <v-btn outlined @click="showDialog = false"> Cancel </v-btn>
-              <v-btn class="ml-auto" color="sucess" @click="save()">
-                Save
+              <v-btn text class="ml-auto" @click="showDialog = false">
+                Cancel
               </v-btn>
+              <v-btn color="sucess" @click="save()"> Save </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

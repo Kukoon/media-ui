@@ -7,7 +7,10 @@
     disable-resize-watcher
     style="z-index: 20"
   >
-    <div class="fill-height d-flex flex-column">
+    <div
+      class="fill-height d-flex flex-column"
+      :style="[darkMode ? { 'background-color': '#121212' } : '']"
+    >
       <v-card tile flat>
         <v-card-title class="subtitle-1">{{ pageTitle }}</v-card-title>
         <v-card-subtitle>Menu</v-card-subtitle>
@@ -18,6 +21,7 @@
           link
           v-if="isLive"
           :to="{ name: 'Live', params: { id: channel } }"
+          :class="darkMode ? 'grey lighten-1' : 'grey darken-2'"
         >
           <v-list-item-action>
             <v-icon>mdi-broadcast</v-icon>
@@ -26,7 +30,11 @@
             <v-list-item-title>Live</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link :to="{ name: 'VideoList' }">
+        <v-list-item
+          link
+          :to="{ name: 'VideoList' }"
+          :class="darkMode ? 'neutral darken-1' : 'neutral lighten-3'"
+        >
           <v-list-item-action>
             <v-icon>mdi-video-vintage</v-icon>
           </v-list-item-action>
@@ -59,7 +67,7 @@ import { mapActions, mapGetters } from "vuex";
 import { config } from "../../config.js";
 
 export default {
-  props: ['isLive'],
+  props: ["isLive"],
   data: () => ({
     pageTitle: document.title,
     channel: config.defaultChannel,

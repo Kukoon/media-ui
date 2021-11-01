@@ -1,6 +1,13 @@
 <template>
   <v-container fluid>
-    <v-snackbar v-model="confirmRemove" app top max-width="100%" tile>
+    <v-snackbar
+      v-model="confirmRemove"
+      app
+      top
+      max-width="100%"
+      tile
+      transition="scroll-y-transition"
+    >
       <v-alert
         v-model="confirmRemove"
         id="alert"
@@ -137,10 +144,10 @@
               </v-form>
             </v-card-text>
             <v-card-actions class="px-6 pb-4">
-              <v-btn outlined @click="showDialog = false"> Cancel </v-btn>
-              <v-btn class="ml-auto" color="sucess" @click="addRestream()">
-                Save
+              <v-btn text class="ml-auto" @click="showDialog = false">
+                Cancel
               </v-btn>
+              <v-btn color="sucess" @click="save()"> Save </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

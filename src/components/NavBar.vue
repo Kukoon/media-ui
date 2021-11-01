@@ -1,5 +1,10 @@
 <template>
-  <v-app-bar app :color="darkMode ? 'accent' : 'primary'" dark>
+  <v-app-bar
+    app
+    :color="darkMode ? 'accent' : 'primary'"
+    dark
+    elevate-on-scroll
+  >
     <router-link to="/" style="height: 90%">
       <v-img
         src="@/assets/logo3.png"
@@ -19,11 +24,7 @@
     >
       Live
     </v-btn>
-    <v-btn
-      text
-      class="mx-2 mr-1 d-none d-sm-flex"
-      :to="{ name: 'VideoList' }"
-    >
+    <v-btn text class="mx-2 mr-1 d-none d-sm-flex" :to="{ name: 'VideoList' }">
       Recordings
     </v-btn>
 
@@ -38,7 +39,7 @@ import { config } from "../../config.js";
 
 export default {
   name: "NavBar",
-  props: ['isLive'],
+  props: ["isLive"],
   data() {
     return {
       channel: config.defaultChannel,

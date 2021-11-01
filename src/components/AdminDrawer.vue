@@ -7,16 +7,16 @@
     mobile-breakpoint="600"
   >
     <v-list dense>
-      <v-list-item>
-        <v-list-item-avatar v-if="channel" color="black">
+      <v-list-item v-if="channel">
+        <v-list-item-avatar color="black">
           <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
           <span v-else>{{ channel.title.slice(0, 2) }}</span>
         </v-list-item-avatar>
         <v-btn icon small :to="{ path: '/' }"
           ><v-icon small>mdi-open-in-new</v-icon></v-btn
         >
-        <v-spacer v-if="channel"></v-spacer>
-        <v-list-item-icon v-if="channel" class="my-auto">
+        <v-spacer></v-spacer>
+        <v-list-item-icon class="my-auto">
           <v-btn
             icon
             small
@@ -28,9 +28,6 @@
             <v-icon small>mdi-pencil</v-icon>
           </v-btn>
         </v-list-item-icon>
-        <v-list-item-avatar v-else color="indigo">
-          <v-icon>mdi-account-circle</v-icon>
-        </v-list-item-avatar>
       </v-list-item>
 
       <v-list-group :value="channelMenuOpen">
@@ -69,7 +66,7 @@
       </v-list-group>
     </v-list>
     <v-divider></v-divider>
-    <v-list dense v-if="channel">
+    <v-list nav dense v-if="channel">
       <v-subheader>Channel</v-subheader>
       <v-list-item
         v-for="item in channelMenu"
@@ -88,7 +85,7 @@
       </v-list-item>
     </v-list>
     <v-divider></v-divider>
-    <v-list dense>
+    <v-list nav dense>
       <v-subheader>Global</v-subheader>
       <v-list-item
         v-for="item in globalMenu"
