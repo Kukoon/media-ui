@@ -1,6 +1,9 @@
 <template>
   <v-expansion-panels accordion>
-    <v-expansion-panel v-for="video in recordings" :key="video.id">
+    <v-expansion-panel
+      v-for="video in recordings"
+      :key="video.id"
+    >
       <v-expansion-panel-header>
         <span class="text-truncate">
           {{ video.lang ? video.lang.title : video.id }}
@@ -12,8 +15,9 @@
           class="flex-grow-0 flex-shrink-0 pr-3 monospace mr-4"
           label
           outlined
-          >Listed</v-chip
         >
+          Listed
+        </v-chip>
         <v-chip
           v-if="video.public"
           small
@@ -21,8 +25,9 @@
           class="flex-grow-0 flex-shrink-0 pr-3 monospace mr-4"
           label
           outlined
-          >Public</v-chip
         >
+          Public
+        </v-chip>
         <v-chip
           v-else
           small
@@ -30,8 +35,9 @@
           class="flex-grow-0 flex-shrink-0 pr-3 monospace mr-4"
           label
           outlined
-          >Private</v-chip
         >
+          Private
+        </v-chip>
         <v-chip
           small
           label
@@ -42,28 +48,40 @@
         </v-chip>
       </v-expansion-panel-header>
       <v-expansion-panel-content>
-        <v-card tile elevation="0">
+        <v-card
+          tile
+          elevation="0"
+        >
           <v-card-text class="pa-0 d-flex flex-column justify-end">
-            <v-row no-gutters dense>
+            <v-row
+              no-gutters
+              dense
+            >
               <v-switch
                 v-model="video.public"
                 class="pt-0 mt-0 mr-4"
                 hide-details
                 label="Public"
                 color="primary lighten-3"
-              ></v-switch>
+              />
               <v-switch
                 v-model="video.listed"
                 class="pt-0 mt-0"
                 hide-details
                 label="Listed"
                 color="primary lighten-3"
-              ></v-switch>
+              />
             </v-row>
           </v-card-text>
           <v-card-actions class="px-0 pt-4 mt-4">
-            <v-btn outlined color="sucess" @click="save(video)">
-              <v-icon left>mdi-content-save</v-icon> Save
+            <v-btn
+              outlined
+              color="sucess"
+              @click="save(video)"
+            >
+              <v-icon left>
+                mdi-content-save
+              </v-icon> Save
             </v-btn>
             <v-btn
               outlined
@@ -71,7 +89,10 @@
               color="blue"
               :to="{ name: 'Player', params: { id: video.id } }"
               target="_blank"
-              ><v-icon left>mdi-web</v-icon> View
+            >
+              <v-icon left>
+                mdi-web
+              </v-icon> View
             </v-btn>
             <v-btn
               color="sucess darken-1"
@@ -79,7 +100,10 @@
                 name: 'RecordingEdit',
                 params: { channelid: video.channel.id, recordingid: video.id },
               }"
-              ><v-icon left>mdi-pencil</v-icon> Edit
+            >
+              <v-icon left>
+                mdi-pencil
+              </v-icon> Edit
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -110,6 +134,14 @@ export default {
   computed: {
     ...mapGetters(["darkMode"]),
   },
+  watch: {
+    channelid() {
+      this.load();
+    },
+  },
+  mounted() {
+    this.load();
+  },
   methods: {
     save(video) {
       api.Recordings.Save(video.id, models.Recording.ToRequest(video)).then(
@@ -127,14 +159,6 @@ export default {
         this.dateOptions
       );
     },
-  },
-  watch: {
-    channelid() {
-      this.load();
-    },
-  },
-  mounted() {
-    this.load();
   },
 };
 </script>

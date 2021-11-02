@@ -4,14 +4,14 @@
       <v-col>
         <h3>Channel</h3>
         <v-alert
+          v-if="confirmRemove"
+          v-model="confirmRemove"
           class="mt-2"
           border="left"
           type="error"
           prominent
           dense
           dismissible
-          v-if="confirmRemove"
-          v-model="confirmRemove"
         >
           <v-row align="center">
             <v-col class="grow">
@@ -19,62 +19,86 @@
               undone.
             </v-col>
             <v-col class="shrink">
-              <v-btn outlined @click="remove()">Remove</v-btn>
+              <v-btn
+                outlined
+                @click="remove()"
+              >
+                Remove
+              </v-btn>
             </v-col>
           </v-row>
         </v-alert>
-        <v-form class="pa-0 mt-2" @submit="save()">
+        <v-form
+          class="pa-0 mt-2"
+          @submit="save()"
+        >
           <v-text-field
+            v-model="channel.title"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Title"
-            v-model="channel.title"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-text-field
+            v-model="channel.common_name"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Comman Name (used in URLs)"
-            v-model="channel.common_name"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-text-field
+            v-model.lazy="channel.logo"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Logo URL"
-            v-model.lazy="channel.logo"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-btn
             class="ml-auto mr-1"
             color="sucess"
-            @click="save()"
             :disabled="!enableSave"
+            @click="save()"
           >
-            <v-icon left>mdi-content-save</v-icon>
+            <v-icon left>
+              mdi-content-save
+            </v-icon>
             Save
           </v-btn>
           <v-btn
+            v-if="channelid"
             class="ml-1"
             color="error"
             @click="confirmRemove = true"
-            v-if="channelid"
           >
-            <v-icon left>mdi-delete</v-icon>
+            <v-icon left>
+              mdi-delete
+            </v-icon>
             Delete
           </v-btn>
         </v-form>
-        <v-divider class="mt-4 mb-4" v-if="channelid" />
-        <h4 v-if="channelid">Stream Ingress</h4>
-        <v-simple-table dense v-if="channelid">
-          <template v-slot:default>
+        <v-divider
+          v-if="channelid"
+          class="mt-4 mb-4"
+        />
+        <h4 v-if="channelid">
+          Stream Ingress
+        </h4>
+        <v-simple-table
+          v-if="channelid"
+          dense
+        >
+          <template #default>
             <thead>
               <tr>
-                <th class="text-left">Description</th>
-                <th class="text-left">Value</th>
+                <th class="text-left">
+                  Description
+                </th>
+                <th class="text-left">
+                  Value
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -140,6 +164,14 @@ export default {
   computed: {
     ...mapGetters(["darkMode"]),
   },
+  watch: {
+    channelid() {
+      this.load();
+    },
+  },
+  created() {
+    this.load();
+  },
   methods: {
     save() {
       let resp = null;
@@ -172,14 +204,6 @@ export default {
         (response) => (this.channel = response.data)
       );
     },
-  },
-  watch: {
-    channelid() {
-      this.load();
-    },
-  },
-  created() {
-    this.load();
   },
 };
 </script>

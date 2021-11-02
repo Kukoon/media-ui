@@ -1,5 +1,9 @@
 <template>
-  <VideoPlayer ref="player" :source="source" :poster="video.poster" />
+  <VideoPlayer
+    ref="player"
+    :source="source"
+    :poster="video.poster"
+  />
 </template>
 
 <script>
@@ -11,13 +15,22 @@ import { websocket } from "@/services/websocket.js";
 
 export default {
   name: "Single",
-  props: ['id'],
   components: { VideoPlayer },
+  props: ['id'],
   data() {
     return {
       source: null,
       video: null,
     };
+  },
+  watch: {
+    id() {
+      this.load();
+    },
+  },
+  created() {
+    this.$store.commit("autoPlay", true);
+    this.load();
   },
   methods: {
     connectStream() {
@@ -75,15 +88,6 @@ export default {
 		this.recording().catch(this.stream);
       }
     },
-  },
-  watch: {
-    id() {
-      this.load();
-    },
-  },
-  created() {
-    this.$store.commit("autoPlay", true);
-    this.load();
   },
 };
 </script>

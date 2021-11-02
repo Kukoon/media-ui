@@ -1,17 +1,24 @@
 <template>
   <v-card width="100%">
-    <v-row class="d-flex" no-gutters>
-      <v-card width="8px" :color="streamColor" tile></v-card>
+    <v-row
+      class="d-flex"
+      no-gutters
+    >
+      <v-card
+        width="8px"
+        :color="streamColor"
+        tile
+      />
       <div class="d-flex flex-column flex-grow-1">
         <v-card-title class="text-h6 font-weight-regular">
           <span>{{ currentTitle }}</span>
           <v-spacer />
           <v-progress-circular
-            indeterminate
             v-if="loading"
+            indeterminate
             size="24"
             class="mr-1"
-          ></v-progress-circular>
+          />
           <v-icon
             v-else
             icon
@@ -27,12 +34,20 @@
             :close-on-content-click="true"
             max-width="240"
           >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn icon class="mr-auto" v-bind="attrs" v-on="on">
-                <v-icon>mdi-dots-vertical</v-icon></v-btn
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                class="mr-auto"
+                v-bind="attrs"
+                v-on="on"
               >
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
             </template>
-            <v-list flat dense>
+            <v-list
+              flat
+              dense
+            >
               <v-list-item-group>
                 <v-list-item
                   :to="{
@@ -59,60 +74,67 @@
         <v-window v-model="step">
           <v-window-item :value="1">
             <v-card-text>
-              <v-form class="pa-0 mt-2" @submit="save()" :disabled="!loaded">
+              <v-form
+                class="pa-0 mt-2"
+                :disabled="!loaded"
+                @submit="save()"
+              >
                 <v-text-field
+                  v-model.lazy="stream.common_name"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Comman Name (used in URLs)"
-                  v-model.lazy="stream.common_name"
                   outlined
                   dense
                   @change="autoSave()"
-                ></v-text-field>
+                />
                 <v-text-field
+                  v-model="stream.listen_at"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   type="datetime-local"
                   label="Listen At (hidden till)"
-                  v-model="stream.listen_at"
                   outlined
                   dense
                   @change="autoSave()"
-                ></v-text-field>
+                />
                 <v-text-field
+                  v-model="stream.start_at"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   type="datetime-local"
                   label="Planned Start"
-                  v-model="stream.start_at"
                   outlined
                   dense
                   @change="autoSave()"
-                ></v-text-field>
+                />
                 <v-text-field
+                  v-model="stream.end_at"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   type="datetime-local"
                   label="Planned End"
-                  v-model="stream.end_at"
                   outlined
                   dense
                   @change="autoSave()"
-                ></v-text-field>
+                />
                 <v-switch
+                  v-model.lazy="stream.chat"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Chat"
-                  v-model.lazy="stream.chat"
                   outlined
                   dense
                   @change="autoSave()"
-                ></v-switch>
+                />
               </v-form>
             </v-card-text>
           </v-window-item>
           <v-window-item :value="2">
             <v-card-text>
-              <v-form class="pa-0 mt-2" @submit="save()">
+              <v-form
+                class="pa-0 mt-2"
+                @submit="save()"
+              >
                 <v-autocomplete
+                  v-model="selectedLang"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Language"
-                  v-model="selectedLang"
                   :items="langAbbrs"
                   auto-select-first
                   minlength="2"
@@ -121,7 +143,7 @@
                   dense
                   @input="updateLangForm()"
                 >
-                  <template v-slot:append-outer>
+                  <template #append-outer>
                     <v-menu
                       v-model="showAddLang"
                       offset-y
@@ -129,33 +151,43 @@
                       :close-on-content-click="false"
                       max-width="200"
                     >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-icon left v-bind="attrs" v-on="on">mdi-plus</v-icon>
+                      <template #activator="{ on, attrs }">
+                        <v-icon
+                          left
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          mdi-plus
+                        </v-icon>
                       </template>
                       <v-card width="100%">
                         <v-list class="pt-4">
                           <v-list-item>
                             <v-text-field
+                              v-model="newLang"
                               :color="
                                 darkMode ? 'grey lighten-3' : 'grey darken-2'
                               "
                               label="Language (short)"
-                              v-model="newLang"
                               dense
                               outlined
                               :rules="[rules.notExist]"
-                            ></v-text-field> </v-list-item
-                        ></v-list>
+                            />
+                          </v-list-item>
+                        </v-list>
                         <v-card-actions class="pt-0">
-                          <v-spacer></v-spacer>
-                          <v-btn text @click="showAddLang = false">
+                          <v-spacer />
+                          <v-btn
+                            text
+                            @click="showAddLang = false"
+                          >
                             Close
                           </v-btn>
                           <v-btn
                             color="success"
                             text
-                            @click="addLang()"
                             :disabled="langAbbrs.includes(newLang)"
+                            @click="addLang()"
                           >
                             Save
                           </v-btn>
@@ -165,44 +197,47 @@
                   </template>
                 </v-autocomplete>
                 <v-text-field
+                  v-model.lazy="langForm.title"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Title"
-                  v-model.lazy="langForm.title"
                   outlined
                   dense
                   @change="autoSave()"
-                ></v-text-field>
+                />
                 <v-text-field
+                  v-model.lazy="langForm.subtitle"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Subtitle"
-                  v-model.lazy="langForm.subtitle"
                   outlined
                   dense
                   @change="autoSave()"
-                ></v-text-field>
+                />
                 <v-textarea
+                  v-model.lazy="langForm.short"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Short Description"
-                  v-model.lazy="langForm.short"
                   outlined
                   dense
                   height="70"
                   @change="autoSave()"
-                ></v-textarea>
+                />
                 <v-textarea
+                  v-model.lazy="langForm.long"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Description"
-                  v-model.lazy="langForm.long"
                   outlined
                   dense
                   @change="autoSave()"
-                ></v-textarea
-              ></v-form>
+                />
+              </v-form>
             </v-card-text>
           </v-window-item>
           <v-window-item :value="3">
             <v-card-text>
-              <v-responsive :aspect-ratio="16 / 9" class="mb-6">
+              <v-responsive
+                :aspect-ratio="16 / 9"
+                class="mb-6"
+              >
                 <v-img
                   v-if="video.poster"
                   :aspect-ratio="16 / 9"
@@ -211,25 +246,31 @@
                   height="100%"
                   width="100%"
                   style="border-radius: 4px"
-                ></v-img>
-                <v-btn v-else height="100%" width="100%">Upload Poster</v-btn>
+                />
+                <v-btn
+                  v-else
+                  height="100%"
+                  width="100%"
+                >
+                  Upload Poster
+                </v-btn>
               </v-responsive>
               <v-text-field
+                v-model.lazy="stream.poster"
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                 label="Poster URL"
-                v-model.lazy="stream.poster"
                 outlined
                 dense
                 @change="autoSave()"
-              ></v-text-field>
+              />
             </v-card-text>
           </v-window-item>
           <v-window-item :value="4">
             <v-card-text>
               <v-autocomplete
+                v-model="stream.tags"
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                 label="Tags"
-                v-model="stream.tags"
                 :items="tags"
                 item-text="lang.name"
                 item-value="id"
@@ -239,12 +280,11 @@
                 outlined
                 dense
                 @change="autoSave()"
-              >
-              </v-autocomplete>
+              />
               <v-autocomplete
+                v-model="stream.events"
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                 label="Events"
-                v-model="stream.events"
                 :items="events"
                 item-text="name"
                 item-value="id"
@@ -253,12 +293,11 @@
                 outlined
                 dense
                 @change="autoSave()"
-              >
-              </v-autocomplete>
+              />
               <v-autocomplete
+                v-model="stream.speakers"
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                 label="Speakers"
-                v-model="stream.speakers"
                 :items="speakers"
                 item-text="name"
                 item-value="id"
@@ -268,24 +307,45 @@
                 outlined
                 dense
                 @change="autoSave()"
-              >
-              </v-autocomplete>
+              />
             </v-card-text>
           </v-window-item>
         </v-window>
       </div>
     </v-row>
-    <v-divider></v-divider>
+    <v-divider />
     <v-card-actions>
-      <v-btn :disabled="step === 1" text @click="step--"> Back </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn text @click="close()"> Close </v-btn>
-      <v-btn v-if="step !== 4" color="primary" depressed @click="step++">
+      <v-btn
+        :disabled="step === 1"
+        text
+        @click="step--"
+      >
+        Back
+      </v-btn>
+      <v-spacer />
+      <v-btn
+        text
+        @click="close()"
+      >
+        Close
+      </v-btn>
+      <v-btn
+        v-if="step !== 4"
+        color="primary"
+        depressed
+        @click="step++"
+      >
         Continue
       </v-btn>
-      <v-btn v-else color="success" @click="save()">Save</v-btn>
+      <v-btn
+        v-else
+        color="success"
+        @click="save()"
+      >
+        Save
+      </v-btn>
     </v-card-actions>
-    <slot></slot>
+    <slot />
   </v-card>
 </template>
 
@@ -356,6 +416,20 @@ export default {
         this.shallowEqual(this.savedCurrentLang, this.langForm)
       );
     },
+  },
+  watch: {
+    streamid() {
+      this.loadFilterData();
+      this.loadLangs();
+      this.load();
+    },
+  },
+  mounted() {
+    this.loadFilterData();
+    this.loadLangs();
+  },
+  created() {
+    this.load();
   },
   methods: {
     addLang() {
@@ -493,20 +567,6 @@ export default {
         }
       }
       return true;
-    },
-  },
-  mounted() {
-    this.loadFilterData();
-    this.loadLangs();
-  },
-  created() {
-    this.load();
-  },
-  watch: {
-    streamid() {
-      this.loadFilterData();
-      this.loadLangs();
-      this.load();
     },
   },
 };

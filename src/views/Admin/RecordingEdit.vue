@@ -4,14 +4,14 @@
       <v-col>
         <h3>Recording</h3>
         <v-alert
+          v-if="confirmRemove"
+          v-model="confirmRemove"
           class="mt-2"
           border="left"
           type="error"
           prominent
           dense
           dismissible
-          v-if="confirmRemove"
-          v-model="confirmRemove"
         >
           <v-row align="center">
             <v-col class="grow">
@@ -19,74 +19,82 @@
               undone.
             </v-col>
             <v-col class="shrink">
-              <v-btn outlined @click="remove()">Remove</v-btn>
+              <v-btn
+                outlined
+                @click="remove()"
+              >
+                Remove
+              </v-btn>
             </v-col>
           </v-row>
         </v-alert>
-        <v-divider class="mt-2"></v-divider>
-        <v-form class="pa-0 mt-2" @submit="save()">
+        <v-divider class="mt-2" />
+        <v-form
+          class="pa-0 mt-2"
+          @submit="save()"
+        >
           <v-text-field
+            v-model="recording.common_name"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Comman Name (used in URLs)"
-            v-model="recording.common_name"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-text-field
+            v-model="recording.created_at"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Created At"
             type="datetime-local"
-            v-model="recording.created_at"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-text-field
+            v-model="recording.duration"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             type="number"
             label="Duration"
-            v-model="recording.duration"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-text-field
+            v-model.lazy="recording.poster"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Poster URL"
-            v-model.lazy="recording.poster"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-text-field
+            v-model.lazy="recording.preview"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Preview URL"
-            v-model.lazy="recording.preview"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-switch
+            v-model.lazy="recording.public"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Public (viewable without login)"
-            v-model.lazy="recording.public"
             outlined
             dense
             @input="enableSave = true"
-          ></v-switch>
+          />
           <v-switch
+            v-model.lazy="recording.listed"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Listed (visible in overview)"
-            v-model.lazy="recording.listed"
             outlined
             dense
             @input="enableSave = true"
-          ></v-switch>
+          />
           <v-autocomplete
+            v-model="recording.tags"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Tags"
-            v-model="recording.tags"
             :items="tags"
             item-text="lang.name"
             item-value="id"
@@ -96,12 +104,11 @@
             filled
             dense
             @input="enableSave = true"
-          >
-          </v-autocomplete>
+          />
           <v-autocomplete
+            v-model="recording.event_id"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Event"
-            v-model="recording.event_id"
             :items="events"
             item-text="name"
             item-value="id"
@@ -110,12 +117,11 @@
             filled
             dense
             @input="enableSave = true"
-          >
-          </v-autocomplete>
+          />
           <v-autocomplete
+            v-model="recording.speakers"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Speakers"
-            v-model="recording.speakers"
             :items="speakers"
             item-text="name"
             item-value="id"
@@ -125,42 +131,60 @@
             filled
             dense
             @input="enableSave = true"
-          >
-          </v-autocomplete>
+          />
           <v-btn
             class="ml-auto mr-1"
             color="sucess"
-            @click="save()"
             :disabled="!enableSave"
+            @click="save()"
           >
-            <v-icon left>mdi-content-save</v-icon>
+            <v-icon left>
+              mdi-content-save
+            </v-icon>
             Save
           </v-btn>
           <v-btn
+            v-if="recordingid"
             class="ml-1"
             color="error"
             @click="confirmRemove = true"
-            v-if="recordingid"
           >
-            <v-icon left>mdi-delete</v-icon>
+            <v-icon left>
+              mdi-delete
+            </v-icon>
             Delete
           </v-btn>
           <v-btn
+            v-if="recordingid"
             class="ml-1 float-right"
             color="blue"
-            v-if="recordingid"
             outlined
             :to="{ name: 'Player', params: { id: recordingid} }"
             target="_blank"
           >
-            <v-icon left>mdi-web</v-icon>
+            <v-icon left>
+              mdi-web
+            </v-icon>
             View
           </v-btn>
         </v-form>
-        <v-divider class="mt-4 mb-4" v-if="recordingid" />
-        <h4 v-if="recordingid">Descriptions</h4>
-	<v-expansion-panels accordion tile class="mt-4" v-if="recordingid && langs.length > 0">
-          <v-expansion-panel v-for="lang in langs" :key="lang.id">
+        <v-divider
+          v-if="recordingid"
+          class="mt-4 mb-4"
+        />
+        <h4 v-if="recordingid">
+          Descriptions
+        </h4>
+        <v-expansion-panels
+          v-if="recordingid && langs.length > 0"
+          accordion
+          tile
+          class="mt-4"
+        >
+          <v-expansion-panel
+            v-for="lang in langs"
+            :key="lang.id"
+          >
             <v-expansion-panel-header>
               <span class="text-truncate">{{ lang.title }}</span>
               <v-chip
@@ -170,48 +194,70 @@
                 label
                 outlined
               >
-               {{ lang.lang }}
+                {{ lang.lang }}
               </v-chip>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <RecordingLangEdit :recordingid="recordingid" @change-recording="updateLang" :lang="lang" />
+              <RecordingLangEdit
+                :recordingid="recordingid"
+                :lang="lang"
+                @change-recording="updateLang"
+              />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-	<v-expansion-panels accordion tile class="mt-4" v-if="recordingid">
+        <v-expansion-panels
+          v-if="recordingid"
+          accordion
+          tile
+          class="mt-4"
+        >
           <v-expansion-panel>
             <v-expansion-panel-header>
               <span class="text-truncate">New Language</span>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <RecordingLangEdit :recordingid="recordingid" @change-recording="updateLang" />
+              <RecordingLangEdit
+                :recordingid="recordingid"
+                @change-recording="updateLang"
+              />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <h4 v-if="recordingid">Formats</h4>
-	<v-expansion-panels accordion tile class="mt-4" v-if="recordingid && formats.length > 0">
-          <v-expansion-panel v-for="format in formats" :key="format.id">
+        <h4 v-if="recordingid">
+          Formats
+        </h4>
+        <v-expansion-panels
+          v-if="recordingid && formats.length > 0"
+          accordion
+          tile
+          class="mt-4"
+        >
+          <v-expansion-panel
+            v-for="format in formats"
+            :key="format.id"
+          >
             <v-expansion-panel-header>
               <span class="text-truncate">{{ format.resolution }}</span>
               <v-chip
+                v-if="format.is_video"
                 small
                 color="green"
                 class="flex-grow-0 flex-shrink-0 pr-3 monospace mr-4"
                 label
                 outlined
-		v-if="format.is_video"
               >
-               Video
+                Video
               </v-chip>
               <v-chip
+                v-else
                 small
                 color="blue"
                 class="flex-grow-0 flex-shrink-0 pr-3 monospace mr-4"
                 label
                 outlined
-		v-else
               >
-               Audio
+                Audio
               </v-chip>
               <v-chip
                 small
@@ -220,21 +266,35 @@
                 label
                 outlined
               >
-               {{ format.lang }}
+                {{ format.lang }}
               </v-chip>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <RecordingFormatEdit :recordingid="recordingid" :channelid="channelid" @change-recording="load" :format="format" />
+              <RecordingFormatEdit
+                :recordingid="recordingid"
+                :channelid="channelid"
+                :format="format"
+                @change-recording="load"
+              />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-	<v-expansion-panels accordion tile class="mt-4" v-if="recordingid">
+        <v-expansion-panels
+          v-if="recordingid"
+          accordion
+          tile
+          class="mt-4"
+        >
           <v-expansion-panel>
             <v-expansion-panel-header>
               <span class="text-truncate">New Format</span>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <RecordingFormatEdit :recordingid="recordingid" :channelid="channelid" @change-recording="load" />
+              <RecordingFormatEdit
+                :recordingid="recordingid"
+                :channelid="channelid"
+                @change-recording="load"
+              />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -254,11 +314,11 @@ import RecordingFormatEdit from "@/components/RecordingFormatEdit.vue";
 
 export default {
   name: "RecordingEdit",
-  props: ["channelid", "recordingid"],
   components: {
     RecordingLangEdit,
     RecordingFormatEdit,
   },
+  props: ["channelid", "recordingid"],
   data() {
     return {
       recording: {},
@@ -277,6 +337,17 @@ export default {
   },
   computed: {
     ...mapGetters(["darkMode"]),
+  },
+  watch: {
+    recordingid() {
+      this.updateLang();
+      this.load();
+    },
+  },
+  created() {
+    this.loadFilterData();
+    this.updateLang();
+    this.load();
   },
   methods: {
     save() {
@@ -320,17 +391,6 @@ export default {
         this.formats = response.data.formats ? response.data.formats : [];
       });
     },
-  },
-  watch: {
-    recordingid() {
-      this.updateLang();
-      this.load();
-    },
-  },
-  created() {
-    this.loadFilterData();
-    this.updateLang();
-    this.load();
   },
 };
 </script>

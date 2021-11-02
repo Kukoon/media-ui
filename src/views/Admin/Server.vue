@@ -2,14 +2,26 @@
   <v-container fluid>
     <v-row no-gutters>
       <v-col>
-        <h3 class="pb-2">Server</h3>
+        <h3 class="pb-2">
+          Server
+        </h3>
         <v-simple-table dense>
-          <template v-slot:default>
+          <template #default>
             <tbody>
               <tr>
                 <td>Status</td>
-                <td v-if="status.up" class="green--text">Running</td>
-                <td v-else class="red--text">Stopped</td>
+                <td
+                  v-if="status.up"
+                  class="green--text"
+                >
+                  Running
+                </td>
+                <td
+                  v-else
+                  class="red--text"
+                >
+                  Stopped
+                </td>
               </tr>
               <tr>
                 <td>Version</td>

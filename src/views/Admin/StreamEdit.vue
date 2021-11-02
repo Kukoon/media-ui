@@ -4,13 +4,13 @@
       <v-col>
         <h3>Stream</h3>
         <v-alert
+          v-if="confirmRemove"
+          v-model="confirmRemove"
           class="mt-2"
           border="left"
           type="error"
           dense
           dismissible
-          v-if="confirmRemove"
-          v-model="confirmRemove"
         >
           <v-row align="center">
             <v-col class="grow">
@@ -18,75 +18,84 @@
               undone.
             </v-col>
             <v-col class="shrink">
-              <v-btn small outlined @click="remove()">Remove</v-btn>
+              <v-btn
+                small
+                outlined
+                @click="remove()"
+              >
+                Remove
+              </v-btn>
             </v-col>
           </v-row>
         </v-alert>
-        <v-divider class="mt-2"></v-divider>
-        <v-form class="pa-0 mt-2" @submit="save()">
+        <v-divider class="mt-2" />
+        <v-form
+          class="pa-0 mt-2"
+          @submit="save()"
+        >
           <v-text-field
+            v-model="stream.common_name"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Comman Name (used in URLs)"
-            v-model="stream.common_name"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-text-field
+            v-model="stream.listen_at"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             type="datetime-local"
             label="Listen At (hidden till)"
-            v-model="stream.listen_at"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-text-field
+            v-model="stream.start_at"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             type="datetime-local"
             label="Planned Start"
-            v-model="stream.start_at"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-text-field
+            v-model="stream.end_at"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             type="datetime-local"
             label="Planned End"
-            v-model="stream.end_at"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-text-field
+            v-model.lazy="stream.poster"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Poster URL"
-            v-model.lazy="stream.poster"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-text-field
+            v-model.lazy="stream.preview"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Preview URL"
-            v-model.lazy="stream.preview"
             outlined
             dense
             @input="enableSave = true"
-          ></v-text-field>
+          />
           <v-switch
+            v-model.lazy="stream.chat"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Chat"
-            v-model.lazy="stream.chat"
             outlined
             dense
             @input="enableSave = true"
-          ></v-switch>
+          />
           <v-autocomplete
+            v-model="stream.tags"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Tags"
-            v-model="stream.tags"
             :items="tags"
             item-text="lang.name"
             item-value="id"
@@ -96,12 +105,11 @@
             filled
             dense
             @input="enableSave = true"
-          >
-          </v-autocomplete>
+          />
           <v-autocomplete
+            v-model="stream.event_id"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Event"
-            v-model="stream.event_id"
             :items="events"
             item-text="name"
             item-value="id"
@@ -110,12 +118,11 @@
             filled
             dense
             @input="enableSave = true"
-          >
-          </v-autocomplete>
+          />
           <v-autocomplete
+            v-model="stream.speakers"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
             label="Speakers"
-            v-model="stream.speakers"
             :items="speakers"
             item-text="name"
             item-value="id"
@@ -125,36 +132,47 @@
             filled
             dense
             @input="enableSave = true"
-          >
-          </v-autocomplete>
+          />
           <v-btn
             class="ml-auto mr-1"
             color="sucess"
-            @click="save()"
             :disabled="!enableSave"
+            @click="save()"
           >
-            <v-icon left>mdi-content-save</v-icon>
+            <v-icon left>
+              mdi-content-save
+            </v-icon>
             Save
           </v-btn>
           <v-btn
+            v-if="streamid"
             class="ml-1"
             color="error"
             @click="confirmRemove = true"
-            v-if="streamid"
           >
-            <v-icon left>mdi-delete</v-icon>
+            <v-icon left>
+              mdi-delete
+            </v-icon>
             Delete
           </v-btn>
         </v-form>
-        <v-divider class="mt-4 mb-4" v-if="streamid" />
-        <h4 v-if="streamid">Descriptions</h4>
+        <v-divider
+          v-if="streamid"
+          class="mt-4 mb-4"
+        />
+        <h4 v-if="streamid">
+          Descriptions
+        </h4>
         <v-expansion-panels
+          v-if="streamid && langs.length > 0"
           accordion
           tile
           class="mt-4"
-          v-if="streamid && langs.length > 0"
         >
-          <v-expansion-panel v-for="lang in langs" :key="lang.id">
+          <v-expansion-panel
+            v-for="lang in langs"
+            :key="lang.id"
+          >
             <v-expansion-panel-header>
               <span class="text-truncate">{{ lang.title }}</span>
               <v-chip
@@ -170,13 +188,18 @@
             <v-expansion-panel-content>
               <StreamLangEdit
                 :streamid="streamid"
-                @change-stream="updateLang"
                 :lang="lang"
+                @change-stream="updateLang"
               />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-expansion-panels accordion tile class="mt-4" v-if="streamid">
+        <v-expansion-panels
+          v-if="streamid"
+          accordion
+          tile
+          class="mt-4"
+        >
           <v-expansion-panel>
             <v-expansion-panel-header>
               <span class="text-truncate">New Language</span>
@@ -204,10 +227,10 @@ import StreamLangEdit from "@/components/StreamLangEdit.vue";
 
 export default {
   name: "StreamEdit",
-  props: ["channelid", "streamid"],
   components: {
     StreamLangEdit,
   },
+  props: ["channelid", "streamid"],
   data() {
     return {
       stream: {},
@@ -229,6 +252,17 @@ export default {
   },
   computed: {
     ...mapGetters(["darkMode"]),
+  },
+  watch: {
+    streamid() {
+      this.updateLang();
+      this.load();
+    },
+  },
+  created() {
+    this.loadFilterData();
+    this.updateLang();
+    this.load();
   },
   methods: {
     save() {
@@ -274,17 +308,6 @@ export default {
         this.stream = models.Stream.FromRequest(response.data);
       });
     },
-  },
-  watch: {
-    streamid() {
-      this.updateLang();
-      this.load();
-    },
-  },
-  created() {
-    this.loadFilterData();
-    this.updateLang();
-    this.load();
   },
 };
 </script>

@@ -54,7 +54,14 @@
 		"parserOptions": {
 			"parser": "babel-eslint"
 		},
-		"rules": {}
+		"rules": {
+			"vue/valid-v-slot": [
+				"error",
+				{
+					"allowModifiers": true
+				}
+			]
+		}
 	},
 	"browserslist": [
 		"> 1%",

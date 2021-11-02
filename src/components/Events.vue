@@ -8,7 +8,12 @@
       class="mr-2 my-1"
       :to="{ name: filterView, query: { event: event.id } }"
     >
-      <v-icon small left>mdi-calendar</v-icon>
+      <v-icon
+        small
+        left
+      >
+        mdi-calendar
+      </v-icon>
       {{ event.name }}
     </v-chip>
   </div>

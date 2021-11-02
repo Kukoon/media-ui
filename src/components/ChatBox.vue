@@ -1,25 +1,34 @@
 <template>
   <v-card
+    id="ChatBox"
     tile
     outlined
     height="70vh"
     class="d-flex flex-column"
     style="min-height: 0px"
-    id="ChatBox"
   >
-    <v-card-title class="neutral lighten-1">Chat</v-card-title>
+    <v-card-title class="neutral lighten-1">
+      Chat
+    </v-card-title>
     <v-card-subtitle class="neutral lighten-1">
       Ask your Questions here
     </v-card-subtitle>
-    <v-divider></v-divider>
+    <v-divider />
     <v-card-text
+      v-chat-scroll
       class="ma-0 px-4 py-0 fill-height"
       style="overflow: auto"
-      v-chat-scroll
     >
-      <v-row class="fill-height" align="end">
+      <v-row
+        class="fill-height"
+        align="end"
+      >
         <v-col>
-          <v-overlay absolute :value="!allowCookie" id="overlay"> </v-overlay>
+          <v-overlay
+            id="overlay"
+            absolute
+            :value="!allowCookie"
+          />
           <v-dialog
             max-width="290"
             :value="!allowCookie"
@@ -35,7 +44,13 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn text color="success" @click="accept()">Acccept</v-btn>
+                <v-btn
+                  text
+                  color="success"
+                  @click="accept()"
+                >
+                  Acccept
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -47,13 +62,24 @@
               item.me ? 'justify-end' : null,
             ]"
           >
-            <span class="mr-3" v-if="item.me" v-html="item.msg" />
-            <v-avatar :color="item.me ? 'accent' : 'primary'" size="32">
+            <span
+              v-if="item.me"
+              class="mr-3"
+              v-html="item.msg"
+            />
+            <v-avatar
+              :color="item.me ? 'accent' : 'primary'"
+              size="32"
+            >
               <span class="white--text">
                 {{ item.from[0] }}
               </span>
             </v-avatar>
-            <span class="ml-3" v-if="!item.me" v-html="item.msg" />
+            <span
+              v-if="!item.me"
+              class="ml-3"
+              v-html="item.msg"
+            />
           </div>
         </v-col>
       </v-row>
@@ -63,14 +89,17 @@
     </v-card-text>
     <v-divider />
     <v-card-actions class="mt-auto neutral lighten-3">
-      <v-window v-model="step" class="flex-grow-1">
+      <v-window
+        v-model="step"
+        class="flex-grow-1"
+      >
         <v-window-item :value="1">
           <v-row no-gutters>
             <div class="d-flex flex-row align-center flex-grow-1 py-1">
               <v-textarea
+                v-model="userName"
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-3'"
                 class="black--text mt-0 pt-0"
-                v-model="userName"
                 auto-grow
                 rows="1"
                 dense
@@ -78,8 +107,13 @@
                 hide-details
                 placeholder="Choose a Username"
                 @keypress.enter="setUsername"
-              ></v-textarea>
-              <v-btn depressed class="ml-2" @click="setUsername" color="success">
+              />
+              <v-btn
+                depressed
+                class="ml-2"
+                color="success"
+                @click="setUsername"
+              >
                 Save
               </v-btn>
             </div>
@@ -96,7 +130,7 @@
                   nudge-top="6"
                   :close-on-content-click="false"
                 >
-                  <template v-slot:activator="{ on, attrs }">
+                  <template #activator="{ on, attrs }">
                     <v-avatar
                       :color="randomColor"
                       class="mr-2"
@@ -128,9 +162,9 @@
                   </v-card>
                 </v-menu>
                 <v-textarea
+                  v-model="msg"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-3'"
                   class="black--text mt-0 pt-0"
-                  v-model="msg"
                   auto-grow
                   rows="1"
                   dense
@@ -138,15 +172,14 @@
                   hide-details
                   placeholder="Please be awesome!"
                   @keypress.enter="send"
-                >
-                </v-textarea>
+                />
                 <v-btn
                   fab
                   small
                   class="ml-2"
-                  @click="send"
                   color="warning"
                   depressed
+                  @click="send"
                 >
                   <v-icon>mdi-send</v-icon>
                 </v-btn>
@@ -185,15 +218,15 @@ export default {
       return colors[Math.floor(Math.random() * colors.length)];
     },
   },
-  created() {
-    websocket.joinHandler(this.room, "chat", 'ChatBox', this.onMessage);
-  },
   watch: {
     room(to, from) {
       console.log("switch", from, to);
       websocket.leave(from);
       websocket.joinChat(to, this.onMessage);
     },
+  },
+  created() {
+    websocket.joinHandler(this.room, "chat", 'ChatBox', this.onMessage);
   },
   methods: {
     accept() {

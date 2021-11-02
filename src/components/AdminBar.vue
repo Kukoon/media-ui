@@ -1,17 +1,24 @@
 <template>
-  <v-app-bar app color="primary" dark elevate-on-scroll>
-    <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
-    <v-app-bar-title class="flex-grow-1">{{ pageTitle }}/admin</v-app-bar-title>
-    <v-spacer></v-spacer>
+  <v-app-bar
+    app
+    color="primary"
+    dark
+    elevate-on-scroll
+  >
+    <v-app-bar-nav-icon @click.stop="toggleDrawer" />
+    <v-app-bar-title class="flex-grow-1">
+      {{ pageTitle }}/admin
+    </v-app-bar-title>
+    <v-spacer />
     <v-switch
       :value="darkMode"
       :input-value="darkMode"
-      @change="toggleDarkMode"
       inset
       color="accent darken-3"
       label="Dark Mode"
       hide-details
-    ></v-switch>
+      @change="toggleDarkMode"
+    />
   </v-app-bar>
 </template>
 

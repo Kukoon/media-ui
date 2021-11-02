@@ -1,9 +1,9 @@
 <template>
   <div id="Main">
-    <NavDrawer :isLive="isLive" />
-    <NavBar :isLive="isLive" />
+    <NavDrawer :is-live="isLive" />
+    <NavBar :is-live="isLive" />
     <v-main>
-      <router-view></router-view>
+      <router-view />
     </v-main>
     <!-- <v-footer color="grey darken-4" app style="z-index: 10">
       <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
@@ -27,15 +27,6 @@ export default {
       isLive: true,
     }
   },
-  methods: {
-    connect(channelID) {
-      websocket.joinHandler(channelID, 'status', 'main for menu', (ev) => {
-        if (this.isLive != ev.running) {
-          this.isLive = ev.running;
-	}
-      })
-    },
-  },
   created() {
     if (config.defaultChannel) {
       api.Channels.GetStream(config.defaultChannel).then((resp) => {
@@ -51,6 +42,15 @@ export default {
       this.isLive = false;
     }
     // this.$store.dispatch("language");
+  },
+  methods: {
+    connect(channelID) {
+      websocket.joinHandler(channelID, 'status', 'main for menu', (ev) => {
+        if (this.isLive != ev.running) {
+          this.isLive = ev.running;
+	}
+      })
+    },
   },
 };
 </script>

@@ -1,21 +1,31 @@
 <template>
   <v-navigation-drawer
     :value="drawer"
-    @input="toggleDrawer"
     app
     :class="[darkMode ? 'neutral lighten-1' : null]"
     mobile-breakpoint="600"
+    @input="toggleDrawer"
   >
     <v-list dense>
       <v-list-item v-if="channel">
         <v-list-item-avatar color="black">
-          <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
+          <v-img
+            v-if="channel.logo"
+            :src="channel.logo"
+            contain
+          />
           <span v-else>{{ channel.title.slice(0, 2) }}</span>
         </v-list-item-avatar>
-        <v-btn icon small :to="{ path: '/' }"
-          ><v-icon small>mdi-open-in-new</v-icon></v-btn
+        <v-btn
+          icon
+          small
+          :to="{ path: '/' }"
         >
-        <v-spacer></v-spacer>
+          <v-icon small>
+            mdi-open-in-new
+          </v-icon>
+        </v-btn>
+        <v-spacer />
         <v-list-item-icon class="my-auto">
           <v-btn
             icon
@@ -25,19 +35,29 @@
               params: { channelid: selectionAdminChannel },
             }"
           >
-            <v-icon small>mdi-pencil</v-icon>
+            <v-icon small>
+              mdi-pencil
+            </v-icon>
           </v-btn>
         </v-list-item-icon>
       </v-list-item>
 
       <v-list-group :value="channelMenuOpen">
-        <template v-slot:activator>
+        <template #activator>
           <v-list-item-content>
-            <v-list-item-title class="text-h7" v-if="channel">{{
-              channel.title
-            }}</v-list-item-title>
-            <v-list-item-title class="text-h7" v-else
-              >Channels:
+            <v-list-item-title
+              v-if="channel"
+              class="text-h7"
+            >
+              {{
+                channel.title
+              }}
+            </v-list-item-title>
+            <v-list-item-title
+              v-else
+              class="text-h7"
+            >
+              Channels:
             </v-list-item-title>
           </v-list-item-content>
         </template>
@@ -47,8 +67,16 @@
           link
           :to="{ name: 'AdminChannel', params: { channelid: channel.id } }"
         >
-          <v-list-item-avatar color="black" size="24" class="mr-8">
-            <v-img v-if="channel.logo" :src="channel.logo" contain></v-img>
+          <v-list-item-avatar
+            color="black"
+            size="24"
+            class="mr-8"
+          >
+            <v-img
+              v-if="channel.logo"
+              :src="channel.logo"
+              contain
+            />
             <span v-else>{{ channel.title.slice(0, 2) }}</span>
           </v-list-item-avatar>
           <v-list-item-content>
@@ -65,8 +93,12 @@
         </v-list-item>
       </v-list-group>
     </v-list>
-    <v-divider></v-divider>
-    <v-list nav dense v-if="channel">
+    <v-divider />
+    <v-list
+      v-if="channel"
+      nav
+      dense
+    >
       <v-subheader>Channel</v-subheader>
       <v-list-item
         v-for="item in channelMenu"
@@ -76,7 +108,12 @@
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
-          <v-badge overlap color="grey" content="dev" v-if="item.dev"></v-badge>
+          <v-badge
+            v-if="item.dev"
+            overlap
+            color="grey"
+            content="dev"
+          />
         </v-list-item-icon>
 
         <v-list-item-content>
@@ -84,8 +121,11 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    <v-divider></v-divider>
-    <v-list nav dense>
+    <v-divider />
+    <v-list
+      nav
+      dense
+    >
       <v-subheader>Global</v-subheader>
       <v-list-item
         v-for="item in globalMenu"
@@ -95,7 +135,12 @@
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
-          <v-badge overlap color="grey" content="dev" v-if="item.dev"></v-badge>
+          <v-badge
+            v-if="item.dev"
+            overlap
+            color="grey"
+            content="dev"
+          />
         </v-list-item-icon>
 
         <v-list-item-content>
@@ -104,9 +149,14 @@
       </v-list-item>
     </v-list>
 
-    <template v-slot:append>
+    <template #append>
       <div class="pa-2">
-        <v-btn block text color="primary lighten-1" @click="logout">
+        <v-btn
+          block
+          text
+          color="primary lighten-1"
+          @click="logout"
+        >
           Logout
         </v-btn>
       </div>

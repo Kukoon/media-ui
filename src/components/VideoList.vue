@@ -1,8 +1,17 @@
 <template>
   <div id="VideoList">
-    <div class="pa-2" v-for="(video, n) in videos" :key="video + n">
+    <div
+      v-for="(video, n) in videos"
+      :key="video + n"
+      class="pa-2"
+    >
       <v-row dense>
-        <v-col cols="12" sm="6" md="4" class="pl-1 pr-0">
+        <v-col
+          cols="12"
+          sm="6"
+          md="4"
+          class="pl-1 pr-0"
+        >
           <v-card
             tile
             elevation="0"
@@ -14,16 +23,23 @@
               :aspect-ratio="16 / 9"
               :class="!$vuetify.breakpoint.xsOnly ? 'pl-4 pt-4 pr-2' : null"
             >
-              <Poster :video="video" :noLink="noLink" :isStream="isStream" />
+              <Poster
+                :video="video"
+                :no-link="noLink"
+                :is-stream="isStream"
+              />
             </v-responsive>
             <VideoTitle
-              :video="video"
-              :noLink="noLink"
-              :isStream="isStream"
               v-if="$vuetify.breakpoint.xsOnly"
+              :video="video"
+              :no-link="noLink"
+              :is-stream="isStream"
               :class="$vuetify.breakpoint.xsOnly ? 'pt-4' : null"
             />
-            <VideoSubtitle :video="video" class="d-flex d-sm-none" />
+            <VideoSubtitle
+              :video="video"
+              class="d-flex d-sm-none"
+            />
             <Speakers
               v-if="video.speakers"
               :speakers="video.speakers"
@@ -39,14 +55,17 @@
               :viewers="video.viewers"
               :class="$vuetify.breakpoint.xsOnly ? 'px-4' : 'pb-4 px-4'"
             />
-            <VideoDescription :video="video" class="d-flex d-sm-none px-4" />
+            <VideoDescription
+              :video="video"
+              class="d-flex d-sm-none px-4"
+            />
           </v-card>
         </v-col>
         <v-col
+          v-if="!$vuetify.breakpoint.xsOnly"
           cols="12"
           sm="6"
           md="8"
-          v-if="!$vuetify.breakpoint.xsOnly"
           class="pl-0"
         >
           <v-card
@@ -57,8 +76,16 @@
             height="100%"
             style="border-left: none"
           >
-            <VideoTitle :video="video" :noLink="noLink" :isStream="isStream" class="d-none d-sm-flex ml-n1" />
-            <VideoSubtitle :video="video" class="d-none d-sm-flex ml-n1" />
+            <VideoTitle
+              :video="video"
+              :no-link="noLink"
+              :is-stream="isStream"
+              class="d-none d-sm-flex ml-n1"
+            />
+            <VideoSubtitle
+              :video="video"
+              class="d-none d-sm-flex ml-n1"
+            />
             <VideoDescription
               :video="video"
               class="d-none d-sm-flex px-4 ml-n1"

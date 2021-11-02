@@ -1,6 +1,6 @@
 <template>
   <v-app id="media-ui">
-    <router-view></router-view>
+    <router-view />
   </v-app>
 </template>
 
@@ -12,17 +12,6 @@ export default {
   name: "App",
   computed: {
     ...mapGetters(["darkMode"]),
-  },
-  methods: {
-    toggleDarkMode(bool) {
-      if (bool) {
-        this.$store.commit("toggleDarkMode", bool);
-        this.$vuetify.theme.dark = bool;
-      } else {
-        this.$store.commit("toggleDarkMode", !this.darkMode);
-        this.$vuetify.theme.dark = this.darkMode;
-      }
-    },
   },
   mounted() {
     if (
@@ -39,6 +28,17 @@ export default {
         }
       }.bind(this)
     );
+  },
+  methods: {
+    toggleDarkMode(bool) {
+      if (bool) {
+        this.$store.commit("toggleDarkMode", bool);
+        this.$vuetify.theme.dark = bool;
+      } else {
+        this.$store.commit("toggleDarkMode", !this.darkMode);
+        this.$vuetify.theme.dark = this.darkMode;
+      }
+    },
   },
 };
 </script>

@@ -8,8 +8,16 @@
       label
       :to="{ name: filterView, query: { tag: tag.id } }"
     >
-      <v-icon small left> mdi-label </v-icon>
-      <span style="margin-bottom: -2px" v-if="tag.lang !== null">
+      <v-icon
+        small
+        left
+      >
+        mdi-label
+      </v-icon>
+      <span
+        v-if="tag.lang !== null"
+        style="margin-bottom: -2px"
+      >
         {{ tag.lang.name }}
       </span>
     </v-chip>

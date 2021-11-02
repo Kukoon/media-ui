@@ -1,23 +1,63 @@
 <template>
-  <v-container fluid class="pa-0">
+  <v-container
+    fluid
+    class="pa-0"
+  >
     <v-sheet rounded>
-      <v-toolbar flat dense class="align-center" rounded>
-        <v-btn outlined small class="mr-4" @click="setToday"> Today </v-btn>
-        <v-btn fab text small @click="prev">
-          <v-icon small> mdi-chevron-left </v-icon>
+      <v-toolbar
+        flat
+        dense
+        class="align-center"
+        rounded
+      >
+        <v-btn
+          outlined
+          small
+          class="mr-4"
+          @click="setToday"
+        >
+          Today
         </v-btn>
-        <v-btn fab text small @click="next" class="mr-4">
-          <v-icon small> mdi-chevron-right </v-icon>
+        <v-btn
+          fab
+          text
+          small
+          @click="prev"
+        >
+          <v-icon small>
+            mdi-chevron-left
+          </v-icon>
+        </v-btn>
+        <v-btn
+          fab
+          text
+          small
+          class="mr-4"
+          @click="next"
+        >
+          <v-icon small>
+            mdi-chevron-right
+          </v-icon>
         </v-btn>
         <v-toolbar-title v-if="$refs.calendar">
           {{ $refs.calendar.title }}
         </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-menu bottom right>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn outlined small v-bind="attrs" v-on="on">
+        <v-spacer />
+        <v-menu
+          bottom
+          right
+        >
+          <template #activator="{ on, attrs }">
+            <v-btn
+              outlined
+              small
+              v-bind="attrs"
+              v-on="on"
+            >
               <span>{{ typeToLabel[type] }}</span>
-              <v-icon right> mdi-menu-down </v-icon>
+              <v-icon right>
+                mdi-menu-down
+              </v-icon>
             </v-btn>
           </template>
           <v-list dense>
@@ -56,13 +96,16 @@
         @mouseup:time="dragEnd"
         @mouseleave.native="dragCancel"
       >
-        <template v-slot:event="{ event, timed, eventSummary }">
-          <div class="v-event-draggable" v-html="eventSummary()"></div>
+        <template #event="{ event, timed, eventSummary }">
+          <div
+            class="v-event-draggable"
+            v-html="eventSummary()"
+          />
           <div
             v-if="timed"
             class="v-event-drag-bottom"
             @mousedown.stop="resize(event)"
-          ></div>
+          />
         </template>
       </v-calendar>
       <v-dialog
@@ -76,12 +119,11 @@
           :video="selectedStream"
           :channelid="channelid"
           :streamid="selectedStream.id"
-          :streamColor="selectedStreamColor"
-          @loadStreams="this.loadStreams"
+          :stream-color="selectedStreamColor"
+          @loadStreams="loadStreams"
           @closeDialog="selectedOpen = false"
           @keydown.esc="selectedOpen = false"
-        >
-        </StreamEditDialog>
+        />
       </v-dialog>
     </v-sheet>
   </v-container>
@@ -96,10 +138,10 @@ import StreamEditDialog from "@/components/StreamEditDialog.vue";
 
 export default {
   name: "StreamSchedule",
-  props: ["channelid"],
   components: {
     StreamEditDialog,
   },
+  props: ["channelid"],
   data() {
     return {
       channel: { title: "unknown" },
@@ -123,6 +165,23 @@ export default {
       selectedStreamColor: String,
       weekOrder: [1, 2, 3, 4, 5, 6, 0],
     };
+  },
+  watch: {
+    channelid() {
+      this.load();
+      this.loadStreams();
+    },
+    selectedOpen() {
+      if (!this.selectedOpen) {
+        this.dialogKey += 1;
+      }
+    },
+  },
+  mounted() {
+    this.$refs.calendar.checkChange();
+  },
+  created() {
+    this.load();
   },
   methods: {
     setToday() {
@@ -339,23 +398,6 @@ export default {
         this.loadStreams(id);
       });
     },
-  },
-  watch: {
-    channelid() {
-      this.load();
-      this.loadStreams();
-    },
-    selectedOpen() {
-      if (!this.selectedOpen) {
-        this.dialogKey += 1;
-      }
-    },
-  },
-  mounted() {
-    this.$refs.calendar.checkChange();
-  },
-  created() {
-    this.load();
   },
 };
 </script>

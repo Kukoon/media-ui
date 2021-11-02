@@ -9,8 +9,8 @@
       transition="scroll-y-transition"
     >
       <v-alert
-        v-model="confirmRemove"
         id="alert"
+        v-model="confirmRemove"
         type="error"
         dismissible
         dense
@@ -24,9 +24,13 @@
             undone.
           </v-col>
           <v-col class="shrink">
-            <v-btn small outlined @click="deleteRestream(removeID)"
-              >Remove</v-btn
+            <v-btn
+              small
+              outlined
+              @click="deleteRestream(removeID)"
             >
+              Remove
+            </v-btn>
           </v-col>
         </v-row>
       </v-alert>
@@ -35,12 +39,24 @@
       <v-col>
         <v-row no-gutters>
           <h3>Distribution</h3>
-          <v-btn icon small @click.stop="info = !info">
-            <v-icon small>mdi-help-circle</v-icon>
+          <v-btn
+            icon
+            small
+            @click.stop="info = !info"
+          >
+            <v-icon small>
+              mdi-help-circle
+            </v-icon>
           </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn icon small @click="add()">
-            <v-icon small>mdi-plus</v-icon>
+          <v-spacer />
+          <v-btn
+            icon
+            small
+            @click="add()"
+          >
+            <v-icon small>
+              mdi-plus
+            </v-icon>
           </v-btn>
         </v-row>
         <v-alert
@@ -55,28 +71,52 @@
           In the <strong>distribution</strong> menu, the user can add and remove
           distribution channels or restreams.
         </v-alert>
-        <v-simple-table dense class="mt-2">
-          <template v-slot:default>
+        <v-simple-table
+          dense
+          class="mt-2"
+        >
+          <template #default>
             <thead>
               <tr>
-                <th class="text-left">Name</th>
-                <th class="text-left">Protocol</th>
-                <th class="text-left">URL</th>
-                <th class="text-left">State</th>
-                <th class="text-left">Count</th>
-                <th class="text-left">Actions</th>
+                <th class="text-left">
+                  Name
+                </th>
+                <th class="text-left">
+                  Protocol
+                </th>
+                <th class="text-left">
+                  URL
+                </th>
+                <th class="text-left">
+                  State
+                </th>
+                <th class="text-left">
+                  Count
+                </th>
+                <th class="text-left">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in restreams" :key="item.name">
+              <tr
+                v-for="item in restreams"
+                :key="item.name"
+              >
                 <td>{{ item.name }}</td>
                 <td>{{ item.protocol }}</td>
                 <td>{{ item.url }}</td>
-                <td>{{ item.state }}<br /></td>
+                <td>{{ item.state }}<br></td>
                 <td>{{ item.sequence }}</td>
                 <td>
-                  <v-btn icon small @click="edit(item)">
-                    <v-icon small>mdi-pencil</v-icon>
+                  <v-btn
+                    icon
+                    small
+                    @click="edit(item)"
+                  >
+                    <v-icon small>
+                      mdi-pencil
+                    </v-icon>
                   </v-btn>
                   <v-btn
                     icon
@@ -86,27 +126,45 @@
                       confirmRemove = true;
                     "
                   >
-                    <v-icon small>mdi-delete</v-icon>
+                    <v-icon small>
+                      mdi-delete
+                    </v-icon>
                   </v-btn>
                 </td>
               </tr>
             </tbody>
           </template>
         </v-simple-table>
-        <v-btn class="mt-4" color="sucess" @click="add()">
-          <v-icon left>mdi-plus</v-icon>
+        <v-btn
+          class="mt-4"
+          color="sucess"
+          @click="add()"
+        >
+          <v-icon left>
+            mdi-plus
+          </v-icon>
           Add Re-Stream
         </v-btn>
-        <v-dialog v-model="showDialog" width="540">
+        <v-dialog
+          v-model="showDialog"
+          width="540"
+        >
           <v-card
             rounded
             elevation="1"
             :color="darkMode ? 'grey darken-4' : 'grey lighten-5'"
           >
-            <v-card-title v-if="formData.id">Edit</v-card-title>
-            <v-card-title v-else>New Re-Stream</v-card-title>
+            <v-card-title v-if="formData.id">
+              Edit
+            </v-card-title>
+            <v-card-title v-else>
+              New Re-Stream
+            </v-card-title>
             <v-card-text class="pb-0">
-              <v-form class="pa-0 mt-2" @submit="addRestream()">
+              <v-form
+                class="pa-0 mt-2"
+                @submit="addRestream()"
+              >
                 <v-text-field
                   v-model="formData.name"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -114,7 +172,7 @@
                   required
                   outlined
                   dense
-                ></v-text-field>
+                />
                 <v-text-field
                   v-model="formData.protocol"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -122,7 +180,7 @@
                   required
                   outlined
                   dense
-                ></v-text-field>
+                />
                 <v-text-field
                   v-model="formData.url"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -130,7 +188,7 @@
                   required
                   outlined
                   dense
-                ></v-text-field>
+                />
                 <v-text-field
                   v-model="formData.secret"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -138,16 +196,25 @@
                   required
                   outlined
                   dense
-                ></v-text-field>
+                />
                 <!-- TODO: Add 'active' field to API -->
                 <!-- <v-switch v-model="formData.active"></v-switch> -->
               </v-form>
             </v-card-text>
             <v-card-actions class="px-6 pb-4">
-              <v-btn text class="ml-auto" @click="showDialog = false">
+              <v-btn
+                text
+                class="ml-auto"
+                @click="showDialog = false"
+              >
                 Cancel
               </v-btn>
-              <v-btn color="sucess" @click="save()"> Save </v-btn>
+              <v-btn
+                color="sucess"
+                @click="save()"
+              >
+                Save
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -181,6 +248,16 @@ export default {
   computed: {
     ...mapGetters(["darkMode"]),
   },
+  watch: {
+    channelid() {
+      this.formData = Object.assign({}, this.formDefault);
+      this.loadRestream();
+    },
+  },
+  created() {
+    this.formData = Object.assign({}, this.formDefault);
+    this.loadRestream();
+  },
   methods: {
     add() {
       this.formData = Object.assign({}, this.formDefault);
@@ -210,16 +287,6 @@ export default {
         this.confirmRemove = false;
       });
     },
-  },
-  watch: {
-    channelid() {
-      this.formData = Object.assign({}, this.formDefault);
-      this.loadRestream();
-    },
-  },
-  created() {
-    this.formData = Object.assign({}, this.formDefault);
-    this.loadRestream();
   },
 };
 </script>

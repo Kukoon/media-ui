@@ -1,14 +1,14 @@
 <template>
   <div>
     <v-alert
+      v-if="confirmRemove"
+      v-model="confirmRemove"
       class="mt-2"
       border="left"
       type="error"
       prominent
       dense
       dismissible
-      v-if="confirmRemove"
-      v-model="confirmRemove"
     >
       <v-row align="center">
         <v-col class="grow">
@@ -16,70 +16,82 @@
           undone.
         </v-col>
         <v-col class="shrink">
-          <v-btn outlined @click="remove()">Remove</v-btn>
+          <v-btn
+            outlined
+            @click="remove()"
+          >
+            Remove
+          </v-btn>
         </v-col>
       </v-row>
     </v-alert>
 
-    <v-form class="pa-0 mt-2" @submit="save()">
+    <v-form
+      class="pa-0 mt-2"
+      @submit="save()"
+    >
       <v-text-field
+        v-model="langForm.lang"
         :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
         label="Language (short)"
-        v-model="langForm.lang"
         minlength="2"
         maxlength="2"
         outlined
         dense
         @input="enableSave = true"
-      ></v-text-field>
+      />
       <v-text-field
+        v-model="langForm.title"
         :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
         label="Title"
-        v-model="langForm.title"
         outlined
         dense
         @input="enableSave = true"
-      ></v-text-field>
+      />
       <v-text-field
+        v-model.lazy="langForm.subtitle"
         :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
         label="Subtitle"
-        v-model.lazy="langForm.subtitle"
         outlined
         dense
         @input="enableSave = true"
-      ></v-text-field>
+      />
       <v-textarea
+        v-model.lazy="langForm.short"
         :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
         label="Short Description"
-        v-model.lazy="langForm.short"
         outlined
         dense
         @input="enableSave = true"
-      ></v-textarea>
+      />
       <v-textarea
+        v-model.lazy="langForm.long"
         :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
         label="Description"
-        v-model.lazy="langForm.long"
         outlined
         dense
         @input="enableSave = true"
-      ></v-textarea>
+      />
       <v-btn
         class="ml-auto mr-1"
         color="sucess"
-        @click="save()"
         :disabled="!enableSave"
+        @click="save()"
       >
-        <v-icon left>mdi-content-save</v-icon>
+        <v-icon left>
+          mdi-content-save
+        </v-icon>
         Save
       </v-btn>
       <v-btn
+        v-if="lang.id"
         class="ml-1"
         color="error"
         @click="confirmRemove = true"
-        v-if="lang.id"
       >
-        <v-icon left>mdi-delete</v-icon>
+        <v-icon left>
+          mdi-delete
+        </v-icon>
         Delete
       </v-btn>
     </v-form>
@@ -116,6 +128,9 @@ export default {
   computed: {
     ...mapGetters(["darkMode"]),
   },
+  mounted() {
+    this.langForm = Object.assign({}, this.lang);
+  },
   methods: {
     save() {
       let resp = null;
@@ -138,9 +153,6 @@ export default {
     cancel() {
       this.confirmRemove = false;
     },
-  },
-  mounted() {
-    this.langForm = Object.assign({}, this.lang);
   },
 };
 </script>

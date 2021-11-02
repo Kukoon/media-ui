@@ -1,13 +1,15 @@
 <template>
   <v-col>
-    <h3 class="mx-2 mt-2">Suggestions</h3>
+    <h3 class="mx-2 mt-2">
+      Suggestions
+    </h3>
     <v-divider class="mx-2 mb-4 mt-2" />
     <div class="hidden-sm-and-down">
       <v-row
-        class="mx-n1"
         v-for="(video, n) in suggestions"
-        cols="12"
         :key="video + n"
+        class="mx-n1"
+        cols="12"
         :class="n === suggestions.length - 1 ? 'mb-6' : null"
       >
         <v-col class="pb-1">
@@ -15,7 +17,10 @@
         </v-col>
       </v-row>
     </div>
-    <VideoList class="hidden-md-and-up" :videos="suggestions" />
+    <VideoList
+      class="hidden-md-and-up"
+      :videos="suggestions"
+    />
   </v-col>
 </template>
 
@@ -42,11 +47,6 @@ export default {
       return result.slice(0, 3);
     },
   },
-  methods: {
-    load() {
-      api.Recordings.ListSuggestion(this.video).then((response) => (this.recordings = response.data))
-    },
-  },
   watch: {
     video() {
       this.load()
@@ -56,6 +56,11 @@ export default {
      if (this.video) {
       this.load()
     }
+  },
+  methods: {
+    load() {
+      api.Recordings.ListSuggestion(this.video).then((response) => (this.recordings = response.data))
+    },
   },
 };
 </script>

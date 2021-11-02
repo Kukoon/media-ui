@@ -1,20 +1,36 @@
 <template>
-  <v-card outlined tile elevation="0" width="100%">
+  <v-card
+    outlined
+    tile
+    elevation="0"
+    width="100%"
+  >
     <v-responsive :aspect-ratio="16 / 9">
-      <Poster :video="video" :noLink="noLink" :isStream="isStream" />
+      <Poster
+        :video="video"
+        :no-link="noLink"
+        :is-stream="isStream"
+      />
     </v-responsive>
     <VideoTitle
       :video="video"
-      :noLink="noLink"
-      :isStream="isStream"
+      :no-link="noLink"
+      :is-stream="isStream"
       :dense="dense"
     />
-    <VideoSubtitle :video="video" :dense="dense" />
-    <v-expansion-panels flat tile v-if="video.lang">
+    <VideoSubtitle
+      :video="video"
+      :dense="dense"
+    />
+    <v-expansion-panels
+      v-if="video.lang"
+      flat
+      tile
+    >
       <v-expansion-panel>
         <v-expansion-panel-header
-          @click="toggleDescription(video.id)"
           class="pl-2 pr-4 py-2 d-flex"
+          @click="toggleDescription(video.id)"
         >
           <v-btn
             tile
@@ -28,16 +44,16 @@
           <v-spacer />
         </v-expansion-panel-header>
         <v-expansion-panel-content id="paddingFix">
-          <v-divider></v-divider>
+          <v-divider />
           <VideoDescription
             :video="video"
-            :tagsPosition="tagsPosition"
+            :tags-position="tagsPosition"
             class="pt-3 px-4"
           />
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
-    <slot></slot>
+    <slot />
   </v-card>
 </template>
 

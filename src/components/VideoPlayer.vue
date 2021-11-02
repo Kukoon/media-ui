@@ -1,5 +1,10 @@
 <template>
-  <v-clappr el="player" :source="source" :options="options" @init="oninit" />
+  <v-clappr
+    el="player"
+    :source="source"
+    :options="options"
+    @init="oninit"
+  />
 </template>
 
 <script>
@@ -55,21 +60,6 @@ export default {
   computed: {
     ...mapGetters(["autoPlay"]),
   },
-  methods: {
-    oninit(clappr) {
-      this.localclappr = clappr;
-      if (this.autoPlay === true) {
-        this.localclappr.play();
-      }
-    },
-    play(){
-      this.localclappr.play();
-    },
-    restart(){
-      this.localclappr.load(this.source);
-      this.localclappr.play();
-    },
-  },
   watch: {
     running(is, old) {
       if(is && !old){
@@ -82,6 +72,21 @@ export default {
     source(newSrc) {
       // Load new source into clappr and play
       this.localclappr.load(newSrc);
+      this.localclappr.play();
+    },
+  },
+  methods: {
+    oninit(clappr) {
+      this.localclappr = clappr;
+      if (this.autoPlay === true) {
+        this.localclappr.play();
+      }
+    },
+    play(){
+      this.localclappr.play();
+    },
+    restart(){
+      this.localclappr.load(this.source);
       this.localclappr.play();
     },
   },

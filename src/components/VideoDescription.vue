@@ -1,7 +1,10 @@
 <template>
   <div>
-    <v-card-text class="px-0" v-if="markedDesc && tagsPosition !== 'top'">
-      <td v-html="markedDesc"></td>
+    <v-card-text
+      v-if="markedDesc && tagsPosition !== 'top'"
+      class="px-0"
+    >
+      <td v-html="markedDesc" />
     </v-card-text>
     <div v-if="tagsPosition">
       <BTNVideoDownload
@@ -13,14 +16,17 @@
         :duration="video.duration"
         :running="video.running"
         :viewers="video.viewers"
-        :createdAt="video.created_at"
-      ></Metadata>
-      <Events :event="video.event"></Events>
+        :created-at="video.created_at"
+      />
+      <Events :event="video.event" />
       <Tags :tags="video.tags" />
       <Speakers :speakers="video.speakers" />
     </div>
-    <v-card-text class="px-0" v-if="markedDesc && tagsPosition === 'top'">
-      <td v-html="markedDesc"></td>
+    <v-card-text
+      v-if="markedDesc && tagsPosition === 'top'"
+      class="px-0"
+    >
+      <td v-html="markedDesc" />
     </v-card-text>
   </div>
 </template>

@@ -13,28 +13,32 @@
             query: query,
           }"
         >
-          <v-btn icon class="ml-2 mt-n1" color="primary"
-            ><v-icon>mdi-chevron-double-right</v-icon></v-btn
+          <v-btn
+            icon
+            class="ml-2 mt-n1"
+            color="primary"
           >
+            <v-icon>mdi-chevron-double-right</v-icon>
+          </v-btn>
         </router-link>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn
           class="ml-auto"
           icon
           color="primary"
-          @click="prevVideo"
           :disabled="counter === 0"
+          @click="prevVideo"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
         <v-btn
           icon
           color="primary"
-          @click="nextVideo"
           :disabled="
-            counter == filterVideo.length - this.columns ||
-            filterVideo.length < this.columns
+            counter == filterVideo.length - columns ||
+              filterVideo.length < columns
           "
+          @click="nextVideo"
         >
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
@@ -48,7 +52,7 @@
           v-for="(video, n) in displayedVideos"
           :key="video + n"
           :video="video"
-          :noLink="noLink"
+          :no-link="noLink"
           class="mb-4"
         />
       </masonry>
@@ -91,6 +95,14 @@ export default {
       return this.params
     }
   },
+  mounted() {
+    this.isMounted = true;
+    if (!this.params) {
+      this.filterVideo = this.videos;
+    } else {
+      this.load();
+    }
+  },
   methods: {
     load() {
       let prom = api.Recordings.List(this.params);
@@ -109,14 +121,6 @@ export default {
     prevVideo() {
       this.counter--;
     },
-  },
-  mounted() {
-    this.isMounted = true;
-    if (!this.params) {
-      this.filterVideo = this.videos;
-    } else {
-      this.load();
-    }
   },
 };
 </script>

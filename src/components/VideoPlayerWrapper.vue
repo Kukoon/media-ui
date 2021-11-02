@@ -1,14 +1,27 @@
 <template>
-  <div id="VideoPlayerWrapper" v-if="video !== null && getSource">
-    <v-card-title v-if="video.lang" class="pt-2 pb-1 title">
+  <div
+    v-if="video !== null && getSource"
+    id="VideoPlayerWrapper"
+  >
+    <v-card-title
+      v-if="video.lang"
+      class="pt-2 pb-1 title"
+    >
       {{ video.lang.title }}
     </v-card-title>
     <VideoSubtitle
       :video="video"
       :class="darkMode ? 'subtitle-color-dark' : 'subtitle-color-light'"
     />
-    <v-card outlined tile class="ma-4">
-      <v-responsive :aspect-ratio="16 / 9" class="responsive">
+    <v-card
+      outlined
+      tile
+      class="ma-4"
+    >
+      <v-responsive
+        :aspect-ratio="16 / 9"
+        class="responsive"
+      >
         <VideoPlayer
           v-if="getSource && video.poster"
           ref="player"
@@ -22,7 +35,7 @@
     <VideoDescription
       v-if="video"
       :video="video"
-      :tagsPosition="tagsPosition"
+      :tags-position="tagsPosition"
       :long="true"
       class="px-4"
     />

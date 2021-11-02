@@ -6,11 +6,11 @@
       video.lang
         ? video.lang.title
         : video.common_name
-        ? video.common_name
-        : video.id
+          ? video.common_name
+          : video.id
     "
-    @click.stop="goToTop()"
     :tag="noLink ? 'span' : 'a'"
+    @click.stop="goToTop()"
   >
     <div
       v-if="video.preview"
@@ -27,17 +27,24 @@
         width="100%"
         style="position: absolute"
       >
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
+        <template #placeholder>
+          <v-row
+            class="fill-height ma-0"
+            align="center"
+            justify="center"
+          >
             <v-progress-circular
               indeterminate
               color="grey lighten-5"
-            ></v-progress-circular>
+            />
           </v-row>
         </template>
       </v-img>
 
-      <transition name="fade" appear>
+      <transition
+        name="fade"
+        appear
+      >
         <v-img
           v-if="!showPreview"
           v-ripple="{ class: 'neutral--text', center: true }"
@@ -48,12 +55,16 @@
           width="100%"
           style="position: absolute"
         >
-          <template v-slot:placeholder>
-            <v-row class="fill-height ma-0" align="center" justify="center">
+          <template #placeholder>
+            <v-row
+              class="fill-height ma-0"
+              align="center"
+              justify="center"
+            >
               <v-progress-circular
                 indeterminate
                 color="grey lighten-5"
-              ></v-progress-circular>
+              />
             </v-row>
           </template>
         </v-img>
@@ -69,12 +80,16 @@
       width="100%"
       style="position: absolute"
     >
-      <template v-slot:placeholder>
-        <v-row class="fill-height ma-0" align="center" justify="center">
+      <template #placeholder>
+        <v-row
+          class="fill-height ma-0"
+          align="center"
+          justify="center"
+        >
           <v-progress-circular
             indeterminate
             color="grey lighten-5"
-          ></v-progress-circular>
+          />
         </v-row>
       </template>
     </v-img>

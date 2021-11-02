@@ -1,8 +1,19 @@
 <template>
-  <v-container fluid id="Recordings">
-    <v-row no-gutters class="d-flex align-center mx-2 mb-3">
+  <v-container
+    id="Recordings"
+    fluid
+  >
+    <v-row
+      no-gutters
+      class="d-flex align-center mx-2 mb-3"
+    >
       <v-col class="justify-start">
-        <v-card tile flat class="d-flex" :color="darkMode ? '#121212' : null">
+        <v-card
+          tile
+          flat
+          class="d-flex"
+          :color="darkMode ? '#121212' : null"
+        >
           <v-btn
             tile
             depressed
@@ -12,7 +23,9 @@
             :href="audioPodcastSrc"
             target="_blank"
           >
-            <v-icon left>mdi-rss</v-icon>
+            <v-icon left>
+              mdi-rss
+            </v-icon>
             Audio
           </v-btn>
           <v-btn
@@ -24,24 +37,31 @@
             :href="videoPodcastSrc"
             target="_blank"
           >
-            <v-icon left>mdi-rss</v-icon>
+            <v-icon left>
+              mdi-rss
+            </v-icon>
             Video
           </v-btn>
         </v-card>
       </v-col>
       <v-col class="d-none d-sm-flex justify-end">
         <v-btn-toggle
+          v-model="showFilterGroup"
           :color="darkMode ? 'accent lighten-3' : 'accent'"
           tile
           class="my-1"
           borderless
           dense
           group
-          v-model="showFilterGroup"
         >
           <v-btn>
             <span>Filter</span>
-            <v-icon right class="pr-2">mdi-filter-variant</v-icon>
+            <v-icon
+              right
+              class="pr-2"
+            >
+              mdi-filter-variant
+            </v-icon>
           </v-btn>
         </v-btn-toggle>
         <v-btn-toggle
@@ -58,68 +78,80 @@
             exact-path
           >
             <span>List</span>
-            <v-icon right class="pr-2">mdi-view-list</v-icon>
+            <v-icon
+              right
+              class="pr-2"
+            >
+              mdi-view-list
+            </v-icon>
           </v-btn>
           <v-btn
             :to="{ name: 'VideoGrid', query: $router.history.current.query }"
             exact-path
           >
             <span>Grid</span>
-            <v-icon right small class="pr-2">mdi-view-grid</v-icon>
+            <v-icon
+              right
+              small
+              class="pr-2"
+            >
+              mdi-view-grid
+            </v-icon>
           </v-btn>
         </v-btn-toggle>
       </v-col>
     </v-row>
-    <v-row no-gutters class="d-flex align-center mx-2 pb-2" v-if="showFilter">
+    <v-row
+      v-if="showFilter"
+      no-gutters
+      class="d-flex align-center mx-2 pb-2"
+    >
       <v-col cols="4">
         <v-autocomplete
+          v-model="eventsFilter"
           class="mr-2 pt-1"
           label="Events"
           :items="events"
           item-text="name"
           item-value="id"
-          v-model="eventsFilter"
           small-chips
           clearable
           filled
           dense
-        >
-        </v-autocomplete>
+        />
       </v-col>
       <v-col cols="4">
         <v-autocomplete
+          v-model="tagsFilter"
           class="mx-2 pt-1"
           label="Tags"
           :items="tags"
           item-text="lang.name"
           item-value="id"
-          v-model="tagsFilter"
           small-chips
           deletable-chips
           multiple
           filled
           dense
-        >
-        </v-autocomplete>
+        />
       </v-col>
       <v-col cols="4">
         <v-autocomplete
+          v-model="speakersFilter"
           class="ml-2 pt-1"
           label="Speakers"
           :items="speakers"
           item-text="name"
           item-value="id"
-          v-model="speakersFilter"
           small-chips
           deletable-chips
           multiple
           filled
           dense
-        >
-        </v-autocomplete>
+        />
       </v-col>
     </v-row>
-    <router-view :videos="recordings"></router-view>
+    <router-view :videos="recordings" />
   </v-container>
 </template>
 
@@ -185,6 +217,19 @@ export default {
       },
     },
   },
+  watch: {
+    $route(to) {
+      this.load();
+      this.showFilter =
+        Object.keys(to.query).length !== 0;
+    },
+  },
+  created() {
+    this.loadFilterData();
+    this.load();
+    this.showFilter =
+      Object.keys(this.$router.history.current.query).length !== 0;
+  },
   methods: {
     filterGet(key, needArray) {
       if (this.$router.history.current.query[key]) {
@@ -219,19 +264,6 @@ export default {
         .then((response) => (this.recordings = response.data));
     },
     openPodcast() {},
-  },
-  watch: {
-    $route(to) {
-      this.load();
-      this.showFilter =
-        Object.keys(to.query).length !== 0;
-    },
-  },
-  created() {
-    this.loadFilterData();
-    this.load();
-    this.showFilter =
-      Object.keys(this.$router.history.current.query).length !== 0;
   },
 };
 </script>

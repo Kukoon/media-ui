@@ -1,18 +1,48 @@
 <template>
-  <v-container fluid class="pa-0">
+  <v-container
+    fluid
+    class="pa-0"
+  >
     <v-sheet>
-      <v-toolbar flat dense class="align-center" rounded>
-        <v-btn outlined small class="mr-4" @click="setToday"> Today </v-btn>
-        <v-btn fab text small @click="prev">
-          <v-icon small> mdi-chevron-left </v-icon>
+      <v-toolbar
+        flat
+        dense
+        class="align-center"
+        rounded
+      >
+        <v-btn
+          outlined
+          small
+          class="mr-4"
+          @click="setToday"
+        >
+          Today
         </v-btn>
-        <v-btn fab text small @click="next" class="mr-4">
-          <v-icon small> mdi-chevron-right </v-icon>
+        <v-btn
+          fab
+          text
+          small
+          @click="prev"
+        >
+          <v-icon small>
+            mdi-chevron-left
+          </v-icon>
+        </v-btn>
+        <v-btn
+          fab
+          text
+          small
+          class="mr-4"
+          @click="next"
+        >
+          <v-icon small>
+            mdi-chevron-right
+          </v-icon>
         </v-btn>
         <v-toolbar-title v-if="$refs.calendar">
           {{ $refs.calendar.title }}
         </v-toolbar-title>
-        <v-spacer></v-spacer>
+        <v-spacer />
       </v-toolbar>
     </v-sheet>
     <v-sheet>
@@ -27,7 +57,7 @@
         :events="streams"
         :event-color="getStreamColor"
         @change="fetchStreams"
-      ></v-calendar>
+      />
     </v-sheet>
   </v-container>
 </template>
@@ -46,6 +76,12 @@ export default {
       channelIDs: [],
       channelNames: [],
     };
+  },
+  mounted() {
+    this.$refs.calendar.checkChange();
+  },
+  created() {
+    this.load();
   },
   methods: {
     setToday() {
@@ -89,12 +125,6 @@ export default {
         });
       });
     },
-  },
-  mounted() {
-    this.$refs.calendar.checkChange();
-  },
-  created() {
-    this.load();
   },
 };
 </script>

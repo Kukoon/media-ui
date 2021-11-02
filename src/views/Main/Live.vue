@@ -1,17 +1,36 @@
 <template>
-  <v-container fluid id="Live">
+  <v-container
+    id="Live"
+    fluid
+  >
     <v-row no-gutters>
-      <v-col cols="12" md="8" class="d-flex flex-column">
-        <VideoPlayerWrapper ref="player" :video="video" :source="source" class="mx-n2" />
+      <v-col
+        cols="12"
+        md="8"
+        class="d-flex flex-column"
+      >
+        <VideoPlayerWrapper
+          ref="player"
+          :video="video"
+          :source="source"
+          class="mx-n2"
+        />
       </v-col>
-      <v-col cols="12" md="4" v-if="video !== null && video.chat">
-        <ChatBox class="ma-2" :room="video.channel.id" />
+      <v-col
+        v-if="video !== null && video.chat"
+        cols="12"
+        md="4"
+      >
+        <ChatBox
+          class="ma-2"
+          :room="video.channel.id"
+        />
       </v-col>
       <Suggestions
-        class="col-md-4 col-xl-3 col-12"
         v-if="video === null || !video.chat"
+        class="col-md-4 col-xl-3 col-12"
         :video="video"
-       />
+      />
     </v-row>
   </v-container>
 </template>
@@ -27,12 +46,12 @@ import { websocket } from "@/services/websocket.js";
 
 export default {
   name: "Live",
-  props: ['id'],
   components: {
     ChatBox,
     VideoPlayerWrapper,
     Suggestions,
   },
+  props: ['id'],
   data() {
     return {
       video: null,
@@ -41,6 +60,17 @@ export default {
       tagsPosition: "top",
       isRunning: true,
     };
+  },
+  watch: {
+    id() {
+      this.init();
+      this.load();
+    },
+  },
+  created() {
+    this.$store.commit("autoPlay", true);
+    this.init();
+    this.load();
   },
   methods: {
     init() {
@@ -83,17 +113,6 @@ export default {
         });
       });
     },
-  },
-  watch: {
-    id() {
-      this.init();
-      this.load();
-    },
-  },
-  created() {
-    this.$store.commit("autoPlay", true);
-    this.init();
-    this.load();
   },
 };
 </script>

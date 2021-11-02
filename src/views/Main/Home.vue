@@ -1,24 +1,45 @@
 <template>
-  <v-container fluid id="Home">
-    <v-row v-if="streamsLive.length > 0" class="mb-4">
+  <v-container
+    id="Home"
+    fluid
+  >
+    <v-row
+      v-if="streamsLive.length > 0"
+      class="mb-4"
+    >
       <v-col>
-        <h1 class="px-2 headline">Live Stream</h1>
+        <h1 class="px-2 headline">
+          Live Stream
+        </h1>
         <v-divider class="mx-2 mb-2 mt-2" />
-        <VideoList :videos="streamsLive" :isStream="true" />
+        <VideoList
+          :videos="streamsLive"
+          :is-stream="true"
+        />
       </v-col>
     </v-row>
-    <v-row v-if="streamsUpcoming.length > 0" class="mb-4">
+    <v-row
+      v-if="streamsUpcoming.length > 0"
+      class="mb-4"
+    >
       <v-col>
         <VideoRow
           title="Upcoming Streams"
           :videos="streamsUpcoming"
-          :noLink="true"
+          :no-link="true"
         />
       </v-col>
     </v-row>
-    <v-row v-for="(row, n) in recordingConfigs" :key="row + n" class="mt-0">
+    <v-row
+      v-for="(row, n) in recordingConfigs"
+      :key="row + n"
+      class="mt-0"
+    >
       <v-col>
-        <VideoRow :title="row.title" :params="row.params" />
+        <VideoRow
+          :title="row.title"
+          :params="row.params"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -47,6 +68,9 @@ export default {
       ].concat(config.home.recordings),
     };
   },
+  created() {
+    this.load();
+  },
   methods: {
     load() {
       api.Streams.List({ running: true }).then(
@@ -56,9 +80,6 @@ export default {
         (response) => (this.streamsUpcoming = response.data)
       );
     },
-  },
-  created() {
-    this.load();
   },
 };
 </script>

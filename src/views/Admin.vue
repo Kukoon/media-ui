@@ -1,9 +1,12 @@
 <template>
   <div id="Admin">
     <AdminBar />
-    <Drawer :channelid="channelid" ref="drawer" />
+    <Drawer
+      ref="drawer"
+      :channelid="channelid"
+    />
     <v-main>
-      <router-view @change-channel="updateDrawer"></router-view>
+      <router-view @change-channel="updateDrawer" />
     </v-main>
   </div>
 </template>
@@ -16,18 +19,7 @@ import { store } from "@/services/store.js";
 
 export default {
   name: "Admin",
-  props: ["channelid"],
-  data() {
-    return {
-      showAlert: false,
-    };
-  },
   components: { Drawer, AdminBar },
-  methods: {
-    updateDrawer() {
-      this.$refs.drawer.load();
-    },
-  },
   beforeRouteEnter(to, from, next) {
     store
       .dispatch("getLoginStatus")
@@ -42,10 +34,21 @@ export default {
         next((vm) => vm.$router.replace({ name: "Login" }));
       });
   },
+  props: ["channelid"],
+  data() {
+    return {
+      showAlert: false,
+    };
+  },
   created() {
     this.$store.commit("toggleDarkMode", true);
     this.$store.commit("toggleDrawer", true);
     this.$vuetify.theme.dark = this.$store.getters.darkMode;
+  },
+  methods: {
+    updateDrawer() {
+      this.$refs.drawer.load();
+    },
   },
 };
 </script>
