@@ -2,55 +2,49 @@
   <v-container fluid>
     <v-row no-gutters>
       <v-col>
-        <h3 class="pb-2">
-          About
-        </h3>
+        <h3 class="pb-2">About</h3>
         <span>
-          This Software "media-ui" is part of a Mediathek Software, developed at
-          <a
-            target="_blank"
-            href="https://github.com/Kukoon"
-          >github.com/Kukoon</a>.
-          <br>
-          Another Part is "media-server" the Backend with an API, how manage
-          e.g. Channels, Streams and Recordings. For Live Streaming it use
-          <a
-            target="_blank"
-            href="https://www.ovenmediaengine.com/"
-          >OvenMediaEngine</a>
-          and his API.
+          This Software <code>media-ui</code> is part of a Mediathek Software,
+          developed at
+          <a target="_blank" href="https://github.com/Kukoon"
+            >github.com/Kukoon</a
+          >.
+          <br />
+          The backend <code>media-server</code> manages channels, streams and
+          recordings.
+          <br />
+          For Live Streaming we use
+          <a target="_blank" href="https://www.ovenmediaengine.com/"
+            >OvenMediaEngine</a
+          >.
         </span>
 
-        <h4 class="mt-2 pb-2">
-          Contributors
-        </h4>
-        <v-simple-table dense>
+        <h4 class="mt-2 pb-2">Contributors</h4>
+        <v-simple-table>
           <template #default>
             <thead>
               <tr>
-                <th class="text-left">
-                  Name
-                </th>
-                <th class="text-left">
-                  Contact
-                </th>
+                <th class="text-left">Name</th>
+                <th class="text-left">Contact</th>
+                <th class="text-left">Contributions</th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="item in contributes"
-                :key="item.name"
-              >
-                <td>{{ item.name }}</td>
+              <tr v-for="item in contributors" :key="item.name">
+                <td>
+                  <v-avatar size="32px" class="mr-2">
+                    <v-img :src="item.avatar_url" alt="Avatar" /> </v-avatar
+                  >{{ item.login }}
+                </td>
                 <td>
                   <a
-                    v-if="item.www"
-                    :href="item.www"
+                    v-if="item.html_url"
+                    :href="item.html_url"
                     target="_blank"
-                  >{{
-                    link(item.www)
-                  }}</a>
+                    >{{ link(item.html_url) }}</a
+                  >
                 </td>
+                <td>{{ item.contributions }}</td>
               </tr>
             </tbody>
           </template>
@@ -61,26 +55,31 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "About",
   data() {
     return {
-      contributes: [
-        {
-          name: "janebuoy",
-          www: "https://github.com/janebuoy",
-        },
-        {
-          name: "genofire",
-          www: "https://fireorbit.de",
-        },
-      ],
+      loaded: false,
+      contributors: [],
     };
   },
   methods: {
     link(url) {
       return url.replace(/https?:\/\//i, "");
     },
+    getContributors() {
+      axios
+        .get("https://api.github.com/repos/Kukoon/media-ui/contributors")
+        .then((resp) => {
+          console.log(resp.data);
+          this.contributors = resp.data;
+        });
+    },
+  },
+  created() {
+    this.getContributors();
   },
 };
 </script>

@@ -126,6 +126,10 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-btn class="mt-4" color="success" @click="add()">
+      <v-icon left> mdi-plus </v-icon>
+      Add Recording
+    </v-btn>
     <v-dialog
       v-if="showDialog"
       v-model="showDialog"

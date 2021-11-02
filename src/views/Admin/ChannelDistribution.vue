@@ -53,7 +53,7 @@
           In the <strong>distribution</strong> menu, the user can add and remove
           distribution channels or restreams.
         </v-alert>
-        <v-simple-table dense class="mt-2">
+        <v-simple-table class="mt-2">
           <template #default>
             <thead>
               <tr>
@@ -73,9 +73,10 @@
                 <td>{{ item.state }}<br /></td>
                 <td>{{ item.sequence }}</td>
                 <td>
-                  <v-btn icon small @click="edit(item)">
+                  <!-- TODO: Wait for https://github.com/Kukoon/media-ui/issues/47 -->
+                  <!-- <v-btn icon small @click="edit(item)">
                     <v-icon small> mdi-pencil </v-icon>
-                  </v-btn>
+                  </v-btn> -->
                   <v-btn
                     icon
                     small

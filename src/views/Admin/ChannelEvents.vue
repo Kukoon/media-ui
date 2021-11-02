@@ -36,7 +36,7 @@
             <v-icon small> mdi-plus </v-icon>
           </v-btn>
         </v-row>
-        <v-simple-table dense class="mt-2">
+        <v-simple-table class="mt-2">
           <template #default>
             <thead>
               <tr>
@@ -49,7 +49,7 @@
             <tbody>
               <tr v-for="item in list" :key="item.id">
                 <td>
-                  <v-avatar v-if="item.logo" size="24px">
+                  <v-avatar v-if="item.logo" size="32px">
                     <img :src="item.logo" />
                   </v-avatar>
                 </td>

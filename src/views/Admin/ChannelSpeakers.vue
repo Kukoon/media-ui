@@ -30,44 +30,40 @@
     <v-row no-gutters>
       <v-col>
         <v-row no-gutters>
-          <h3>Speakers</h3>
+          <h3 class="pb-2">Speakers</h3>
           <v-spacer />
           <v-btn icon small @click="add()">
             <v-icon small> mdi-plus </v-icon>
           </v-btn>
         </v-row>
-        <v-simple-table dense class="mt-2">
-          <template #default>
-            <thead>
-              <tr>
-                <th class="text-left">Name</th>
-                <th class="text-left">Organisation</th>
-                <th class="text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in list" :key="item.id">
-                <td>{{ item.name }}</td>
-                <td>{{ item.organisation }}</td>
-                <td>
-                  <v-btn icon small @click="edit(item)">
-                    <v-icon small> mdi-pencil </v-icon>
-                  </v-btn>
-                  <v-btn
-                    icon
-                    small
-                    @click="
-                      removeID = item.id;
-                      confirmRemove = true;
-                    "
-                  >
-                    <v-icon small> mdi-delete </v-icon>
-                  </v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+        <v-card>
+          <v-card-title class="pt-0">
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+            />
+          </v-card-title>
+          <v-data-table :headers="headers" :items="list" :search="search"
+            ><template #item.actions="{ item }">
+              <v-icon small class="mr-2" @click="edit(item)">
+                mdi-pencil
+              </v-icon>
+              <v-icon
+                small
+                class="mr-2"
+                @click="
+                  removeID = item.id;
+                  confirmRemove = true;
+                "
+              >
+                mdi-delete
+              </v-icon>
+            </template></v-data-table
+          >
+        </v-card>
         <v-btn class="mt-4" color="success" @click="add()">
           <v-icon left> mdi-plus </v-icon>
           Add Speaker
@@ -124,6 +120,15 @@ export default {
   data() {
     return {
       confirmRemove: false,
+      headers: [
+        {
+          text: "Name",
+          align: "start",
+          value: "name",
+        },
+        { text: "Organisation", value: "organisation", align: "start" },
+        { text: "Actions", value: "actions", sortable: false },
+      ],
       info: false,
       list: [],
       formDefault: {},
