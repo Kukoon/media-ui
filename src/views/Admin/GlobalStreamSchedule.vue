@@ -1,22 +1,31 @@
 <template>
-  <v-container fluid class="pa-0">
-    <v-sheet>
+  <v-container fluid>
+    <v-row no-gutters>
+      <h3 class="pb-2">Global Stream Schedule</h3>
+      <v-spacer />
+      <v-btn icon small @click="addStream(new Date().getTime())">
+        <v-icon small> mdi-plus </v-icon>
+      </v-btn>
+    </v-row>
+    <v-sheet rounded>
       <v-toolbar flat dense class="align-center" rounded>
         <v-btn outlined small class="mr-4" @click="setToday"> Today </v-btn>
-        <v-btn fab text small class="mr-4" @click="next">
+        <v-btn fab text x-small @click="prev">
+          <v-icon small> mdi-chevron-left </v-icon>
+        </v-btn>
+        <v-btn fab text x-small class="mr-4" @click="next">
           <v-icon small> mdi-chevron-right </v-icon>
         </v-btn>
         <v-toolbar-title v-if="$refs.calendar">
-          {{ $refs.calendar.title }}
+          <h5 style="font-weight: 400">{{ $refs.calendar.title }}</h5>
         </v-toolbar-title>
         <v-spacer />
       </v-toolbar>
-    </v-sheet>
-    <v-sheet>
       <v-calendar
         id="calendar"
         ref="calendar"
         v-model="focus"
+        class="pb-4"
         color="primary"
         type="category"
         category-show-all
@@ -97,8 +106,47 @@ export default {
 </script>
 
 <style scoped>
+#calendar {
+  border-bottom-right-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+}
 #calendar >>> .v-btn {
   width: 34px;
   height: 34px;
+}
+.theme--dark.v-toolbar.v-sheet {
+  background-color: var(--v-neutral-lighten1) !important;
+}
+.theme--light.v-calendar-daily {
+  border-top: 0px !important;
+  border-left: 0px !important;
+}
+
+.theme--dark.v-calendar-daily {
+  background-color: var(--v-neutral-lighten1) !important;
+  border-color: rgba(255, 255, 255, 0.12);
+  border-left: 0;
+  border-top: 0;
+}
+.theme--dark.v-calendar-daily >>> .v-calendar-daily__intervals-head {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily >>> .v-calendar-daily_head-day {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily >>> .v-calendar-daily__intervals-body {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily >>> .v-calendar-daily__day {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily >>> .v-calendar-daily__day-interval {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily >>> .v-calendar-daily__interval::after {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily >>> .v-calendar-daily__intervals-head::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12));
 }
 </style>

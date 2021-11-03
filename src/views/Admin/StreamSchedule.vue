@@ -1,16 +1,25 @@
 <template>
-  <v-container fluid class="pa-0">
+  <v-container fluid>
+    <v-row no-gutters>
+      <h3 class="pb-2">Stream Schedule</h3>
+      <v-spacer />
+      <v-btn icon small @click="addStream(new Date().getTime())">
+        <v-icon small> mdi-plus </v-icon>
+      </v-btn>
+    </v-row>
     <v-sheet rounded>
       <v-toolbar flat dense class="align-center" rounded>
         <v-btn outlined small class="mr-4" @click="setToday"> Today </v-btn>
-        <v-btn fab text small @click="prev">
+        <v-btn fab text x-small @click="prev">
           <v-icon small> mdi-chevron-left </v-icon>
         </v-btn>
-        <v-btn fab text small class="mr-4" @click="next">
+        <v-btn fab text x-small class="mr-4" @click="next">
           <v-icon small> mdi-chevron-right </v-icon>
         </v-btn>
         <v-toolbar-title v-if="$refs.calendar">
-          {{ $refs.calendar.title }}
+          <h5 style="font-weight: 400">
+            {{ $refs.calendar.title }}
+          </h5>
         </v-toolbar-title>
         <v-spacer />
         <v-menu bottom right>
@@ -33,13 +42,12 @@
           </v-list>
         </v-menu>
       </v-toolbar>
-    </v-sheet>
-    <v-sheet>
       <v-calendar
         id="calendar"
         ref="calendar"
         v-model="focus"
         color="primary"
+        class="pb-4"
         :type="type"
         :events="streams"
         :event-color="getStreamColor"
@@ -63,6 +71,13 @@
             class="v-event-drag-bottom"
             @mousedown.stop="resize(event)"
           />
+        </template>
+        <template v-slot:day-body="{ date, week }">
+          <div
+            class="v-current-time"
+            :class="{ first: date === week[0].date }"
+            :style="{ top: nowY }"
+          ></div>
         </template>
       </v-calendar>
       <v-dialog
@@ -111,6 +126,7 @@ export default {
         week: "Week",
         day: "Day",
       },
+      ready: false,
       streams: [],
       streamDrag: null,
       streamDragTime: null,
@@ -121,6 +137,14 @@ export default {
       selectedStreamColor: String,
       weekOrder: [1, 2, 3, 4, 5, 6, 0],
     };
+  },
+  computed: {
+    cal() {
+      return this.ready ? this.$refs.calendar : null;
+    },
+    nowY() {
+      return this.cal ? this.cal.timeToY(this.cal.times.now) + "px" : "-10px";
+    },
   },
   watch: {
     channelid() {
@@ -134,12 +158,29 @@ export default {
     },
   },
   mounted() {
+    this.ready = true;
+    this.scrollToTime();
+    this.updateTime();
     this.$refs.calendar.checkChange();
   },
   created() {
     this.load();
   },
   methods: {
+    getCurrentTime() {
+      return this.cal
+        ? this.cal.times.now.hour * 60 + this.cal.times.now.minute
+        : 0;
+    },
+    scrollToTime() {
+      const time = this.getCurrentTime();
+      const first = Math.max(0, time - (time % 30) - 30);
+
+      this.cal.scrollToTime(first);
+    },
+    updateTime() {
+      setInterval(() => this.cal.updateTimes(), 60 * 1000);
+    },
     setToday() {
       this.focus = "";
     },
@@ -251,39 +292,42 @@ export default {
       this.streamDragTime = null;
       this.streamResizeTime = null;
     },
+    addStream(start_at) {
+      api.Streams.Add(
+        this.channelid,
+        models.Stream.ToRequest({
+          start_at: new Date(start_at).toJSON(),
+          end_at: new Date(start_at + 60 * 60 * 1000).toJSON(),
+        })
+      ).then((resp) => {
+        this.loadStreams();
+        const targetEvent = null;
+        const eventArr = [resp.data].map((el) => {
+          return {
+            id: el.id,
+            color: this.getStreamColor(el),
+            name: el.lang
+              ? el.lang.title
+              : el.common_name
+              ? el.common_name
+              : el.id,
+            start: new Date(el.start_at),
+            end: new Date(el.end_at),
+            timed: true,
+            data: el,
+          };
+        });
+        const event = eventArr[0];
+        this.showStream({ targetEvent, event });
+      });
+    },
     startTime(tms) {
       const mouse = this.toTime(tms);
       if (this.streamDrag) {
         this.streamDragTime = mouse - this.streamDrag.start;
       } else {
         const start_at = this.roundTime(mouse);
-        api.Streams.Add(
-          this.channelid,
-          models.Stream.ToRequest({
-            start_at: new Date(start_at).toJSON(),
-            end_at: new Date(start_at + 60 * 60 * 1000).toJSON(),
-          })
-        ).then((resp) => {
-          this.loadStreams();
-          const targetEvent = null;
-          const eventArr = [resp.data].map((el) => {
-            return {
-              id: el.id,
-              color: this.getStreamColor(el),
-              name: el.lang
-                ? el.lang.title
-                : el.common_name
-                ? el.common_name
-                : el.id,
-              start: new Date(el.start_at),
-              end: new Date(el.end_at),
-              timed: true,
-              data: el,
-            };
-          });
-          const event = eventArr[0];
-          this.showStream({ targetEvent, event });
-        });
+        this.addStream(start_at);
       }
     },
     moveTime(tms) {
@@ -394,9 +438,70 @@ export default {
 }
 </style>
 
-<style scoped>
-#calendar >>> .v-btn {
+<style lang="scss" scoped>
+#calendar {
+  border-bottom-right-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+}
+#calendar ::v-deep .v-btn {
   width: 34px;
   height: 34px;
+}
+.theme--dark.v-toolbar.v-sheet {
+  background-color: var(--v-neutral-lighten1) !important;
+}
+.theme--light.v-calendar-daily {
+  border-top: 0px !important;
+  border-left: 0px !important;
+}
+
+.theme--dark.v-calendar-daily {
+  background-color: var(--v-neutral-lighten1) !important;
+  border-color: rgba(255, 255, 255, 0.12);
+  border-left: 0;
+  border-top: 0;
+}
+.theme--dark.v-calendar-daily ::v-deep .v-calendar-daily__intervals-head {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily ::v-deep .v-calendar-daily_head-day {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily ::v-deep .v-calendar-daily__intervals-body {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily ::v-deep .v-calendar-daily__day {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily ::v-deep .v-calendar-daily__day-interval {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily ::v-deep .v-calendar-daily__interval::after {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.theme--dark.v-calendar-daily
+  ::v-deep
+  .v-calendar-daily__intervals-head::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12));
+}
+
+.v-current-time {
+  height: 2px;
+  background-color: #ea4335;
+  position: absolute;
+  left: -1px;
+  right: 0;
+  pointer-events: none;
+
+  &.first::before {
+    content: "";
+    position: absolute;
+    background-color: #ea4335;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: -5px;
+    margin-left: -6.5px;
+  }
 }
 </style>
