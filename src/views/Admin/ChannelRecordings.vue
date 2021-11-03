@@ -50,6 +50,14 @@
             sort-by="created_at"
             sort-desc
           >
+            <template #item.poster="{ item }">
+              <v-img
+                :src="item.poster"
+                alt="Poster"
+                max-height="48"
+                max-width="27"
+              />
+            </template>
             <template #item.lang.title="{ item }">
               <span>
                 {{
@@ -103,7 +111,7 @@
                 class="ma-1 monospace"
                 small
                 link
-                @click="editItem(item, lang, 3)"
+                @click="editItem(item, lang, 2)"
               >
                 {{ lang.toUpperCase() }}
               </v-chip>
@@ -197,10 +205,12 @@ export default {
       formats: [],
       langs: [],
       headers: [
+        { text: "Poster", value: "poster", sortable: false },
         {
           text: "Title",
           align: "start",
           value: "lang.title",
+          width: "15%",
         },
         { text: "Duration", value: "duration", align: "end" },
         { text: "Views", value: "viewers", align: "end" },
