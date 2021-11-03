@@ -76,7 +76,6 @@ export default {
       axios
         .get("https://api.github.com/repos/Kukoon/media-ui/contributors")
         .then((resp) => {
-          console.log(resp.data);
           this.contributors = resp.data;
         });
     },
