@@ -139,6 +139,7 @@
 import { mapActions, mapGetters } from "vuex";
 
 import { api } from "@/services/api.js";
+import { config } from "../../config.js";
 
 export default {
   name: "AdminDrawer",
@@ -228,6 +229,8 @@ export default {
     if (this.channelid) {
       this.setSelectionAdminChannel(this.channelid);
       this.channelMenuOpen = false;
+    } else {
+      this.setSelectionAdminChannel(config.defaultChannelID);
     }
     this.load();
   },

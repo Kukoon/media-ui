@@ -7,13 +7,13 @@ export const config = {
 	},
 	"sourceURL": "https://edge01.media.kukoon.de/stream/stream/{ID}/playlist.m3u8",
 	"defaultChannel": "kukoon",
-	// "defaultChannel": "df1555f5-7046-4f7a-adcc-195b73949723",
+	"defaultChannelID": "df1555f5-7046-4f7a-adcc-195b73949723",
 	"home": {
 		"recordings": [
 			{
 				"title": "Buchvorstellungen",
 				"params": [
-					{"tag": "0bca0cf4-a9b9-46d7-821f-18c59c08fc1d"},
+					{ "tag": "0bca0cf4-a9b9-46d7-821f-18c59c08fc1d" },
 					// Interviews: {"tag": "1aa3f441-4461-42da-a858-63abf5ee254c"}
 				],
 			},

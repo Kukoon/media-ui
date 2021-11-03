@@ -1,17 +1,8 @@
 <template>
   <v-container fill-height>
-    <v-row
-      justify="center"
-      align="center"
-    >
-      <v-col
-        cols="12"
-        md="6"
-      >
-        <v-card
-          outlined
-          tile
-        >
+    <v-row justify="center" align="center">
+      <v-col cols="12" md="6">
+        <v-card outlined tile>
           <v-card-title class="headline neutral lighten-1">
             Login
           </v-card-title>
