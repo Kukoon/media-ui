@@ -347,7 +347,7 @@ import { models } from "@/services/lib.js";
 
 export default {
   name: "StreamEditDialog",
-  props: ["channelid", "recordingid", "createdData"],
+  props: ["channelid", "recordingid", "createdData", "lang"],
   data() {
     return {
       events: [],
@@ -361,7 +361,7 @@ export default {
       savedRecData: {},
       savedLangs: {},
       savedCurrentLang: {},
-      selectedLang: null,
+      selectedLang: this.lang,
       showAddLang: false,
       showPreview: false,
       speakers: [],
@@ -428,6 +428,9 @@ export default {
   mounted() {
     this.loadFilterData();
     this.loadLangs();
+    if (this.selectedLang) {
+      this.step = 2;
+    }
   },
   created() {
     this.load();

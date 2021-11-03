@@ -99,8 +99,17 @@
                 Private
               </v-chip>
             </template>
-            <template #item.lang="{ item }">
-              <v-chip small>{{ loadLangs(item.id) }}</v-chip>
+            <template #item.lang="{ item }" v-if="langs">
+              <v-chip
+                v-for="lang in langsPerID(item.id)"
+                :key="lang + '_' + item.id"
+                class="ma-1 monospace"
+                small
+                link
+                @click="editItem(item, lang)"
+              >
+                {{ lang.toUpperCase() }}
+              </v-chip>
             </template>
             <template #item.id="{}">
               <v-chip small>{{ "Format" }}</v-chip>
@@ -147,6 +156,7 @@
         :channelid="channelid"
         :recordingid="selectedItem.id"
         :createdData="createdData"
+        :lang="selectedLang"
         @loadRecordings="loadRecordings"
         @closeDialog="showDialog = false"
         @keydown.esc="showDialog = false"
@@ -177,6 +187,7 @@ export default {
       confirmRemove: false,
       channel: { title: "unknown" },
       dialogKey: 0,
+      langs: [],
       headers: [
         {
           text: "Title",
@@ -195,6 +206,7 @@ export default {
       removeID: null,
       search: "",
       selectedItem: null,
+      selectedLang: null,
       showDialog: false,
     };
   },
@@ -223,8 +235,9 @@ export default {
         this.showDialog = true;
       });
     },
-    editItem(item) {
+    editItem(item, lang) {
       this.selectedItem = item;
+      this.selectedLang = lang;
       this.showDialog = true;
     },
     load() {
@@ -235,16 +248,24 @@ export default {
     loadRecordings() {
       api.Recordings.ListChannelMy(this.channelid).then((response) => {
         this.recordings = response.data;
+        for (const recording of this.recordings) {
+          api.Recordings.Langs.List(recording.id).then((response) => {
+            const langs = response.data.map((e) => e.lang).sort();
+            this.langs.push({
+              id: recording.id,
+              langs: langs,
+            });
+          });
+        }
       });
     },
-    async loadLangs(id) {
-      await api.Recordings.Langs.List(id)
-        .then((response) => {
-          return response.data.map((e) => e.lang);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    langsPerID(id) {
+      if (this.langs.find((e) => e.id === id)) {
+        let langs = this.langs.find((e) => e.id === id).langs;
+        return langs;
+      } else {
+        return null;
+      }
     },
     readableDuration(duration) {
       return prettyMilliseconds(duration / 1000000, {
