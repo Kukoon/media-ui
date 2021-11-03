@@ -36,7 +36,7 @@
             <v-icon small> mdi-plus </v-icon>
           </v-btn>
         </v-row>
-        <v-card>
+        <v-card tile flat>
           <v-card-title class="pt-0">
             <v-text-field
               v-model="search"

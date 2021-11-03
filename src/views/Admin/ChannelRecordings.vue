@@ -36,7 +36,7 @@
             <v-icon small> mdi-plus </v-icon>
           </v-btn>
         </v-row>
-        <v-card>
+        <v-card tile flat>
           <v-card-title class="pt-0">
             <v-text-field
               v-model="search"
@@ -98,6 +98,12 @@
                 <v-icon small left>mdi-eye-off</v-icon>
                 Private
               </v-chip>
+            </template>
+            <template #item.lang="{ item }">
+              <v-chip small>{{ loadLangs(item.id) }}</v-chip>
+            </template>
+            <template #item.id="{}">
+              <v-chip small>{{ "Format" }}</v-chip>
             </template>
             <template #item.created_at="{ item }">
               {{
@@ -180,6 +186,8 @@ export default {
         { text: "Duration", value: "duration", align: "end" },
         { text: "Views", value: "viewers", align: "end" },
         { text: "Status", value: "listed", sortable: false },
+        { text: "Languages", value: "lang", sortable: false },
+        { text: "Formats", value: "id", sortable: false },
         { text: "Created", value: "created_at", align: "end" },
         { text: "Actions", value: "actions", sortable: false },
       ],
@@ -205,7 +213,6 @@ export default {
     this.load();
     this.loadRecordings();
   },
-
   methods: {
     add() {
       this.createdData = models.Recording.ToRequest({
@@ -229,6 +236,15 @@ export default {
       api.Recordings.ListChannelMy(this.channelid).then((response) => {
         this.recordings = response.data;
       });
+    },
+    async loadLangs(id) {
+      await api.Recordings.Langs.List(id)
+        .then((response) => {
+          return response.data.map((e) => e.lang);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     readableDuration(duration) {
       return prettyMilliseconds(duration / 1000000, {

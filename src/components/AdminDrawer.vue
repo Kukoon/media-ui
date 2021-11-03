@@ -6,63 +6,84 @@
     mobile-breakpoint="600"
     @input="toggleDrawer"
   >
-    <v-list dense>
+    <v-list>
       <v-list-item v-if="channel">
         <v-list-item-avatar color="black">
           <v-img v-if="channel.logo" :src="channel.logo" contain />
           <span v-else>{{ channel.title.slice(0, 2) }}</span>
         </v-list-item-avatar>
-        <v-btn icon small :to="{ path: '/' }">
-          <v-icon small> mdi-open-in-new </v-icon>
-        </v-btn>
-        <v-spacer />
-        <v-list-item-icon class="my-auto">
-          <v-btn
-            icon
-            small
-            :to="{
-              name: 'ChannelEdit',
-              params: { channelid: selectionAdminChannel },
-            }"
-          >
-            <v-icon small> mdi-pencil </v-icon>
-          </v-btn>
-        </v-list-item-icon>
-      </v-list-item>
 
-      <v-list-group :value="channelMenuOpen">
+        <v-spacer />
+        <v-menu offset-y>
+          <template #activator="{ on, attrs }">
+            <v-btn icon small v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+          <v-list dense>
+            <v-list-item-group>
+              <v-list-item
+                input-value="false"
+                :to="{
+                  name: 'ChannelEdit',
+                  params: { channelid: selectionAdminChannel },
+                }"
+              >
+                <v-list-item-title>Edit Channel</v-list-item-title>
+                <v-list-item-icon>
+                  <v-icon small> mdi-pencil </v-icon>
+                </v-list-item-icon>
+              </v-list-item>
+              <v-list-item :to="{ path: '/' }" target="_blank">
+                <v-list-item-title>Open Mediathek</v-list-item-title>
+                <v-list-item-icon>
+                  <v-icon small> mdi-open-in-new </v-icon>
+                </v-list-item-icon>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-menu>
+      </v-list-item>
+      <v-list-group
+        no-action
+        append-icon="mdi-menu-down"
+        :class="darkMode ? 'text--text' : 'secondary--text text--darken-1'"
+      >
         <template #activator>
           <v-list-item-content>
             <v-list-item-title v-if="channel" class="text-h7">
               {{ channel.title }}
             </v-list-item-title>
+            <v-list-item-subtitle v-if="channel"> ❤️ 🏳️‍🌈 </v-list-item-subtitle>
             <v-list-item-title v-else class="text-h7">
               Channels:
             </v-list-item-title>
           </v-list-item-content>
         </template>
-        <v-list-item
-          v-for="(channel, i) in channels"
-          :key="i"
-          link
-          :to="{ name: 'AdminChannel', params: { channelid: channel.id } }"
-        >
-          <v-list-item-avatar color="black" size="24" class="mr-8">
-            <v-img v-if="channel.logo" :src="channel.logo" contain />
-            <span v-else>{{ channel.title.slice(0, 2) }}</span>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>{{ channel.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item :to="{ name: 'ChannelAdd' }">
-          <v-list-item-icon>
-            <v-icon>mdi-plus</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Add</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <v-list dense>
+          <v-list-item
+            v-for="(channel, i) in channels"
+            :key="i"
+            link
+            :to="{ name: 'AdminChannel', params: { channelid: channel.id } }"
+          >
+            <v-list-item-avatar color="black" size="24" class="mr-8">
+              <v-img v-if="channel.logo" :src="channel.logo" contain />
+              <span v-else>{{ channel.title.slice(0, 2) }}</span>
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{ channel.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item :to="{ name: 'ChannelAdd' }">
+            <v-list-item-icon>
+              <v-icon>mdi-plus</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Add</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
       </v-list-group>
     </v-list>
     <v-divider />

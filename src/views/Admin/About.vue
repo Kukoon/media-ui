@@ -8,6 +8,9 @@
           developed at
           <a target="_blank" href="https://github.com/Kukoon"
             >github.com/Kukoon</a
+          >. Issues can be reported at
+          <a target="_blank" href="https://github.com/Kukoon/media-ui/issues"
+            >github.com/Kukoon/media-ui/issues</a
           >.
           <br />
           The backend <code>media-server</code> manages channels, streams and
