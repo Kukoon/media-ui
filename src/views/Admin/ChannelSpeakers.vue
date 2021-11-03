@@ -134,6 +134,7 @@ export default {
       formDefault: {},
       formData: {},
       removeID: null,
+      search: "",
       showDialog: false,
     };
   },
