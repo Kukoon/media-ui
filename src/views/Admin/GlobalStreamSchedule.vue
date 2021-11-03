@@ -3,9 +3,6 @@
     <v-row no-gutters>
       <h3 class="pb-2">Global Stream Schedule</h3>
       <v-spacer />
-      <v-btn icon small @click="addStream(new Date().getTime())">
-        <v-icon small> mdi-plus </v-icon>
-      </v-btn>
     </v-row>
     <v-sheet rounded>
       <v-toolbar flat dense class="align-center" rounded>
