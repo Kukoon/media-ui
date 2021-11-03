@@ -17,12 +17,9 @@
         class="mb-0"
       >
         <v-row align="center">
-          <v-col class="grow">
-            Do you really want to remove this Event? This action cannot be
-            undone.
-          </v-col>
+          <v-col class="grow"> Do you really want to remove this Event? </v-col>
           <v-col class="shrink">
-            <v-btn small outlined @click="remove(removeID)"> Remove </v-btn>
+            <v-btn @click="remove(removeID)"> Remove </v-btn>
           </v-col>
         </v-row>
       </v-alert>
@@ -64,7 +61,7 @@
             </template></v-data-table
           >
         </v-card>
-        <v-btn class="mt-4" color="success" @click="add()">
+        <v-btn class="mt-4" color="info" @click="add()">
           <v-icon left> mdi-plus </v-icon>
           Add Speaker
         </v-btn>

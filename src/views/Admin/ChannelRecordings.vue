@@ -17,12 +17,9 @@
         class="mb-0"
       >
         <v-row align="center">
-          <v-col class="grow">
-            Do you really want to remove this Event? This action cannot be
-            undone.
-          </v-col>
+          <v-col class="grow"> Do you really want to remove this Event? </v-col>
           <v-col class="shrink">
-            <v-btn small outlined @click="remove(removeID)"> Remove </v-btn>
+            <v-btn @click="remove(removeID)"> Remove </v-btn>
           </v-col>
         </v-row>
       </v-alert>
@@ -101,18 +98,27 @@
             </template>
             <template #item.lang="{ item }" v-if="langs">
               <v-chip
-                v-for="lang in langsPerID(item.id)"
-                :key="lang + '_' + item.id"
+                v-for="(lang, i) in langsPerID(item.id)"
+                :key="i"
                 class="ma-1 monospace"
                 small
                 link
-                @click="editItem(item, lang)"
+                @click="editItem(item, lang, 3)"
               >
                 {{ lang.toUpperCase() }}
               </v-chip>
             </template>
-            <template #item.id="{}">
-              <v-chip small>{{ "Format" }}</v-chip>
+            <template #item.id="{ item }">
+              <v-chip
+                v-for="(format, i) in formatsPerID(item.id)"
+                :key="i"
+                class="ma-1 monospace"
+                small
+                link
+                @click="editItem(item, null, 4)"
+              >
+                {{ format.resolution + "[" + format.lang.toUpperCase() + "]" }}
+              </v-chip>
             </template>
             <template #item.created_at="{ item }">
               {{
@@ -141,14 +147,14 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-btn class="mt-4" color="success" @click="add()">
+    <v-btn class="mt-4" color="info" @click="add()">
       <v-icon left> mdi-plus </v-icon>
       Add Recording
     </v-btn>
     <v-dialog
       v-if="showDialog"
       v-model="showDialog"
-      width="540"
+      width="640"
       content-class="elevation-16"
     >
       <RecordingEditDialog
@@ -157,6 +163,7 @@
         :recordingid="selectedItem.id"
         :createdData="createdData"
         :lang="selectedLang"
+        :window="window"
         @loadRecordings="loadRecordings"
         @closeDialog="showDialog = false"
         @keydown.esc="showDialog = false"
@@ -187,6 +194,7 @@ export default {
       confirmRemove: false,
       channel: { title: "unknown" },
       dialogKey: 0,
+      formats: [],
       langs: [],
       headers: [
         {
@@ -208,6 +216,7 @@ export default {
       selectedItem: null,
       selectedLang: null,
       showDialog: false,
+      window: null,
     };
   },
   watch: {
@@ -232,13 +241,15 @@ export default {
       });
       api.Recordings.Add(this.channelid, this.createdData).then((resp) => {
         this.selectedItem = resp.data;
+        this.window = 1;
         this.showDialog = true;
       });
     },
-    editItem(item, lang) {
+    editItem(item, lang, window) {
       this.selectedItem = item;
       this.selectedLang = lang;
       this.showDialog = true;
+      this.window = window;
     },
     load() {
       api.Channels.Get(this.channelid).then((response) => {
@@ -246,6 +257,8 @@ export default {
       });
     },
     loadRecordings() {
+      this.langs = [];
+      this.formats = [];
       api.Recordings.ListChannelMy(this.channelid).then((response) => {
         this.recordings = response.data;
         for (const recording of this.recordings) {
@@ -256,6 +269,15 @@ export default {
               langs: langs,
             });
           });
+          api.Recordings.Get(recording.id).then((response) => {
+            const video = response.data;
+            if (video.formats) {
+              this.formats.push({
+                id: recording.id,
+                formats: video.formats,
+              });
+            }
+          });
         }
       });
     },
@@ -263,6 +285,14 @@ export default {
       if (this.langs.find((e) => e.id === id)) {
         let langs = this.langs.find((e) => e.id === id).langs;
         return langs;
+      } else {
+        return null;
+      }
+    },
+    formatsPerID(id) {
+      if (this.formats.find((e) => e.id === id)) {
+        const formats = this.formats.find((e) => e.id === id).formats;
+        return formats;
       } else {
         return null;
       }

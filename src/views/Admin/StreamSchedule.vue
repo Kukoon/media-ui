@@ -97,6 +97,10 @@
         />
       </v-dialog>
     </v-sheet>
+    <v-btn class="mt-4" color="info" @click="addStream(new Date().getTime())">
+      <v-icon left> mdi-plus </v-icon>
+      Add Stream
+    </v-btn>
   </v-container>
 </template>
 

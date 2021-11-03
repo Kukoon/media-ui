@@ -68,10 +68,10 @@
         </v-list>
       </v-menu>
     </v-card-title>
-    <v-card-subtitle>{{ step + "/3" }} </v-card-subtitle>
+    <v-card-subtitle>{{ step + "/4" }} </v-card-subtitle>
     <v-window v-model="step">
       <v-window-item :value="1">
-        <v-card-text>
+        <v-card-text class="pt-2">
           <v-form class="pa-0" :disabled="!loaded" @submit="save()">
             <v-responsive
               v-if="recording.poster"
@@ -184,7 +184,7 @@
         </v-card-text>
       </v-window-item>
       <v-window-item :value="2">
-        <v-card-text>
+        <v-card-text class="pt-2">
           <v-form class="pa-0" @submit="save()">
             <v-autocomplete
               v-model="selectedLang"
@@ -278,9 +278,8 @@
           </v-form>
         </v-card-text>
       </v-window-item>
-
       <v-window-item :value="3">
-        <v-card-text>
+        <v-card-text class="pt-2">
           <v-autocomplete
             v-model="recording.tags"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -324,13 +323,23 @@
           />
         </v-card-text>
       </v-window-item>
+      <v-window-item :value="4">
+        <RecordingEditDialogFormats
+          :recordingid="recordingid"
+          :channelid="channelid"
+          :formats="formats"
+          @change-recording="load"
+          @toggle-loading="loading = !loading"
+          @loadRecordings="loadRecordings()"
+        ></RecordingEditDialogFormats>
+      </v-window-item>
     </v-window>
     <v-divider />
     <v-card-actions>
       <v-btn :disabled="step === 1" text @click="step--"> Back </v-btn>
       <v-spacer />
       <v-btn text @click="close()"> Close </v-btn>
-      <v-btn v-if="step !== 3" color="primary" depressed @click="step++">
+      <v-btn v-if="step !== 4" color="primary" depressed @click="step++">
         Continue
       </v-btn>
       <v-btn v-else color="success" @click="save()"> Save </v-btn>
@@ -344,13 +353,16 @@ import { mapGetters } from "vuex";
 
 import { api } from "@/services/api.js";
 import { models } from "@/services/lib.js";
+import RecordingEditDialogFormats from "./RecordingEditDialogFormats.vue";
 
 export default {
   name: "StreamEditDialog",
-  props: ["channelid", "recordingid", "createdData", "lang"],
+  components: { RecordingEditDialogFormats },
+  props: ["channelid", "recordingid", "createdData", "lang", "window"],
   data() {
     return {
       events: [],
+      formats: [],
       keepOpen: false,
       langForm: {},
       langs: [],
@@ -394,6 +406,8 @@ export default {
           return "Title and Description";
         case 3:
           return "Metadata";
+        case 4:
+          return "Formats";
       }
     },
     langAbbrs() {
@@ -430,6 +444,20 @@ export default {
     this.loadLangs();
     if (this.selectedLang) {
       this.step = 2;
+    }
+    switch (this.window) {
+      default:
+        this.step = 1;
+        break;
+      case 2:
+        this.step = 2;
+        break;
+      case 3:
+        this.step = 3;
+        break;
+      case 4:
+        this.step = 4;
+        break;
     }
   },
   created() {
@@ -470,6 +498,7 @@ export default {
       }
       api.Recordings.Get(this.recordingid).then((response) => {
         this.recording = models.Recording.FromRequest(response.data);
+        this.formats = response.data.formats ? response.data.formats : [];
         this.savedRecData = { ...this.recording };
         this.loaded = true;
       });
@@ -491,7 +520,6 @@ export default {
           this.selectedLang = this.$store.getters.language;
         } else if (!this.selectedLang && this.langAbbrs.length === 0) {
           this.selectedLang = this.$store.getters.language;
-          console.log(this.selectedLang);
           this.newLang = this.selectedLang;
           this.addLang();
         }

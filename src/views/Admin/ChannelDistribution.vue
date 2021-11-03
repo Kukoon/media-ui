@@ -18,13 +18,10 @@
       >
         <v-row align="center">
           <v-col class="grow">
-            Do you really want to remove this Event? This action cannot be
-            undone.
+            Do you really want to remove this Distribution Channel?
           </v-col>
           <v-col class="shrink">
-            <v-btn small outlined @click="deleteRestream(removeID)">
-              Remove
-            </v-btn>
+            <v-btn @click="deleteRestream(removeID)"> Remove </v-btn>
           </v-col>
         </v-row>
       </v-alert>
@@ -92,7 +89,7 @@
             </tbody>
           </template>
         </v-simple-table>
-        <v-btn class="mt-4" color="success" @click="add()">
+        <v-btn class="mt-4" color="info" @click="add()">
           <v-icon left> mdi-plus </v-icon>
           Add Re-Stream
         </v-btn>
