@@ -1,16 +1,24 @@
 <template>
-  <v-card
-    outlined
-    tile
-    elevation="0"
-    width="100%"
-  >
+  <v-card outlined tile elevation="0" width="100%">
     <v-responsive :aspect-ratio="16 / 9">
-      <Poster
-        :video="video"
-        :no-link="noLink"
-        :is-stream="isStream"
-      />
+      <v-card-subtitle
+        class="px-2 py-2 ml-auto"
+        style="position: absolute; z-index: 2; bottom: 0; right: 0"
+      >
+        <v-chip
+          small
+          label
+          class="grey darken-4 px-2"
+          v-if="readableDuration || video.start_at"
+        >
+          {{
+            video.start_at
+              ? readableDate + " @ " + readableTime
+              : readableDuration
+          }}
+        </v-chip>
+      </v-card-subtitle>
+      <Poster :video="video" :no-link="noLink" :is-stream="isStream" />
     </v-responsive>
     <VideoTitle
       :video="video"
@@ -18,15 +26,8 @@
       :is-stream="isStream"
       :dense="dense"
     />
-    <VideoSubtitle
-      :video="video"
-      :dense="dense"
-    />
-    <v-expansion-panels
-      v-if="video.lang"
-      flat
-      tile
-    >
+    <VideoSubtitle :video="video" :dense="dense" />
+    <v-expansion-panels v-if="video.lang" flat tile>
       <v-expansion-panel>
         <v-expansion-panel-header
           class="pl-2 pr-4 py-2 d-flex"
@@ -62,6 +63,7 @@ import Poster from "@/components/Poster.vue";
 import VideoDescription from "@/components/VideoDescription.vue";
 import VideoTitle from "@/components/VideoTitle.vue";
 import VideoSubtitle from "@/components/VideoSubtitle.vue";
+import prettyMilliseconds from "pretty-ms";
 
 export default {
   name: "PreviewCard",
@@ -78,6 +80,33 @@ export default {
       show: [],
       dense: true,
     };
+  },
+  computed: {
+    readableDate() {
+      const date = new Date(this.video.start_at);
+      var options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      };
+      return date.toLocaleDateString([], options);
+    },
+    readableTime() {
+      const date = new Date(this.video.start_at);
+      return date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    },
+    readableDuration() {
+      if (this.video.duration) {
+        return prettyMilliseconds(this.video.duration / 1000000, {
+          colonNotation: true,
+        });
+      } else {
+        return null;
+      }
+    },
   },
   methods: {
     toggleDescription(id) {

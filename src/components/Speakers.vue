@@ -4,7 +4,7 @@
       v-for="(speaker, n) in speakers"
       :key="speaker + n"
       small
-      class="mr-2 my-1"
+      class="mr-2 my-1 pr-2"
       dark
       color="grey darken-1"
       label
@@ -12,12 +12,7 @@
       :title="speaker.organisation"
       :to="{ name: filterView, query: { speaker: speaker.id } }"
     >
-      <v-icon
-        small
-        left
-      >
-        mdi-account
-      </v-icon>
+      <v-icon small left> mdi-account </v-icon>
       <span style="margin-bottom: -2px">{{ speaker.name }}</span>
     </v-chip>
   </div>

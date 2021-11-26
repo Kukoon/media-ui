@@ -72,7 +72,7 @@
             @mousedown.stop="resize(event)"
           />
         </template>
-        <template v-slot:day-body="{ date, week }">
+        <template #day-body="{ date, week }">
           <div
             class="v-current-time"
             :class="{ first: date === week[0].date }"

@@ -25,10 +25,10 @@
       disable-pagination
       hide-default-footer
     >
-      <template v-slot:item.lang="props">
+      <template #item.lang="props">
         <v-edit-dialog :return-value.sync="props.item.lang">
           {{ props.item.lang.toUpperCase() }}
-          <template v-slot:input>
+          <template #input>
             <div class="mt-4">Update Language (short):</div>
             <v-text-field
               v-model="props.item.lang"
@@ -39,7 +39,7 @@
           </template>
         </v-edit-dialog>
       </template>
-      <template v-slot:item.quality="props">
+      <template #item.quality="props">
         <v-edit-dialog
           :return-value.sync="props.item.quality"
           large
@@ -48,7 +48,7 @@
           @save="autoSave()"
         >
           {{ props.item.quality }}
-          <template v-slot:input>
+          <template #input>
             <v-select
               v-model="select"
               :items="qualities"
@@ -64,10 +64,10 @@
           </template>
         </v-edit-dialog>
       </template>
-      <template v-slot:item.bytes="props">
+      <template #item.bytes="props">
         <v-edit-dialog :return-value.sync="props.item.bytes">
           {{ formatBytes(props.item.bytes) }}
-          <template v-slot:input>
+          <template #input>
             <div class="mt-4">Update Size (in bytes):</div>
             <v-text-field
               v-model="props.item.bytes"
@@ -78,10 +78,10 @@
           </template>
         </v-edit-dialog>
       </template>
-      <template v-slot:item.resolution="props">
+      <template #item.resolution="props">
         <v-edit-dialog :return-value.sync="props.item.resolution">
           {{ props.item.resolution }}
-          <template v-slot:input>
+          <template #input>
             <div class="mt-4">Update Resolution:</div>
             <v-text-field
               v-model="props.item.resolution"
@@ -92,10 +92,10 @@
           </template>
         </v-edit-dialog>
       </template>
-      <template v-slot:item.url="props">
+      <template #item.url="props">
         <v-edit-dialog :return-value.sync="props.item.url">
           {{ shortenURL(props.item.url) }}
-          <template v-slot:input>
+          <template #input>
             <div class="mt-4">Update File (URL):</div>
             <v-text-field
               v-model="props.item.url"

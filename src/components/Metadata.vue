@@ -1,30 +1,9 @@
 <template>
   <div class="chips d-flex-inline align-start justify-start">
-    <v-chip
-      v-if="createdAt"
-      label
-      small
-      color="pink"
-      class="mr-2 my-1"
-    >
+    <v-chip v-if="createdAt" label small color="pink" class="mr-2 my-1 px-2">
       {{ readableDate(createdAt) }}
     </v-chip>
-    <v-chip
-      v-if="readableDuration !== null"
-      label
-      outlined
-      small
-      class="mr-2 my-1"
-    >
-      <span style="margin-bottom: -2px">{{ readableDuration }}</span>
-    </v-chip>
-    <v-chip
-      v-if="running"
-      label
-      small
-      color="red"
-      class="mr-2 my-1"
-    >
+    <v-chip v-if="running" label small color="red" class="mr-2 my-1">
       <span style="margin-bottom: -2px">Live</span>
     </v-chip>
     <v-chip
@@ -33,19 +12,11 @@
       small
       outlined
       color="cyan"
-      class="mr-2 my-1"
+      class="mr-2 my-1 pr-2"
     >
-      <v-icon
-        small
-        left
-      >
-        mdi-account
-      </v-icon>
+      <v-icon small left> mdi-account </v-icon>
       Views
-      <v-avatar
-        small
-        right
-      >
+      <v-avatar small right>
         {{ viewers }}
       </v-avatar>
     </v-chip>
@@ -53,22 +24,9 @@
 </template>
 
 <script>
-import prettyMilliseconds from "pretty-ms";
-
 export default {
   name: "Metadata",
-  props: ["duration", "running", "viewers", "createdAt"],
-  computed: {
-    readableDuration() {
-      if (this.duration) {
-        return prettyMilliseconds(this.duration / 1000000, {
-          colonNotation: true,
-        });
-      } else {
-        return null;
-      }
-    },
-  },
+  props: ["running", "viewers", "createdAt"],
   methods: {
     readableDate(dateString) {
       return new Date(dateString).toLocaleDateString(
