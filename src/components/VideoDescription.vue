@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-card-text
-      v-if="markedDesc && tagsPosition !== 'top'"
-      class="px-0"
-    >
+    <v-card-text v-if="markedDesc && tagsPosition !== 'top'" class="px-0">
       <td v-html="markedDesc" />
     </v-card-text>
     <div v-if="tagsPosition">
@@ -13,7 +10,7 @@
         class="mt-1"
       />
       <Metadata
-        :duration="video.duration"
+        v-if="showMeta !== false"
         :running="video.running"
         :viewers="video.viewers"
         :created-at="video.created_at"
@@ -22,10 +19,7 @@
       <Tags :tags="video.tags" />
       <Speakers :speakers="video.speakers" />
     </div>
-    <v-card-text
-      v-if="markedDesc && tagsPosition === 'top'"
-      class="px-0"
-    >
+    <v-card-text v-if="markedDesc && tagsPosition === 'top'" class="px-0">
       <td v-html="markedDesc" />
     </v-card-text>
   </div>
@@ -36,14 +30,14 @@ import marked from "marked";
 
 import BTNVideoDownload from "@/components/BTNVideoDownload.vue";
 import Events from "@/components/Events.vue";
-import Metadata from "@/components/Metadata.vue";
 import Tags from "@/components/Tags.vue";
 import Speakers from "@/components/Speakers.vue";
+import Metadata from "@/components/Metadata";
 
 export default {
   name: "VideoDescription",
-  components: { BTNVideoDownload, Events, Metadata, Speakers, Tags },
-  props: ["tagsPosition", "video", "dense", "long"],
+  components: { BTNVideoDownload, Events, Speakers, Tags, Metadata },
+  props: ["tagsPosition", "video", "long", "showMeta"],
   computed: {
     markedDesc() {
       if (this.video.lang) {

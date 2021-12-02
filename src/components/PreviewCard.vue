@@ -8,14 +8,18 @@
         <v-chip
           small
           label
+          dark
           class="grey darken-4 px-2"
           v-if="readableDuration || video.start_at"
         >
           {{
             video.start_at
-              ? readableDate + " @ " + readableTime
+              ? readableDate + " &#8226; " + readableTime
               : readableDuration
           }}
+        </v-chip>
+        <v-chip v-if="video.running" label small color="red" class="mr-2 my-1">
+          <span style="margin-bottom: -2px">Live</span>
         </v-chip>
       </v-card-subtitle>
       <Poster :video="video" :no-link="noLink" :is-stream="isStream" />
@@ -27,6 +31,12 @@
       :dense="dense"
     />
     <VideoSubtitle :video="video" :dense="dense" />
+    <Metadata
+      class="px-4"
+      :running="video.running"
+      :viewers="video.viewers"
+      :created-at="video.created_at"
+    />
     <v-expansion-panels v-if="video.lang" flat tile>
       <v-expansion-panel>
         <v-expansion-panel-header
@@ -49,6 +59,7 @@
           <VideoDescription
             :video="video"
             :tags-position="tagsPosition"
+            :showMeta="false"
             class="pt-3 px-4"
           />
         </v-expansion-panel-content>
@@ -60,6 +71,7 @@
 
 <script>
 import Poster from "@/components/Poster.vue";
+import Metadata from "@/components/Metadata.vue";
 import VideoDescription from "@/components/VideoDescription.vue";
 import VideoTitle from "@/components/VideoTitle.vue";
 import VideoSubtitle from "@/components/VideoSubtitle.vue";
@@ -69,6 +81,7 @@ export default {
   name: "PreviewCard",
   components: {
     Poster,
+    Metadata,
     VideoDescription,
     VideoTitle,
     VideoSubtitle,

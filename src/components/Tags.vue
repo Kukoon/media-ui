@@ -1,18 +1,19 @@
 <template>
   <div class="chips d-flex-inline align-start justify-start">
-    <v-chip
-      v-for="(tag, n) in tags"
-      :key="tag + n"
-      small
-      class="mr-2 my-1 pr-2"
-      label
-      :to="{ name: filterView, query: { tag: tag.id } }"
-    >
-      <v-icon small left> mdi-label </v-icon>
-      <span v-if="tag.lang !== null" style="margin-bottom: -2px">
-        {{ tag.lang.name }}
-      </span>
-    </v-chip>
+    <v-icon v-if="tags" small left> mdi-label </v-icon>
+    <span v-if="tags" class="caption pr-2">{{ "Tags:" }}</span>
+    <div v-for="(tag, n) in tags" :key="tag + n" style="display: inline-block">
+      <router-link
+        v-if="tag.lang !== null"
+        style="margin-bottom: -2px"
+        color="text lighten-3"
+        class="caption"
+        :to="{ name: filterView, query: { tag: tag.id } }"
+      >
+        <span>{{ tag.lang.name }}</span>
+      </router-link>
+      <span class="pr-2 caption" v-if="n < tags.length - 1">{{ "," }}</span>
+    </div>
   </div>
 </template>
 

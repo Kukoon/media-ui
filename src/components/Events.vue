@@ -1,16 +1,14 @@
 <template>
   <div class="chips d-flex-inline align-start justify-start">
-    <v-chip
+    <v-icon v-if="event" small left> mdi-calendar </v-icon>
+    <span v-if="event" class="caption pr-2">{{ "Event:" }}</span>
+    <router-link
       v-if="event"
-      label
-      small
-      color="orange"
-      class="mr-2 my-1 pr-2"
+      class="caption"
       :to="{ name: filterView, query: { event: event.id } }"
     >
-      <v-icon small left> mdi-calendar </v-icon>
-      {{ event.name }}
-    </v-chip>
+      <span>{{ event.name }}</span>
+    </router-link>
   </div>
 </template>
 

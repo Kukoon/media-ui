@@ -66,6 +66,12 @@ export default new Vuetify({
 				},
 				text: {
 					base: "#000000",
+					lighten1: "#121212",
+					lighten2: "#1C1C1C",
+					lighten3: "#242424",
+					darken1: "#0F0F0F",
+					darken2: "#0A0A0A",
+					darken3: "#050505"
 				}
 			},
 			dark: {
@@ -125,6 +131,12 @@ export default new Vuetify({
 				},
 				text: {
 					base: "#FFFFFF",
+					lighten1: "#E0E0E0",
+					lighten2: "#e8e8e8",
+					lighten3: "#f7f7f7",
+					darken1: "#d8d8d8",
+					darken2: "#d1d1d1",
+					darken3: "#c9c9c9"
 				}
 			}
 		}

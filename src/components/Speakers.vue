@@ -1,20 +1,21 @@
 <template>
   <div class="chips d-flex-inline align-start">
-    <v-chip
+    <v-icon v-if="speakers" small left> mdi-account </v-icon>
+    <span v-if="speakers" class="caption pr-2">{{ "Speakers:" }}</span>
+    <div
       v-for="(speaker, n) in speakers"
       :key="speaker + n"
-      small
-      class="mr-2 my-1 pr-2"
-      dark
-      color="grey darken-1"
-      label
-      outlined
-      :title="speaker.organisation"
-      :to="{ name: filterView, query: { speaker: speaker.id } }"
+      style="display: inline-block"
     >
-      <v-icon small left> mdi-account </v-icon>
-      <span style="margin-bottom: -2px">{{ speaker.name }}</span>
-    </v-chip>
+      <router-link
+        color="grey lighten-2"
+        class="caption"
+        :to="{ name: filterView, query: { speaker: speaker.id } }"
+      >
+        <span>{{ speaker.name }}</span>
+      </router-link>
+      <span class="pr-2 caption" v-if="n < speakers.length - 1">{{ "," }}</span>
+    </div>
   </div>
 </template>
 <script>
