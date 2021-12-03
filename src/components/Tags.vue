@@ -1,7 +1,7 @@
 <template>
   <div class="chips d-flex-inline align-start justify-start">
-    <v-icon v-if="tags" small left> mdi-label </v-icon>
-    <span v-if="tags" class="caption pr-2">{{ "Tags:" }}</span>
+    <v-icon v-if="tags.length > 0" small left> mdi-label </v-icon>
+    <span v-if="tags.length > 0" class="caption pr-2">{{ "Tags:" }}</span>
     <div v-for="(tag, n) in tags" :key="tag + n" style="display: inline-block">
       <router-link
         v-if="tag.lang !== null"

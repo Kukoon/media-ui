@@ -1,7 +1,9 @@
 <template>
   <div class="chips d-flex-inline align-start">
-    <v-icon v-if="speakers" small left> mdi-account </v-icon>
-    <span v-if="speakers" class="caption pr-2">{{ "Speakers:" }}</span>
+    <v-icon v-if="speakers.length > 0" small left> mdi-account </v-icon>
+    <span v-if="speakers.length > 0" class="caption pr-2">{{
+      "Speakers:"
+    }}</span>
     <div
       v-for="(speaker, n) in speakers"
       :key="speaker + n"
@@ -28,6 +30,9 @@ export default {
         ? "VideoGrid"
         : "VideoList";
     },
+  },
+  created() {
+    console.log(this.speakers);
   },
 };
 </script>
