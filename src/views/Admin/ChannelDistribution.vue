@@ -143,7 +143,7 @@
               <v-btn text class="ml-auto" @click="showDialog = false">
                 Cancel
               </v-btn>
-              <v-btn color="success" @click="save()"> Save </v-btn>
+              <v-btn color="success" @click="add()"> Save </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
