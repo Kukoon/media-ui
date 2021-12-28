@@ -105,9 +105,9 @@
                 Private
               </v-chip>
             </template>
-            <template #item.lang="{ item }" v-if="langs">
+            <template #item.lang_shorts="{ item }">
               <v-chip
-                v-for="(lang, i) in langsPerID(item.id)"
+                v-for="(lang, i) in item.lang_shorts"
                 :key="i"
                 class="ma-1 monospace"
                 small
@@ -117,9 +117,9 @@
                 {{ lang.toUpperCase() }}
               </v-chip>
             </template>
-            <template #item.id="{ item }">
+            <template #item.formats="{ item }">
               <v-chip
-                v-for="(format, i) in formatsPerID(item.id)"
+                v-for="(format, i) in item.formats"
                 :key="i"
                 class="ma-1 monospace"
                 small
@@ -203,8 +203,6 @@ export default {
       confirmRemove: false,
       channel: { title: "unknown" },
       dialogKey: 0,
-      formats: [],
-      langs: [],
       headers: [
         { text: "Poster", value: "poster", sortable: false },
         {
@@ -216,8 +214,8 @@ export default {
         { text: "Duration", value: "duration", align: "end" },
         { text: "Views", value: "viewers", align: "end" },
         { text: "Status", value: "listed", sortable: false },
-        { text: "Languages", value: "lang", sortable: false },
-        { text: "Formats", value: "id", sortable: false },
+        { text: "Languages", value: "lang_shorts", sortable: false },
+        { text: "Formats", value: "formats", sortable: false },
         { text: "Created", value: "created_at", align: "end" },
         { text: "Actions", value: "actions", sortable: false },
       ],
@@ -272,41 +270,7 @@ export default {
       this.formats = [];
       api.Recordings.ListChannelMy(this.channelid).then((response) => {
         this.recordings = response.data;
-        for (const recording of this.recordings) {
-          api.Recordings.Langs.List(recording.id).then((response) => {
-            const langs = response.data.map((e) => e.lang).sort();
-            this.langs.push({
-              id: recording.id,
-              langs: langs,
-            });
-          });
-          api.Recordings.Get(recording.id).then((response) => {
-            const video = response.data;
-            if (video.formats) {
-              this.formats.push({
-                id: recording.id,
-                formats: video.formats,
-              });
-            }
-          });
-        }
       });
-    },
-    langsPerID(id) {
-      if (this.langs.find((e) => e.id === id)) {
-        let langs = this.langs.find((e) => e.id === id).langs;
-        return langs;
-      } else {
-        return null;
-      }
-    },
-    formatsPerID(id) {
-      if (this.formats.find((e) => e.id === id)) {
-        const formats = this.formats.find((e) => e.id === id).formats;
-        return formats;
-      } else {
-        return null;
-      }
     },
     readableDuration(duration) {
       return prettyMilliseconds(duration / 1000000, {
