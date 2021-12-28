@@ -57,10 +57,15 @@
                 height="56"
                 max-width="100"
                 class="mt-2 mb-2"
+                style="cursor: pointer"
+                @click="editItem(item, null, 1)"
               />
             </template>
             <template #item.lang.title="{ item }">
-              <span>
+              <span
+                @click="editItem(item, item.lang.lang, 2)"
+                style="cursor: pointer"
+              >
                 {{
                   item.lang.title
                     ? item.lang.title
