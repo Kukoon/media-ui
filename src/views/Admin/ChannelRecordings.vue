@@ -54,8 +54,9 @@
               <v-img
                 :src="item.poster"
                 alt="Poster"
-                max-height="48"
-                max-width="27"
+                height="56"
+                max-width="100"
+                class="mt-2 mb-2"
               />
             </template>
             <template #item.lang.title="{ item }">
