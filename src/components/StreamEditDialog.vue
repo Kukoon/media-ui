@@ -58,16 +58,48 @@
         <v-card-subtitle>{{ step + "/4" }} </v-card-subtitle>
         <v-window v-model="step">
           <v-window-item :value="1">
-            <v-card-text>
+            <v-card-text v-if="!stream.common_name">
+              <v-card :color="darkMode ? 'neutral lighten-2' : 'white'" flat>
+                <v-card-text class="d-flex justify-center">
+                  <VideographerDrawing :color="streamColor" width="240" />
+                </v-card-text>
+                <v-card-title class="d-flex justify-center mt-0 pt-0">
+                  No Stream Identifier
+                </v-card-title>
+                <v-card-subtitle class="d-flex justify-center">
+                  Please add a machine readable identifier for the stream
+                </v-card-subtitle>
+                <v-card-actions class="d-flex justify-center">
+                  <v-btn color="info" @click="showAddCommonName = true"
+                    >Add Identifier</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </v-card-text>
+            <v-card-text v-else>
               <v-form class="pa-0 mt-2" :disabled="!loaded" @submit="save()">
-                <v-text-field
-                  v-model.lazy="stream.common_name"
-                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                  label="Comman Name (used in URLs)"
-                  outlined
-                  dense
-                  @change="autoSave()"
-                />
+                <v-row no-gutters>
+                  <v-text-field
+                    v-model.lazy="stream.common_name"
+                    :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                    label="Identifier (used in URLs)"
+                    outlined
+                    dense
+                    disabled
+                    class="flex-grow-1"
+                    @change="autoSave()"
+                  >
+                  </v-text-field>
+                  <v-btn
+                    icon
+                    @click="showAddCommonName = true"
+                    class="ml-2"
+                    style="margin-top: 0.15rem"
+                  >
+                    <v-icon> mdi-pencil </v-icon></v-btn
+                  >
+                </v-row>
+
                 <v-text-field
                   v-model="stream.listen_at"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -105,15 +137,79 @@
                 />
               </v-form>
             </v-card-text>
+            <v-dialog v-model="showAddCommonName" width="300" hide-overlay>
+              <v-card flat :color="darkMode ? 'neutral lighten-1' : 'white'">
+                <v-card-title>
+                  {{
+                    !this.stream.common_name
+                      ? "Add Stream Identifier"
+                      : "Save Stream Identifier"
+                  }}
+                </v-card-title>
+                <v-card-subtitle
+                  >We need a machine readable identifier
+                </v-card-subtitle>
+                <v-card-text>
+                  <v-form
+                    class="pa-0 mt-2"
+                    :disabled="!loaded"
+                    @submit.prevent="addCommonName()"
+                  >
+                    <v-text-field
+                      v-model.lazy="commonName"
+                      :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                      label="Identifier (used in URLs)"
+                      outlined
+                      dense
+                  /></v-form>
+                </v-card-text>
+                <v-card-actions class="pt-0">
+                  <v-spacer />
+                  <v-btn text @click="showAddCommonName = false"> Close </v-btn>
+                  <v-btn
+                    color="success"
+                    text
+                    :disabled="!cName"
+                    @click="addCommonName()"
+                  >
+                    {{ !this.stream.common_name ? "Add" : "Save" }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-window-item>
           <v-window-item :value="2">
-            <v-card-text>
-              <v-form class="pa-0 mt-2" @submit="save()">
+            <v-card-text v-if="!selectedLang && langs.length === 0">
+              <v-card :color="darkMode ? 'neutral lighten-2' : 'white'" flat>
+                <v-card-text class="d-flex justify-center">
+                  <LanguageSimpleDrawing
+                    :color="streamColor"
+                    width="240"
+                    v-if="!loading"
+                  />
+                </v-card-text>
+                <v-card-title class="d-flex justify-center mt-0 pt-0">
+                  No Language
+                </v-card-title>
+                <v-card-subtitle class="d-flex justify-center">
+                  Please add some language to the stream's description
+                </v-card-subtitle>
+                <v-card-actions class="d-flex justify-center">
+                  <v-btn color="info" @click="showAddLang = true"
+                    >Add Language</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </v-card-text>
+            <v-card-text v-else>
+              <v-form class="pa-0 mt-2" @submit.prevent="save()">
                 <v-autocomplete
                   v-model="selectedLang"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                   label="Language"
                   :items="langAbbrs"
+                  item-text="name"
+                  item-value="abbr"
                   auto-select-first
                   minlength="2"
                   maxlength="2"
@@ -122,49 +218,9 @@
                   @input="updateLangForm()"
                 >
                   <template #append-outer>
-                    <v-menu
-                      v-model="showAddLang"
-                      offset-y
-                      nudge-right="12"
-                      :close-on-content-click="false"
-                      max-width="200"
-                    >
-                      <template #activator="{ on, attrs }">
-                        <v-icon left v-bind="attrs" v-on="on">
-                          mdi-plus
-                        </v-icon>
-                      </template>
-                      <v-card width="100%">
-                        <v-list class="pt-4">
-                          <v-list-item>
-                            <v-text-field
-                              v-model="newLang"
-                              :color="
-                                darkMode ? 'grey lighten-3' : 'grey darken-2'
-                              "
-                              label="Language (short)"
-                              dense
-                              outlined
-                              :rules="[rules.notExist]"
-                            />
-                          </v-list-item>
-                        </v-list>
-                        <v-card-actions class="pt-0">
-                          <v-spacer />
-                          <v-btn text @click="showAddLang = false">
-                            Close
-                          </v-btn>
-                          <v-btn
-                            color="success"
-                            text
-                            :disabled="langAbbrs.includes(newLang)"
-                            @click="addLang()"
-                          >
-                            Save
-                          </v-btn>
-                        </v-card-actions>
-                      </v-card>
-                    </v-menu>
+                    <v-btn icon @click="showAddLang = true" class="mt-n1">
+                      <v-icon> mdi-plus </v-icon>
+                    </v-btn>
                   </template>
                 </v-autocomplete>
                 <v-text-field
@@ -206,9 +262,66 @@
                 />
               </v-form>
             </v-card-text>
+            <v-dialog
+              v-model="showAddLang"
+              width="300"
+              hide-overlay
+              content-class="elevation-10"
+            >
+              <v-card flat :color="darkMode ? 'neutral lighten-1' : 'white'">
+                <v-card-title> Add Language </v-card-title>
+                <v-card-subtitle
+                  >We store languages in short codes
+                </v-card-subtitle>
+                <v-card-text>
+                  <v-autocomplete
+                    :items="codes.all()"
+                    item-text="name"
+                    item-value="1"
+                    v-model="newLang"
+                    label="Language"
+                    outlined
+                    dense
+                    :rules="[rules.notExist]"
+                    :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                    class="pr-2"
+                  ></v-autocomplete>
+                </v-card-text>
+                <v-card-actions class="pt-0">
+                  <v-spacer />
+                  <v-btn text @click="showAddLang = false"> Close </v-btn>
+                  <v-btn
+                    color="success"
+                    text
+                    :disabled="!newLang || this.langsContainNew"
+                    @click="addLang()"
+                  >
+                    Add
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-window-item>
           <v-window-item :value="3">
-            <v-card-text>
+            <v-card-text v-if="!stream.poster">
+              <v-card :color="darkMode ? 'neutral lighten-2' : 'white'" flat>
+                <v-card-text class="d-flex justify-center">
+                  <ImageUploadDrawing :color="streamColor" width="240" />
+                </v-card-text>
+                <v-card-title class="d-flex justify-center mt-0 pt-0">
+                  Upload a Poster
+                </v-card-title>
+                <v-card-subtitle class="d-flex justify-center">
+                  Please add a poster to the stream
+                </v-card-subtitle>
+                <v-card-actions class="d-flex justify-center">
+                  <v-btn color="info" @click="showAddCommonName = true"
+                    >Add Poster</v-btn
+                  >
+                </v-card-actions>
+              </v-card>
+            </v-card-text>
+            <v-card-text v-else>
               <v-responsive :aspect-ratio="16 / 9" class="mb-6">
                 <v-img
                   v-if="stream.poster"
@@ -298,17 +411,29 @@ import { mapGetters } from "vuex";
 
 import { api } from "@/services/api.js";
 import { models } from "@/services/lib.js";
+import codes from "langs";
+import LanguageSimpleDrawing from "@/assets/LanguageSimpleDrawing.vue";
+import VideographerDrawing from "@/assets/VideographerDrawing.vue";
+import ImageUploadDrawing from "@/assets/ImageUploadDrawing.vue";
 
 export default {
   name: "StreamEditDialog",
+  components: {
+    LanguageSimpleDrawing,
+    VideographerDrawing,
+    ImageUploadDrawing,
+  },
   props: ["channelid", "streamid", "streamColor"],
   data() {
     return {
+      codes: codes,
+      cName: "",
       events: [],
       keepOpen: false,
       langForm: {},
       langs: [],
       langExists: false,
+      listenAtTime: "",
       loaded: false,
       loading: false,
       newLang: "",
@@ -317,6 +442,9 @@ export default {
       savedCurrentLang: {},
       selectedLang: null,
       showAddLang: false,
+      showAddCommonName: false,
+      showDatePicker: false,
+      showTimePicker: false,
       speakers: [],
       step: 1,
       stream: {},
@@ -345,13 +473,29 @@ export default {
           return "Metadata";
       }
     },
+    commonName: {
+      get() {
+        return this.stream.common_name;
+      },
+      set(v) {
+        this.cName = v;
+      },
+    },
     langAbbrs() {
-      return [...new Set(this.langs.map((item) => item.lang))];
+      const abbrs = [...new Set(this.langs.map((item) => item.lang))];
+      let result = [];
+      for (let abbr of abbrs) {
+        const code = this.codes.where("1", abbr);
+        result.push({ abbr: abbr, name: code.name });
+      }
+      return result;
+    },
+    langsContainNew() {
+      return this.langs.some((e) => e.lang == this.newLang);
     },
     rules() {
       return {
-        notExist:
-          !this.langAbbrs.includes(this.newLang) || "Language already exists!",
+        notExist: !this.langsContainNew || "Language already exists!",
       };
     },
     enableSave() {
@@ -382,6 +526,14 @@ export default {
     this.load();
   },
   methods: {
+    addCommonName() {
+      this.keepOpen = true;
+      this.stream.common_name = encodeURI(this.cName)
+        .replace(/%20/g, "-")
+        .toLowerCase();
+      this.save();
+      this.showAddCommonName = false;
+    },
     addLang() {
       let resp = null;
       const langForm = {
@@ -428,12 +580,19 @@ export default {
       api.Speakers.List().then((response) => (this.speakers = response.data));
     },
     loadLangs(newLang) {
+      this.loading = true;
       api.Streams.Langs.List(this.streamid).then((response) => {
         this.langs = response.data;
         if (newLang) {
           this.selectedLang = newLang;
-        } else if (this.langAbbrs.includes(this.$store.getters.language)) {
+        } else if (
+          this.langAbbrs.filter((e) => {
+            e.abbr === this.$store.getters.language;
+          }).length > 0
+        ) {
           this.selectedLang = this.$store.getters.language;
+        } else if (this.langs.length > 0) {
+          this.selectedLang = this.langs[0].lang;
         }
         this.updateLangForm();
         this.savedLangs = this.langs.map((a) => {

@@ -36,5 +36,5 @@ export const config = {
 			'deep-orange darken-1', 'brown darken-1', 'blue-grey darken-1',
 			'grey darken-1'
 		]
-	},
+	}
 }

@@ -22,7 +22,7 @@
           >.
         </span>
 
-        <h4 class="mt-2 pb-2">Contributors</h4>
+        <h4 class="mt-8 pb-2">Contributors</h4>
         <v-simple-table>
           <template #default>
             <thead>
@@ -52,6 +52,12 @@
             </tbody>
           </template>
         </v-simple-table>
+        <h4 class="mt-8 pb-2">Attribution</h4>
+        <span>
+          We thank
+          <a href="https://storyset.com/">Storyset</a> for their beautiful
+          Illustrations.
+        </span>
       </v-col>
     </v-row>
   </v-container>
