@@ -300,6 +300,7 @@ export default {
       api.Streams.Add(
         this.channelid,
         models.Stream.ToRequest({
+          listen_at: new Date().toJSON(),
           start_at: new Date(start_at).toJSON(),
           end_at: new Date(start_at + 60 * 60 * 1000).toJSON(),
         })

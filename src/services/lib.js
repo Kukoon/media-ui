@@ -1,7 +1,25 @@
-function dateString(date) {
+export function dateString(date) {
 	let d = new Date(date);
 	d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
 	return d.toISOString().slice(0, 16);
+}
+
+export function toIsoString(date) {
+	var tzo = -date.getTimezoneOffset(),
+		dif = tzo >= 0 ? '+' : '-',
+		pad = function (num) {
+			var norm = Math.floor(Math.abs(num));
+			return (norm < 10 ? '0' : '') + norm;
+		};
+
+	return date.getFullYear() +
+		'-' + pad(date.getMonth() + 1) +
+		'-' + pad(date.getDate()) +
+		'T' + pad(date.getHours()) +
+		':' + pad(date.getMinutes()) +
+		':' + pad(date.getSeconds()) +
+		dif + pad(tzo / 60) +
+		':' + pad(tzo % 60);
 }
 
 export const models = {

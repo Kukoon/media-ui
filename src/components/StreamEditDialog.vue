@@ -70,9 +70,9 @@
                   Please add a machine readable identifier for the stream
                 </v-card-subtitle>
                 <v-card-actions class="d-flex justify-center">
-                  <v-btn color="info" @click="showAddCommonName = true"
-                    >Add Identifier</v-btn
-                  >
+                  <v-btn color="info" @click="showAddCommonName = true">
+                    Add Identifier
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-card-text>
@@ -81,34 +81,96 @@
                 <v-row no-gutters>
                   <v-text-field
                     v-model.lazy="stream.common_name"
+                    class="flex-grow-1"
                     :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                     label="Identifier (used in URLs)"
                     outlined
                     dense
-                    disabled
-                    class="flex-grow-1"
+                    readonly
                     @change="autoSave()"
                   >
+                    <template v-slot:append-outer>
+                      <v-btn
+                        icon
+                        @click="showAddCommonName = true"
+                        small
+                        :disabled="false"
+                      >
+                        <v-icon small> mdi-pencil </v-icon></v-btn
+                      >
+                    </template>
                   </v-text-field>
-                  <v-btn
-                    icon
-                    @click="showAddCommonName = true"
-                    class="ml-2"
-                    style="margin-top: 0.15rem"
-                  >
-                    <v-icon> mdi-pencil </v-icon></v-btn
-                  >
                 </v-row>
-
-                <v-text-field
-                  v-model="stream.listen_at"
-                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                  type="datetime-local"
-                  label="Listen At (hidden till)"
-                  outlined
-                  dense
-                  @change="autoSave()"
-                />
+                <v-dialog
+                  ref="dialog"
+                  v-model="showListenAtDialog"
+                  :return-value="stream.listen_at"
+                  width="290"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                      label="Created"
+                      outlined
+                      dense
+                      readonly
+                      @change="autoSave()"
+                      v-bind="attrs"
+                      v-on="on"
+                      :value="readableDate(stream.listen_at)"
+                    />
+                  </template>
+                  <v-tabs
+                    v-model="dateTabs"
+                    fixed-tabs
+                    background-color="primary darken-2"
+                  >
+                    <v-tab> Date </v-tab>
+                    <v-tab> Time </v-tab>
+                  </v-tabs>
+                  <v-tabs-items v-model="dateTabs">
+                    <v-tab-reverse-transition>
+                      <v-tab-item>
+                        <v-date-picker
+                          v-model="listenAtDate"
+                          scrollable
+                          color="primary"
+                        >
+                        </v-date-picker>
+                      </v-tab-item>
+                    </v-tab-reverse-transition>
+                    <v-tab-reverse-transition>
+                      <v-tab-item>
+                        <v-time-picker
+                          v-model="listenAtTime"
+                          scrollable
+                          format="24hr"
+                          color="primary"
+                        >
+                        </v-time-picker>
+                      </v-tab-item>
+                    </v-tab-reverse-transition>
+                  </v-tabs-items>
+                  <v-divider />
+                  <v-card-actions class="neutral lighten-1">
+                    <v-spacer />
+                    <v-btn text @click="showListenAtDialog = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="success"
+                      @click="
+                        {
+                          autoSave();
+                          showListenAtDialog = false;
+                        }
+                      "
+                    >
+                      Save
+                    </v-btn>
+                  </v-card-actions>
+                </v-dialog>
                 <v-text-field
                   v-model="stream.start_at"
                   :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -163,7 +225,8 @@
                       dense
                   /></v-form>
                 </v-card-text>
-                <v-card-actions class="pt-0">
+                <v-divider />
+                <v-card-actions class="neutral lighten-1">
                   <v-spacer />
                   <v-btn text @click="showAddCommonName = false"> Close </v-btn>
                   <v-btn
@@ -195,9 +258,9 @@
                   Please add some language to the stream's description
                 </v-card-subtitle>
                 <v-card-actions class="d-flex justify-center">
-                  <v-btn color="info" @click="showAddLang = true"
-                    >Add Language</v-btn
-                  >
+                  <v-btn color="info" @click="showAddLang = true">
+                    Add Language
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-card-text>
@@ -270,8 +333,8 @@
             >
               <v-card flat :color="darkMode ? 'neutral lighten-1' : 'white'">
                 <v-card-title> Add Language </v-card-title>
-                <v-card-subtitle
-                  >We store languages in short codes
+                <v-card-subtitle>
+                  We store languages in short codes
                 </v-card-subtitle>
                 <v-card-text>
                   <v-autocomplete
@@ -287,7 +350,9 @@
                     class="pr-2"
                   ></v-autocomplete>
                 </v-card-text>
-                <v-card-actions class="pt-0">
+                <v-divider />
+
+                <v-card-actions class="neutral lighten-1">
                   <v-spacer />
                   <v-btn text @click="showAddLang = false"> Close </v-btn>
                   <v-btn
@@ -315,9 +380,9 @@
                   Please add a poster to the stream
                 </v-card-subtitle>
                 <v-card-actions class="d-flex justify-center">
-                  <v-btn color="info" @click="showAddCommonName = true"
-                    >Add Poster</v-btn
-                  >
+                  <v-btn color="info" @click="showAddCommonName = true">
+                    Add Poster
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-card-text>
@@ -393,11 +458,11 @@
       </div>
     </v-row>
     <v-divider />
-    <v-card-actions>
+    <v-card-actions class="neutral lighten-1">
       <v-btn :disabled="step === 1" text @click="step--"> Back </v-btn>
       <v-spacer />
       <v-btn text @click="close()"> Close </v-btn>
-      <v-btn v-if="step !== 4" color="primary" depressed @click="step++">
+      <v-btn v-if="step !== 4" color="success" depressed @click="step++">
         Continue
       </v-btn>
       <v-btn v-else color="success" @click="save()"> Save </v-btn>
@@ -408,9 +473,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-
 import { api } from "@/services/api.js";
+import { toIsoString } from "@/services/lib.js";
 import { models } from "@/services/lib.js";
+
 import codes from "langs";
 import LanguageSimpleDrawing from "@/assets/LanguageSimpleDrawing.vue";
 import VideographerDrawing from "@/assets/VideographerDrawing.vue";
@@ -428,12 +494,12 @@ export default {
     return {
       codes: codes,
       cName: "",
+      dateTabs: 0,
       events: [],
       keepOpen: false,
       langForm: {},
       langs: [],
       langExists: false,
-      listenAtTime: "",
       loaded: false,
       loading: false,
       newLang: "",
@@ -443,8 +509,7 @@ export default {
       selectedLang: null,
       showAddLang: false,
       showAddCommonName: false,
-      showDatePicker: false,
-      showTimePicker: false,
+      showListenAtDialog: false,
       speakers: [],
       step: 1,
       stream: {},
@@ -461,6 +526,28 @@ export default {
   },
   computed: {
     ...mapGetters(["darkMode"]),
+    listenAtDate: {
+      get() {
+        const date = new Date(this.stream.listen_at).toISOString().slice(0, 10);
+        return date;
+      },
+      set(v) {
+        let time = new Date(v);
+        time = toIsoString(time).slice(0, 16);
+        this.stream.listen_at = time;
+      },
+    },
+    listenAtTime: {
+      get() {
+        let time = new Date(this.stream.listen_at);
+        time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
+        return time.toISOString().slice(11, 16);
+      },
+      set(v) {
+        const dateTime = this.listenAtDate + "T" + v;
+        this.stream.listen_at = dateTime;
+      },
+    },
     currentTitle() {
       switch (this.step) {
         case 1:
@@ -526,6 +613,19 @@ export default {
     this.load();
   },
   methods: {
+    readableDate(s) {
+      let date = new Date(s);
+      const options = {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      };
+      const dateStr = date.toLocaleString([], options);
+      return dateStr;
+    },
     addCommonName() {
       this.keepOpen = true;
       this.stream.common_name = encodeURI(this.cName)
@@ -683,3 +783,19 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+::v-deep .v-picker__title {
+  max-height: 88px !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+::v-deep .theme--dark.v-picker__body {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  background: var(--v-neutral-lighten2) !important;
+}
+::v-deep .theme--dark.v-time-picker-clock {
+  background: var(--v-neutral-lighten3) !important;
+}
+</style>
