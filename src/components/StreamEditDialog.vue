@@ -18,6 +18,8 @@
             class="mr-1"
             :disabled="Object.entries(savedStreamData).length <= 0 || loading"
             :color="enableSave && !loading ? 'success' : 'error'"
+            v-on="enableSave && !loading ? {} : { click: () => saveHandler() }"
+            :title="enableSave && !loading ? null : 'Save unsaved changes'"
           >
             mdi-lock
           </v-icon>
@@ -28,7 +30,13 @@
             max-width="240"
           >
             <template #activator="{ on, attrs }">
-              <v-btn icon class="mr-auto" v-bind="attrs" v-on="on">
+              <v-btn
+                icon
+                class="mr-auto"
+                v-bind="attrs"
+                v-on="on"
+                title="Context menu"
+              >
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </template>
@@ -87,11 +95,12 @@
                     outlined
                     dense
                     readonly
-                    @change="autoSave()"
+                    @change="saveHandler()"
                   >
                     <template v-slot:append-outer>
                       <v-btn
                         icon
+                        title="Edit identifier"
                         @click="showAddCommonName = true"
                         small
                         :disabled="false"
@@ -101,224 +110,57 @@
                     </template>
                   </v-text-field>
                 </v-row>
-                <v-dialog
-                  ref="dialog"
-                  v-model="showListenAtDialog"
-                  :return-value="stream.listen_at"
-                  width="290"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                      label="Created"
-                      outlined
-                      dense
-                      readonly
-                      @change="autoSave()"
-                      v-bind="attrs"
-                      v-on="on"
-                      :value="readableDate(stream.listen_at)"
-                    />
-                  </template>
-                  <v-tabs
-                    v-model="dateTabs"
-                    fixed-tabs
-                    background-color="primary darken-2"
-                  >
-                    <v-tab> Date </v-tab>
-                    <v-tab> Time </v-tab>
-                  </v-tabs>
-                  <v-tabs-items v-model="dateTabs">
-                    <v-tab-reverse-transition>
-                      <v-tab-item>
-                        <v-date-picker
-                          v-model="listenAtDate"
-                          scrollable
-                          color="primary"
-                        >
-                        </v-date-picker>
-                      </v-tab-item>
-                    </v-tab-reverse-transition>
-                    <v-tab-reverse-transition>
-                      <v-tab-item>
-                        <v-time-picker
-                          v-model="listenAtTime"
-                          scrollable
-                          format="24hr"
-                          color="primary"
-                        >
-                        </v-time-picker>
-                      </v-tab-item>
-                    </v-tab-reverse-transition>
-                  </v-tabs-items>
-                  <v-divider />
-                  <v-card-actions class="neutral lighten-1">
-                    <v-spacer />
-                    <v-btn text @click="showListenAtDialog = false">
-                      Cancel
-                    </v-btn>
-                    <v-btn
-                      text
-                      color="success"
-                      @click="
-                        {
-                          autoSave();
-                          showListenAtDialog = false;
-                        }
-                      "
-                    >
-                      Save
-                    </v-btn>
-                  </v-card-actions>
-                </v-dialog>
-                <v-dialog
-                  ref="dialog"
-                  v-model="showStartAtDialog"
-                  :return-value="stream.start_at"
-                  width="290"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                      label="Start"
-                      outlined
-                      dense
-                      readonly
-                      @change="autoSave()"
-                      v-bind="attrs"
-                      v-on="on"
-                      :value="readableDate(stream.start_at)"
-                    />
-                  </template>
-                  <v-tabs
-                    v-model="dateTabs"
-                    fixed-tabs
-                    background-color="primary darken-2"
-                  >
-                    <v-tab> Date </v-tab>
-                    <v-tab> Time </v-tab>
-                  </v-tabs>
-                  <v-tabs-items v-model="dateTabs">
-                    <v-tab-reverse-transition>
-                      <v-tab-item>
-                        <v-date-picker
-                          v-model="startAtDate"
-                          scrollable
-                          color="primary"
-                        >
-                        </v-date-picker>
-                      </v-tab-item>
-                    </v-tab-reverse-transition>
-                    <v-tab-reverse-transition>
-                      <v-tab-item>
-                        <v-time-picker
-                          v-model="startAtTime"
-                          scrollable
-                          format="24hr"
-                          color="primary"
-                        >
-                        </v-time-picker>
-                      </v-tab-item>
-                    </v-tab-reverse-transition>
-                  </v-tabs-items>
-                  <v-divider />
-                  <v-card-actions class="neutral lighten-1">
-                    <v-spacer />
-                    <v-btn text @click="showStartAtDialog = false">
-                      Cancel
-                    </v-btn>
-                    <v-btn
-                      text
-                      color="success"
-                      @click="
-                        {
-                          autoSave();
-                          showStartAtDialog = false;
-                        }
-                      "
-                    >
-                      Save
-                    </v-btn>
-                  </v-card-actions>
-                </v-dialog>
-                <v-dialog
-                  ref="dialog"
-                  v-model="showEndAtDialog"
-                  :return-value="stream.end_at"
-                  width="290"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                      label="Expected End"
-                      outlined
-                      dense
-                      readonly
-                      @change="autoSave()"
-                      v-bind="attrs"
-                      v-on="on"
-                      :value="readableDate(stream.end_at)"
-                    />
-                  </template>
-                  <v-tabs
-                    v-model="dateTabs"
-                    fixed-tabs
-                    background-color="primary darken-2"
-                  >
-                    <v-tab> Date </v-tab>
-                    <v-tab> Time </v-tab>
-                  </v-tabs>
-                  <v-tabs-items v-model="dateTabs">
-                    <v-tab-reverse-transition>
-                      <v-tab-item>
-                        <v-date-picker
-                          :min="startAtDate"
-                          v-model="endAtDate"
-                          scrollable
-                          color="primary"
-                        >
-                        </v-date-picker>
-                      </v-tab-item>
-                    </v-tab-reverse-transition>
-                    <v-tab-reverse-transition>
-                      <v-tab-item>
-                        <v-time-picker
-                          v-model="endAtTime"
-                          scrollable
-                          format="24hr"
-                          color="primary"
-                        >
-                        </v-time-picker>
-                      </v-tab-item>
-                    </v-tab-reverse-transition>
-                  </v-tabs-items>
-                  <v-divider />
-                  <v-card-actions class="neutral lighten-1">
-                    <v-spacer />
-                    <v-btn text @click="showEndAtDialog = false">
-                      Cancel
-                    </v-btn>
-                    <v-btn
-                      text
-                      color="success"
-                      @click="
-                        {
-                          autoSave();
-                          showEndAtDialog = false;
-                        }
-                      "
-                    >
-                      Save
-                    </v-btn>
-                  </v-card-actions>
-                </v-dialog>
+                <v-text-field
+                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  label="Created"
+                  outlined
+                  dense
+                  readonly
+                  @change="saveHandler()"
+                  @click.stop="
+                    dateTimePickerHandler({ listen_at: stream.listen_at })
+                  "
+                  :value="readableDate(stream.listen_at)"
+                />
+                <v-text-field
+                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  label="Start"
+                  outlined
+                  dense
+                  readonly
+                  @change="saveHandler()"
+                  @click.stop="
+                    dateTimePickerHandler({ start_at: stream.start_at })
+                  "
+                  :value="readableDate(stream.start_at)"
+                />
+                <v-text-field
+                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  label="Expected End"
+                  outlined
+                  dense
+                  readonly
+                  @change="saveHandler()"
+                  @click.stop="dateTimePickerHandler({ end_at: stream.end_at })"
+                  :value="readableDate(stream.end_at)"
+                />
+                <DateTimePicker
+                  v-if="showDateTimePicker"
+                  :stream="stream"
+                  :dateTimeObj="dateTimeObj"
+                  @changeDate="changeDate($event)"
+                  @changeTime="changeTime($event)"
+                  @close="closeDateTimeHandler()"
+                  @save="saveDateTimeHandler()"
+                />
                 <v-switch
                   v-model.lazy="stream.chat"
                   color="success"
                   label="Chat"
                   outlined
                   dense
-                  @change="autoSave()"
+                  :title="stream.chat ? 'Disable Chat' : 'Enable Chat'"
+                  @change="saveHandler()"
                 />
               </v-form>
             </v-card-text>
@@ -416,7 +258,7 @@
                   label="Title"
                   outlined
                   dense
-                  @change="autoSave()"
+                  @change="saveHandler()"
                 />
                 <v-text-field
                   v-model.lazy="langForm.subtitle"
@@ -425,7 +267,7 @@
                   label="Subtitle"
                   outlined
                   dense
-                  @change="autoSave()"
+                  @change="saveHandler()"
                 />
                 <v-textarea
                   v-model.lazy="langForm.short"
@@ -435,7 +277,7 @@
                   outlined
                   dense
                   height="70"
-                  @change="autoSave()"
+                  @change="saveHandler()"
                 />
                 <v-textarea
                   v-model.lazy="langForm.long"
@@ -444,7 +286,7 @@
                   label="Description"
                   outlined
                   dense
-                  @change="autoSave()"
+                  @change="saveHandler()"
                 />
               </v-form>
             </v-card-text>
@@ -528,7 +370,7 @@
                 label="Poster URL"
                 outlined
                 dense
-                @change="autoSave()"
+                @change="saveHandler()"
               />
             </v-card-text>
           </v-window-item>
@@ -546,7 +388,7 @@
                 multiple
                 outlined
                 dense
-                @change="autoSave()"
+                @change="saveHandler()"
               />
               <v-autocomplete
                 v-model="stream.events"
@@ -559,7 +401,7 @@
                 clearable
                 outlined
                 dense
-                @change="autoSave()"
+                @change="saveHandler()"
               />
               <v-autocomplete
                 v-model="stream.speakers"
@@ -573,7 +415,7 @@
                 multiple
                 outlined
                 dense
-                @change="autoSave()"
+                @change="saveHandler()"
               />
             </v-card-text>
           </v-window-item>
@@ -601,23 +443,25 @@ import { toIsoString } from "@/services/lib.js";
 import { models } from "@/services/lib.js";
 
 import codes from "langs";
+import DateTimePicker from "@/components/DateTimePicker.vue";
+import ImageUploadDrawing from "@/assets/ImageUploadDrawing.vue";
 import LanguageSimpleDrawing from "@/assets/LanguageSimpleDrawing.vue";
 import VideographerDrawing from "@/assets/VideographerDrawing.vue";
-import ImageUploadDrawing from "@/assets/ImageUploadDrawing.vue";
 
 export default {
   name: "StreamEditDialog",
   components: {
+    DateTimePicker,
+    ImageUploadDrawing,
     LanguageSimpleDrawing,
     VideographerDrawing,
-    ImageUploadDrawing,
   },
   props: ["channelid", "streamid", "streamColor"],
   data() {
     return {
       codes: codes,
       cName: "",
-      dateTabs: 0,
+      dateTimeObj: {},
       events: [],
       keepOpen: false,
       langForm: {},
@@ -626,15 +470,15 @@ export default {
       loaded: false,
       loading: false,
       newLang: "",
+      savedDate: {},
       savedStreamData: {},
       savedLangs: {},
       savedCurrentLang: {},
       selectedLang: null,
+      selectedTextField: "",
       showAddLang: false,
       showAddCommonName: false,
-      showEndAtDialog: false,
-      showListenAtDialog: false,
-      showStartAtDialog: false,
+      showDateTimePicker: false,
       speakers: [],
       step: 1,
       stream: {},
@@ -651,72 +495,6 @@ export default {
   },
   computed: {
     ...mapGetters(["darkMode"]),
-    listenAtDate: {
-      get() {
-        const date = new Date(this.stream.listen_at).toISOString().slice(0, 10);
-        return date;
-      },
-      set(v) {
-        let time = new Date(v);
-        time = toIsoString(time).slice(0, 16);
-        this.stream.listen_at = time;
-      },
-    },
-    listenAtTime: {
-      get() {
-        let time = new Date(this.stream.listen_at);
-        time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
-        return time.toISOString().slice(11, 16);
-      },
-      set(v) {
-        const dateTime = this.listenAtDate + "T" + v;
-        this.stream.listen_at = dateTime;
-      },
-    },
-    startAtDate: {
-      get() {
-        const date = new Date(this.stream.start_at).toISOString().slice(0, 10);
-        return date;
-      },
-      set(v) {
-        let time = new Date(v);
-        time = toIsoString(time).slice(0, 16);
-        this.stream.start_at = time;
-      },
-    },
-    startAtTime: {
-      get() {
-        let time = new Date(this.stream.start_at);
-        time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
-        return time.toISOString().slice(11, 16);
-      },
-      set(v) {
-        const dateTime = this.listenAtDate + "T" + v;
-        this.stream.start_at = dateTime;
-      },
-    },
-    endAtDate: {
-      get() {
-        const date = new Date(this.stream.end_at).toISOString().slice(0, 10);
-        return date;
-      },
-      set(v) {
-        let time = new Date(v);
-        time = toIsoString(time).slice(0, 16);
-        this.stream.end_at = time;
-      },
-    },
-    endAtTime: {
-      get() {
-        let time = new Date(this.stream.end_at);
-        time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
-        return time.toISOString().slice(11, 16);
-      },
-      set(v) {
-        const dateTime = this.listenAtDate + "T" + v;
-        this.stream.end_at = dateTime;
-      },
-    },
     currentTitle() {
       switch (this.step) {
         case 1:
@@ -782,6 +560,39 @@ export default {
     this.load();
   },
   methods: {
+    dateTimePickerHandler(obj) {
+      let time = new Date(Object.values(obj)[0]);
+      time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
+      this.dateTimeObj = {
+        date: new Date(Object.values(obj)[0]).toISOString().slice(0, 10),
+        time: time.toISOString().slice(11, 16),
+      };
+      // make tmp copy to revert back to when canceled
+      this.savedDate = {
+        value: Object.values(obj)[0],
+        key: Object.keys(obj)[0],
+      };
+      // if end_at, assign start_at to object passed to prevent earlier input
+      if (this.savedDate.key === "end_at") {
+        Object.assign(this.dateTimeObj, { min: this.stream.start_at });
+      }
+      this.showDateTimePicker = true;
+    },
+    changeDate(str) {
+      // assign to object passed to DateTimePicker component
+      this.dateTimeObj.date = str;
+      // assign to stream object
+      let date = new Date(str);
+      date = toIsoString(date).slice(0, 16);
+      this.stream[this.savedDate.key] = date;
+    },
+    changeTime(str) {
+      // assign to object passed to DateTimePicker component
+      this.dateTimeObj.time = str;
+      // assign to stream object
+      const dateTime = this.stream[this.savedDate.key].slice(0, 10) + "T" + str;
+      this.stream[this.savedDate.key] = dateTime;
+    },
     readableDate(s) {
       let date = new Date(s);
       const options = {
@@ -896,7 +707,15 @@ export default {
         this.$emit("loadStreams");
       });
     },
-    autoSave() {
+    closeDateTimeHandler() {
+      this.showDateTimePicker = false;
+      this.stream[this.savedDate.key] = this.savedDate.value;
+    },
+    saveDateTimeHandler() {
+      this.showDateTimePicker = false;
+      this.saveHandler();
+    },
+    saveHandler() {
       if (!this.enableSave) {
         this.keepOpen = true;
         setTimeout(() => {
@@ -952,19 +771,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-::v-deep .v-picker__title {
-  max-height: 88px !important;
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-}
-::v-deep .theme--dark.v-picker__body {
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-  background: var(--v-neutral-lighten2) !important;
-}
-::v-deep .theme--dark.v-time-picker-clock {
-  background: var(--v-neutral-lighten3) !important;
-}
-</style>
