@@ -171,24 +171,147 @@
                     </v-btn>
                   </v-card-actions>
                 </v-dialog>
-                <v-text-field
-                  v-model="stream.start_at"
-                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                  type="datetime-local"
-                  label="Planned Start"
-                  outlined
-                  dense
-                  @change="autoSave()"
-                />
-                <v-text-field
-                  v-model="stream.end_at"
-                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                  type="datetime-local"
-                  label="Planned End"
-                  outlined
-                  dense
-                  @change="autoSave()"
-                />
+                <v-dialog
+                  ref="dialog"
+                  v-model="showStartAtDialog"
+                  :return-value="stream.start_at"
+                  width="290"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                      label="Start"
+                      outlined
+                      dense
+                      readonly
+                      @change="autoSave()"
+                      v-bind="attrs"
+                      v-on="on"
+                      :value="readableDate(stream.start_at)"
+                    />
+                  </template>
+                  <v-tabs
+                    v-model="dateTabs"
+                    fixed-tabs
+                    background-color="primary darken-2"
+                  >
+                    <v-tab> Date </v-tab>
+                    <v-tab> Time </v-tab>
+                  </v-tabs>
+                  <v-tabs-items v-model="dateTabs">
+                    <v-tab-reverse-transition>
+                      <v-tab-item>
+                        <v-date-picker
+                          v-model="startAtDate"
+                          scrollable
+                          color="primary"
+                        >
+                        </v-date-picker>
+                      </v-tab-item>
+                    </v-tab-reverse-transition>
+                    <v-tab-reverse-transition>
+                      <v-tab-item>
+                        <v-time-picker
+                          v-model="startAtTime"
+                          scrollable
+                          format="24hr"
+                          color="primary"
+                        >
+                        </v-time-picker>
+                      </v-tab-item>
+                    </v-tab-reverse-transition>
+                  </v-tabs-items>
+                  <v-divider />
+                  <v-card-actions class="neutral lighten-1">
+                    <v-spacer />
+                    <v-btn text @click="showStartAtDialog = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="success"
+                      @click="
+                        {
+                          autoSave();
+                          showStartAtDialog = false;
+                        }
+                      "
+                    >
+                      Save
+                    </v-btn>
+                  </v-card-actions>
+                </v-dialog>
+                <v-dialog
+                  ref="dialog"
+                  v-model="showEndAtDialog"
+                  :return-value="stream.end_at"
+                  width="290"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                      label="Expected End"
+                      outlined
+                      dense
+                      readonly
+                      @change="autoSave()"
+                      v-bind="attrs"
+                      v-on="on"
+                      :value="readableDate(stream.end_at)"
+                    />
+                  </template>
+                  <v-tabs
+                    v-model="dateTabs"
+                    fixed-tabs
+                    background-color="primary darken-2"
+                  >
+                    <v-tab> Date </v-tab>
+                    <v-tab> Time </v-tab>
+                  </v-tabs>
+                  <v-tabs-items v-model="dateTabs">
+                    <v-tab-reverse-transition>
+                      <v-tab-item>
+                        <v-date-picker
+                          :min="startAtDate"
+                          v-model="endAtDate"
+                          scrollable
+                          color="primary"
+                        >
+                        </v-date-picker>
+                      </v-tab-item>
+                    </v-tab-reverse-transition>
+                    <v-tab-reverse-transition>
+                      <v-tab-item>
+                        <v-time-picker
+                          v-model="endAtTime"
+                          scrollable
+                          format="24hr"
+                          color="primary"
+                        >
+                        </v-time-picker>
+                      </v-tab-item>
+                    </v-tab-reverse-transition>
+                  </v-tabs-items>
+                  <v-divider />
+                  <v-card-actions class="neutral lighten-1">
+                    <v-spacer />
+                    <v-btn text @click="showEndAtDialog = false">
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      text
+                      color="success"
+                      @click="
+                        {
+                          autoSave();
+                          showEndAtDialog = false;
+                        }
+                      "
+                    >
+                      Save
+                    </v-btn>
+                  </v-card-actions>
+                </v-dialog>
                 <v-switch
                   v-model.lazy="stream.chat"
                   color="success"
@@ -509,7 +632,9 @@ export default {
       selectedLang: null,
       showAddLang: false,
       showAddCommonName: false,
+      showEndAtDialog: false,
       showListenAtDialog: false,
+      showStartAtDialog: false,
       speakers: [],
       step: 1,
       stream: {},
@@ -546,6 +671,50 @@ export default {
       set(v) {
         const dateTime = this.listenAtDate + "T" + v;
         this.stream.listen_at = dateTime;
+      },
+    },
+    startAtDate: {
+      get() {
+        const date = new Date(this.stream.start_at).toISOString().slice(0, 10);
+        return date;
+      },
+      set(v) {
+        let time = new Date(v);
+        time = toIsoString(time).slice(0, 16);
+        this.stream.start_at = time;
+      },
+    },
+    startAtTime: {
+      get() {
+        let time = new Date(this.stream.start_at);
+        time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
+        return time.toISOString().slice(11, 16);
+      },
+      set(v) {
+        const dateTime = this.listenAtDate + "T" + v;
+        this.stream.start_at = dateTime;
+      },
+    },
+    endAtDate: {
+      get() {
+        const date = new Date(this.stream.end_at).toISOString().slice(0, 10);
+        return date;
+      },
+      set(v) {
+        let time = new Date(v);
+        time = toIsoString(time).slice(0, 16);
+        this.stream.end_at = time;
+      },
+    },
+    endAtTime: {
+      get() {
+        let time = new Date(this.stream.end_at);
+        time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
+        return time.toISOString().slice(11, 16);
+      },
+      set(v) {
+        const dateTime = this.listenAtDate + "T" + v;
+        this.stream.end_at = dateTime;
       },
     },
     currentTitle() {
