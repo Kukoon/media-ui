@@ -31,8 +31,5 @@ export default {
         : "VideoList";
     },
   },
-  created() {
-    console.log(this.speakers);
-  },
 };
 </script>
