@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import marked from "marked";
+import { marked } from "marked";
 
 import BTNVideoDownload from "@/components/BTNVideoDownload.vue";
 import Events from "@/components/Events.vue";
