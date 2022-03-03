@@ -8,6 +8,8 @@ export const config = {
 	"sourceURL": "https://edge01.media.kukoon.de/stream/stream/{ID}/playlist.m3u8",
 	"defaultChannel": "kukoon",
 	"defaultChannelID": "df1555f5-7046-4f7a-adcc-195b73949723",
+	"sponsorsLogo1": "https://cdn.media.kukoon.de/BVS_NEUSTARTKULTUR_Programm_Rapport_RGB_1.png",
+	"sponsorsLogo2": "https://cdn.media.kukoon.de/BVS_NEUSTARTKULTUR_Programm_Rapport_RGB_2.png",
 	"home": {
 		"recordings": [
 			{

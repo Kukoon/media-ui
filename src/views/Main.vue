@@ -5,9 +5,46 @@
     <v-main>
       <router-view />
     </v-main>
-    <!-- <v-footer color="grey darken-4" app style="z-index: 10">
-      <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer> -->
+    <v-footer padless>
+      <v-card tile flat width="100%" class="py-4" color="accent">
+        <v-row no-gutters>
+          <v-col cols="12" sm="4">
+            <v-card-text class="white--text px-4">
+              <h4 class="pb-2">Kontakt</h4>
+              <span>Kulturzentrum Kukoon</span><br />
+              <span>Verein für Bunte Kombinationen e.V.</span><br />
+              <span>Buntentorsteinweg 29</span><br />
+              <span>28201 Bremen</span><br />
+              <span>
+                <a href="maitlo:verein@kukoon.de">verein@kukoon.de</a>
+              </span>
+            </v-card-text>
+          </v-col>
+          <v-col cols="12" lg="6" sm="4" class="ml-auto">
+            <v-card-text class="h4 white--text">
+              <h4 class="pb-2">Gefördert durch:</h4>
+              <v-row no-gutters>
+                <v-img
+                  :src="logo1URL"
+                  contain
+                  max-width="300"
+                  max-height="80"
+                  class="mr-auto"
+                ></v-img>
+
+                <v-img
+                  :src="logo2URL"
+                  contain
+                  max-width="300"
+                  max-height="80"
+                  class="mr-auto"
+                ></v-img>
+              </v-row>
+            </v-card-text>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-footer>
   </div>
 </template>
 
@@ -18,6 +55,7 @@ import NavDrawer from "@/components/NavDrawer";
 import { config } from "../../config.js";
 import { api } from "@/services/api.js";
 import { websocket } from "@/services/websocket.js";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Main",
@@ -25,7 +63,12 @@ export default {
   data() {
     return {
       isLive: true,
+      logo1URL: config.sponsorsLogo1,
+      logo2URL: config.sponsorsLogo2,
     };
+  },
+  computed: {
+    ...mapGetters(["darkMode"]),
   },
   created() {
     if (config.defaultChannel) {
