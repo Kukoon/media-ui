@@ -1,5 +1,5 @@
 <template>
-  <VideoPlayer ref="player" :source="source" :poster="video.poster" />
+  <VideoPlayer ref="player" :sources="sources" :poster="video.poster" :autostart="autostart" />
 </template>
 
 <script>
@@ -15,7 +15,8 @@ export default {
   props: ["id"],
   data() {
     return {
-      source: null,
+      autostart: false,
+      sources: null,
       video: null,
     };
   },
@@ -25,13 +26,12 @@ export default {
     },
   },
   created() {
-    this.$store.commit("autoPlay", true);
     this.load();
   },
   methods: {
     connectStream() {
       return api.Channels.Get(this.id).then((resp) => {
-        this.source = config.sourceURL.replace("{ID}", resp.data.id);
+        this.sources = config.sourceURLs.map((el) => { el.file = el.file.replace("{ID}", resp.data.id); return el;});
         websocket.joinHandler(
           resp.data.id,
           "status",
@@ -84,13 +84,15 @@ export default {
       );
     },
     stream() {
+      this.autostart = true;
       return this.connectStream().then(this.loadStream);
     },
     recording() {
+      this.autostart = false;
       return api.Recordings.Get(this.id).then((response) => {
         this.video = response.data;
         const urls = this.video.formats.map((i) => i.url);
-        this.source = urls[0];
+        this.sources = urls[0];
       });
     },
     load() {

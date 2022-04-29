@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="video !== null && getSource"
+    v-if="video !== null && getSources"
     id="VideoPlayerWrapper"
   >
     <v-card-title
@@ -23,12 +23,13 @@
         class="responsive"
       >
         <VideoPlayer
-          v-if="getSource && video.poster"
+          v-if="getSources && video.poster"
           ref="player"
           class="flex-column"
-          :source="getSource"
+          :sources="getSources"
           :poster="video.poster"
           :running="video.running"
+          :autostart="autostart"
         />
       </v-responsive>
     </v-card>
@@ -55,7 +56,7 @@ export default {
     VideoDescription,
     VideoSubtitle,
   },
-  props: ["video", "source"],
+  props: ["video", "sources", "autostart"],
   data() {
     return {
       tagsPosition: "top",
@@ -63,12 +64,15 @@ export default {
   },
   computed: {
     ...mapGetters(["darkMode"]),
-    getSource() {
-      if (this.source) {
-        return this.source;
+    getSources() {
+      if (this.sources) {
+        return this.sources;
       }
-      const urls = this.video.formats.map((i) => i.url);
-      return urls[0];
+      return this.video.formats.map((i) => {return {
+        "type": "mp3",
+        "file": i.url,
+	"label": (i.is_video ? "Video " : "Audio ") + i.resolution
+      }});
     },
   },
   methods: {
