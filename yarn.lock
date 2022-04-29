@@ -910,11 +910,6 @@
     "@babel/helper-validator-identifier" "^7.14.8"
     to-fast-properties "^2.0.0"
 
-"@c3voc/clappr-level-selector@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@c3voc/clappr-level-selector/-/clappr-level-selector-0.2.1.tgz#6256166bd43f5270b085e6853a37fd9d4edca13d"
-  integrity sha512-MVdGfFtdBMj2OUloG3lnxg1fOnCEW0M2MJCHWvVURJca7FZ03WBYp4NI2H4lF7x0ZKZ7LnL9CAWd0eLEWoyovg==
-
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.3.tgz#9e42981ef035beb3dd49add17acb96e8ff6f394c"
@@ -2471,11 +2466,6 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-clappr@^0.3.13:
-  version "0.3.13"
-  resolved "https://registry.yarnpkg.com/clappr/-/clappr-0.3.13.tgz#e2eacc37cb85024b7f73c0e0fcb4de52d0f15d7f"
-  integrity sha512-cAtGhtSAYIavKqVQb/wX5pB9twb/W7gFUGBaGHy6dbpUqCtCmtH0Eu05rNSwtbaREWgSTUJyEMTgaNSZ/62KlQ==
-
 class-utils@^0.3.5:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/class-utils/-/class-utils-0.3.6.tgz#f93369ae8b9a7ce02fd41faad0ca83033190c463"
@@ -2806,6 +2796,11 @@ core-js-compat@^3.14.0, core-js-compat@^3.15.0, core-js-compat@^3.6.5:
   dependencies:
     browserslist "^4.16.6"
     semver "7.0.0"
+
+core-js@^3.16.3:
+  version "3.22.3"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.22.3.tgz#498c41d997654cb00e81c7a54b44f0ab21ab01d5"
+  integrity sha512-1t+2a/d2lppW1gkLXx3pKPVGbBdxXAkqztvWb1EJ8oF8O2gIGiytzflNiFEehYwVK/t2ryUsGBoOFFvNx95mbg==
 
 core-js@^3.6.5:
   version "3.15.2"
@@ -4416,6 +4411,11 @@ highlight.js@^10.7.1:
   version "10.7.3"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.7.3.tgz#697272e3991356e40c3cac566a74eef681756531"
   integrity sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==
+
+hls.js@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.1.5.tgz#923a8a8cfdf09542578696d47c8ae435da981ffd"
+  integrity sha512-mQX5TSNtJEzGo5HPpvcQgCu+BWoKDQM6YYtg/KbgWkmVAcqOCvSTi0SuqG2ZJLXxIzdnFcKU2z7Mrw/YQWhPOA==
 
 hmac-drbg@^1.0.1:
   version "1.0.1"
@@ -6094,6 +6094,14 @@ os-tmpdir@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
   integrity sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=
+
+ovenplayer@^0.10.18:
+  version "0.10.18"
+  resolved "https://registry.yarnpkg.com/ovenplayer/-/ovenplayer-0.10.18.tgz#b59bad5ad1ae177fc95bf24e509bf14cdd6f354b"
+  integrity sha512-2dJU+2eYwWnCFdb49oY/gMrpoTFxxY8mR77NUpO9QnOtJA3wHbqbSMWXYJqHjSp+qWUZAPRDOFbMlM2wXGXSNA==
+  dependencies:
+    core-js "^3.16.3"
+    whatwg-fetch "^3.6.2"
 
 p-finally@^1.0.0:
   version "1.0.0"
@@ -8362,13 +8370,6 @@ uuid@^3.3.2, uuid@^3.4.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
-v-clappr@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/v-clappr/-/v-clappr-1.5.0.tgz#c2da74e6ddf2a7ee8fd5cdc046cf3130ab32aa5a"
-  integrity sha512-v5NwRBO5nIblLn3qYnvt4IPWrptyuWI/8q3nUBGFirHAyPVQ2yJorrkcW9vXd2Nnj7gmrHpTPU2sR6WV48fymA==
-  dependencies:
-    clappr "^0.3.13"
-
 v8-compile-cache@^2.0.3:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
@@ -8702,6 +8703,11 @@ websocket-extensions@>=0.1.1:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
   integrity sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==
+
+whatwg-fetch@^3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz#dced24f37f2624ed0281725d51d0e2e3fe677f8c"
+  integrity sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==
 
 which-boxed-primitive@^1.0.2:
   version "1.0.2"

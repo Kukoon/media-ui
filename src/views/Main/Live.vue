@@ -5,7 +5,7 @@
         <VideoPlayerWrapper
           ref="player"
           :video="video"
-          :source="source"
+          :sources="sources"
           class="mx-n2"
         />
       </v-col>
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       video: null,
-      source: "",
+      sources: "",
       viewers: 0,
       tagsPosition: "top",
       isRunning: true,
@@ -54,14 +54,13 @@ export default {
     },
   },
   created() {
-    this.$store.commit("autoPlay", true);
     this.init();
     this.load();
   },
   methods: {
     init() {
       api.Channels.Get(this.id).then((resp) => {
-        this.source = config.sourceURL.replace("{ID}", resp.data.id);
+        this.sources = config.sourceURLs.map((el) => { el.file = el.file.replace("{ID}", resp.data.id); return el;});
         websocket.joinHandler(
           resp.data.id,
           "status",

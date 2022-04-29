@@ -21,13 +21,6 @@ export default {
     VideoPlayerWrapper,
     Suggestions,
   },
-  beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      if (from.name !== "Player") {
-        vm.$store.commit("autoPlay", true);
-      }
-    });
-  },
   props: ["id"],
   data() {
     return {
