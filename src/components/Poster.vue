@@ -9,7 +9,6 @@
           ? video.common_name
           : video.id
     "
-    :tag="noLink ? 'span' : 'a'"
     @click.stop="goToTop()"
   >
     <div

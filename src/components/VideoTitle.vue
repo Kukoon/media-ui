@@ -9,7 +9,6 @@
         ? video.common_name
         : video.id
     "
-    :tag="noLink ? 'span' : 'a'"
   >
     <v-card-title
       class="pt-0 pb-1 dense-text text-truncate"
