@@ -1,6 +1,5 @@
 <template>
-  <div id="player_id">
-  </div>
+  <div id="player_id"></div>
 </template>
 
 <script>
@@ -27,12 +26,9 @@ export default {
   },
   watch: {
     running(is, old) {
-      if(is) {
-        if(!old){
-          console.log("stream goes live: restart it in 30s")
-          // start 30s later -> HLS should be ready now
-          setTimeout(this.restart, 30000);
-	}
+      if (is && !old){
+        console.log("stream goes live: restart/reset it")
+        this.restart();
       }
     },
     // Watch for changes in the prop 'sources' passed from parent component
@@ -55,8 +51,11 @@ export default {
       this.player.play();
     },
     restart(){
-      this.player.stop();
-      this.player.seek(0);
+      if (this.player) {
+        this.player.remove();
+        this.player = null;
+      }
+      this.player = OvenPlayer.create('player_id', this.options);  this.player.stop();
       this.player.play();
     },
   },
