@@ -16,8 +16,8 @@
         :created-at="video.created_at"
       />
       <Events :event="video.event" />
-      <Tags :tags="video.tags" />
-      <Speakers :speakers="video.speakers" />
+      <Tags v-if="video.tags" :tags="video.tags" />
+      <Speakers v-if="video.speakers" :speakers="video.speakers" />
     </div>
     <v-card-text v-if="markedDesc && tagsPosition === 'top'" class="px-0">
       <td v-html="markedDesc" />
