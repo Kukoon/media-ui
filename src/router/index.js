@@ -78,11 +78,11 @@ const routes = [
 	},
 	{
 		path: "/admin",
-		name: "Admin",
 		component: Admin,
 		children: [
 			{
 				path: "",
+				name: "Admin",
 				redirect: "global-stream-schedule",
 			},
 			{
