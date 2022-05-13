@@ -2798,9 +2798,9 @@ core-js-compat@^3.14.0, core-js-compat@^3.15.0, core-js-compat@^3.6.5:
     semver "7.0.0"
 
 core-js@^3.16.3:
-  version "3.22.3"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.22.3.tgz#498c41d997654cb00e81c7a54b44f0ab21ab01d5"
-  integrity sha512-1t+2a/d2lppW1gkLXx3pKPVGbBdxXAkqztvWb1EJ8oF8O2gIGiytzflNiFEehYwVK/t2ryUsGBoOFFvNx95mbg==
+  version "3.22.5"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.22.5.tgz#a5f5a58e663d5c0ebb4e680cd7be37536fb2a9cf"
+  integrity sha512-VP/xYuvJ0MJWRAobcmQ8F2H6Bsn+s7zqAAjFaHGBMc5AQm7zaelhD1LGduFn2EehEcQcU+br6t+fwbpQ5d1ZWA==
 
 core-js@^3.6.5:
   version "3.15.2"
@@ -6095,10 +6095,10 @@ os-tmpdir@~1.0.2:
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
   integrity sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=
 
-ovenplayer@^0.10.18:
-  version "0.10.18"
-  resolved "https://registry.yarnpkg.com/ovenplayer/-/ovenplayer-0.10.18.tgz#b59bad5ad1ae177fc95bf24e509bf14cdd6f354b"
-  integrity sha512-2dJU+2eYwWnCFdb49oY/gMrpoTFxxY8mR77NUpO9QnOtJA3wHbqbSMWXYJqHjSp+qWUZAPRDOFbMlM2wXGXSNA==
+ovenplayer@^0.10.19:
+  version "0.10.19"
+  resolved "https://registry.yarnpkg.com/ovenplayer/-/ovenplayer-0.10.19.tgz#2b73b7b873de722425832924adca306a4e8c8f63"
+  integrity sha512-pnEf6tH6MvdN0+OCg5hvw8Rcr5DGw5uVuk43eLz6R+6M8sKyBxYzgX0pFsP2k/mRGTj1CxRqJdYykIy3cPZoIA==
   dependencies:
     core-js "^3.16.3"
     whatwg-fetch "^3.6.2"
