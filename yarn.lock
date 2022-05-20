@@ -6095,10 +6095,10 @@ os-tmpdir@~1.0.2:
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
   integrity sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=
 
-ovenplayer@^0.10.19:
-  version "0.10.19"
-  resolved "https://registry.yarnpkg.com/ovenplayer/-/ovenplayer-0.10.19.tgz#2b73b7b873de722425832924adca306a4e8c8f63"
-  integrity sha512-pnEf6tH6MvdN0+OCg5hvw8Rcr5DGw5uVuk43eLz6R+6M8sKyBxYzgX0pFsP2k/mRGTj1CxRqJdYykIy3cPZoIA==
+ovenplayer@^0.10.20:
+  version "0.10.20"
+  resolved "https://registry.yarnpkg.com/ovenplayer/-/ovenplayer-0.10.20.tgz#4446d11f7ed4b0b964078e0b36caee335f70d650"
+  integrity sha512-58tUOOvz4KfQiln5yz0bXxEqYX0olLGKE2RbuXdGYVs1trRDvhOo3PAHcRwZ1J6XSIRZjI5vneH7mb0PENkp6w==
   dependencies:
     core-js "^3.16.3"
     whatwg-fetch "^3.6.2"
