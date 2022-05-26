@@ -45,6 +45,7 @@ export default {
       this.player = null;
     }
     this.player = OvenPlayer.create('player_id', this.options);
+    this.player.on("sourceChanged", this.player.play);
   },
   methods: {
     play(){
@@ -55,7 +56,8 @@ export default {
         this.player.remove();
         this.player = null;
       }
-      this.player = OvenPlayer.create('player_id', this.options);  this.player.stop();
+      this.player = OvenPlayer.create('player_id', this.options);
+      this.player.on("sourceChanged", this.player.play);
       this.player.play();
     },
   },
