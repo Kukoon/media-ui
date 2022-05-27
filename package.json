@@ -16,7 +16,7 @@
 		"hls.js": "^1.1.5",
 		"langs": "^2.0.0",
 		"marked": "^4.0.16",
-		"ovenplayer": "^0.10.20",
+		"ovenplayer": "^0.10.21",
 		"pretty-ms": "^7.0.1",
 		"vue": "^2.6.11",
 		"vue-chat-scroll": "^1.4.0",
