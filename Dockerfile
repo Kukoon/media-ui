@@ -12,6 +12,6 @@ RUN yarn build
 ##
 # Build Image
 ##
-FROM nginx
-COPY docs/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build-env /app/dist /usr/share/nginx/html
+FROM docker.io/svenstaro/miniserve
+COPY --from=build-env /app/dist /dist
+CMD [ "--index", "index.html", "--spa", "/dist" ]
