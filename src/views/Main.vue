@@ -25,15 +25,9 @@
               <h4 class="pb-2">Gefördert durch:</h4>
               <v-row no-gutters>
                 <v-img
-                  :src="logo1URL"
-                  contain
-                  max-width="300"
-                  max-height="80"
-                  class="mr-auto"
-                ></v-img>
-
-                <v-img
-                  :src="logo2URL"
+                  v-for="(logoURL, index) in footerLogos"
+                  :key="index"
+                  :src="logoURL"
                   contain
                   max-width="300"
                   max-height="80"
@@ -63,8 +57,7 @@ export default {
   data() {
     return {
       isLive: true,
-      logo1URL: config.sponsorsLogo1,
-      logo2URL: config.sponsorsLogo2,
+      footerLogos: config.sponsorLogos,
     };
   },
   computed: {
