@@ -4804,10 +4804,10 @@ ora@^5.3.0:
     strip-ansi "^6.0.0"
     wcwidth "^1.0.1"
 
-ovenplayer@^0.10.21:
-  version "0.10.21"
-  resolved "https://registry.yarnpkg.com/ovenplayer/-/ovenplayer-0.10.21.tgz#ccca68ff0d2dc2e35462548b286a11f42cdb257d"
-  integrity sha512-DB6Fn6YXGO0QRURwgc89h6S3DRch2AD0cq7Xkduz1Je5EcsQx4vnIIG/1HkpPEiittabI7sU0MTPRc3nt4HJUA==
+ovenplayer@^0.10.23:
+  version "0.10.23"
+  resolved "https://registry.yarnpkg.com/ovenplayer/-/ovenplayer-0.10.23.tgz#286f965134dd215ab4eea10fc8eb7e99f92e6b97"
+  integrity sha512-G/tl5wHDSBMFTLdne7/ihfHCHnWvQO9dCNm+Pp/X/zi/umL3IljKEfy1c9ed8bGexebXwuEhFj6WWNrFranCyA==
   dependencies:
     core-js "^3.16.3"
     whatwg-fetch "^3.6.2"
