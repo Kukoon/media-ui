@@ -2,7 +2,7 @@ export const config = {
 	"apiURL": `${location.protocol}//${location.host}/api/v1`,
 	"wsURL": `ws${location.protocol == 'https:' ? 's' : ''}://${location.host}/ws/v1`,
 	"ingressURL": {
-		"rtmp": "rtmp://ingress.media.kukoon.de/stream/{ID}",
+		"rtmp": "rtmp://ingress.media.kukoon.de/stream{ID}",
 		"ws": "wss://edge01.media.kukoon.de/stream/ws/stream/{ID}?direction=send&transport=tcp",
 	},
 	"sourceURLs": [

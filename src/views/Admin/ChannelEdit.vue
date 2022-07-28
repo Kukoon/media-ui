@@ -81,7 +81,7 @@
               <tr>
                 <td>RTMP Complete Link</td>
                 <td>
-                  <code>{{ ingressRTMP.replace("{ID}", channel.id) }}</code>
+                  <code>{{ ingressRTMP.replace("{ID}", "/" + channel.id) }}</code>
                 </td>
               </tr>
               <tr>
