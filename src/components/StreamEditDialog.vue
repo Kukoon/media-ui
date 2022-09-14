@@ -469,7 +469,7 @@ export default {
       langExists: false,
       loaded: false,
       loading: false,
-      newLang: "",
+      newLang: "de", // default language
       savedDate: {},
       savedStreamData: {},
       savedLangs: {},
@@ -555,6 +555,7 @@ export default {
   mounted() {
     this.loadFilterData();
     this.loadLangs();
+    this.addLang();
   },
   created() {
     this.load();

@@ -1,345 +1,408 @@
 <template>
   <v-card width="100%" :color="darkMode ? 'neutral lighten-2' : 'white'">
-    <v-card-title class="text-h6 font-weight-regular">
-      <span>{{ currentTitle }}</span>
-      <v-spacer />
-      <v-chip
-        v-if="savedRecData.listed"
-        small
-        color="deep-purple lighten-3"
-        class="ma-1 monospace"
-        :text-color="darkMode ? 'black' : ''"
-      >
-        <v-icon small left>mdi-playlist-check</v-icon>
-        Listed
-      </v-chip>
-      <v-chip
-        v-if="savedRecData.public"
-        small
-        color="light-green lighten-1"
-        class="ma-1 monospace mr-4"
-        :text-color="darkMode ? 'black' : ''"
-      >
-        <v-icon small left>mdi-checkbox-marked-circle</v-icon>
-        Published
-      </v-chip>
-      <v-chip
-        v-if="!savedRecData.public"
-        small
-        color="orange"
-        class="ma-1 monospace mr-4"
-        :text-color="darkMode ? 'black' : ''"
-      >
-        <v-icon small left>mdi-eye-off</v-icon>
-        Private
-      </v-chip>
-      <v-progress-circular
-        v-if="loading"
-        indeterminate
-        size="24"
-        class="mr-1"
-      />
-      <v-icon
-        v-else
-        icon
-        class="mr-1"
-        :disabled="Object.entries(savedRecData).length <= 0 || loading"
-        :color="enableSave && !loading ? 'success' : 'error'"
-      >
-        mdi-lock
-      </v-icon>
-      <v-menu
-        offset-x
-        nudge-right="10"
-        :close-on-content-click="true"
-        max-width="240"
-      >
-        <template #activator="{ on, attrs }">
-          <v-btn icon class="mr-auto" v-bind="attrs" v-on="on">
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </template>
-        <v-list flat dense>
-          <v-list-item-group>
-            <v-list-item @click="remove()">
-              <v-list-item-title>Delete</v-list-item-title>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-menu>
-    </v-card-title>
-    <v-card-subtitle>{{ step + "/4" }} </v-card-subtitle>
-    <v-window v-model="step">
-      <v-window-item :value="1">
-        <v-card-text class="pt-2">
-          <v-form class="pa-0" :disabled="!loaded" @submit="save()">
-            <v-responsive
-              v-if="recording.poster"
-              :aspect-ratio="16 / 9"
-              class="mb-6"
-            >
-              <div
-                @mouseenter="showPreview = true"
-                @mouseleave="showPreview = false"
+    <v-row class="d-flex" no-gutters>
+      <v-card width="8px" :color="streamColor" tile />
+      <div class="d-flex flex-column flex-grow-1">
+        <v-card-title class="text-h6 font-weight-regular">
+          <span>{{ currentTitle }}</span>
+          <v-spacer />
+          <v-progress-circular
+            v-if="loading"
+            indeterminate
+            size="24"
+            class="mr-1"
+          />
+          <v-icon
+            v-else
+            icon
+            class="mr-1"
+            :disabled="Object.entries(savedRecData).length <= 0 || loading"
+            :color="enableSave && !loading ? 'success' : 'error'"
+            v-on="enableSave && !loading ? {} : { click: () => saveHandler() }"
+            :title="enableSave && !loading ? null : 'Save unsaved changes'"
+          >
+            mdi-lock
+          </v-icon>
+          <v-menu
+            offset-x
+            nudge-right="10"
+            :close-on-content-click="true"
+            max-width="240"
+          >
+            <template #activator="{ on, attrs }">
+              <v-btn
+                icon
+                class="mr-auto"
+                v-bind="attrs"
+                v-on="on"
+                title="Context menu"
               >
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <v-list flat dense>
+              <v-list-item-group>
+                <v-list-item
+                  :to="{
+                    name: 'RecordingEdit',
+                    params: {
+                      channelid: channelid,
+                      recordingid: recordingid,
+                    },
+                  }"
+                >
+                  <v-list-item-title>Edit </v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="remove()">
+                  <v-list-item-title>Delete</v-list-item-title>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-menu>
+        </v-card-title>
+        <v-card-subtitle>{{ step + "/4" }} </v-card-subtitle>
+        <v-window v-model="step">
+          <v-window-item :value="1">
+            <v-card-text v-if="!recording.common_name">
+              <v-card :color="darkMode ? 'neutral lighten-2' : 'white'" flat>
+                <v-card-text class="d-flex justify-center">
+                  <VideographerDrawing :color="streamColor" width="240" />
+                </v-card-text>
+                <v-card-title class="d-flex justify-center mt-0 pt-0">
+                  No Recording Identifier
+                </v-card-title>
+                <v-card-subtitle class="d-flex justify-center">
+                  Please add a machine readable identifier for the recording
+                </v-card-subtitle>
+                <v-card-actions class="d-flex justify-center">
+                  <v-btn color="info" @click="showAddCommonName = true">
+                    Add Identifier
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-card-text>
+            <v-card-text v-else>
+              <v-form class="pa-0 mt-2" :disabled="!loaded" @submit="save()">
+                <v-row no-gutters>
+                  <v-text-field
+                    v-model.lazy="recording.common_name"
+                    class="flex-grow-1"
+                    :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                    label="Identifier (used in URLs)"
+                    outlined
+                    dense
+                    readonly
+                    @change="saveHandler()"
+                  >
+                    <template v-slot:append-outer>
+                      <v-btn
+                        icon
+                        title="Edit identifier"
+                        @click="showAddCommonName = true"
+                        small
+                        :disabled="false"
+                      >
+                        <v-icon small> mdi-pencil </v-icon></v-btn
+                      >
+                    </template>
+                  </v-text-field>
+                </v-row>
+                <v-text-field
+                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  label="Created"
+                  outlined
+                  dense
+                  readonly
+                  @change="saveHandler()"
+                  @click.stop="
+                    dateTimePickerHandler({ created_at: recording.created_at })
+                  "
+                  :value="readableDate(recording.created_at)"
+                />
+                <DateTimePicker
+                  v-if="showDateTimePicker"
+                  :recording="recording"
+                  :dateTimeObj="dateTimeObj"
+                  @changeDate="changeDate($event)"
+                  @changeTime="changeTime($event)"
+                  @close="closeDateTimeHandler()"
+                  @save="saveDateTimeHandler()"
+                />
+                <v-switch
+                  v-model.lazy="recording.chat"
+                  color="success"
+                  label="Chat"
+                  outlined
+                  dense
+                  :title="recording.chat ? 'Disable Chat' : 'Enable Chat'"
+                  @change="saveHandler()"
+                />
+              </v-form>
+            </v-card-text>
+            <v-dialog v-model="showAddCommonName" width="300" hide-overlay>
+              <v-card flat :color="darkMode ? 'neutral lighten-1' : 'white'">
+                <v-card-title>
+                  {{
+                    !this.recording.common_name
+                      ? "Add Recording Identifier"
+                      : "Save Recording Identifier"
+                  }}
+                </v-card-title>
+                <v-card-subtitle
+                  >We need a machine readable identifier
+                </v-card-subtitle>
+                <v-card-text>
+                  <v-form
+                    class="pa-0 mt-2"
+                    :disabled="!loaded"
+                    @submit.prevent="addCommonName()"
+                  >
+                    <v-text-field
+                      v-model.lazy="commonName"
+                      :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                      label="Identifier (used in URLs)"
+                      outlined
+                      dense
+                  /></v-form>
+                </v-card-text>
+                <v-divider />
+                <v-card-actions class="neutral lighten-1">
+                  <v-spacer />
+                  <v-btn text @click="showAddCommonName = false"> Close </v-btn>
+                  <v-btn
+                    color="success"
+                    text
+                    :disabled="!cName"
+                    @click="addCommonName()"
+                  >
+                    {{ !this.recording.common_name ? "Add" : "Save" }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-window-item>
+          <v-window-item :value="2">
+            <v-card-text v-if="!selectedLang && langs.length === 0">
+              <v-card :color="darkMode ? 'neutral lighten-2' : 'white'" flat>
+                <v-card-text class="d-flex justify-center">
+                  <LanguageSimpleDrawing
+                    :color="streamColor"
+                    width="240"
+                    v-if="!loading"
+                  />
+                </v-card-text>
+                <v-card-title class="d-flex justify-center mt-0 pt-0">
+                  No Language
+                </v-card-title>
+                <v-card-subtitle class="d-flex justify-center">
+                  Please add some language to the recording's description
+                </v-card-subtitle>
+                <v-card-actions class="d-flex justify-center">
+                  <v-btn color="info" @click="showAddLang = true">
+                    Add Language
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-card-text>
+            <v-card-text v-else>
+              <v-form class="pa-0 mt-2" @submit.prevent="save()">
+                <v-autocomplete
+                  v-model="selectedLang"
+                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  label="Language"
+                  :items="langAbbrs"
+                  item-text="name"
+                  item-value="abbr"
+                  auto-select-first
+                  minlength="2"
+                  maxlength="2"
+                  outlined
+                  dense
+                  @input="updateLangForm()"
+                >
+                  <template #append-outer>
+                    <v-btn icon @click="showAddLang = true" class="mt-n1">
+                      <v-icon> mdi-plus </v-icon>
+                    </v-btn>
+                  </template>
+                </v-autocomplete>
+                <v-text-field
+                  v-model.lazy="langForm.title"
+                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  :disabled="!selectedLang"
+                  label="Title"
+                  outlined
+                  dense
+                  @change="saveHandler()"
+                />
+                <v-text-field
+                  v-model.lazy="langForm.subtitle"
+                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  :disabled="!selectedLang"
+                  label="Subtitle"
+                  outlined
+                  dense
+                  @change="saveHandler()"
+                />
+                <v-textarea
+                  v-model.lazy="langForm.short"
+                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  :disabled="!selectedLang"
+                  label="Short Description"
+                  outlined
+                  dense
+                  height="70"
+                  @change="saveHandler()"
+                />
+                <v-textarea
+                  v-model.lazy="langForm.long"
+                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                  :disabled="!selectedLang"
+                  label="Description"
+                  outlined
+                  dense
+                  @change="saveHandler()"
+                />
+              </v-form>
+            </v-card-text>
+            <v-dialog
+              v-model="showAddLang"
+              width="300"
+              hide-overlay
+              content-class="elevation-10"
+            >
+              <v-card flat :color="darkMode ? 'neutral lighten-1' : 'white'">
+                <v-card-title> Add Language </v-card-title>
+                <v-card-subtitle>
+                  We store languages in short codes
+                </v-card-subtitle>
+                <v-card-text>
+                  <v-autocomplete
+                    :items="codes.all()"
+                    item-text="name"
+                    item-value="1"
+                    v-model="newLang"
+                    label="Language"
+                    outlined
+                    dense
+                    :rules="[rules.notExist]"
+                    :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                    class="pr-2"
+                  ></v-autocomplete>
+                </v-card-text>
+                <v-divider />
+
+                <v-card-actions class="neutral lighten-1">
+                  <v-spacer />
+                  <v-btn text @click="showAddLang = false"> Close </v-btn>
+                  <v-btn
+                    color="success"
+                    text
+                    :disabled="!newLang || this.langsContainNew"
+                    @click="addLang()"
+                  >
+                    Add
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-window-item>
+          <v-window-item :value="3">
+            <v-card-text v-if="!recording.poster">
+              <v-card :color="darkMode ? 'neutral lighten-2' : 'white'" flat>
+                <v-card-text class="d-flex justify-center">
+                  <ImageUploadDrawing :color="streamColor" width="240" />
+                </v-card-text>
+                <v-card-title class="d-flex justify-center mt-0 pt-0">
+                  Upload a Poster
+                </v-card-title>
+                <v-card-subtitle class="d-flex justify-center">
+                  Please add a poster to the recording
+                </v-card-subtitle>
+                <v-card-actions class="d-flex justify-center">
+                  <v-btn color="info" @click="showAddCommonName = true">
+                    Add Poster
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-card-text>
+            <v-card-text v-else>
+              <v-responsive :aspect-ratio="16 / 9" class="mb-6">
                 <v-img
-                  v-if="showPreview"
-                  v-ripple="{ class: 'neutral--text', center: true }"
-                  :src="recording.preview"
-                  class="white--text align-end"
+                  v-if="recording.poster"
+                  :aspect-ratio="16 / 9"
+                  :src="recording.poster"
                   gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
                   height="100%"
                   width="100%"
-                  style="position: absolute"
-                >
-                  <template #placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-btn height="100%" width="100%">Upload Preview</v-btn>
-                    </v-row>
-                  </template>
-                </v-img>
-                <transition name="fade" appear>
-                  <v-img
-                    v-if="!showPreview"
-                    v-ripple="{ class: 'neutral--text', center: true }"
-                    :src="recording.poster"
-                    class="white--text align-end"
-                    gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
-                    height="100%"
-                    width="100%"
-                    style="position: absolute"
-                  >
-                    <template #placeholder>
-                      <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                      >
-                        <v-progress-circular
-                          indeterminate
-                          color="grey lighten-5"
-                        />
-                      </v-row>
-                    </template>
-                  </v-img>
-                </transition>
-              </div>
-            </v-responsive>
-            <v-responsive v-else :aspect-ratio="16 / 9" class="mb-6">
-              <v-btn height="100%" width="100%"> Upload Poster </v-btn>
-            </v-responsive>
-            <v-text-field
-              v-model.lazy="recording.poster"
-              :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-              label="Poster URL"
-              outlined
-              dense
-              @change="autoSave()"
-            />
-            <v-text-field
-              v-model.lazy="recording.preview"
-              :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-              label="Preview URL"
-              outlined
-              dense
-              @change="autoSave()"
-            />
-            <v-text-field
-              v-model.lazy="recording.common_name"
-              :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-              label="Comman Name (used in URLs)"
-              outlined
-              dense
-              @change="autoSave()"
-            />
-            <v-text-field
-              v-model="recording.created_at"
-              :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-              type="datetime-local"
-              label="Created At"
-              outlined
-              dense
-              hide-details
-              @change="autoSave()"
-            />
-            <v-checkbox
-              v-model.lazy="recording.listed"
-              color="success"
-              label="Listed"
-              hide-details
-              @change="autoSave()"
-            />
-            <v-checkbox
-              v-model.lazy="recording.public"
-              color="success"
-              label="Published"
-              hide-details
-              @change="autoSave()"
-            />
-          </v-form>
-        </v-card-text>
-      </v-window-item>
-      <v-window-item :value="2">
-        <v-card-text class="pt-2">
-          <v-form class="pa-0" @submit="save()">
-            <v-autocomplete
-              v-model="selectedLang"
-              :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-              label="Language"
-              :items="langAbbrs"
-              auto-select-first
-              minlength="2"
-              maxlength="2"
-              outlined
-              dense
-              @input="updateLangForm()"
-            >
-              <template #append-outer>
-                <v-menu
-                  v-model="showAddLang"
-                  offset-y
-                  nudge-right="12"
-                  :close-on-content-click="false"
-                  max-width="200"
-                >
-                  <template #activator="{ on, attrs }">
-                    <v-icon left v-bind="attrs" v-on="on"> mdi-plus </v-icon>
-                  </template>
-                  <v-card width="100%">
-                    <v-list class="pt-4">
-                      <v-list-item>
-                        <v-text-field
-                          v-model="newLang"
-                          :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                          label="Language (short)"
-                          dense
-                          outlined
-                          :rules="[rules.notExist]"
-                        />
-                      </v-list-item>
-                    </v-list>
-                    <v-card-actions class="pt-0">
-                      <v-spacer />
-                      <v-btn text @click="showAddLang = false"> Close </v-btn>
-                      <v-btn
-                        color="success"
-                        text
-                        :disabled="langAbbrs.includes(newLang)"
-                        @click="addLang()"
-                      >
-                        Save
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-menu>
-              </template>
-            </v-autocomplete>
-            <v-text-field
-              v-model.lazy="langForm.title"
-              :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-              :disabled="!selectedLang"
-              label="Title"
-              outlined
-              dense
-              @change="autoSave()"
-            />
-            <v-text-field
-              v-model.lazy="langForm.subtitle"
-              :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-              :disabled="!selectedLang"
-              label="Subtitle"
-              outlined
-              dense
-              @change="autoSave()"
-            />
-            <v-textarea
-              v-model.lazy="langForm.short"
-              :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-              :disabled="!selectedLang"
-              label="Short Description"
-              outlined
-              dense
-              height="70"
-              @change="autoSave()"
-            />
-            <v-textarea
-              v-model.lazy="langForm.long"
-              :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-              :disabled="!selectedLang"
-              label="Description"
-              outlined
-              dense
-              @change="autoSave()"
-            />
-          </v-form>
-        </v-card-text>
-      </v-window-item>
-      <v-window-item :value="3">
-        <v-card-text class="pt-2">
-          <v-autocomplete
-            v-model="recording.tags"
-            :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-            label="Tags"
-            :items="tags"
-            item-text="lang.name"
-            item-value="id"
-            small-chips
-            deletable-chips
-            multiple
-            outlined
-            dense
-            @change="autoSave()"
-          />
-          <v-autocomplete
-            v-model="recording.event_id"
-            :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-            label="Event"
-            :items="events"
-            item-text="name"
-            item-value="id"
-            small-chips
-            clearable
-            outlined
-            dense
-            @change="autoSave()"
-          />
-          <v-autocomplete
-            v-model="recording.speakers"
-            :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-            label="Speakers"
-            :items="speakers"
-            item-text="name"
-            item-value="id"
-            small-chips
-            deletable-chips
-            multiple
-            outlined
-            dense
-            @change="autoSave()"
-          />
-        </v-card-text>
-      </v-window-item>
-      <v-window-item :value="4">
-        <RecordingEditDialogFormats
-          :recordingid="recordingid"
-          :channelid="channelid"
-          :formats="formats"
-          @change-recording="load"
-          @toggle-loading="loading = !loading"
-          @loadRecordings="loadRecordings()"
-        ></RecordingEditDialogFormats>
-      </v-window-item>
-    </v-window>
+                  style="border-radius: 4px"
+                />
+                <v-btn v-else height="100%" width="100%"> Upload Poster </v-btn>
+              </v-responsive>
+              <v-text-field
+                v-model.lazy="recording.poster"
+                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                label="Poster URL"
+                outlined
+                dense
+                @change="saveHandler()"
+              />
+            </v-card-text>
+          </v-window-item>
+          <v-window-item :value="4">
+            <v-card-text>
+              <v-autocomplete
+                v-model="recording.tags"
+                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                label="Tags"
+                :items="tags"
+                item-text="lang.name"
+                item-value="id"
+                small-chips
+                deletable-chips
+                multiple
+                outlined
+                dense
+                @change="saveHandler()"
+              />
+              <v-autocomplete
+                v-model="recording.event_id"
+                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                label="Event"
+                :items="events"
+                item-text="name"
+                item-value="id"
+                small-chips
+                clearable
+                outlined
+                dense
+                @change="saveHandler()"
+              />
+              <v-autocomplete
+                v-model="recording.speakers"
+                :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                label="Speakers"
+                :items="speakers"
+                item-text="name"
+                item-value="id"
+                small-chips
+                deletable-chips
+                multiple
+                outlined
+                dense
+                @change="saveHandler()"
+              />
+            </v-card-text>
+          </v-window-item>
+        </v-window>
+      </div>
+    </v-row>
     <v-divider />
-    <v-card-actions>
+    <v-card-actions class="neutral lighten-1">
       <v-btn :disabled="step === 1" text @click="step--"> Back </v-btn>
       <v-spacer />
       <v-btn text @click="close()"> Close </v-btn>
-      <v-btn v-if="step !== 4" color="primary" depressed @click="step++">
+      <v-btn v-if="step !== 4" color="success" depressed @click="step++">
         Continue
       </v-btn>
       <v-btn v-else color="success" @click="save()"> Save </v-btn>
@@ -350,32 +413,47 @@
 
 <script>
 import { mapGetters } from "vuex";
-
 import { api } from "@/services/api.js";
+import { toIsoString } from "@/services/lib.js";
 import { models } from "@/services/lib.js";
-import RecordingEditDialogFormats from "./RecordingEditDialogFormats.vue";
+
+import codes from "langs";
+import DateTimePicker from "@/components/DateTimePicker.vue";
+import ImageUploadDrawing from "@/assets/ImageUploadDrawing.vue";
+import LanguageSimpleDrawing from "@/assets/LanguageSimpleDrawing.vue";
+import VideographerDrawing from "@/assets/VideographerDrawing.vue";
 
 export default {
-  name: "StreamEditDialog",
-  components: { RecordingEditDialogFormats },
-  props: ["channelid", "recordingid", "createdData", "lang", "window"],
+  name: "RecordingEditDialog",
+  components: {
+    DateTimePicker,
+    ImageUploadDrawing,
+    LanguageSimpleDrawing,
+    VideographerDrawing,
+  },
+  props: ["channelid", "recordingid", "streamColor"],
   data() {
     return {
+      codes: codes,
+      cName: "",
+      dateTimeObj: {},
       events: [],
-      formats: [],
       keepOpen: false,
       langForm: {},
       langs: [],
       langExists: false,
       loaded: false,
       loading: false,
-      newLang: "",
+      newLang: "de", // default language
+      savedDate: {},
       savedRecData: {},
       savedLangs: {},
       savedCurrentLang: {},
-      selectedLang: this.lang,
+      selectedLang: null,
+      selectedTextField: "",
       showAddLang: false,
-      showPreview: false,
+      showAddCommonName: false,
+      showDateTimePicker: false,
       speakers: [],
       step: 1,
       recording: {},
@@ -386,12 +464,6 @@ export default {
           "/" +
           this.recordingid +
           "/poster.jpg",
-        preview:
-          "https://cdn.media.kukoon.de/videos/" +
-          this.channelid +
-          "/" +
-          this.recordingid +
-          "/preview.webp",
       },
       tags: [],
     };
@@ -400,23 +472,39 @@ export default {
     ...mapGetters(["darkMode"]),
     currentTitle() {
       switch (this.step) {
-        default:
+        case 1:
           return "Settings";
         case 2:
           return "Title and Description";
         case 3:
+          return "Poster";
+        default:
           return "Metadata";
-        case 4:
-          return "Formats";
       }
     },
+    commonName: {
+      get() {
+        return this.recording.common_name;
+      },
+      set(v) {
+        this.cName = v;
+      },
+    },
     langAbbrs() {
-      return [...new Set(this.langs.map((item) => item.lang))];
+      const abbrs = [...new Set(this.langs.map((item) => item.lang))];
+      let result = [];
+      for (let abbr of abbrs) {
+        const code = this.codes.where("1", abbr);
+        result.push({ abbr: abbr, name: code.name });
+      }
+      return result;
+    },
+    langsContainNew() {
+      return this.langs.some((e) => e.lang == this.newLang);
     },
     rules() {
       return {
-        notExist:
-          !this.langAbbrs.includes(this.newLang) || "Language already exists!",
+        notExist: !this.langsContainNew || "Language already exists!",
       };
     },
     enableSave() {
@@ -442,28 +530,67 @@ export default {
   mounted() {
     this.loadFilterData();
     this.loadLangs();
-    if (this.selectedLang) {
-      this.step = 2;
-    }
-    switch (this.window) {
-      default:
-        this.step = 1;
-        break;
-      case 2:
-        this.step = 2;
-        break;
-      case 3:
-        this.step = 3;
-        break;
-      case 4:
-        this.step = 4;
-        break;
-    }
+    this.addLang();
   },
   created() {
     this.load();
   },
   methods: {
+    dateTimePickerHandler(obj) {
+      let time = new Date(Object.values(obj)[0]);
+      time.setMinutes(time.getMinutes() - time.getTimezoneOffset());
+      this.dateTimeObj = {
+        date: new Date(Object.values(obj)[0]).toISOString().slice(0, 10),
+        time: time.toISOString().slice(11, 16),
+      };
+      // make tmp copy to revert back to when canceled
+      this.savedDate = {
+        value: Object.values(obj)[0],
+        key: Object.keys(obj)[0],
+      };
+      // if end_at, assign start_at to object passed to prevent earlier input
+      if (this.savedDate.key === "end_at") {
+        Object.assign(this.dateTimeObj, { min: this.recording.start_at });
+      }
+      this.showDateTimePicker = true;
+    },
+    changeDate(str) {
+      // assign to object passed to DateTimePicker component
+      this.dateTimeObj.date = str;
+      // assign to recording object
+      let date = new Date(str);
+      date = toIsoString(date).slice(0, 16);
+      this.recording[this.savedDate.key] = date;
+    },
+    changeTime(str) {
+      // assign to object passed to DateTimePicker component
+      this.dateTimeObj.time = str;
+      // assign to recording object
+      const dateTime =
+        this.recording[this.savedDate.key].slice(0, 10) + "T" + str;
+      this.recording[this.savedDate.key] = dateTime;
+    },
+    readableDate(s) {
+      let date = new Date(s);
+      const options = {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      };
+      const dateStr = date.toLocaleString([], options);
+      return dateStr;
+    },
+    addCommonName() {
+      this.keepOpen = true;
+      this.recording.common_name = encodeURI(this.cName)
+        .replace(/%20/g, "-")
+        .toLowerCase();
+      this.save();
+      this.showAddCommonName = false;
+    },
     addLang() {
       let resp = null;
       const langForm = {
@@ -483,7 +610,6 @@ export default {
       }
     },
     close() {
-      this.$emit("loadRecordings");
       this.$emit("closeDialog");
       this.step = 1;
     },
@@ -498,7 +624,6 @@ export default {
       }
       api.Recordings.Get(this.recordingid).then((response) => {
         this.recording = models.Recording.FromRequest(response.data);
-        this.formats = response.data.formats ? response.data.formats : [];
         this.savedRecData = { ...this.recording };
         this.loaded = true;
       });
@@ -509,19 +634,19 @@ export default {
       api.Speakers.List().then((response) => (this.speakers = response.data));
     },
     loadLangs(newLang) {
+      this.loading = true;
       api.Recordings.Langs.List(this.recordingid).then((response) => {
         this.langs = response.data;
         if (newLang) {
           this.selectedLang = newLang;
         } else if (
-          !this.selectedLang &&
-          this.langAbbrs.includes(this.$store.getters.language)
+          this.langAbbrs.filter((e) => {
+            e.abbr === this.$store.getters.language;
+          }).length > 0
         ) {
           this.selectedLang = this.$store.getters.language;
-        } else if (!this.selectedLang && this.langAbbrs.length === 0) {
-          this.selectedLang = this.$store.getters.language;
-          this.newLang = this.selectedLang;
-          this.addLang();
+        } else if (this.langs.length > 0) {
+          this.selectedLang = this.langs[0].lang;
         }
         this.updateLangForm();
         this.savedLangs = this.langs.map((a) => {
@@ -556,7 +681,15 @@ export default {
         this.$emit("loadRecordings");
       });
     },
-    autoSave() {
+    closeDateTimeHandler() {
+      this.showDateTimePicker = false;
+      this.recording[this.savedDate.key] = this.savedDate.value;
+    },
+    saveDateTimeHandler() {
+      this.showDateTimePicker = false;
+      this.saveHandler();
+    },
+    saveHandler() {
       if (!this.enableSave) {
         this.keepOpen = true;
         setTimeout(() => {
@@ -575,7 +708,6 @@ export default {
       }
       resp.then((response) => {
         this.recording = models.Recording.FromRequest(response.data);
-
         for (const lang of this.langs) {
           if (lang.id) {
             resp = api.Recordings.Langs.Save(lang.id, lang);
