@@ -391,9 +391,9 @@
                 @change="saveHandler()"
               />
               <v-autocomplete
-                v-model="stream.events"
+                v-model="stream.event_id"
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                label="Events"
+                label="Event"
                 :items="events"
                 item-text="name"
                 item-value="id"
