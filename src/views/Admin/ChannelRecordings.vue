@@ -61,7 +61,7 @@
                 @click="editItem(item, null, 1)"
               />
             </template>
-            <template #item.lang.title="{ item }">
+            <template #item.id="{ item }">
               <span
                 @click="editItem(item, item.lang.lang, 2)"
                 style="cursor: pointer"
