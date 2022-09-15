@@ -213,7 +213,7 @@ export default {
         {
           text: "Title",
           align: "start",
-          value: "lang.title",
+          value: "id",
           width: "15%",
         },
         { text: "Duration", value: "duration", align: "end" },
