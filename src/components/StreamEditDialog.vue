@@ -345,7 +345,7 @@
                   Please add a poster to the stream
                 </v-card-subtitle>
                 <v-card-actions class="d-flex justify-center">
-                  <v-btn color="info" @click="showAddCommonName = true">
+                  <v-btn color="info" @click="showAddPoster = true">
                     Add Poster
                   </v-btn>
                 </v-card-actions>
@@ -373,6 +373,38 @@
                 @change="saveHandler()"
               />
             </v-card-text>
+            <v-dialog v-model="showAddPoster" width="300" hide-overlay>
+              <v-card flat :color="darkMode ? 'neutral lighten-1' : 'white'">
+                <v-card-title>
+                  {{ !this.stream.poster ? "Add Poster" : "Save Poster" }}
+                </v-card-title>
+                <v-card-subtitle
+                  >Upload over command line and enter URL here
+                </v-card-subtitle>
+                <v-card-text>
+                  <v-form
+                    class="pa-0 mt-2"
+                    :disabled="!loaded"
+                    @submit.prevent="addPoster()"
+                  >
+                    <v-text-field
+                      v-model.lazy="this.streamFormDefault.poster"
+                      :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                      label="Poster URL"
+                      outlined
+                      dense
+                  /></v-form>
+                </v-card-text>
+                <v-divider />
+                <v-card-actions class="neutral lighten-1">
+                  <v-spacer />
+                  <v-btn text @click="showAddPoster = false"> Close </v-btn>
+                  <v-btn color="success" text @click="addPoster()">
+                    {{ !this.stream.poster ? "Add" : "Save" }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-window-item>
           <v-window-item :value="4">
             <v-card-text>
@@ -478,6 +510,7 @@ export default {
       selectedTextField: "",
       showAddLang: false,
       showAddCommonName: false,
+      showAddPoster: false,
       showDateTimePicker: false,
       speakers: [],
       step: 1,
@@ -614,6 +647,12 @@ export default {
         .toLowerCase();
       this.save();
       this.showAddCommonName = false;
+    },
+    addPoster() {
+      this.keepOpen = true;
+      this.stream.poster = this.streamFormDefault.poster;
+      this.save();
+      this.showAddPoster = false;
     },
     addLang() {
       let resp = null;

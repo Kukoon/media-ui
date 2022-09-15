@@ -1,7 +1,7 @@
 <template>
   <v-card width="100%" :color="darkMode ? 'neutral lighten-2' : 'white'">
     <v-row class="d-flex" no-gutters>
-      <v-card width="8px" :color="streamColor" tile />
+      <v-card width="8px" :color="getRecordingColor" tile />
       <div class="d-flex flex-column flex-grow-1">
         <v-card-title class="text-h6 font-weight-regular">
           <span>{{ currentTitle }}</span>
@@ -66,7 +66,7 @@
             <v-card-text v-if="!recording.common_name">
               <v-card :color="darkMode ? 'neutral lighten-2' : 'white'" flat>
                 <v-card-text class="d-flex justify-center">
-                  <VideographerDrawing :color="streamColor" width="240" />
+                  <VideographerDrawing :color="getRecordingColor" width="240" />
                 </v-card-text>
                 <v-card-title class="d-flex justify-center mt-0 pt-0">
                   No Recording Identifier
@@ -128,15 +128,6 @@
                   @close="closeDateTimeHandler()"
                   @save="saveDateTimeHandler()"
                 />
-                <v-switch
-                  v-model.lazy="recording.chat"
-                  color="success"
-                  label="Chat"
-                  outlined
-                  dense
-                  :title="recording.chat ? 'Disable Chat' : 'Enable Chat'"
-                  @change="saveHandler()"
-                />
               </v-form>
             </v-card-text>
             <v-dialog v-model="showAddCommonName" width="300" hide-overlay>
@@ -186,7 +177,7 @@
               <v-card :color="darkMode ? 'neutral lighten-2' : 'white'" flat>
                 <v-card-text class="d-flex justify-center">
                   <LanguageSimpleDrawing
-                    :color="streamColor"
+                    :color="getRecordingColor"
                     width="240"
                     v-if="!loading"
                   />
@@ -311,7 +302,7 @@
             <v-card-text v-if="!recording.poster">
               <v-card :color="darkMode ? 'neutral lighten-2' : 'white'" flat>
                 <v-card-text class="d-flex justify-center">
-                  <ImageUploadDrawing :color="streamColor" width="240" />
+                  <ImageUploadDrawing :color="getRecordingColor" width="240" />
                 </v-card-text>
                 <v-card-title class="d-flex justify-center mt-0 pt-0">
                   Upload a Poster
@@ -320,7 +311,7 @@
                   Please add a poster to the recording
                 </v-card-subtitle>
                 <v-card-actions class="d-flex justify-center">
-                  <v-btn color="info" @click="showAddCommonName = true">
+                  <v-btn color="info" @click="showAddPoster = true">
                     Add Poster
                   </v-btn>
                 </v-card-actions>
@@ -348,6 +339,38 @@
                 @change="saveHandler()"
               />
             </v-card-text>
+            <v-dialog v-model="showAddPoster" width="300" hide-overlay>
+              <v-card flat :color="darkMode ? 'neutral lighten-1' : 'white'">
+                <v-card-title>
+                  {{ !this.recording.poster ? "Add Poster" : "Save Poster" }}
+                </v-card-title>
+                <v-card-subtitle
+                  >Upload over command line and enter URL here
+                </v-card-subtitle>
+                <v-card-text>
+                  <v-form
+                    class="pa-0 mt-2"
+                    :disabled="!loaded"
+                    @submit.prevent="addPoster()"
+                  >
+                    <v-text-field
+                      v-model.lazy="this.formDefault.poster"
+                      :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+                      label="Poster URL"
+                      outlined
+                      dense
+                  /></v-form>
+                </v-card-text>
+                <v-divider />
+                <v-card-actions class="neutral lighten-1">
+                  <v-spacer />
+                  <v-btn text @click="showAddPoster = false"> Close </v-btn>
+                  <v-btn color="success" text @click="addPoster()">
+                    {{ !this.recording.poster ? "Add" : "Save" }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-window-item>
           <v-window-item :value="4">
             <v-card-text>
@@ -415,7 +438,9 @@
 import { mapGetters } from "vuex";
 import { api } from "@/services/api.js";
 import { toIsoString } from "@/services/lib.js";
-import { models } from "@/services/lib.js";
+import { uuidToArrayElement, models } from "@/services/lib.js";
+
+import { config } from "../../config.js";
 
 import codes from "langs";
 import DateTimePicker from "@/components/DateTimePicker.vue";
@@ -431,7 +456,7 @@ export default {
     LanguageSimpleDrawing,
     VideographerDrawing,
   },
-  props: ["channelid", "recordingid", "streamColor"],
+  props: ["channelid", "recordingid"],
   data() {
     return {
       codes: codes,
@@ -453,6 +478,7 @@ export default {
       selectedTextField: "",
       showAddLang: false,
       showAddCommonName: false,
+      showAddPoster: false,
       showDateTimePicker: false,
       speakers: [],
       step: 1,
@@ -518,6 +544,9 @@ export default {
         langsEqual = true;
       }
       return this.shallowEqual(this.recording, this.savedRecData) && langsEqual;
+    },
+    getRecordingColor() {
+      return uuidToArrayElement(this.recordingid, config.colors.calendar);
     },
   },
   watch: {
@@ -591,12 +620,19 @@ export default {
       this.save();
       this.showAddCommonName = false;
     },
+    addPoster() {
+      this.keepOpen = true;
+      this.recording.poster = this.formDefault.poster;
+      this.save();
+      this.showAddPoster = false;
+    },
     addLang() {
       let resp = null;
       const langForm = {
         lang: this.newLang,
       };
-      if (!this.langAbbrs.includes(this.newLang)) {
+      if (!this.langAbbrs.some((e) => e.abbr === this.newLang)) {
+        console.log(langForm);
         const newLang = this.newLang;
         resp = api.Recordings.Langs.Add(this.recordingid, langForm);
         resp.then(() => {
