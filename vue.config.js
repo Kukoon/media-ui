@@ -18,7 +18,7 @@ module.exports = {
 				changeOrigin: true,
 			},
 			'^/ws': {
-				target: 'https://media.kukoon.de',
+				target: 'wss://media.kukoon.de',
 				ws: true,
 				changeOrigin: true,
 			},
