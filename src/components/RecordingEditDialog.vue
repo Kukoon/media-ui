@@ -345,7 +345,7 @@
                   {{ !this.recording.poster ? "Add Poster" : "Save Poster" }}
                 </v-card-title>
                 <v-card-subtitle
-                  >Upload over command line and enter URL here
+                  >Upload over command line for now
                 </v-card-subtitle>
                 <v-card-text>
                   <v-form
@@ -373,7 +373,35 @@
             </v-dialog>
           </v-window-item>
           <v-window-item :value="4">
-            <v-card-text>
+            <v-card-text
+              v-if="
+                recording.tags.length === 0 &&
+                !recording.event_id &&
+                recording.speakers.length === 0 &&
+                showHashtagBanner
+              "
+            >
+              <v-card :color="darkMode ? 'neutral lighten-2' : 'white'" flat>
+                <v-card-text class="d-flex justify-center">
+                  <BuildingHashtagDrawing
+                    :color="getRecordingColor"
+                    width="300"
+                  />
+                </v-card-text>
+                <v-card-title class="d-flex justify-center mt-0 pt-0">
+                  No Metadata
+                </v-card-title>
+                <v-card-subtitle class="d-flex justify-center">
+                  Please add tags, event and speakers
+                </v-card-subtitle>
+                <v-card-actions class="d-flex justify-center">
+                  <v-btn color="info" @click="showHashtagBanner = false">
+                    Add Metadata
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-card-text>
+            <v-card-text v-else>
               <v-autocomplete
                 v-model="recording.tags"
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -444,6 +472,7 @@ import { config } from "../../config.js";
 
 import codes from "langs";
 import DateTimePicker from "@/components/DateTimePicker.vue";
+import BuildingHashtagDrawing from "@/assets/BuildingHashtagDrawing.vue";
 import ImageUploadDrawing from "@/assets/ImageUploadDrawing.vue";
 import LanguageSimpleDrawing from "@/assets/LanguageSimpleDrawing.vue";
 import VideographerDrawing from "@/assets/VideographerDrawing.vue";
@@ -452,6 +481,7 @@ export default {
   name: "RecordingEditDialog",
   components: {
     DateTimePicker,
+    BuildingHashtagDrawing,
     ImageUploadDrawing,
     LanguageSimpleDrawing,
     VideographerDrawing,
@@ -480,6 +510,7 @@ export default {
       showAddCommonName: false,
       showAddPoster: false,
       showDateTimePicker: false,
+      showHashtagBanner: true,
       speakers: [],
       step: 1,
       recording: {},
@@ -631,7 +662,6 @@ export default {
         lang: this.newLang,
       };
       if (!this.langAbbrs.some((e) => e.abbr === this.newLang)) {
-        console.log(langForm);
         const newLang = this.newLang;
         resp = api.Recordings.Langs.Add(this.recordingid, langForm);
         resp.then(() => {
