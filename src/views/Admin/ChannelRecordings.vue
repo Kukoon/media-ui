@@ -1,34 +1,49 @@
 <template>
   <v-container fluid>
-    <v-snackbar
-      v-model="confirmRemove"
-      app
-      top
-      max-width="100%"
-      transition="scroll-y-transition"
-    >
-      <v-alert
-        id="alert"
+    <v-overlay :value="confirmRemove">
+      <v-snackbar
         v-model="confirmRemove"
-        type="error"
-        dismissible
-        dense
-        icon="mdi-alert"
-        class="mb-0"
+        app
+        top
+        max-width="100%"
+        transition="scroll-y-transition"
       >
-        <v-row align="center">
-          <v-col class="grow"> Do you really want to remove this Event? </v-col>
-          <v-col class="shrink">
-            <v-btn @click="remove(removeID)"> Remove </v-btn>
-          </v-col>
-        </v-row>
-      </v-alert>
-    </v-snackbar>
+        <v-alert
+          id="alert"
+          v-model="confirmRemove"
+          type="error"
+          dismissible
+          dense
+          icon="mdi-alert"
+          class="mb-0"
+        >
+          <v-row align="center">
+            <v-col class="grow">
+              Do you really want to remove {{ removeIDs.size }} Event?
+            </v-col>
+            <v-col class="shrink">
+              <v-btn @click="remove()"> Remove </v-btn>
+            </v-col>
+          </v-row>
+        </v-alert>
+      </v-snackbar>
+    </v-overlay>
     <v-row no-gutters>
       <v-col>
         <v-row no-gutters>
           <h3 class="pb-2">Recordings</h3>
           <v-spacer />
+          <v-btn
+            v-if="selected.length !== 0"
+            color="error"
+            small
+            outlined
+            class="mr-2"
+            @click="removeSelected()"
+          >
+            <v-icon small left> mdi-delete </v-icon>
+            Remove {{ selected.length }} recordings
+          </v-btn>
           <v-btn icon small @click="add()">
             <v-icon small> mdi-plus </v-icon>
           </v-btn>
@@ -47,8 +62,10 @@
             :headers="headers"
             :items="recordings"
             :search="search"
+            show-select
             sort-by="created_at"
             sort-desc
+            v-model="selected"
           >
             <template #item.poster="{ item }">
               <v-img
@@ -63,16 +80,18 @@
             </template>
             <template #item.id="{ item }">
               <span
+                v-if="item.lang"
                 @click="editItem(item, item.lang.lang, 2)"
                 style="cursor: pointer"
               >
-                {{
-                  item.lang.title
-                    ? item.lang.title
-                    : item.common_name
-                    ? item.common_name
-                    : item.id
-                }}
+                {{ item.lang.title }}
+              </span>
+              <span
+                v-else
+                @click="editItem(item, item.lang.lang, 2)"
+                style="cursor: pointer"
+              >
+                {{ item.common_name ? item.common_name : item.id }}
               </span>
             </template>
             <template #item.duration="{ item }">
@@ -149,7 +168,8 @@
                 small
                 class="mr-2"
                 @click="
-                  removeID = item.id;
+                  removeIDs.clear();
+                  removeIDs.add(item.id);
                   confirmRemove = true;
                 "
               >
@@ -225,11 +245,13 @@ export default {
         { text: "Actions", value: "actions", sortable: false },
       ],
       recordings: [],
-      removeID: null,
+      removeIDs: new Set(),
       search: "",
       selectedItem: null,
       selectedLang: null,
       showDialog: false,
+      singleSelect: false,
+      selected: [],
       window: null,
     };
   },
@@ -241,6 +263,11 @@ export default {
     selectedOpen() {
       if (!this.showDialog) {
         this.dialogKey += 1;
+      }
+    },
+    confirmRemove(v) {
+      if (!v) {
+        this.removeIDs.clear();
       }
     },
   },
@@ -297,10 +324,19 @@ export default {
       });
     },
     remove() {
-      api.Recordings.Delete(this.removeID).then(() => {
-        this.confirmRemove = false;
-        this.loadRecordings();
-      });
+      for (var id of this.removeIDs) {
+        api.Recordings.Delete(id).then(() => {
+          this.loadRecordings();
+          this.removeIDs.delete(id);
+          this.selected = [];
+          this.confirmRemove = false;
+        });
+      }
+    },
+    removeSelected() {
+      this.removeIDs.clear();
+      this.removeIDs = new Set(this.selected.map((e) => e.id));
+      this.confirmRemove = true;
     },
     viewItem(item) {
       const route = this.$router.resolve({
@@ -308,6 +344,9 @@ export default {
         params: { id: item.id },
       });
       window.open(route.href, "_blank");
+    },
+    closeConfirm() {
+      this.confirmRemove = false;
     },
   },
 };
