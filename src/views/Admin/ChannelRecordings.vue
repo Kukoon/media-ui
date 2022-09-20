@@ -294,7 +294,7 @@ export default {
     },
     load() {
       api.Channels.Get(this.channelid).then((response) => {
-        this.channel = response.data;
+        this.channel = response.data.data;
       });
     },
     loadRecordings() {

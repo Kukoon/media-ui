@@ -73,7 +73,7 @@ export default {
         () => {
           this.isLive = false;
           api.Channels.Get(config.defaultChannel).then((resp) => {
-            this.connect(resp.data.id);
+            this.connect(resp.data.data.id);
           });
         }
       );

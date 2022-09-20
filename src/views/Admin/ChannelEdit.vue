@@ -81,19 +81,19 @@
               <tr>
                 <td>RTMP Complete Link</td>
                 <td>
-                  <code>{{ ingressRTMP.replace("{ID}", "/" + channel.id) }}</code>
+                  <code>{{ ingressRTMP }}</code>
                 </td>
               </tr>
               <tr>
                 <td>RTMP URL</td>
                 <td>
-                  <code>{{ ingressRTMP.replace("{ID}", "") }}</code>
+                  <code>{{ ingressRTMP.slice(0, ingressRTMP.length -ingressRTMP.split("/").slice(-1)[0].length-1) }}</code>
                 </td>
               </tr>
               <tr>
                 <td>Secret</td>
                 <td>
-                  <code>{{ channel.id }}</code>
+                  <code>{{ ingressRTMP.split("/").slice(-1)[0] }}</code>
                 </td>
               </tr>
               <tr>
@@ -107,7 +107,7 @@
                   </a>
                 </td>
                 <td>
-                  <code>{{ ingressWS.replace("{ID}", channel.id) }}</code>
+                  <code>{{ ingressWS }}</code>
                 </td>
               </tr>
             </tbody>
@@ -122,15 +122,14 @@
 import { mapGetters } from "vuex";
 
 import { api } from "@/services/api.js";
-import { config } from "../../../config.js"; // ingressURLs
 
 export default {
   name: "ChannelEdit",
   props: ["channelid"],
   data() {
     return {
-      ingressRTMP: config.ingressURL.rtmp,
-      ingressWS: config.ingressURL.ws,
+      ingressRTMP: "",
+      ingressWS: "",
       channel: {},
       channelFormDefault: {},
       enableSave: false,
@@ -177,8 +176,11 @@ export default {
         return;
       }
       api.Channels.Get(this.channelid).then(
-        (response) => (this.channel = response.data)
-      );
+        (response) => {
+		this.channel = response.data.data;
+		this.ingressRTMP = response.data.ingress.rtmp;
+		this.ingressWS = response.data.ingress.webrtc;
+	});
     },
   },
 };

@@ -5,7 +5,6 @@
 <script>
 import VideoPlayer from "@/components/VideoPlayer";
 
-import { config } from "../../config.js"; // HLS url
 import { api } from "@/services/api.js";
 import { websocket } from "@/services/websocket.js";
 
@@ -31,9 +30,9 @@ export default {
   methods: {
     connectStream() {
       return api.Channels.Get(this.id).then((resp) => {
-        this.sources = config.sourceURLs.map((el) => { el.file = el.file.replace("{ID}", resp.data.id); return el;});
+        this.sources = resp.data.stream_sources;
         websocket.joinHandler(
-          resp.data.id,
+          resp.data.data.id,
           "status",
           "single for poster",
           (ev) => {
@@ -70,8 +69,8 @@ export default {
           api.Channels.Get(this.id).then((resp) => {
             this.video = {
               id: "00000000-0000-0000-0000-000000000000",
-              channel: resp.data,
-              poster: resp.data.logo,
+              channel: resp.data.data,
+              poster: resp.data.data.logo,
               lang: {
                 title: "No Stream Live",
                 subtitle: "no event scheduled",

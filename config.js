@@ -1,53 +1,6 @@
 export const config = {
 	"apiURL": `${location.protocol}//${location.host}/api/v1`,
 	"wsURL": `ws${location.protocol == 'https:' ? 's' : ''}://${location.host}/ws/v1`,
-	"ingressURL": {
-		"rtmp": "rtmp://ingress.media.kukoon.de/stream{ID}",
-		"ws": "wss://edge01.media.kukoon.de/stream/ws/stream/{ID}?direction=send&transport=tcp",
-	},
-	"sourceURLs": [
-		{
-			"file": "wss://edge01.media.kukoon.de/stream/ws/stream/{ID}?transport=tcp",
-			"type": "webrtc",
-			"label": "Realtime (WebRTC-TCP)",
-			"default": true,
-			"id": 1
-		},
-		{
-			"file": "https://edge01.media.kukoon.de/stream/stream/{ID}/playlist.m3u8",
-			"type": "hls",
-			"label": "Live (Stabil - HLS)",
-			"id": 2
-		},
-		/*
-		{
-			"file": "wss://edge01.media.kukoon.de/stream/ws/stream/{ID}",
-			"type": "webrtc",
-			"label": "WebRTC",
-			"id": 3
-		},
-		/*
-		{
-			"file": "https://edge01.media.kukoon.de/stream/stream/{ID}/manifest_ll.mpd",
-			"type": "dash",
-			"lowLatency": true,
-			"label": "DASH-LL",
-			"id": 2
-		},
-		{
-			"file": "https://edge01.media.kukoon.de/stream/stream/{ID}/playlist.m3u8",
-			"type": "hls",
-			"label": "HLS",
-			"id": 1
-		},
-		{
-			"file": "https://edge01.media.kukoon.de/stream/stream/{ID}/manifest.mpd",
-			"type": "dash",
-			"label": "DASH",
-			"id": 4
-		}
-       		*/
-        ],
 	"defaultChannel": "kukoon",
 	"defaultChannelID": "df1555f5-7046-4f7a-adcc-195b73949723",
 	"sponsorLogos": [

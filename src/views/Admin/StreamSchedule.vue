@@ -204,7 +204,7 @@ export default {
     },
     load() {
       api.Channels.Get(this.channelid).then(
-        (response) => (this.channel = response.data)
+        (response) => (this.channel = response.data.data)
       );
     },
     getStreamColor(stream) {
