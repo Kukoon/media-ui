@@ -60,7 +60,7 @@
             </v-list>
           </v-menu>
         </v-card-title>
-        <v-card-subtitle>{{ step + "/4" }} </v-card-subtitle>
+        <v-card-subtitle>{{ step + "/" + steps.length }} </v-card-subtitle>
         <v-window v-model="step">
           <v-window-item :value="1">
             <v-card-text v-if="!recording.common_name">
@@ -445,6 +445,16 @@
               />
             </v-card-text>
           </v-window-item>
+          <v-window-item :value="5">
+            <RecordingEditDialogFormats
+              :recordingid="recordingid"
+              :channelid="channelid"
+              :formats="formats"
+              @change-recording="load"
+              @toggle-loading="loading = !loading"
+              @loadRecordings="loadRecordings()"
+            ></RecordingEditDialogFormats>
+          </v-window-item>
         </v-window>
       </div>
     </v-row>
@@ -453,7 +463,12 @@
       <v-btn :disabled="step === 1" text @click="step--"> Back </v-btn>
       <v-spacer />
       <v-btn text @click="close()"> Close </v-btn>
-      <v-btn v-if="step !== 4" color="success" depressed @click="step++">
+      <v-btn
+        v-if="step !== steps.length"
+        color="success"
+        depressed
+        @click="step++"
+      >
         Continue
       </v-btn>
       <v-btn v-else color="success" @click="save()"> Save </v-btn>
@@ -476,6 +491,7 @@ import BuildingHashtagDrawing from "@/assets/BuildingHashtagDrawing.vue";
 import ImageUploadDrawing from "@/assets/ImageUploadDrawing.vue";
 import LanguageSimpleDrawing from "@/assets/LanguageSimpleDrawing.vue";
 import VideographerDrawing from "@/assets/VideographerDrawing.vue";
+import RecordingEditDialogFormats from "./RecordingEditDialogFormats.vue";
 
 export default {
   name: "RecordingEditDialog",
@@ -485,6 +501,7 @@ export default {
     ImageUploadDrawing,
     LanguageSimpleDrawing,
     VideographerDrawing,
+    RecordingEditDialogFormats,
   },
   props: ["channelid", "recordingid", "window"],
   data() {
@@ -513,6 +530,13 @@ export default {
       showHashtagBanner: true,
       speakers: [],
       step: 1,
+      steps: [
+        "Settings",
+        "Title and Description",
+        "Poster",
+        "Metadata",
+        "Formats",
+      ],
       recording: {},
       formDefault: {
         poster:
@@ -528,16 +552,10 @@ export default {
   computed: {
     ...mapGetters(["darkMode"]),
     currentTitle() {
-      switch (this.step) {
-        case 1:
-          return "Settings";
-        case 2:
-          return "Title and Description";
-        case 3:
-          return "Poster";
-        default:
-          return "Metadata";
+      if (this.step > this.steps.length) {
+        return "Unkown";
       }
+      return this.steps[this.step - 1];
     },
     commonName: {
       get() {
@@ -692,6 +710,7 @@ export default {
       }
       api.Recordings.Get(this.recordingid).then((response) => {
         this.recording = models.Recording.FromRequest(response.data);
+        this.formats = response.data.formats ? response.data.formats : [];
         this.savedRecData = { ...this.recording };
         this.loaded = true;
       });
