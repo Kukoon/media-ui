@@ -7,6 +7,7 @@ import VideoPlayer from "@/components/VideoPlayer";
 
 import { api } from "@/services/api.js";
 import { websocket } from "@/services/websocket.js";
+import { models } from "@/services/lib.js";
 
 export default {
   name: "Single",
@@ -16,7 +17,9 @@ export default {
     return {
       autostart: false,
       sources: null,
-      video: null,
+      video: {
+        poster: "",
+      },
     };
   },
   watch: {
@@ -90,8 +93,7 @@ export default {
       this.autostart = false;
       return api.Recordings.Get(this.id).then((response) => {
         this.video = response.data;
-        const urls = this.video.formats.map((i) => i.url);
-        this.sources = urls[0];
+        this.sources = models.Recording.PlayerSources(response.data);
       });
     },
     load() {

@@ -56,6 +56,13 @@ export const models = {
 		},
 	},
 	Recording: {
+		PlayerSources(data) {
+			return data.formats.map((i) =>  {return {
+				"type": "mp3",
+				"file": i.url,
+				"label": (i.is_video ? "Video " : "Audio ") + i.resolution
+			}})
+		},
 		FromRequest(data) {
 			return {
 				created_at: dateString(data.created_at),

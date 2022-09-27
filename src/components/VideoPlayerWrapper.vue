@@ -47,6 +47,9 @@
 import VideoPlayer from "@/components/VideoPlayer";
 import VideoSubtitle from "@/components/VideoSubtitle.vue";
 import VideoDescription from "@/components/VideoDescription.vue";
+
+import { models } from "@/services/lib.js";
+
 import { mapGetters } from "vuex";
 
 export default {
@@ -68,11 +71,7 @@ export default {
       if (this.sources) {
         return this.sources;
       }
-      return this.video.formats.map((i) => {return {
-        "type": "mp3",
-        "file": i.url,
-	"label": (i.is_video ? "Video " : "Audio ") + i.resolution
-      }});
+      return models.Recording.PlayerSources(this.video);
     },
   },
   methods: {
