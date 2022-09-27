@@ -131,7 +131,7 @@
                 <v-switch
                   v-model.lazy="recording.public"
                   color="success"
-                  label="Public (viewable without login)"
+                  label="Published"
                   outlined
                   dense
                   @change="saveHandler()"
@@ -139,7 +139,7 @@
                 <v-switch
                   v-model.lazy="recording.listed"
                   color="success"
-                  label="Listed (visible in overview)"
+                  label="Listed"
                   outlined
                   dense
                   @change="saveHandler()"
