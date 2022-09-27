@@ -75,20 +75,20 @@
                 max-width="100"
                 class="mt-2 mb-2"
                 style="cursor: pointer"
-                @click="editItem(item, null, 1)"
+                @click="editItem(item, null, 3)"
               />
             </template>
             <template #item.id="{ item }">
               <span
                 v-if="item.lang"
-                @click="editItem(item, item.lang.lang, 2)"
+                @click="editItem(item, lang, 2)"
                 style="cursor: pointer"
               >
                 {{ item.lang.title }}
               </span>
               <span
                 v-else
-                @click="editItem(item, item.lang.lang, 2)"
+                @click="editItem(item, lang, 2)"
                 style="cursor: pointer"
               >
                 {{ item.common_name ? item.common_name : item.id }}

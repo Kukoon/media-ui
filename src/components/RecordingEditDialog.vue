@@ -486,7 +486,7 @@ export default {
     LanguageSimpleDrawing,
     VideographerDrawing,
   },
-  props: ["channelid", "recordingid"],
+  props: ["channelid", "recordingid", "window"],
   data() {
     return {
       codes: codes,
@@ -592,6 +592,9 @@ export default {
     this.loadLangs();
   },
   created() {
+    if (this.window) {
+      this.step = this.window;
+    }
     this.load();
   },
   methods: {
