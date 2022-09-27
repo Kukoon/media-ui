@@ -128,6 +128,22 @@
                   @close="closeDateTimeHandler()"
                   @save="saveDateTimeHandler()"
                 />
+                <v-switch
+                  v-model.lazy="recording.public"
+                  color="success"
+                  label="Public (viewable without login)"
+                  outlined
+                  dense
+                  @change="saveHandler()"
+                />
+                <v-switch
+                  v-model.lazy="recording.listed"
+                  color="success"
+                  label="Listed (visible in overview)"
+                  outlined
+                  dense
+                  @change="saveHandler()"
+                />
               </v-form>
             </v-card-text>
             <v-dialog v-model="showAddCommonName" width="300" hide-overlay>

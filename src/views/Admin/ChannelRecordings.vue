@@ -104,6 +104,7 @@
                 color="deep-purple lighten-3"
                 class="ma-1 monospace"
                 :text-color="darkMode ? 'black' : ''"
+                @click="editItem(item, _, 1)"
               >
                 <v-icon small left>mdi-playlist-check</v-icon>
                 Listed
@@ -114,6 +115,7 @@
                 color="light-green lighten-1"
                 class="ma-1 monospace"
                 :text-color="darkMode ? 'black' : ''"
+                @click="editItem(item, _, 1)"
               >
                 <v-icon small left>mdi-checkbox-marked-circle</v-icon>
                 Published
@@ -124,6 +126,7 @@
                 color="orange"
                 class="ma-1 monospace"
                 :text-color="darkMode ? 'black' : ''"
+                @click="editItem(item, _, 1)"
               >
                 <v-icon small left>mdi-eye-off</v-icon>
                 Private
@@ -161,7 +164,7 @@
               }}
             </template>
             <template #item.actions="{ item }">
-              <v-icon small class="mr-2" @click="editItem(item)">
+              <v-icon small class="mr-2" @click="editItem(item, _, 1)">
                 mdi-pencil
               </v-icon>
               <v-icon
