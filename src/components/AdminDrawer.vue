@@ -25,7 +25,7 @@
               <v-list-item
                 input-value="false"
                 :to="{
-                  name: 'ChannelEdit',
+                  name: 'ChannelProfile',
                   params: { channelid: selectionAdminChannel },
                 }"
               >

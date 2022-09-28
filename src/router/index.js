@@ -8,6 +8,9 @@ import Stats from "@/views/Admin/Stats.vue"
 import Server from "@/views/Admin/Server.vue"
 import About from "@/views/Admin/About.vue"
 import GlobalStreamSchedule from "@/views/Admin/GlobalStreamSchedule.vue"
+// import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
+import ChannelProfile from "@/views/Admin/ChannelProfile.vue"
+
 // for channel
 import ChannelDistribution from "@/views/Admin/ChannelDistribution.vue"
 import StreamSchedule from "@/views/Admin/StreamSchedule.vue"
@@ -94,7 +97,7 @@ const routes = [
 			{
 				path: "add",
 				name: "ChannelAdd",
-				component: ChannelEdit,
+				component: ChannelProfile,
 			},
 			{
 				path: "stats",
@@ -129,10 +132,10 @@ const routes = [
 				component: AdminChannelLive,
 				props: true,
 			},
-			{
-				path: "edit",
-				name: "ChannelEdit",
-				component: ChannelEdit,
+      {
+				path: "profile",
+				name: "ChannelProfile",
+				component: ChannelProfile,
 				props: true,
 			},
 			{

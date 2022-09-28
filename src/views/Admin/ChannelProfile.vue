@@ -23,19 +23,7 @@
             </v-col>
           </v-row>
         </v-alert>
-        <v-avatar color="black" size="128" class="my-4">
-          <v-img v-if="channel.logo" :src="channel.logo" contain />
-          <span v-else>{{ channel.title.slice(0, 2) }}</span>
-        </v-avatar>
         <v-form class="pa-0 mt-2" @submit="save()">
-          <v-text-field
-            v-model.lazy="channel.logo"
-            :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-            label="Logo URL"
-            outlined
-            dense
-            @input="enableSave = true"
-          />
           <v-text-field
             v-model="channel.title"
             :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -52,7 +40,20 @@
             dense
             @input="enableSave = true"
           />
-
+          <v-text-field
+            v-model.lazy="channel.logo"
+            :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
+            label="Logo URL"
+            outlined
+            dense
+            @input="enableSave = true"
+          >
+            <template #append-outer>
+              <v-btn icon @click="showUploadDialog = true" class="mt-n1">
+                <v-icon> mdi-plus </v-icon>
+              </v-btn>
+            </template>
+          </v-text-field>
           <v-btn
             class="ml-auto mr-1"
             color="success"
@@ -66,7 +67,6 @@
             v-if="channelid"
             class="ml-1"
             color="error"
-            outlined
             @click="confirmRemove = true"
           >
             <v-icon left> mdi-delete </v-icon>
@@ -87,21 +87,26 @@
               <tr>
                 <td>RTMP Complete Link</td>
                 <td>
-                  <code>{{
-                    ingressRTMP.replace("{ID}", "/" + channel.id)
-                  }}</code>
+                  <code>{{ ingressRTMP }}</code>
                 </td>
               </tr>
               <tr>
                 <td>RTMP URL</td>
                 <td>
-                  <code>{{ ingressRTMP.replace("{ID}", "") }}</code>
+                  <code>{{
+                    ingressRTMP.slice(
+                      0,
+                      ingressRTMP.length -
+                        ingressRTMP.split("/").slice(-1)[0].length -
+                        1
+                    )
+                  }}</code>
                 </td>
               </tr>
               <tr>
                 <td>Secret</td>
                 <td>
-                  <code>{{ channel.id }}</code>
+                  <code>{{ ingressRTMP.split("/").slice(-1)[0] }}</code>
                 </td>
               </tr>
               <tr>
@@ -115,12 +120,17 @@
                   </a>
                 </td>
                 <td>
-                  <code>{{ ingressWS.replace("{ID}", channel.id) }}</code>
+                  <code>{{ ingressWS }}</code>
                 </td>
               </tr>
             </tbody>
           </template>
         </v-simple-table>
+        <UploadDialog
+          v-if="showUploadDialog"
+          :channelid="channelid"
+          @closeSpeakerEditDialog="closeUploadDialog"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -130,19 +140,23 @@
 import { mapGetters } from "vuex";
 
 import { api } from "@/services/api.js";
-import { config } from "../../../config.js"; // ingressURLs
+import UploadDialog from "@/components/UploadDialog.vue";
 
 export default {
   name: "ChannelProfile",
+  components: {
+    UploadDialog,
+  },
   props: ["channelid"],
   data() {
     return {
-      ingressRTMP: config.ingressURL.rtmp,
-      ingressWS: config.ingressURL.ws,
+      ingressRTMP: "",
+      ingressWS: "",
       channel: {},
       channelFormDefault: {},
       enableSave: false,
       confirmRemove: false,
+      showUploadDialog: false,
     };
   },
   computed: {
@@ -184,9 +198,14 @@ export default {
         this.channel = Object.assign({}, this.channelFormDefault);
         return;
       }
-      api.Channels.Get(this.channelid).then(
-        (response) => (this.channel = response.data)
-      );
+      api.Channels.Get(this.channelid).then((response) => {
+        this.channel = response.data.data;
+        this.ingressRTMP = response.data.ingress.rtmp;
+        this.ingressWS = response.data.ingress.webrtc;
+      });
+    },
+    closeUploadDialog(v) {
+      this.showUploadDialog = v;
     },
   },
 };

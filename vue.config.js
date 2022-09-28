@@ -17,11 +17,11 @@ module.exports = {
 				// target: 'https://media.kukoon.de',
 				changeOrigin: true,
 			},
-			'^/ws': {
-				target: 'wss://media.kukoon.de',
-				ws: true,
-				changeOrigin: true,
-			},
+			// '^/ws': {
+			// 	target: 'wss://media.kukoon.de',
+			// 	ws: true,
+			// 	changeOrigin: true,
+			// },
 		},
 	},
 }
