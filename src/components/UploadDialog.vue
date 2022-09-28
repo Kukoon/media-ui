@@ -21,13 +21,25 @@
             outlined
             dense
             label="File input"
+            :success="success"
+            :error="errorMessage !== null"
             :error-messages="errorMessage"
           ></v-file-input>
         </v-form>
-        <v-progress-linear
-          :value="uploadProgress"
-          v-if="uploadProgress > 0"
-        ></v-progress-linear>
+        <v-expand-transition>
+          <v-progress-linear
+            :value="uploadProgress"
+            v-if="uploadProgress > 0"
+            height="20"
+            class="mb-6"
+            color="success darken-1"
+            background-color="neutral lighten-1"
+          >
+            <template #default="{ value }">
+              <strong>{{ Math.ceil(value) }}%</strong>
+            </template>
+          </v-progress-linear>
+        </v-expand-transition>
       </v-card-text>
       <v-divider />
 
@@ -53,8 +65,9 @@ export default {
     return {
       dialog: true,
       fileSrc: {},
-      uploadProgress: 0,
+      uploadProgress: 20,
       errorMessage: null,
+      success: null,
     };
   },
   methods: {
@@ -64,10 +77,14 @@ export default {
     upload() {
       console.log("upload");
       this.errorMessage = null;
+      this.success = false;
       api.Channels.LogoUploader(
         this.channelid,
         this.fileSrc,
-        () => console.log("success"),
+        () => {
+          this.success = true;
+          console.log("success");
+        },
         (percent) => {
           console.log(percent, "%");
           this.uploadProgress = percent;
