@@ -444,7 +444,13 @@
                 outlined
                 dense
                 @change="saveHandler()"
-              />
+              >
+                <template #append-outer>
+                  <v-btn icon @click="showEventEditDialog = true" class="mt-n1">
+                    <v-icon> mdi-plus </v-icon>
+                  </v-btn>
+                </template>
+              </v-autocomplete>
               <v-autocomplete
                 v-model="recording.speakers"
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
@@ -460,12 +466,18 @@
                 @change="saveHandler()"
               />
             </v-card-text>
+            <EventEditDialog
+              v-if="showEventEditDialog"
+              :channelid="channelid"
+              @closeEventEditDialog="closeEventEditDialog"
+            />
           </v-window-item>
           <v-window-item :value="5">
             <RecordingEditDialogFormats
               :recordingid="recordingid"
               :channelid="channelid"
               :formats="formats"
+              :color="getRecordingColor"
               @change-recording="load"
               @toggle-loading="loading = !loading"
               @loadRecordings="loadRecordings()"
@@ -503,6 +515,8 @@ import { config } from "../../config.js";
 
 import codes from "langs";
 import DateTimePicker from "@/components/DateTimePicker.vue";
+import EventEditDialog from "@/components/EventEditDialog.vue";
+
 import BuildingHashtagDrawing from "@/assets/BuildingHashtagDrawing.vue";
 import ImageUploadDrawing from "@/assets/ImageUploadDrawing.vue";
 import LanguageSimpleDrawing from "@/assets/LanguageSimpleDrawing.vue";
@@ -513,6 +527,7 @@ export default {
   name: "RecordingEditDialog",
   components: {
     DateTimePicker,
+    EventEditDialog,
     BuildingHashtagDrawing,
     ImageUploadDrawing,
     LanguageSimpleDrawing,
@@ -543,6 +558,7 @@ export default {
       showAddCommonName: false,
       showAddPoster: false,
       showDateTimePicker: false,
+      showEventEditDialog: false,
       showHashtagBanner: true,
       speakers: [],
       step: 1,
@@ -843,6 +859,13 @@ export default {
         }
       }
       return true;
+    },
+    closeEventEditDialog(v, id) {
+      api.Events.List().then((response) => {
+        this.events = response.data;
+        this.recording.event_id = id;
+        this.showEventEditDialog = v;
+      });
     },
   },
 };

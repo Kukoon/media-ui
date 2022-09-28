@@ -1,141 +1,166 @@
 <template>
-  <v-card-text class="pt-0">
-    <v-alert
-      v-if="confirmRemove"
-      v-model="confirmRemove"
-      class="mt-2"
-      border="left"
-      type="error"
-      dense
-      dismissible
-    >
-      <v-row align="center">
-        <v-col class="grow"> Do you really want to remove this format? </v-col>
-        <v-col class="shrink">
-          <v-btn elevation="0" @click="remove()"> Remove </v-btn>
-        </v-col>
-      </v-row>
-    </v-alert>
-    <v-data-table
-      :class="darkMode ? 'neutral lighten-3' : ''"
-      :items="formats"
-      :headers="headers"
-      calculate-widths
-      disable-sort
-      disable-pagination
-      hide-default-footer
-    >
-      <template #item.lang="props">
-        <v-edit-dialog :return-value.sync="props.item.lang">
-          {{ props.item.lang.toUpperCase() }}
-          <template #input>
-            <div class="mt-4">Update Language (short):</div>
-            <v-text-field
-              v-model="props.item.lang"
-              label="Edit"
-              single-line
-              @change="autoSave()"
-            ></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template #item.quality="props">
-        <v-edit-dialog
-          :return-value.sync="props.item.quality"
-          large
-          persistent
-          @close="autoSave()"
-          @save="autoSave()"
-        >
-          {{ props.item.quality }}
-          <template #input>
-            <v-select
-              v-model="select"
-              :items="qualities"
-              item-text="text"
-              item-value="value"
-              return-object
-              single-line
-              @input="
-                props.item.quality = `${select.value}`;
-                toggle = false;
-              "
-            ></v-select>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template #item.bytes="props">
-        <v-edit-dialog :return-value.sync="props.item.bytes">
-          {{ formatBytes(props.item.bytes) }}
-          <template #input>
-            <div class="mt-4">Update Size (in bytes):</div>
-            <v-text-field
-              v-model="props.item.bytes"
-              label="Edit"
-              single-line
-              @change="autoSave()"
-            ></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template #item.resolution="props">
-        <v-edit-dialog :return-value.sync="props.item.resolution">
-          {{ props.item.resolution }}
-          <template #input>
-            <div class="mt-4">Update Resolution:</div>
-            <v-text-field
-              v-model="props.item.resolution"
-              label="Edit"
-              single-line
-              @change="autoSave()"
-            ></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template #item.url="props">
-        <v-edit-dialog :return-value.sync="props.item.url">
-          {{ shortenURL(props.item.url) }}
-          <template #input>
-            <div class="mt-4">Update File (URL):</div>
-            <v-text-field
-              v-model="props.item.url"
-              label="Edit"
-              single-line
-              @change="autoSave()"
-            ></v-text-field>
-          </template>
-        </v-edit-dialog>
-      </template>
-      <template #item.is_video="{ item }">
-        <v-checkbox v-model="item.is_video" @change="autoSave()"></v-checkbox>
-      </template>
-      <template #item.actions="{ item }">
-        <v-icon
-          small
-          class="mr-2"
-          @click="
-            removeID = item.id;
-            confirmRemove = true;
-          "
-        >
-          mdi-delete
-        </v-icon>
-      </template>
-    </v-data-table>
-    <v-btn color="info" class="mt-4" @click="addFormat()">
-      <v-icon small left> mdi-plus </v-icon>
-      Add Format
-    </v-btn>
-  </v-card-text>
+  <div>
+    <v-card-text v-if="formats.length === 0">
+      <v-card :color="darkMode ? 'neutral lighten-2' : 'white'" flat>
+        <v-card-text class="d-flex justify-center">
+          <VideoFormatsDrawing :color="color" width="240" />
+        </v-card-text>
+        <v-card-title class="d-flex justify-center mt-0 pt-0">
+          No video formats
+        </v-card-title>
+        <v-card-subtitle class="d-flex justify-center">
+          Please add a format to the recording
+        </v-card-subtitle>
+        <v-card-actions class="d-flex justify-center">
+          <v-btn color="info" @click="addFormat()"> Add Format </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-card-text>
+    <v-card-text v-else class="pt-0">
+      <v-alert
+        v-if="confirmRemove"
+        v-model="confirmRemove"
+        class="mt-2"
+        border="left"
+        type="error"
+        dense
+        dismissible
+      >
+        <v-row align="center">
+          <v-col class="grow">
+            Do you really want to remove this format?
+          </v-col>
+          <v-col class="shrink">
+            <v-btn elevation="0" @click="remove()"> Remove </v-btn>
+          </v-col>
+        </v-row>
+      </v-alert>
+      <v-data-table
+        :class="darkMode ? 'neutral lighten-3' : ''"
+        :items="formats"
+        :headers="headers"
+        calculate-widths
+        disable-sort
+        disable-pagination
+        hide-default-footer
+      >
+        <template #item.lang="props">
+          <v-edit-dialog :return-value.sync="props.item.lang">
+            {{ props.item.lang.toUpperCase() }}
+            <template #input>
+              <div class="mt-4">Update Language (short):</div>
+              <v-text-field
+                v-model="props.item.lang"
+                label="Edit"
+                single-line
+                @change="autoSave()"
+              ></v-text-field>
+            </template>
+          </v-edit-dialog>
+        </template>
+        <template #item.quality="props">
+          <v-edit-dialog
+            :return-value.sync="props.item.quality"
+            large
+            persistent
+            @close="autoSave()"
+            @save="autoSave()"
+          >
+            {{ props.item.quality }}
+            <template #input>
+              <v-select
+                v-model="select"
+                :items="qualities"
+                item-text="text"
+                item-value="value"
+                return-object
+                single-line
+                @input="
+                  props.item.quality = `${select.value}`;
+                  toggle = false;
+                "
+              ></v-select>
+            </template>
+          </v-edit-dialog>
+        </template>
+        <template #item.bytes="props">
+          <v-edit-dialog :return-value.sync="props.item.bytes">
+            {{ formatBytes(props.item.bytes) }}
+            <template #input>
+              <div class="mt-4">Update Size (in bytes):</div>
+              <v-text-field
+                v-model="props.item.bytes"
+                label="Edit"
+                single-line
+                @change="autoSave()"
+              ></v-text-field>
+            </template>
+          </v-edit-dialog>
+        </template>
+        <template #item.resolution="props">
+          <v-edit-dialog :return-value.sync="props.item.resolution">
+            {{ props.item.resolution }}
+            <template #input>
+              <div class="mt-4">Update Resolution:</div>
+              <v-text-field
+                v-model="props.item.resolution"
+                label="Edit"
+                single-line
+                @change="autoSave()"
+              ></v-text-field>
+            </template>
+          </v-edit-dialog>
+        </template>
+        <template #item.url="props">
+          <v-edit-dialog :return-value.sync="props.item.url">
+            {{ shortenURL(props.item.url) }}
+            <template #input>
+              <div class="mt-4">Update File (URL):</div>
+              <v-text-field
+                v-model="props.item.url"
+                label="Edit"
+                single-line
+                @change="autoSave()"
+              ></v-text-field>
+            </template>
+          </v-edit-dialog>
+        </template>
+        <template #item.is_video="{ item }">
+          <v-checkbox v-model="item.is_video" @change="autoSave()"></v-checkbox>
+        </template>
+        <template #item.actions="{ item }">
+          <v-icon
+            small
+            class="mr-2"
+            @click="
+              removeID = item.id;
+              confirmRemove = true;
+            "
+          >
+            mdi-delete
+          </v-icon>
+        </template>
+      </v-data-table>
+      <v-btn color="info" class="mt-4" @click="addFormat()">
+        <v-icon small left> mdi-plus </v-icon>
+        Add Format
+      </v-btn>
+    </v-card-text>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { api } from "@/services/api.js";
 
+import VideoFormatsDrawing from "@/assets/VideoFormatsDrawing.vue";
+
 export default {
   name: "RecordingEditDialogFormats",
-  props: ["channelid", "recordingid", "formats"],
+  components: {
+    VideoFormatsDrawing,
+  },
+  props: ["channelid", "recordingid", "formats", "color"],
   data() {
     return {
       confirmRemove: false,
