@@ -65,42 +65,12 @@
           <v-icon left> mdi-plus </v-icon>
           Add Speaker
         </v-btn>
-        <v-dialog v-model="showDialog" width="540">
-          <v-card
-            rounded
-            elevation="1"
-            :color="darkMode ? 'grey darken-4' : 'grey lighten-5'"
-          >
-            <v-card-title v-if="formData.id"> Edit </v-card-title>
-            <v-card-title v-else> New Speaker </v-card-title>
-            <v-card-text class="pb-0">
-              <v-form class="mt-2" @submit="save()">
-                <v-text-field
-                  v-model="formData.name"
-                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                  label="Name"
-                  required
-                  outlined
-                  dense
-                />
-                <v-text-field
-                  v-model="formData.organisation"
-                  :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
-                  label="Organisation"
-                  required
-                  outlined
-                  dense
-                />
-              </v-form>
-            </v-card-text>
-            <v-card-actions class="px-6 pb-4">
-              <v-btn text class="ml-auto" @click="showDialog = false">
-                Cancel
-              </v-btn>
-              <v-btn color="success" @click="save()"> Save </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+        <SpeakerEditDialog
+          v-if="showDialog"
+          :formData="formData"
+          :channelid="channelid"
+          @closeSpeakerEditDialog="closeSpeakerEditDialog"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -108,11 +78,14 @@
 
 <script>
 import { mapGetters } from "vuex";
-
 import { api } from "@/services/api.js";
+import SpeakerEditDialog from "@/components/SpeakerEditDialog.vue";
 
 export default {
   name: "ChannelSpeakers",
+  components: {
+    SpeakerEditDialog,
+  },
   props: ["channelid"],
   data() {
     return {
@@ -151,7 +124,6 @@ export default {
   methods: {
     add() {
       this.formData = Object.assign({}, this.formDefault);
-
       this.showDialog = true;
     },
     edit(item) {
@@ -165,19 +137,6 @@ export default {
           this.list = [];
         });
     },
-    save() {
-      let resp = null;
-      if (this.formData.id) {
-        resp = api.Speakers.Save(this.formData.id, this.formData);
-      } else {
-        resp = api.Speakers.Add(this.channelid, this.formData);
-      }
-      resp.then(() => {
-        this.formData = Object.assign({}, this.formDefault);
-        this.load();
-      });
-      this.showDialog = false;
-    },
     remove(id) {
       api.Speakers.Delete(id).then(() => {
         this.load();
@@ -187,6 +146,10 @@ export default {
     },
     clear() {
       this.formData = Object.assign({}, this.formDefault);
+    },
+    closeSpeakerEditDialog(v) {
+      this.showDialog = v;
+      this.load();
     },
   },
 };

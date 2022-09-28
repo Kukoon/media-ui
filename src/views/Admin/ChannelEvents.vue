@@ -143,19 +143,6 @@ export default {
           this.list = [];
         });
     },
-    save() {
-      let resp = null;
-      if (this.formData.id) {
-        resp = api.Events.Save(this.formData.id, this.formData);
-      } else {
-        resp = api.Events.Add(this.channelid, this.formData);
-      }
-      resp.then(() => {
-        this.formData = Object.assign({}, this.formDefault);
-        this.load();
-      });
-      this.showDialog = false;
-    },
     remove(id) {
       api.Events.Delete(id).then(() => {
         this.removeID = null;

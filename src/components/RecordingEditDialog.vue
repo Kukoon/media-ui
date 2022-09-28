@@ -464,12 +464,27 @@
                 outlined
                 dense
                 @change="saveHandler()"
-              />
+              >
+                <template #append-outer>
+                  <v-btn
+                    icon
+                    @click="showSpeakerEditDialog = true"
+                    class="mt-n1"
+                  >
+                    <v-icon> mdi-plus </v-icon>
+                  </v-btn>
+                </template>
+              </v-autocomplete>
             </v-card-text>
             <EventEditDialog
               v-if="showEventEditDialog"
               :channelid="channelid"
               @closeEventEditDialog="closeEventEditDialog"
+            />
+            <SpeakerEditDialog
+              v-if="showSpeakerEditDialog"
+              :channelid="channelid"
+              @closeSpeakerEditDialog="closeSpeakerEditDialog"
             />
           </v-window-item>
           <v-window-item :value="5">
@@ -514,52 +529,64 @@ import { uuidToArrayElement, models } from "@/services/lib.js";
 import { config } from "../../config.js";
 
 import codes from "langs";
-import DateTimePicker from "@/components/DateTimePicker.vue";
-import EventEditDialog from "@/components/EventEditDialog.vue";
 
 import BuildingHashtagDrawing from "@/assets/BuildingHashtagDrawing.vue";
+import DateTimePicker from "@/components/DateTimePicker.vue";
+import EventEditDialog from "@/components/EventEditDialog.vue";
 import ImageUploadDrawing from "@/assets/ImageUploadDrawing.vue";
 import LanguageSimpleDrawing from "@/assets/LanguageSimpleDrawing.vue";
-import VideographerDrawing from "@/assets/VideographerDrawing.vue";
 import RecordingEditDialogFormats from "./RecordingEditDialogFormats.vue";
+import SpeakerEditDialog from "@/components/SpeakerEditDialog.vue";
+import VideographerDrawing from "@/assets/VideographerDrawing.vue";
 
 export default {
   name: "RecordingEditDialog",
   components: {
+    BuildingHashtagDrawing,
     DateTimePicker,
     EventEditDialog,
-    BuildingHashtagDrawing,
     ImageUploadDrawing,
     LanguageSimpleDrawing,
-    VideographerDrawing,
     RecordingEditDialogFormats,
+    SpeakerEditDialog,
+    VideographerDrawing,
   },
   props: ["channelid", "recordingid", "window"],
   data() {
     return {
-      codes: codes,
       cName: "",
+      codes: codes,
       dateTimeObj: {},
       events: [],
+      formDefault: {
+        poster:
+          "https://cdn.media.kukoon.de/videos/" +
+          this.channelid +
+          "/" +
+          this.recordingid +
+          "/poster.jpg",
+      },
       keepOpen: false,
+      langExists: false,
       langForm: {},
       langs: [],
-      langExists: false,
       loaded: false,
       loading: false,
       newLang: "",
-      savedDate: {},
-      savedRecData: {},
-      savedLangs: {},
+      recording: {},
       savedCurrentLang: {},
+      savedDate: {},
+      savedLangs: {},
+      savedRecData: {},
       selectedLang: null,
       selectedTextField: "",
-      showAddLang: false,
       showAddCommonName: false,
+      showAddLang: false,
       showAddPoster: false,
       showDateTimePicker: false,
       showEventEditDialog: false,
       showHashtagBanner: true,
+      showSpeakerEditDialog: false,
       speakers: [],
       step: 1,
       steps: [
@@ -569,15 +596,6 @@ export default {
         "Metadata",
         "Formats",
       ],
-      recording: {},
-      formDefault: {
-        poster:
-          "https://cdn.media.kukoon.de/videos/" +
-          this.channelid +
-          "/" +
-          this.recordingid +
-          "/poster.jpg",
-      },
       tags: [],
     };
   },
@@ -864,7 +882,16 @@ export default {
       api.Events.List().then((response) => {
         this.events = response.data;
         this.recording.event_id = id;
+        this.saveHandler();
         this.showEventEditDialog = v;
+      });
+    },
+    closeSpeakerEditDialog(v, id) {
+      api.Speakers.List().then((response) => {
+        this.speakers = response.data;
+        this.recording.speakers.push(id);
+        this.saveHandler();
+        this.showSpeakerEditDialog = v;
       });
     },
   },
