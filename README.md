@@ -1,18 +1,21 @@
 # media-ui
 
-![Build UI](https://github.com/Kukoon/media-ui/workflows/Build%20UI/badge.svg)
+[![pipeline status](https://gitlab.com/kukoon/mediathek/media-ui/badges/main/pipeline.svg)](https://gitlab.com/kukoon/mediathek/media-ui/-/commits/main)
 
 Media-UI is the frontend of our organisation's streaming and media platform. It is built with [vue 2](https://vuejs.org/) & [vuetify](vuetifyjs.com/). The underlying API is written in [Go](https://go.dev/) and lives at [gitlab.com/kukoon/mediathek/media-server](https://gitlab.com/kukoon/mediathek/media-server). To generate webp previews we use our experimental [thumbnailer](https://github.com/Kukoon/thumbnailer).
 
 ## Features
 
- - [x ] Multi Channel Support
- - [x ] Multi Language Support
- - [x] Events, Tags, Speakers
- - [x ] simple  Live Chat
-   - [ ]  with Moderation
+ - [x] Multi Channel Support
+ - [x] Multi Language Support
+ - [x] Events, Tags, Speakers for Streams and Recordings
+   - [x] Events management per Channel
+   - [x] Speakers management per Channel
+   - [ ] Tags management per Superadmim
+ - [x] simple Live Chat
+   - [ ] with Moderation
  - [x] simple View Counter
-   - [ ] from. Promstheus
+   - [ ] from Prometheus for HA
  - [x] Audio & Video RSS Feeds
  - [x] Filterable Recordings Views (only exclusive filtering as of now)
  - [x] Multiple Distribution Channels
