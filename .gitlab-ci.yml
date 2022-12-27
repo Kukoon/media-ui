@@ -1,43 +1,6 @@
-image: "node:lts"
-
-variables:
-  # Tell 'docker:dind' to enable TLS (recommended)
-  # and generate certificates in the specified directory.
-  DOCKER_TLS_CERTDIR: "/certs"
-
-stages:
-  - build
-
-build-docker-latest:
-  stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  only:
-    - main
-    - master
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build 
-      -t $CI_REGISTRY_IMAGE:latest 
-      .
-    - docker push $CI_REGISTRY_IMAGE:latest
-
-build-docker-release:
-  stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  only:
-    - tags
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build 
-      -t $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG 
-      -t $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG%\.[0-9]*} 
-      -t $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG%\.[0-9]*\.[0-9]*} 
-      .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
-    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG%\.[0-9]*}
-    - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG%\.[0-9]*\.[0-9]*}
-
+---
+include:
+  - project: sum7/dev/gitlab-pipelines
+    ref: main
+    file:
+      - container.yml
