@@ -23,7 +23,7 @@
         class="responsive"
       >
         <VideoPlayer
-          v-if="getSources && video.poster"
+          v-if="getSources"
           ref="player"
           class="flex-column"
           :sources="getSources"

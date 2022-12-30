@@ -20,7 +20,7 @@ export default {
       options: {
         image: this.poster,
         autoStart: this.autostart,
-	sources: this.sources,
+        sources: this.sources,
       },
     };
   },
