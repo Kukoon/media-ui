@@ -151,14 +151,19 @@ export default {
       channels: [],
       channelMenu: [
         {
-          name: "StreamSchedule",
+          name: "AdminChannelLive",
           icon: "mdi-broadcast",
-          title: "Stream Schedule",
+          title: "Live",
         },
         {
           name: "ChannelDistribution",
-          icon: "mdi-vector-polyline",
+          icon: "mdi-multicast",
           title: "Distribution",
+        },
+        {
+          name: "StreamSchedule",
+          icon: "mdi-calendar",
+          title: "Stream Schedule",
         },
         { name: "ChannelRecordings", icon: "mdi-video", title: "Recordings" },
         {
@@ -171,7 +176,7 @@ export default {
       globalMenu: [
         {
           name: "Global Stream Schedule",
-          icon: "mdi-broadcast",
+          icon: "mdi-calendar",
           title: "Global Stream Schedule",
         },
         {

@@ -67,52 +67,6 @@
             Delete
           </v-btn>
         </v-form>
-        <v-divider v-if="channelid" class="mt-4 mb-4" />
-        <h4 v-if="channelid">Stream Ingress</h4>
-        <v-simple-table v-if="channelid" dense>
-          <template #default>
-            <thead>
-              <tr>
-                <th class="text-left">Description</th>
-                <th class="text-left">Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>RTMP Complete Link</td>
-                <td>
-                  <code>{{ ingressRTMP }}</code>
-                </td>
-              </tr>
-              <tr>
-                <td>RTMP URL</td>
-                <td>
-                  <code>{{ ingressRTMP.slice(0, ingressRTMP.length -ingressRTMP.split("/").slice(-1)[0].length-1) }}</code>
-                </td>
-              </tr>
-              <tr>
-                <td>Secret</td>
-                <td>
-                  <code>{{ ingressRTMP.split("/").slice(-1)[0] }}</code>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Stream from Browser, by using this WebRTC-URL in Input like
-                  <a
-                    href="https://demo.ovenplayer.com/demo_input.html"
-                    target="_blank"
-                  >
-                    OvenPlayer Demo Input
-                  </a>
-                </td>
-                <td>
-                  <code>{{ ingressWS }}</code>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
       </v-col>
     </v-row>
   </v-container>
@@ -128,8 +82,6 @@ export default {
   props: ["channelid"],
   data() {
     return {
-      ingressRTMP: "",
-      ingressWS: "",
       channel: {},
       channelFormDefault: {},
       enableSave: false,
@@ -178,8 +130,6 @@ export default {
       api.Channels.Get(this.channelid).then(
         (response) => {
 		this.channel = response.data.data;
-		this.ingressRTMP = response.data.ingress.rtmp;
-		this.ingressWS = response.data.ingress.webrtc;
 	});
     },
   },

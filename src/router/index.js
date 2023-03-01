@@ -8,10 +8,11 @@ import Stats from "@/views/Admin/Stats.vue"
 import Server from "@/views/Admin/Server.vue"
 import About from "@/views/Admin/About.vue"
 import GlobalStreamSchedule from "@/views/Admin/GlobalStreamSchedule.vue"
-import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
 // for channel
 import ChannelDistribution from "@/views/Admin/ChannelDistribution.vue"
 import StreamSchedule from "@/views/Admin/StreamSchedule.vue"
+import AdminChannelLive from "@/views/Admin/ChannelLive.vue"
+import ChannelEdit from "@/views/Admin/ChannelEdit.vue"
 import StreamEdit from "@/views/Admin/StreamEdit.vue"
 import ChannelRecordings from "@/views/Admin/ChannelRecordings.vue"
 import RecordingEdit from "@/views/Admin/RecordingEdit.vue"
@@ -121,6 +122,12 @@ const routes = [
 				path: "",
 				name: "AdminChannel",
 				redirect: "streams",
+			},
+			{
+				path: "live",
+				name: "AdminChannelLive",
+				component: AdminChannelLive,
+				props: true,
 			},
 			{
 				path: "edit",

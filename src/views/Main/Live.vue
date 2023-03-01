@@ -42,9 +42,6 @@ export default {
     return {
       video: null,
       sources: "",
-      viewers: 0,
-      tagsPosition: "top",
-      isRunning: true,
     };
   },
   watch: {
