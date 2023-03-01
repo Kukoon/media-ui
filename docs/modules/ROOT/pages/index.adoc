@@ -1,8 +1,10 @@
-= media-ui
+= Mediathek - Userinterface
 
-https://gitlab.com/kukoon/mediathek/media-ui/-/commits/main[image:https://gitlab.com/kukoon/mediathek/media-ui/badges/main/pipeline.svg[pipeline status]]
+Media-UI is the frontend of our organisation’s streaming and media platform.
 
-Media-UI is the frontend of our organisation’s streaming and media platform. It is built with https://vuejs.org/[vue 2] & link:vuetifyjs.com/[vuetify]. The underlying API is written in https://go.dev/[Go] and lives at https://gitlab.com/kukoon/mediathek/media-server[gitlab.com/kukoon/mediathek/media-server]. To generate webp previews we use our experimental https://github.com/Kukoon/thumbnailer[thumbnailer].
+This mediathek userinterface is build for xref:mediathek-server::index.adoc[Mediathek Server].
+It has an interface for iewers / users and a interface for administrator. 
+
 
 == Features
 
@@ -33,55 +35,3 @@ Take a look here https://media.kukoon.de[media.kukoon.de]
 |Home |Recordings
 |image:home.png[Home] |image:recordings.png[Recordings]
 |===
-
-=== Admin
-
-==== Overview
-
-[cols="^,^",options="header",]
-|===
-|Overview |-
-|image:admin_overview.png[Overview] |-
-|===
-
-==== Channel
-
-[width="100%",cols="^50%,^50%",options="header",]
-|===
-|Streams |Distribution / RTMP-Push / ReStream
-|image:admin_channel_stream.png[Streams of Channel] |image:admin_channel_push.png[Distribution of Channel]
-|===
-
-[cols="^,^",options="header",]
-|===
-|Recordings |-
-|image:admin_channel_recordings.png[Recordings of Channel] |-
-|===
-
-== Project setup
-
-....
-yarn install
-....
-
-=== Compiles and hot-reloads for development
-
-....
-yarn serve
-....
-
-=== Compiles and minifies for production
-
-....
-yarn build
-....
-
-=== Lints and fixes files
-
-....
-yarn lint
-....
-
-=== Customize configuration
-
-See https://cli.vuejs.org/config/[Configuration Reference].

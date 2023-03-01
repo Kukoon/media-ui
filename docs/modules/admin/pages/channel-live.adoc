@@ -1,0 +1,10 @@
+= Mediathek-UI Admin - Channel: Live
+
+image:live.png[Live]
+
+For the current Channel, it has also the possiblity to go live.
+This screen make it possible to view:
+
+* current stream-keys (for RTMP and Websocket / WebRTC)
+* view / test the current stream
+* chat with viewers (or if disabled only with other administrators) 

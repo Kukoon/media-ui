@@ -1,0 +1,21 @@
+= Mediathek-UI Admin - Overview
+
+[cols="^,^",options="header",]
+|===
+|Overview |-
+|image:overview.png[Overview] |-
+|===
+
+== Channel
+
+[width="100%",cols="^50%,^50%",options="header",]
+|===
+|Streams |Distribution / RTMP-Push / ReStream
+|image:channel_stream.png[Streams of Channel] |image:channel_push.png[Distribution of Channel]
+|===
+
+[cols="^,^",options="header",]
+|===
+|Recordings |-
+|image:channel_recordings.png[Recordings of Channel] |-
+|===

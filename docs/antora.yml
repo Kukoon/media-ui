@@ -1,5 +1,5 @@
 name: mediathek-ui
-title: MediaThek - User Interface
+title: Mediathek - Userinterface
 # use from git tag
 version:
   v(?<version>+({0..9}).+({0..9})).*: $<version>
@@ -7,3 +7,4 @@ version:
 
 nav:
   - "modules/ROOT/nav.adoc"
+  - "modules/admin/nav.adoc"

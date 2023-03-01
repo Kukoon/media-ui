@@ -41,7 +41,7 @@ Take a look here https://media.kukoon.de[media.kukoon.de]
 [cols="^,^",options="header",]
 |===
 |Overview |-
-|image:docs/modules/ROOT/images/admin_overview.png[Overview] |-
+|image:docs/modules/admin/images/overview.png[Overview] |-
 |===
 
 ===== Channel
@@ -49,13 +49,13 @@ Take a look here https://media.kukoon.de[media.kukoon.de]
 [width="100%",cols="^50%,^50%",options="header",]
 |===
 |Streams |Distribution / RTMP-Push / ReStream
-|image:docs/modules/ROOT/images/admin_channel_stream.png[Streams of Channel] |image:docs/modules/ROOT/images/admin_channel_push.png[Distribution of Channel]
+|image:docs/modules/admin/images/channel_stream.png[Streams of Channel] |image:docs/modules/admin/images/channel_push.png[Distribution of Channel]
 |===
 
 [cols="^,^",options="header",]
 |===
 |Recordings |-
-|image:docs/modules/ROOT/images/admin_channel_recordings.png[Recordings of Channel] |-
+|image:docs/modules/admin/images/channel_recordings.png[Recordings of Channel] |-
 |===
 
 === Project setup

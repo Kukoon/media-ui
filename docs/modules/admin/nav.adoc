@@ -1,0 +1,3 @@
+* xref:index.adoc[Administrator]
+** Channel
+*** xref:channel-live.adoc[Live]
