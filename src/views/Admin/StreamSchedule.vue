@@ -65,7 +65,9 @@
         @mouseleave.native="dragCancel"
       >
         <template #event="{ event, timed, eventSummary }">
-          <div class="v-event-draggable" v-html="eventSummary()" />
+          <div class="v-event-draggable">
+            <component :is="{ render: eventSummary }" />
+          </div>
           <div
             v-if="timed"
             class="v-event-drag-bottom"
