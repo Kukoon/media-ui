@@ -11,7 +11,7 @@
 		"@fontsource/fira-sans": "^4.5.8",
 		"@fontsource/overpass": "^4.5.8",
 		"@mdi/font": "^7.0.96",
-		"axios": "^0.27.2",
+		"axios": "^1.3.4",
 		"core-js": "^3.22.7",
 		"hls.js": "^1.1.5",
 		"langs": "^2.0.0",
@@ -31,7 +31,7 @@
 		"@vue/cli-plugin-babel": "^5.0.4",
 		"@vue/cli-plugin-eslint": "^5.0.4",
 		"@vue/cli-service": "^5.0.4",
-		"babel-loader": "^8.2.5",
+		"babel-loader": "^9.1.2",
 		"eslint": "^8.24.0",
 		"eslint-plugin-vue": "^7.14.0",
 		"sass": "^1.52.1",
@@ -40,7 +40,7 @@
 		"vue-loader": "^17.0.0",
 		"vue-template-compiler": "^2.6.12",
 		"vuetify-loader": "^1.7.3",
-		"webpack": "^5.72.1",
+		"webpack": "^5.76.0",
 		"webpack-bundle-analyzer": "^4.5.0"
 	},
 	"eslintConfig": {
