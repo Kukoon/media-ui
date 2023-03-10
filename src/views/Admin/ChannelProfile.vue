@@ -38,7 +38,7 @@
             style="width: 200px"
           >
             <v-avatar class="ma-4" rounded="0" height="128" width="128">
-              <v-img v-if="channel.logo" :src="channel.logo" contain />
+              <v-img v-if="channel.logo" :src="channel.logo.url" contain />
             </v-avatar>
             <v-btn fab depressed @click="showUploadDialog = true" class="mt-2">
               <v-icon> mdi-pencil </v-icon>
@@ -63,7 +63,8 @@
                 @input="enableSave = true"
               />
               <v-text-field
-                v-model.lazy="channel.logo"
+                v-if="channel.logo"
+                v-model.lazy="channel.logo.url"
                 :color="darkMode ? 'grey lighten-3' : 'grey darken-2'"
                 label="Logo URL"
                 outlined

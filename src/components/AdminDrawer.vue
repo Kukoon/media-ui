@@ -15,7 +15,7 @@
           }"
         >
           <v-list-item-avatar color="black">
-            <v-img v-if="channel.logo" :src="channel.logo" contain />
+            <v-img v-if="channel.logo" :src="channel.logo.url" contain />
             <span v-else>{{ channel.title.slice(0, 2) }}</span>
           </v-list-item-avatar></router-link
         >
@@ -75,7 +75,7 @@
             :to="{ name: 'AdminChannel', params: { channelid: channel.id } }"
           >
             <v-list-item-avatar color="black" size="24" class="mr-8">
-              <v-img v-if="channel.logo" :src="channel.logo" contain />
+              <v-img v-if="channel.logo" :src="channel.logo.url" contain />
               <span v-else>{{ channel.title.slice(0, 2) }}</span>
             </v-list-item-avatar>
             <v-list-item-content>

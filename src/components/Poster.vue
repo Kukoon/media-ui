@@ -19,7 +19,7 @@
       <v-img
         v-if="showPreview"
         v-ripple="{ class: 'neutral--text', center: true }"
-        :src="video.preview"
+        :src="video.preview.url"
         class="white--text align-end"
         gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
         height="100%"
@@ -47,7 +47,7 @@
         <v-img
           v-if="!showPreview"
           v-ripple="{ class: 'neutral--text', center: true }"
-          :src="video.poster"
+          :src="video.poster.url"
           class="white--text align-end"
           gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
           height="100%"
@@ -72,7 +72,7 @@
     <v-img
       v-else
       v-ripple="{ class: 'neutral--text', center: true }"
-      :src="video.poster"
+      :src="video.poster.url"
       class="white--text align-end"
       gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,.5)"
       height="100%"

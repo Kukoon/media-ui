@@ -69,7 +69,7 @@
           >
             <template #item.poster="{ item }">
               <v-img
-                :src="item.poster"
+                :src="item.poster.url"
                 alt="Poster"
                 height="56"
                 max-width="100"
