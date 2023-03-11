@@ -22,7 +22,7 @@ export default {
         autoStart: this.autostart,
         sources: this.sources,
         hlsConfig: {
-          xhrSetup: function (xhr,url) {
+          xhrSetup: function (xhr) {
             xhr.withCredentials = true;
           }
         }
