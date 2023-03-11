@@ -21,6 +21,11 @@ export default {
         image: this.poster,
         autoStart: this.autostart,
         sources: this.sources,
+        hlsConfig: {
+          xhrSetup: function (xhr,url) {
+            xhr.withCredentials = true;
+          }
+        }
       },
     };
   },
