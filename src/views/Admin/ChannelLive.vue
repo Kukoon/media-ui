@@ -171,7 +171,7 @@ export default {
       api.Channels.GetStream(this.channelid).then(
         (resp) => {
           this.video = resp.data;
-          if (this.video.poster == "") {
+          if (this.video.poster) {
             this.video.poster = resp.data.channel.logo;
           }
         },

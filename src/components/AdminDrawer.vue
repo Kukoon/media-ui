@@ -8,10 +8,17 @@
   >
     <v-list>
       <v-list-item v-if="channel">
-        <v-list-item-avatar color="black">
-          <v-img v-if="channel.logo" :src="channel.logo" contain />
-          <span v-else>{{ channel.title.slice(0, 2) }}</span>
-        </v-list-item-avatar>
+        <router-link
+          :to="{
+            name: 'ChannelProfile',
+            params: { channelid: selectionAdminChannel },
+          }"
+        >
+          <v-list-item-avatar color="black">
+            <v-img v-if="channel.logo" :src="channel.logo.url" contain />
+            <span v-else>{{ channel.title.slice(0, 2) }}</span>
+          </v-list-item-avatar></router-link
+        >
 
         <v-spacer />
         <v-menu offset-y>
@@ -25,7 +32,7 @@
               <v-list-item
                 input-value="false"
                 :to="{
-                  name: 'ChannelEdit',
+                  name: 'ChannelProfile',
                   params: { channelid: selectionAdminChannel },
                 }"
               >
@@ -68,7 +75,7 @@
             :to="{ name: 'AdminChannel', params: { channelid: channel.id } }"
           >
             <v-list-item-avatar color="black" size="24" class="mr-8">
-              <v-img v-if="channel.logo" :src="channel.logo" contain />
+              <v-img v-if="channel.logo" :src="channel.logo.url" contain />
               <span v-else>{{ channel.title.slice(0, 2) }}</span>
             </v-list-item-avatar>
             <v-list-item-content>
@@ -93,7 +100,10 @@
         v-for="item in channelMenu"
         :key="item.name"
         link
-        :to="{ name: item.name, params: { channelid: selectionAdminChannel } }"
+        :to="{
+          name: item.name,
+          params: { channel: channel },
+        }"
       >
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>

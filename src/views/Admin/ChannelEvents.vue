@@ -48,7 +48,7 @@
               <tr v-for="item in list" :key="item.id">
                 <td>
                   <v-avatar v-if="item.logo" size="32px">
-                    <img :src="item.logo" />
+                    <img :src="item.logo.url" />
                   </v-avatar>
                 </td>
                 <td>{{ item.name }}</td>

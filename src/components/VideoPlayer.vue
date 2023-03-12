@@ -18,7 +18,7 @@ export default {
       // Disabled as source is now passed as a prop from parent component
       // source: this.source,
       options: {
-        image: this.poster,
+        image: this.poster.url,
         autoStart: this.autostart,
         sources: this.sources,
         hlsConfig: {

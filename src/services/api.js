@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as tus from 'tus-js-client';
 
 import { config } from "../../config.js";
 import { store } from "./store.js";
@@ -22,6 +23,36 @@ function delay(resp) {
 	return new Promise(resolve => setTimeout(() => resolve(resp), 300));
 }
 
+function tusUploader(file, endpoint, onSuccess, onProgress, onError) {
+	const upload = new tus.Upload(file, {
+			endpoint: endpoint,
+			// retryDelays: [0, 3000, 5000, 10000, 20000],
+			retryDelays: [0],
+			metadata: {
+					filename: file.name,
+					filetype: file.type
+			},
+			onError: onError,
+			onProgress: function (bytesUploaded, bytesTotal) {
+				var percentage = (bytesUploaded / bytesTotal * 100).toFixed(2)
+				onProgress(percentage, bytesUploaded, bytesTotal),	
+				console.log(bytesUploaded, bytesTotal, percentage + "%")
+			},
+			onSuccess: onSuccess,
+	})
+
+	// Check if there are any previous uploads to continue.
+	upload.findPreviousUploads().then(function (previousUploads) {
+			// Found previous uploads so we select the first one. 
+			if (previousUploads.length) {
+					upload.resumeFromPreviousUpload(previousUploads[0])
+			}
+
+			// Start the upload
+			upload.start()
+	})
+	return upload
+}
 
 export const api = {
 	Or(f, params, flat = true) {
@@ -51,6 +82,9 @@ export const api = {
 		},
 		Save(channelID, channel) {
 			return axios.put(new URL(config.apiURL + "/channel/" + channelID), channel)
+		},
+		LogoUploader(channelID, file, onSuccess, onProgress, onError) {
+			return tusUploader(file, new URL(config.apiURL + "/channel/" + channelID + "/logo"), onSuccess, onProgress, onError)
 		},
 		Delete(channelID) {
 			return axios.delete(new URL(config.apiURL + "/channel/" + channelID))
