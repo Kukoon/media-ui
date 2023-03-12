@@ -13,6 +13,12 @@
               </tr>
             </thead>
             <tbody>
+              <tr v-if="policy !== null">
+                <td>Stream URLs and Keys Valide till</td>
+                <td>
+                  <code>{{ new Date(policy.url_expire) }}</code>
+                </td>
+              </tr>
               <tr>
                 <td>RTMP Complete Link</td>
                 <td>
@@ -107,6 +113,7 @@ export default {
       ingressWS: "",
       // Stream
       sources: "",
+      policy: null,
       video: null,
     };
   },
@@ -128,6 +135,9 @@ export default {
       api.Channels.Get(this.channelid).then((resp) => {
         this.ingressRTMP = resp.data.ingress.rtmp;
         this.ingressWS = resp.data.ingress.webrtc;
+        if (resp.data.ingress.policy) {
+          this.policy = resp.data.ingress.policy;
+        }
         this.sources = resp.data.stream_sources;
         websocket.joinHandler(
           resp.data.data.id,
